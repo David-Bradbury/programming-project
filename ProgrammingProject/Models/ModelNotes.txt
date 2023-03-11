@@ -1,0 +1,6 @@
+﻿Just jotting down ideas:
+
+-Possibly worth looking into whether we sepearate a listing into requests and offers.
+
+-Need to also create user types. E.g. Admin + user. - Worth making an abstract class of a user and then only including sub classes for different types. Or simply create enum of the different user types and include as an object variable.
+
