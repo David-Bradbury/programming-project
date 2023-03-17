@@ -1,4 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using ProgrammingProject.Data;
+
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+builder.Services.AddDbContext<EasyWalkContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(EasyWalkContext)));
+    //Enable lazy loading
+    options.UseLazyLoadingProxies();
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
