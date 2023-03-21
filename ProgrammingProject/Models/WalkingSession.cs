@@ -6,6 +6,9 @@ namespace ProgrammingProject.Models
     public class WalkingSession
     {
         [Required]
+        public int WalkingSessionID { get; set; }
+
+        [Required]
         public DateTime StartTime { get; set; }
 
         [Required]

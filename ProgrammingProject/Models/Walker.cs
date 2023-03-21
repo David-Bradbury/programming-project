@@ -29,8 +29,8 @@ namespace ProgrammingProject.Models
         public string PhNumber { get; set; }
         public string Email { get; set; }
 
-        [StringLength(50)]
-        public List<string> WalkingSuburbs { get; set; }
+       /* [StringLength(50)]
+        public List<string> WalkingSuburbs { get; set; }*/
         [Required]
         public bool IsInsured { get; set; }
         [Required]
