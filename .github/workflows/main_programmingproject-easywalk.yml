@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'ProgrammingProject-EasyWalk'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E7713B0567604B009FA916EF05E491E1 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BE51E98C731649A4BCB0B11B817C2431 }}
           package: .
