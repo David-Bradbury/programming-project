@@ -13,13 +13,13 @@ namespace ProgrammingProject.Models
     {
         [Column(TypeName = "nchar")]
         [StringLength(8)]
-        public string id { get; init; }
+        public string LoginID { get; init; }
 
-        public virtual User User { get; init; }
+        public virtual User User { get; set; }
 
         [Column(TypeName = "nchar")]
         [Required, StringLength(64)]
-        public string password { get; init; }
+        public string PasswordHash { get; set; }
 
         public Locked Locked { get; init; }
     }

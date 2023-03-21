@@ -5,10 +5,18 @@ namespace ProgrammingProject.Models
 {
     public enum DogSize
     {
-        Small = 0,
-        MediumSmall = 1,
-        MediumLarge = 2,
-        Large = 3
+        Small = 1,
+        Medium = 2,
+        Large = 3,
+        ExtraLarge = 4
+    }
+    public enum Temperament
+    {
+        NonReactive = 1,
+        Calm = 2,
+        Friendly = 3,
+        Reactive = 4,
+        Aggresive = 5
     }
     public class Dog
     {
@@ -20,11 +28,12 @@ namespace ProgrammingProject.Models
 
         [StringLength(50)]
         public string MicrochipNumber { get; set; }
-        public bool IsVaccinated { get; set; }  
-
-
-        public virtual Owner Owner { get; set; }
         
+        [Required]
+        public bool IsVaccinated { get; set; }  
+        public virtual Owner Owner { get; set; }
+        public virtual Vet Vet { get; set; }
+
 
 
 

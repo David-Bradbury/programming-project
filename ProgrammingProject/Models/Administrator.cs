@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProgrammingProject.Models
 {
-    public class Owner
+    public class Administrator
     {
         [Required]
-        public int OwnerID { get; set; }
+        [Display(Name = "Admin ID")]
+        public int AdministratorId { get; set; }
 
         [Required, StringLength(50)]
         public string FirstName { get; set; }
@@ -14,20 +15,9 @@ namespace ProgrammingProject.Models
         [Required, StringLength(50)]
         public string LastName { get; set; }
 
-        [Required, StringLength(200)]
-        public string Address { get; set; }
-
         [Required, StringLength(50)]
-        public string PhNumber { get; set; }
-
-        [Required, StringLength(50)]
-        public string Email { get; set; }
-        public virtual List<Dog> Dogs { get; set; }
+        public string Email { get; set; }   
         public virtual Login Login { get; set; }
-
-
-
-
 
     }
 }
