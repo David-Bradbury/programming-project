@@ -21,21 +21,18 @@ namespace ProgrammingProject.Models
     public class Dog
     {
         [Required]
-        public int ID { get; set; }
-
+        public int Id { get; set; }
         [Required, StringLength(50)]
         public string Name { get; set; }
-
         [StringLength(50)]
         public string MicrochipNumber { get; set; }
-        
         [Required]
         public bool IsVaccinated { get; set; }  
+       
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }
-
-
-
+        public virtual List<WalkingSession> WalkingSessions { get; set; }
+        public virtual List<DogRating> DogRatings { get; set;}
 
     }
 }

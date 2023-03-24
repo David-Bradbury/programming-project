@@ -11,35 +11,20 @@ namespace ProgrammingProject.Models
         Expert = 4
         
     }
-    public class Walker
-    {
-        [Required]
-        public int WalkerID { get; set; }
-
-        [Required, StringLength(50)]
-        public string FirstName { get; set; }
-
-        [Required, StringLength(50)]
-        public string LastName { get; set; }
-
+    public class Walker : User
+    { 
         [ StringLength(50)]
         public string Address { get; set; }
-
         [Required]
-        public string PhNumber { get; set; }
-        public string Email { get; set; }
-
-       /* [StringLength(50)]
-        public List<string> WalkingSuburbs { get; set; }*/
+        public string PhNumber { get; set; }     
         [Required]
-        public bool IsInsured { get; set; }
+        public bool IsInsured { get; set; }      
         [Required]
         public ExperienceLevel ExperienceLevel { get; set; }
 
-
-
-
-
-   
+        public virtual List<PlacesWalked> PlacesWalked { get; set; }
+        public virtual List<WalkingSession> WalkingSessions { get; set; }
+        public virtual List<DogRating> DogRatings { get; set; }
+        public virtual List<WalkerRating> WalkerRatings { get; set; }
     }
 }

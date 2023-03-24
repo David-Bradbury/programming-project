@@ -10,12 +10,14 @@ namespace ProgrammingProject.Models
     public class User
     {
         [Required, StringLength(50)]
-        public string id { get; set; }
-
+        public int Id { get; set; }
         [Required, StringLength(50)]
-        public string user_name { get; set; }
-
+        public string FirstName { get; set; }
         [Required, StringLength(50)]
-        public string password { get; set; }
+        public string LastName { get; set; }
+        [Required, StringLength(50)]
+        public string Password { get; set; }
+        public string Email { get; set; }
+
     }
 }
