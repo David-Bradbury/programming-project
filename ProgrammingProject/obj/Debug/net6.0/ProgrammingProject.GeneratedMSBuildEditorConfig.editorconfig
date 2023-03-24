@@ -8,11 +8,11 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ProgrammingProject
 build_property.RootNamespace = ProgrammingProject
-build_property.ProjectDir = C:\Users\info\Source\Repos\programming-project\ProgrammingProject\
+build_property.ProjectDir = C:\Users\info\source\repos\programming-project\ProgrammingProject\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\info\Source\Repos\programming-project\ProgrammingProject
+build_property.MSBuildProjectDirectory = C:\Users\info\source\repos\programming-project\ProgrammingProject
 build_property._RazorSourceGeneratorDebug = 
 
 [C:/Users/info/source/repos/programming-project/ProgrammingProject/Views/Home/Index.cshtml]

@@ -34,7 +34,11 @@ namespace ProgrammingProject.Models
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }
 
-
+        // The enums need to be added as 'Dog' variables,
+        // or we could possibly use some logic to create
+        // a score for the dog and store that. But I think
+        // it would make sense to keep the individual
+        // properties incase the logic changes in the future.DP
 
 
     }
