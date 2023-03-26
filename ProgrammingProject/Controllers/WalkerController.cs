@@ -118,17 +118,72 @@ namespace ProgrammingProject.Controllers
 
             }
 
-            // TODO: Coauld add logic here to filter list down based on user preferences.
-            // E.g.Location or dates/times.
+            // TODO: Could add logic here to filter list down based on user preferences.
+            // E.g.Location or dates/times. Some filter work started below...
+            
+            // Notes to discuss: AllowUnvaccinated as a question
+            // when adding walker (saved to model). Allows user to set requirements and
+            // makes filtering easy (as per below).
+
+            foreach (var temp in tempList)
+            {
+                if (temp.IsVaccinated == false /*&& walker.AllowUnvaccinated == false */)
+                    tempList.Remove(temp);
+                if (temp.Vet == null)
+                    tempList.Remove(temp);
+            }
 
             // Return tempList to View. View to list suitable dogs
             // with contact details/button for the walker to select.
             // Might be worth returning an IPagedList .DP
             ViewBag.Dog = tempList;
-
         }
 
+        // Add dog to walking session
+        public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID) => View(await _context.Dogs.FindAsync(DogID));
 
+        [HttpPost]
+        public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID)
+        {
+            // logic to add dog to walking session.
+            var dog = await _context.Dogs.FindAsync(DogID);
+
+            //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+            var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
+
+            if (walkerSession.DogList.count >= 6)
+            {
+                ModelState.AddModelError(nameof(walkerSession), "Too many dogs on this walk.");
+            }
+        }
+
+        // Start walking session
+        public async Task<IActionResult> StartWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
+
+        [HttpPost]
+        public async Task<IActionResult> StartWalkingSession(DateTime? time, int sessionID)
+        {
+            if (time == null)
+                time = DateTime.UtcNow;
+
+            //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+            var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
+
+            walkerSession.StartTime = time;
+        }
+
+        // End walking session
+        public async Task<IActionResult> EndWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
+
+        [HttpPost]
+        public async Task<IActionResult> EndWalkingSession(DateTime? time, int sessionID)
+        {
+            if (time == null)
+                time = DateTime.UtcNow;
+
+            //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+            var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
+
+            walkerSession.EndTime = time;
+        }
     }
-}
-}

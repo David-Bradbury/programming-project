@@ -117,7 +117,19 @@ namespace ProgrammingProject.Controllers
             }
 
             // Could add logic here to filter list down based on user preferences.
-            // E.g.Location or dates/times.
+            // E.g.Location or dates/times. Some filter work started below...
+
+            // Notes to discuss: AllowUninsured + min experiencelevel as a question
+            // when adding dog (saved to model). Allows user to set requirements and
+            // makes filtering easy (as per below).
+
+            foreach (var temp in tempList)
+            {
+                if (temp.IsInsured == false /*&& dog.Owner.AllowUninsured == false */)
+                    tempList.Remove(temp);
+                //if (temp.ExperienceLevel > dog.MinimumAllowedExperienceLevel)
+                //    tempList.Remove(temp);
+            }
 
 
             // Return tempList to View. View to list suitable walkers
