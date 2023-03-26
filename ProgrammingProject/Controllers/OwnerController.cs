@@ -25,7 +25,7 @@ namespace ProgrammingProject.Controllers
         {
             //lazy loading
             var owner = await _context.Owner.FindAsync(OwnerID);
-            return View(customer);
+            return View(owner);
         }
 
         public async Task<IActionResult> Dogs(int id)
@@ -76,14 +76,14 @@ namespace ProgrammingProject.Controllers
         }
 
         // Match suitable walkers to the dog
-        public async Task<IActionResult> MatchDogToWalker(int id) => View(await _context.Dogs.FindAsync(id));
+        public async Task<IActionResult> MatchWalkersToDog(int id) => View(await _context.Dogs.FindAsync(id));
 
         [HttpPost]
-        public async Task MatchDogToWalker(int id)
+        public async Task MatchWalkersToDog(int id)
         {
             var dog = await _context.Dogs.FindAsync(id);
 
-            var walker = await _context.Walker.FindAsync();
+            var walkers = await _context.Walker.FindAsync();
 
             var tempList = new List<Walker>();
 
@@ -95,25 +95,26 @@ namespace ProgrammingProject.Controllers
                 score += (int)dog.DogSize;
                 score += (int)dog.Temperament;
             }
-
-            // Below matches dog to suitable Walkers
-            if ((int)walker.ExperienceLevel == 4)
+            foreach (var walker in walkers)
             {
-                tempList.Add(walker);
+                // Below matches dog to suitable Walkers
+                if ((int)walker.ExperienceLevel == 4)
+                {
+                    tempList.Add(walker);
+                }
+                else if ((int)walker.ExperienceLevel == 3 && score < 7)
+                {
+                    tempList.Add(walker);
+                }
+                else if ((int)walker.ExperienceLevel == 2 && score < 5)
+                {
+                    tempList.Add(walker);
+                }
+                else if ((int)walker.ExperienceLevel == 1 && score < 3)
+                {
+                    tempList.Add(walker);
+                }
             }
-            else if ((int)walker.ExperienceLevel == 3 && score < 7)
-            {
-                tempList.Add(walker);
-            }
-            else if ((int)walker.ExperienceLevel == 2 && score < 5)
-            {
-                tempList.Add(walker);
-            }
-            else if ((int)walker.ExperienceLevel == 1 && score < 3)
-            {
-                tempList.Add(walker);
-            }
-
             // Return tempList to View. View to list suitable walkers
             // with contact details/button for the owner to select.DP
             ViewBag.Walker = tempList;
