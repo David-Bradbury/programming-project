@@ -115,8 +115,14 @@ namespace ProgrammingProject.Controllers
                     tempList.Add(walker);
                 }
             }
+
+            // Could add logic here to filter list down based on user preferences.
+            // E.g.Location or dates/times.
+
+
             // Return tempList to View. View to list suitable walkers
-            // with contact details/button for the owner to select.DP
+            // with contact details/button for the owner to select.
+            // Might be worth returning an IPagedList .DP
             ViewBag.Walker = tempList;
 
         }

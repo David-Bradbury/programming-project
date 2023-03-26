@@ -15,5 +15,11 @@ namespace ProgrammingProject.Models
         public DateTime EndTime { get; set; }
         public virtual List<Dog> DogList { get; set; }
 
+        // TODO: Is it worth having the walking session as a
+        // virtual property in walker? i'm thinking
+        // that it would make it easier to add a dog to a WalkingSession
+        // from the WalkerController class with only the SessionID.DP
     }
 }
+
+ 

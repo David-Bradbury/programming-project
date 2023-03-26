@@ -117,8 +117,13 @@ namespace ProgrammingProject.Controllers
                 }
 
             }
+
+            // TODO: Coauld add logic here to filter list down based on user preferences.
+            // E.g.Location or dates/times.
+
             // Return tempList to View. View to list suitable dogs
-            // with contact details/button for the walker to select.DP
+            // with contact details/button for the walker to select.
+            // Might be worth returning an IPagedList .DP
             ViewBag.Dog = tempList;
 
         }
