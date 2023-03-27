@@ -31,8 +31,20 @@ namespace ProgrammingProject.Models
        
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }
+
         public virtual List<WalkingSession> WalkingSessions { get; set; }
         public virtual List<DogRating> DogRatings { get; set;}
+
+        // TODO: The enums need to be added as 'Dog' variables,
+        // or we could possibly use some logic to create
+        // a score for the dog and store that. But I think
+        // it would make sense to keep the individual
+        // properties incase the logic changes in the future.
+        // I also think the enums need to be tweaked to make
+        // the matching algorithm easier.
+        // E.g. NonReactive = -1. Calm = 0 etc.DP
+
+
 
     }
 }
