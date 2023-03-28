@@ -16,6 +16,34 @@ namespace ProgrammingProject.Data
             //if (context.Owners.Any())
             //    return; // DB has been seeded already.
 
+            Suburb[] suburbs = new Suburb[10];
+
+            suburbs[0] = new Suburb();
+            suburbs[0].Postcode = "3153";
+            suburbs[0].SuburbName = "Bayswater";
+
+            suburbs[1] = new Suburb();
+            suburbs[1].Postcode = "3149";
+            suburbs[1].SuburbName = "Mount Waverly";
+
+            suburbs[2] = new Suburb();
+            suburbs[2].Postcode = "3174";
+            suburbs[2].SuburbName = "Noble Park";
+
+            suburbs[3] = new Suburb();
+            suburbs[3].Postcode = "3148";
+            suburbs[3].SuburbName = "Chadstone";
+
+            suburbs[4] = new Suburb();
+            suburbs[4].Postcode = "3122";
+            suburbs[4].SuburbName = "Hawthorn";
+
+            suburbs[5] = new Suburb();
+            suburbs[5].Postcode = "3145";
+            suburbs[5].SuburbName = "Malvern East";
+
+            
+
             var owners = new List<Owner>();
 
             var owner1 = new Owner();
@@ -24,7 +52,10 @@ namespace ProgrammingProject.Data
             owner1.FirstName = "John";
             owner1.LastName = "Smith";
             owner1.Email = "johnsmith@proton.me";
-            owner1.Address = "12 Pine Rd, Bayswater, VIC, 3153";
+            owner1.StreetAddress = "12 Pine Rd";
+            owner1.Suburb = suburbs[0];
+            owner1.State = "Victoria";
+            owner1.Country = "Australia";
             owner1.PhNumber = "0424 225 877";
             //login1.User = owner;
             //login1.UserID = userID;
@@ -41,7 +72,10 @@ namespace ProgrammingProject.Data
             owner2.FirstName = "Peter";
             owner2.LastName = "Carrigan";
             owner2.Email = "p.carrigan@gogo.com";
-            owner2.Address = "26 Wills Ave, Mount Waverley, VIC, 3149";
+            owner2.StreetAddress = "26 Wills Ave";
+            owner2.Suburb = suburbs[1];
+            owner2.State = "Victoria";
+            owner2.Country = "Australia";
             owner2.PhNumber = "0411 672 900";
             //login2.User = owner;
             //login2.UserID = userID;///remove once customer ID is sorted
@@ -57,7 +91,10 @@ namespace ProgrammingProject.Data
             owner3.FirstName = "Judy";
             owner3.LastName = "Wong";
             owner3.Email = "jwong45@me.com";
-            owner3.Address = "42 Buckley St, Noble Park, VIC, 3174";
+            owner3.StreetAddress = "42 Buckley St";
+            owner3.Suburb = suburbs[2];
+            owner3.State = "Victoria";
+            owner3.Country = "Australia";
             owner3.PhNumber = "0456 853 345";
             //login3.User = owner;
             //login3.UserID = userID;///remove once customer ID is sorted
@@ -73,7 +110,10 @@ namespace ProgrammingProject.Data
             walker1.FirstName = "Karen";
             walker1.LastName = "Fisher";
             walker1.Email = "kf8877@gmail.com";
-            walker1.Address = "2 Jacana St, Chadstone, VIC, 3148";
+            walker1.StreetAddress = "2 Jacana St";
+            walker1.Suburb = suburbs[3];
+            walker1.State = "Victoria";
+            walker1.Country = "Australia";
             walker1.PhNumber = "0488 044 222";
             walker1.IsInsured = true;
             walker1.ExperienceLevel = ExperienceLevel.Advanced;
@@ -91,7 +131,10 @@ namespace ProgrammingProject.Data
             walker2.FirstName = "Mitchell";
             walker2.LastName = "Moses";
             walker2.Email = "mitchy555@gmail.com";
-            walker2.Address = "10 Camden Rd, Hawthorn, VIC, 3122";
+            walker2.StreetAddress = "10 Camden Rd";
+            walker2.Suburb = suburbs[4];
+            walker2.State = "Victoria";
+            walker2.Country = "Australia";
             walker2.PhNumber = "0432 142 732";
             walker2.IsInsured = true;
             walker2.ExperienceLevel = ExperienceLevel.Intermediate;
@@ -109,7 +152,10 @@ namespace ProgrammingProject.Data
             walker3.FirstName = "Jane";
             walker3.LastName = "Edgerton";
             walker3.Email = "jane.e@hotmail.com";
-            walker3.Address = "14 Nirvana Ave, Malvern East, VIC, 3145";
+            walker3.StreetAddress = "14 Nirvana Ave";
+            walker3.Suburb = suburbs[5];
+            walker3.State = "Victoria";
+            walker3.Country = "Australia";
             walker3.PhNumber = "0455 332 897";
             walker3.IsInsured = false;
             walker3.ExperienceLevel = ExperienceLevel.Beginner;
@@ -121,14 +167,14 @@ namespace ProgrammingProject.Data
             context.Walkers.Add(walker3);
 
             context.SaveChanges();
-
+            
             foreach (var owner in context.Owners)
             {
-                if (owner.Id == 1)
+                if (owner.UserId == 1)
                 {
                     var login = new Login();
                     login.User = owner;
-                    login.UserID = owner.Id;
+                    login.UserId = owner.UserId;
                     login.LoginID = "12345678";
                     login.PasswordHash = "Up6PDCVvwYAJB6r4eob7OBmxNi7X8qKnRp5uOf4bFRcgm/P4uo9lsGtaWbalPDNG";
                     login.Locked = Locked.unlocked;
@@ -136,11 +182,11 @@ namespace ProgrammingProject.Data
                     context.Logins.Add(login);
 
                 }
-                if (owner.Id == 2)
+                if (owner.UserId == 2)
                 {
                     var login = new Login();
                     login.User = owner;
-                    login.UserID = owner.Id;
+                    login.UserId= owner.UserId;
                     login.LoginID = "54632896";
                     login.PasswordHash = "OSChybFH9bpx45dkxtL/xIRgchujLLW/xrO5m09AYRHlrG8wQHwYM8aEG5I9N6kj";
                     login.Locked = Locked.unlocked;
@@ -148,11 +194,11 @@ namespace ProgrammingProject.Data
                     context.Logins.Add(login);
 
                 }
-                if (owner.Id == 3)
+                if (owner.UserId == 3)
                 {
                     var login = new Login();
                     login.User = owner;
-                    login.UserID = owner.Id;
+                    login.UserId = owner.UserId;
                     login.LoginID = "44665588";
                     login.PasswordHash = "+vNQb95E/n3R9+ocgKD7lh7x3FiJ9hrmeOs9RqQ0VK8W6wMvlX3SPqn6+Er3kUFN";
                     login.Locked = Locked.unlocked;
@@ -166,11 +212,11 @@ namespace ProgrammingProject.Data
 
             foreach (var walker in context.Walkers)
             {
-                if (walker.Id == 4)
+                if (walker.UserId == 4)
                 {
                     var login = new Login();
                     login.User = walker;
-                    login.UserID = walker.Id;
+                    login.UserId = walker.UserId;
                     login.LoginID = "62547813";
                     login.PasswordHash = "0VpvMkBh9U527v321Wro+dJC0nY8HCYwiPFWp24WMSOdLW15krvKisfs6Ku5HzHt";
                     login.Locked = Locked.unlocked;
@@ -178,11 +224,11 @@ namespace ProgrammingProject.Data
                     context.Logins.Add(login);
 
                 }
-                if (walker.Id == 5)
+                if (walker.UserId == 5)
                 {
                     var login = new Login();
                     login.User = walker;
-                    login.UserID = walker.Id;
+                    login.UserId = walker.UserId;
                     login.LoginID = "98765432";
                     login.PasswordHash = "ow/m3D+6bQTtuw8Pld486o9CzDDxFH1Gxy5XEmKXvswygE9ny0FPgNTnUokRxuI4";
                     login.Locked = Locked.unlocked;
@@ -191,11 +237,11 @@ namespace ProgrammingProject.Data
 
                 }
 
-                if (walker.Id == 6)
+                if (walker.UserId == 6)
                 {
                     var login = new Login();
                     login.User = walker;
-                    login.UserID = walker.Id;
+                    login.UserId = walker.UserId;
                     login.LoginID = "55548692";
                     login.PasswordHash = "U3aiSza/zGtXt2AEuBwPSg4asyvXzErkOL4upGkbzo+RcoQ90c+E10n0Dy3HFviR";
                     login.Locked = Locked.unlocked;
@@ -204,9 +250,9 @@ namespace ProgrammingProject.Data
 
                 }
 
-
+                context.SaveChanges();
             }
-
+            
 
 
 

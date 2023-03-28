@@ -20,6 +20,5 @@ namespace ProgrammingProject.Models
         
         public virtual Login Login { get; set; }
 
-        public virtual Login Login { get; set; }
     }
 }
