@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230324083853_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230328015934_NewSeedData")]
+    partial class NewSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,7 +112,7 @@ namespace ProgrammingProject.Migrations
                 {
                     b.Property<string>("LoginID")
                         .HasMaxLength(8)
-                        .HasColumnType("nchar");
+                        .HasColumnType("char");
 
                     b.Property<int>("Locked")
                         .HasColumnType("int");
@@ -120,14 +120,15 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("nchar");
+                        .HasColumnType("char");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("LoginID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("Logins");
                 });
@@ -166,7 +167,8 @@ namespace ProgrammingProject.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -174,11 +176,6 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -378,8 +375,8 @@ namespace ProgrammingProject.Migrations
             modelBuilder.Entity("ProgrammingProject.Models.Login", b =>
                 {
                     b.HasOne("ProgrammingProject.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Login")
+                        .HasForeignKey("ProgrammingProject.Models.Login", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -430,6 +427,12 @@ namespace ProgrammingProject.Migrations
             modelBuilder.Entity("ProgrammingProject.Models.Dog", b =>
                 {
                     b.Navigation("DogRatings");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.User", b =>
+                {
+                    b.Navigation("Login")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.Vet", b =>

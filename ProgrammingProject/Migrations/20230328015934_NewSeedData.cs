@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class NewSeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,8 +19,7 @@ namespace ProgrammingProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     PhNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -53,17 +52,17 @@ namespace ProgrammingProject.Migrations
                 name: "Logins",
                 columns: table => new
                 {
-                    LoginID = table.Column<string>(type: "nchar(8)", maxLength: 8, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nchar(64)", maxLength: 64, nullable: false),
-                    Locked = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    LoginID = table.Column<string>(type: "char(8)", maxLength: 8, nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    PasswordHash = table.Column<string>(type: "char(64)", maxLength: 64, nullable: false),
+                    Locked = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Logins", x => x.LoginID);
                     table.ForeignKey(
-                        name: "FK_Logins_User_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Logins_User_UserID",
+                        column: x => x.UserID,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -237,9 +236,10 @@ namespace ProgrammingProject.Migrations
                 column: "WalkingSessionsStartTime");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Logins_UserId",
+                name: "IX_Logins_UserID",
                 table: "Logins",
-                column: "UserId");
+                column: "UserID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlacesWalked_WalkerId",

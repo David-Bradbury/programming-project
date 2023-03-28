@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "33ngMeLgZo+3SSJmGNsH/b+6ypZXRtmNI1dM6tPzIBqHX8zvHzozAQqGTJCEqmb8SW/ABWiUng9slfxq7/sMNQ==",
+  "dgSpecHash": "ftkL6C4uVmQUHL+MU02n3ZFidhqv09uieMvgVTmuKyvY3sAZ2ElVuFv5zpXxZDUg6i2sJeX9VN+UQzjDxNu+7w==",
   "success": true,
   "projectFilePath": "C:\\Users\\david\\Documents\\GitHub\\programming-project\\ProgrammingProject\\ProgrammingProject.csproj",
   "expectedPackageFiles": [
@@ -43,6 +43,7 @@
     "C:\\Users\\david\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\david\\.nuget\\packages\\simplehashing\\2.0.0.1\\simplehashing.2.0.0.1.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
