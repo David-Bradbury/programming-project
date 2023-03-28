@@ -7,9 +7,9 @@ namespace ProgrammingProject.Models
         public double Rating { get; set; }
         public DateTime RatingDate { get; set; }
 
-       [Required, Key]
+       [Required]
         public int OwnerID { get; set; }
-        [Required, Key]
+        [Required]
         public int WalkerID { get; set; }
         public virtual Walker Walker { get; set; }
         public virtual Owner Owner { get; set; }

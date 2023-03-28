@@ -4,10 +4,10 @@ namespace ProgrammingProject.Models
 {
     public class Walks
     {
-        [Required, Key]
+        [Required]
         public int WalkerId { get; set; }
-        [Required, Key]
-        public int Postcode { get; set; }
+        [Required]
+        public string Postcode { get; set; }
         public virtual Suburb Suburb { get; set; }
         public virtual Walker Walker { get; set; }
 

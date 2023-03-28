@@ -10,5 +10,7 @@ namespace ProgrammingProject.Models
         public string SuburbName { get; set; }
 
         public virtual List<Walks> Walks { get; set; }
+        public virtual List<Walker> Walkers { get; set; } 
+        public virtual List<Owner> Owners { get; set; }
     }
 }
