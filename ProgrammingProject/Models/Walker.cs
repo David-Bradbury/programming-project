@@ -12,9 +12,13 @@ namespace ProgrammingProject.Models
         
     }
     public class Walker : User
-    { 
-        [ StringLength(50)]
-        public string Address { get; set; }
+    {
+        [Required, StringLength(200)]
+        public string StreetAddress { get; set; }
+        [Required, StringLength(100)]
+        public string State { get; set; }
+        [Required, StringLength(100)]
+        public string Country { get; set; }
         [Required]
         public string PhNumber { get; set; }     
         [Required]
@@ -22,7 +26,8 @@ namespace ProgrammingProject.Models
         [Required]
         public ExperienceLevel ExperienceLevel { get; set; }
 
-        public virtual List<PlacesWalked> PlacesWalked { get; set; }
+        public virtual Suburb Suburb { get; set; }
+        public virtual List<Walks> Walks { get; set; }
         public virtual List<WalkingSession> WalkingSessions { get; set; }
         public virtual List<DogRating> DogRatings { get; set; }
         public virtual List<WalkerRating> WalkerRatings { get; set; }

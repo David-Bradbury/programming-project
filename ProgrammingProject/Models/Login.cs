@@ -12,16 +12,19 @@ namespace ProgrammingProject.Models
     public record Login
     {
         [Column(TypeName = "nchar")]
-        [StringLength(8)]
-        public string LoginID { get; init; }
-
-        [Column(TypeName = "nchar")]
         [Required, StringLength(64)]
         public string PasswordHash { get; set; }
         public Locked Locked { get; init; }
 
+        [Required, Key]
+        public int Id { get; set; }
         public virtual User User { get; set; }
-       
+
+        /*
+      [Column(TypeName = "nchar")]
+      [StringLength(8)]
+      public string LoginID { get; init; }
+      */
 
     }
 }

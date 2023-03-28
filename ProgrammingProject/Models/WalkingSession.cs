@@ -12,6 +12,7 @@ namespace ProgrammingProject.Models
         
         public virtual List<Dog> DogList { get; set; }
 
+        [Required, Key]
         public int WalkerID { get; set; }
         public virtual Walker Walker { get; set; }
 

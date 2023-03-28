@@ -41,6 +41,23 @@ namespace ProgrammingProject.Data
             .WithMany(ws => ws.WalkingSessions)
             .HasForeignKey(ws => ws.WalkerID)
             .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<Login>()
+            .HasOne(u => u.User)
+            .WithOne(lo => lo.Login)
+            .HasForeignKey<User>(lo => lo.Id)
+            .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<Walks>()
+           .HasOne(w => w.Walker)
+           .WithMany(wa => wa.Walks)
+           .HasForeignKey(ws => ws.WalkerId);
+
+            modelBuilder.Entity<Walks>()
+           .HasOne(s => s.Suburb)
+           .WithMany(wa => wa.Walks)
+           .HasForeignKey(wa => wa.Postcode);
+           
         }
 
 
@@ -48,12 +65,10 @@ namespace ProgrammingProject.Data
         public DbSet<Login> Logins { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Walker> Walkers { get; set; }
-       
-        // Need to add back in but need to fix foreign keys
-        //public DbSet<WalkingSession> WalkingSessions { get; set; }
+        public DbSet<WalkingSession> WalkingSessions { get; set; }
         public DbSet<Vet> Vets { get; set; }
         public DbSet<Administrator> Admins { get; set; }
-        public DbSet<PlacesWalked> PlacesWalked { get; set; }
+        public DbSet<Walks> Walks { get; set; }
         public DbSet<DogRating> DogRatings { get; set; }
         public DbSet<WalkerRating> WalkerRatings { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
