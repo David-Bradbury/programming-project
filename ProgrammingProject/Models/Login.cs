@@ -19,7 +19,6 @@ namespace ProgrammingProject.Models
             Key]
         public string LoginID { get; set; }
 
-
         [Column(TypeName = "char")]
         [Required, StringLength(64)]
         public string PasswordHash { get; set; }
@@ -34,6 +33,7 @@ namespace ProgrammingProject.Models
       [StringLength(8)]
       public string LoginID { get; init; }
       */
+
 
     }
 }

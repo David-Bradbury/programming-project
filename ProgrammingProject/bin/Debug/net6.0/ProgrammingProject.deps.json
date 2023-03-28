@@ -11,7 +11,8 @@
           "Microsoft.EntityFrameworkCore": "7.0.4",
           "Microsoft.EntityFrameworkCore.Design": "7.0.4",
           "Microsoft.EntityFrameworkCore.Proxies": "7.0.4",
-          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.4"
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.4",
+          "SimpleHashing": "2.0.0.1"
         },
         "runtime": {
           "ProgrammingProject.dll": {}
@@ -464,6 +465,14 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {
             "assemblyVersion": "2.2.0.0",
             "fileVersion": "2.2.1.1"
+          }
+        }
+      },
+      "SimpleHashing/2.0.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/SimpleHashing.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
           }
         }
       },
@@ -999,6 +1008,13 @@
       "sha512": "sha512-KZYeKBET/2Z0gY1WlTAK7+RHTl7GSbtvTLDXEZZojUdAPqpQNDL6tHv7VUpqfX5VEOh+uRGKaZXkuD253nEOBQ==",
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
+    },
+    "SimpleHashing/2.0.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+THp+FuTQ+bML8BvupOsbmvEosj99tOXB+WopEF8DqIuhkw2lrkuvpY3PGJDIXw/rxj9vvcP/caKyjFAyE5w2w==",
+      "path": "simplehashing/2.0.0.1",
+      "hashPath": "simplehashing.2.0.0.1.nupkg.sha512"
     },
     "System.Buffers/4.5.1": {
       "type": "package",
