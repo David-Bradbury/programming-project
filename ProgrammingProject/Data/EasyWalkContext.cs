@@ -112,6 +112,8 @@ namespace ProgrammingProject.Data
         public DbSet<DogRating> DogRatings { get; set; }
         public DbSet<WalkerRating> WalkerRatings { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Suburb> Suburbs { get; set; }
+        
 
 
     }

@@ -23,7 +23,7 @@ namespace ProgrammingProject.Models
         [Column(TypeName = "char")]
         [Required, StringLength(64)]
         public string PasswordHash { get; set; }
-        public Locked Locked { get; init; }
+        public Locked Locked { get; set; }
 
         [Required]
         public int UserId { get; set; }

@@ -12,7 +12,7 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230328041817_FirstBigUpdate")]
+    [Migration("20230328051408_FirstBigUpdate")]
     partial class FirstBigUpdate
     {
         /// <inheritdoc />
@@ -152,7 +152,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasKey("Postcode");
 
-                    b.ToTable("Suburb");
+                    b.ToTable("Suburbs");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.User", b =>

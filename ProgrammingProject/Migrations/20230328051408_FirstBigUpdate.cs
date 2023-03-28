@@ -12,7 +12,7 @@ namespace ProgrammingProject.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Suburb",
+                name: "Suburbs",
                 columns: table => new
                 {
                     Postcode = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -20,7 +20,7 @@ namespace ProgrammingProject.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Suburb", x => x.Postcode);
+                    table.PrimaryKey("PK_Suburbs", x => x.Postcode);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,14 +66,14 @@ namespace ProgrammingProject.Migrations
                 {
                     table.PrimaryKey("PK_User", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_User_Suburb_SuburbPostcode",
+                        name: "FK_User_Suburbs_SuburbPostcode",
                         column: x => x.SuburbPostcode,
-                        principalTable: "Suburb",
+                        principalTable: "Suburbs",
                         principalColumn: "Postcode");
                     table.ForeignKey(
-                        name: "FK_User_Suburb_Walker_SuburbPostcode",
+                        name: "FK_User_Suburbs_Walker_SuburbPostcode",
                         column: x => x.Walker_SuburbPostcode,
-                        principalTable: "Suburb",
+                        principalTable: "Suburbs",
                         principalColumn: "Postcode");
                 });
 
@@ -183,9 +183,9 @@ namespace ProgrammingProject.Migrations
                 {
                     table.PrimaryKey("PK_Walks", x => new { x.WalkerId, x.Postcode });
                     table.ForeignKey(
-                        name: "FK_Walks_Suburb_Postcode",
+                        name: "FK_Walks_Suburbs_Postcode",
                         column: x => x.Postcode,
-                        principalTable: "Suburb",
+                        principalTable: "Suburbs",
                         principalColumn: "Postcode");
                     table.ForeignKey(
                         name: "FK_Walks_User_WalkerId",
@@ -321,7 +321,7 @@ namespace ProgrammingProject.Migrations
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "Suburb");
+                name: "Suburbs");
         }
     }
 }

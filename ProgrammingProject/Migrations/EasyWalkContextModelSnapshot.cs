@@ -149,7 +149,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasKey("Postcode");
 
-                    b.ToTable("Suburb");
+                    b.ToTable("Suburbs");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.User", b =>
