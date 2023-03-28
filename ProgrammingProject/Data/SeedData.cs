@@ -11,9 +11,9 @@ namespace ProgrammingProject.Data
             using var context = new EasyWalkContext(
                 serviceProvider.GetRequiredService<DbContextOptions<EasyWalkContext>>());
 
-            // Look for any Owners.
-            if (context.Owners.Any())
-                return; // DB has been seeded already.
+            //// Look for any Owners.
+            //if (context.Owners.Any())
+            //    return; // DB has been seeded already.
 
             var owners = new List<Owner>();
 
@@ -117,7 +117,7 @@ namespace ProgrammingProject.Data
             //login.PasswordHash = "U3aiSza/zGtXt2AEuBwPSg4asyvXzErkOL4upGkbzo+RcoQ90c+E10n0Dy3HFviR";
             //login.Locked = Locked.unlocked;
 
-            context.Walkers.Add(walker);
+            context.Walkers.Add(walker3);
 
 
 
