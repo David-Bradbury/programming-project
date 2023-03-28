@@ -1,12 +1,6 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SimpleHashing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProgrammingProject.Controllers
 {
@@ -32,15 +26,15 @@ namespace ProgrammingProject.Controllers
             var login = await _context.Logins.FindAsync(loginID);
 
             //attempt password check
-            if (login == null || !PBKDF2.Verify(login.PasswordHash, password))
-            {
-                ModelState.AddModelError("LoginFailure", "Login attempt failed, please try again");
-                return View(new Login { LoginID = loginID });
-            }
+            //if (login == null || !PBKDF2.Verify(login.PasswordHash, password))
+            //{
+            //    ModelState.AddModelError("LoginFailure", "Login attempt failed, please try again");
+            //    return View(new Login { LoginID = loginID });
+            //}
 
-            //Customer login
-            HttpContext.Session.SetInt32(nameof(User.id), login.id);
-            HttpContext.Session.SetString(nameof(User.user_name), login.User.user_name);
+            ////Customer login
+            //HttpContext.Session.SetInt32(nameof(User.id), login.id);
+            //HttpContext.Session.SetString(nameof(User.user_name), login.User.user_name);
 
             return RedirectToAction("Index", "User");
         }
@@ -58,4 +52,4 @@ namespace ProgrammingProject.Controllers
 
     }
 }
-}
+

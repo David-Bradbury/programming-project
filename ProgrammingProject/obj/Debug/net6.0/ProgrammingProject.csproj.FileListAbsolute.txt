@@ -113,3 +113,11 @@ C:\Users\david\Documents\GitHub\programming-project\ProgrammingProject\bin\Debug
 C:\Users\david\Documents\GitHub\programming-project\ProgrammingProject\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\david\Documents\GitHub\programming-project\ProgrammingProject\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\david\Documents\GitHub\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.csproj.CopyComplete
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.csproj.AssemblyReference.cache
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.AssemblyInfoInputs.cache
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.AssemblyInfo.cs
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.csproj.CoreCompileInputs.cache
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.RazorAssemblyInfo.cache
+C:\Users\info\Source\Repos\programming-project\ProgrammingProject\obj\Debug\net6.0\ProgrammingProject.RazorAssemblyInfo.cs

@@ -9,37 +9,22 @@ namespace ProgrammingProject.Models
         Intermediate = 2,
         Advanced = 3,
         Expert = 4
-        
+
     }
-    public class Walker
+    public class Walker : User
     {
-        [Required]
-        public int WalkerID { get; set; }
-
-        [Required, StringLength(50)]
-        public string FirstName { get; set; }
-
-        [Required, StringLength(50)]
-        public string LastName { get; set; }
-
-        [ StringLength(50)]
+        [StringLength(50)]
         public string Address { get; set; }
-
         [Required]
         public string PhNumber { get; set; }
-        public string Email { get; set; }
-
-       /* [StringLength(50)]
-        public List<string> WalkingSuburbs { get; set; }*/
         [Required]
         public bool IsInsured { get; set; }
         [Required]
         public ExperienceLevel ExperienceLevel { get; set; }
 
-
-
-
-
-   
+        //public virtual List<PlacesWalked> PlacesWalked { get; set; }
+        public virtual List<WalkingSession> WalkingSessions { get; set; }
+        //public virtual List<DogRating> DogRatings { get; set; }
+        //public virtual List<WalkerRating> WalkerRatings { get; set; }
     }
 }
