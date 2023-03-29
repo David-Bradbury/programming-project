@@ -12,21 +12,25 @@ namespace ProgrammingProject.Controllers
 {
     //Mask URL
     [Route("/Owner")]
+
+   
     public class OwnerController : Controller
     {
-        //private readonly EasyWalkContext _context;
+        private readonly EasyWalkContext _context;
+        private int OwnerID => HttpContext.Session.GetInt32(nameof(Owner.Id)).Value;
 
-        //public LoginController(EasyWalkContext context)
-        //{
-        //    _context = context;
-        //}
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    //lazy loading
-        //    var owner = await _context.Owner.FindAsync(OwnerID);
-        //    return View(owner);
-        //}
+        public OwnerController(EasyWalkContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            //lazy loading
+            var owner = await _context.Owners.FindAsync(OwnerID);
+            return View(owner);
+        }
 
         //public async Task<IActionResult> Dogs(int id)
         //{

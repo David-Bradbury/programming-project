@@ -15,6 +15,16 @@ builder.Services.AddDbContext<EasyWalkContext>(options =>
 });
 
 
+// Store session data (In memory).
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.IsEssential = true;
+});
+
+
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -49,6 +59,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

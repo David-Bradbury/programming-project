@@ -14,44 +14,62 @@ namespace ProgrammingProject.Controllers
     [Route("/Login")]
     public class LoginController : Controller
     {
-        //private readonly EasyWalkContext _context;
+        private readonly EasyWalkContext _context;
 
-        //public LoginController(EasyWalkContext context)
-        //{
-        //    _context = context;
-        //}
+        public LoginController(EasyWalkContext context)
+        {
+            _context = context;
+        }
 
 
-        //public IActionResult Login() => View();
+        public IActionResult Login() => View();
 
-        ////attempt loing
-        //[HttpPost]
-        //public async Task<IActionResult> Login(string loginID, string password)
-        //{
-        //    //find login id
-        //    var login = await _context.Logins.FindAsync(loginID);
+        //attempt loing
+        [HttpPost]
+        public async Task<IActionResult> Login(string loginID, string password)
+        {
+            //find login id
+            var login = await _context.Logins.FindAsync(loginID);
 
-        //    //attempt password check
-        //    if (login == null || !PBKDF2.Verify(login.PasswordHash, password))
-        //    {
-        //        ModelState.AddModelError("LoginFailure", "Login attempt failed, please try again");
-        //        return View(new Login { LoginID = loginID });
-        //    }
+            //attempt password check
+            if (login == null || !PBKDF2.Verify(login.PasswordHash, password))
+            {
+                ModelState.AddModelError("LoginFailure", "Login attempt failed, please try again");
+                return View(new Login { LoginID = loginID });
+            }
 
-        //    //Customer login
-        //    HttpContext.Session.SetInt32(nameof(User.id), login.id);
-        //    HttpContext.Session.SetString(nameof(User.user_name), login.User.user_name);
+            
+            //Customer login
+            var o = await _context.Owners.FindAsync(login.UserID);
+            var w = await _context.Walkers.FindAsync(login.UserID);
+            string userType = "";
 
-        //    return RedirectToAction("Index", "User");
-        //}
+            if (o != null)
+            {
+                HttpContext.Session.SetInt32(nameof(o.Id), login.UserID);
+                HttpContext.Session.SetString(nameof(o.FirstName), login.User.FirstName);
+                userType = "Owner";
+            }
+            else
+            {
+                HttpContext.Session.SetInt32(nameof(w.Id), login.UserID);
+                HttpContext.Session.SetString(nameof(w.FirstName), login.User.FirstName);
+                userType = "Walker";
+            }
+           
 
-        //[Route("LoggingOut")]
-        //public IActionResult Logout()
-        //{
-        //    HttpContext.Session.Clear();
+            
 
-        //    return RedirectToAction("Index", "Home");
-        //}
+            return RedirectToAction("Index", userType);
+        }
+
+        [Route("LoggingOut")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Home");
+        }
 
 
 
