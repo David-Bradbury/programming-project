@@ -5,6 +5,7 @@ namespace ProgrammingProject.Models
 {
     public class WalkingSession
     {
+
         [Required]
         public DateTime StartTime { get; set; }
         [Required]
@@ -25,4 +26,4 @@ namespace ProgrammingProject.Models
     }
 }
 
- 
+

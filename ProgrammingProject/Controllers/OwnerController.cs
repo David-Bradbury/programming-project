@@ -1,12 +1,6 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SimpleHashing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProgrammingProject.Controllers
 {
@@ -19,7 +13,6 @@ namespace ProgrammingProject.Controllers
         private readonly EasyWalkContext _context;
         private int OwnerID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
 
-
         public OwnerController(EasyWalkContext context)
         {
             _context = context;
@@ -31,6 +24,7 @@ namespace ProgrammingProject.Controllers
             var owner = await _context.Owners.FindAsync(OwnerID);
             return View(owner);
         }
+
 
         //public async Task<IActionResult> Dogs(int id)
         //{
@@ -80,6 +74,7 @@ namespace ProgrammingProject.Controllers
         //}
 
         //// Match suitable walkers to the dog
+
         //public async Task<IActionResult> MatchWalkersToDog(int id) => View(await _context.Dogs.FindAsync(id));
 
         //[HttpPost]
@@ -87,7 +82,9 @@ namespace ProgrammingProject.Controllers
         //{
         //    var dog = await _context.Dogs.FindAsync(id);
 
+
         //    var walkers = await _context.Walker.FindAsync();
+
 
         //    var tempList = new List<Walker>();
 
@@ -145,5 +142,7 @@ namespace ProgrammingProject.Controllers
 
 
     }
+
 }
+
 

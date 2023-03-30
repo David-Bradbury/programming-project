@@ -1,6 +1,5 @@
-﻿
+﻿using ProgrammingProject.Models;
 using Microsoft.EntityFrameworkCore;
-using ProgrammingProject.Models;
 
 namespace ProgrammingProject.Data
 {
@@ -59,8 +58,8 @@ namespace ProgrammingProject.Data
             modelBuilder.Entity<WalkingSession>()
             .HasKey(ws => new
             {
-              ws.WalkerID,
-              ws.StartTime
+                ws.WalkerID,
+                ws.StartTime
             });
 
             /*
@@ -74,7 +73,7 @@ namespace ProgrammingProject.Data
            .HasOne(w => w.Walker)
            .WithMany(wa => wa.Walks)
            .HasForeignKey(ws => ws.WalkerId)
-           .OnDelete(DeleteBehavior.ClientCascade); 
+           .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Walks>()
            .HasOne(s => s.Suburb)
@@ -113,7 +112,7 @@ namespace ProgrammingProject.Data
         public DbSet<WalkerRating> WalkerRatings { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<Suburb> Suburbs { get; set; }
-        
+
 
 
     }

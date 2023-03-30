@@ -1,12 +1,6 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SimpleHashing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProgrammingProject.Controllers
 {
@@ -16,6 +10,10 @@ namespace ProgrammingProject.Controllers
     {
         private readonly EasyWalkContext _context;
         private int WalkerID => HttpContext.Session.GetInt32(nameof(Walker.UserId)).Value;
+
+        //private int WalkerID => HttpContext.Session.GetInt32(nameof(Walker.WalkerID)).Value;
+        //private int WalkerID = 1; // This needs to be swapped after working out how to retrieve User.id 
+
 
         public WalkerController(EasyWalkContext context)
         {
@@ -77,14 +75,18 @@ namespace ProgrammingProject.Controllers
         //}
 
         //// Match suitable dogs to walkers
+
         //public async Task<IActionResult> MatchDogsToWalker(int id) => View(await _context.Dogs.FindAsync(id));
 
         //[HttpPost]
         //public async Task MatchDogsToWalker(int id)
         //{
-        //    var dogs = await _context.Dogs.FindAsync();
 
-        //    var walker = await _context.Walker.FindAsync(id);
+        //    //var dogs = await _context.Dogs.FindAsync();
+        //    var dogs = _context.Dogs.AsQueryable<Dog>;
+
+        //    var walker = await _context.Walkers.FindAsync(id);
+
 
         //    var tempList = new List<Dog>();
 
@@ -140,7 +142,9 @@ namespace ProgrammingProject.Controllers
         //    ViewBag.Dog = tempList;
         //}
 
-        //// Add dog to walking session
+
+        // Add dog to walking session
+
         //public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID) => View(await _context.Dogs.FindAsync(DogID));
 
         //[HttpPost]
@@ -150,15 +154,19 @@ namespace ProgrammingProject.Controllers
         //    var dog = await _context.Dogs.FindAsync(DogID);
 
         //    //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+
         //    var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
 
         //    if (walkerSession.DogList.count >= 6)
         //    {
         //        ModelState.AddModelError(nameof(walkerSession), "Too many dogs on this walk.");
         //    }
+
+        //    return View();
         //}
 
-        //// Start walking session
+        // Start walking session
+
         //public async Task<IActionResult> StartWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
 
         //[HttpPost]
@@ -168,11 +176,13 @@ namespace ProgrammingProject.Controllers
         //        time = DateTime.UtcNow;
 
         //    //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+
         //    var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
 
         //    walkerSession.StartTime = time;
-        //}
-
+        //
+        //    return View();
+        // }
         //// End walking session
         //public async Task<IActionResult> EndWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
 
@@ -183,9 +193,14 @@ namespace ProgrammingProject.Controllers
         //        time = DateTime.UtcNow;
 
         //    //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
-        //    var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
+
+        //    var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
         //    walkerSession.EndTime = time;
+
+        //    return RedirectToAction("Index");
         //}
+
+
     }
 }
