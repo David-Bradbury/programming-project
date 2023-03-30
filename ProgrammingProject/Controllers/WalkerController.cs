@@ -14,19 +14,20 @@ namespace ProgrammingProject.Controllers
     [Route("/Walker")]
     public class WalkerController : Controller
     {
-        //private readonly EasyWalkContext _context;
+        private readonly EasyWalkContext _context;
+        private int WalkerID => HttpContext.Session.GetInt32(nameof(Walker.UserId)).Value;
 
-        //public LoginController(EasyWalkContext context)
-        //{
-        //    _context = context;
-        //}
+        public WalkerController(EasyWalkContext context)
+        {
+            _context = context;
+        }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    //lazy loading
-        //    var walker = await _context.Walker.FindAsync(WalkerID);
-        //    return View(walker);
-        //}
+        public async Task<IActionResult> Index()
+        {
+            //lazy loading
+            var walker = await _context.Walkers.FindAsync(WalkerID);
+            return View(walker);
+        }
 
         //public async Task<IActionResult> Walker(int id)
         //{
