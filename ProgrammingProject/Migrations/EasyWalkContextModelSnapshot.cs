@@ -30,12 +30,15 @@ namespace ProgrammingProject.Migrations
                     b.Property<int>("DogListId")
                         .HasColumnType("int");
 
+                    b.Property<int>("WalkingSessionsWalkerID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("WalkingSessionsStartTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("DogListId", "WalkingSessionsStartTime");
+                    b.HasKey("DogListId", "WalkingSessionsWalkerID", "WalkingSessionsStartTime");
 
-                    b.HasIndex("WalkingSessionsStartTime");
+                    b.HasIndex("WalkingSessionsWalkerID", "WalkingSessionsStartTime");
 
                     b.ToTable("DogWalkingSession");
                 });
@@ -47,6 +50,13 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Breed")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DogSize")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsVaccinated")
                         .HasColumnType("bit");
@@ -61,7 +71,13 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("OwnerId")
+                    b.Property<int>("OwnerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Temperament")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TrainingLevel")
                         .HasColumnType("int");
 
                     b.Property<int>("VetId")
@@ -69,7 +85,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerUserId");
 
                     b.HasIndex("VetId");
 
@@ -78,13 +94,10 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.DogRating", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DogID")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DogID")
+                    b.Property<int>("WalkerID")
                         .HasColumnType("int");
 
                     b.Property<double>("Rating")
@@ -93,12 +106,7 @@ namespace ProgrammingProject.Migrations
                     b.Property<DateTime>("RatingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WalkerID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DogID");
+                    b.HasKey("DogID", "WalkerID");
 
                     b.HasIndex("WalkerID");
 
@@ -109,7 +117,7 @@ namespace ProgrammingProject.Migrations
                 {
                     b.Property<string>("LoginID")
                         .HasMaxLength(8)
-                        .HasColumnType("nchar");
+                        .HasColumnType("char");
 
                     b.Property<int>("Locked")
                         .HasColumnType("int");
@@ -117,45 +125,40 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("nchar");
+                        .HasColumnType("char");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("LoginID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Logins");
                 });
 
-            modelBuilder.Entity("ProgrammingProject.Models.PlacesWalked", b =>
+            modelBuilder.Entity("ProgrammingProject.Models.Suburb", b =>
                 {
-                    b.Property<string>("Suburb")
+                    b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Postcode")
+                    b.Property<string>("SuburbName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WalkerId")
-                        .HasColumnType("int");
+                    b.HasKey("Postcode");
 
-                    b.HasKey("Suburb");
-
-                    b.HasIndex("WalkerId");
-
-                    b.ToTable("PlacesWalked");
+                    b.ToTable("Suburbs");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -163,7 +166,8 @@ namespace ProgrammingProject.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -175,12 +179,7 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("User");
 
@@ -207,6 +206,11 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
+
                     b.Property<string>("PhNumber")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -219,11 +223,8 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.WalkerRating", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("WalkerID")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("OwnerID")
                         .HasColumnType("int");
@@ -234,34 +235,42 @@ namespace ProgrammingProject.Migrations
                     b.Property<DateTime>("RatingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WalkerID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("WalkerID", "OwnerID");
 
                     b.HasIndex("OwnerID");
-
-                    b.HasIndex("WalkerID");
 
                     b.ToTable("WalkerRatings");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.WalkingSession", b =>
                 {
+                    b.Property<int>("WalkerID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WalkerID")
+                    b.HasKey("WalkerID", "StartTime");
+
+                    b.ToTable("WalkingSessions");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.Walks", b =>
+                {
+                    b.Property<int>("WalkerId")
                         .HasColumnType("int");
 
-                    b.HasKey("StartTime");
+                    b.Property<string>("Postcode")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("WalkerID");
+                    b.HasKey("WalkerId", "Postcode");
 
-                    b.ToTable("WalkingSession");
+                    b.HasIndex("Postcode");
+
+                    b.ToTable("Walks");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.Administrator", b =>
@@ -275,15 +284,31 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasBaseType("ProgrammingProject.Models.User");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Country")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PhNumber")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("SuburbPostcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("SuburbPostcode");
 
                     b.HasDiscriminator().HasValue("Owner");
                 });
@@ -292,10 +317,10 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasBaseType("ProgrammingProject.Models.User");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Country")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("ExperienceLevel")
                         .HasColumnType("int");
@@ -307,13 +332,38 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("SuburbPostcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("SuburbPostcode");
+
                     b.ToTable("User", t =>
                         {
-                            t.Property("Address")
-                                .HasColumnName("Walker_Address");
+                            t.Property("Country")
+                                .HasColumnName("Walker_Country");
 
                             t.Property("PhNumber")
                                 .HasColumnName("Walker_PhNumber");
+
+                            t.Property("State")
+                                .HasColumnName("Walker_State");
+
+                            t.Property("StreetAddress")
+                                .HasColumnName("Walker_StreetAddress");
+
+                            t.Property("SuburbPostcode")
+                                .HasColumnName("Walker_SuburbPostcode");
                         });
 
                     b.HasDiscriminator().HasValue("Walker");
@@ -329,7 +379,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasOne("ProgrammingProject.Models.WalkingSession", null)
                         .WithMany()
-                        .HasForeignKey("WalkingSessionsStartTime")
+                        .HasForeignKey("WalkingSessionsWalkerID", "WalkingSessionsStartTime")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -338,7 +388,7 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Owner", "Owner")
                         .WithMany("Dogs")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("OwnerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -375,23 +425,12 @@ namespace ProgrammingProject.Migrations
             modelBuilder.Entity("ProgrammingProject.Models.Login", b =>
                 {
                     b.HasOne("ProgrammingProject.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Login")
+                        .HasForeignKey("ProgrammingProject.Models.Login", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ProgrammingProject.Models.PlacesWalked", b =>
-                {
-                    b.HasOne("ProgrammingProject.Models.Walker", "Walker")
-                        .WithMany("PlacesWalked")
-                        .HasForeignKey("WalkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Walker");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.WalkerRating", b =>
@@ -424,9 +463,65 @@ namespace ProgrammingProject.Migrations
                     b.Navigation("Walker");
                 });
 
+            modelBuilder.Entity("ProgrammingProject.Models.Walks", b =>
+                {
+                    b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
+                        .WithMany("Walks")
+                        .HasForeignKey("Postcode")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("ProgrammingProject.Models.Walker", "Walker")
+                        .WithMany("Walks")
+                        .HasForeignKey("WalkerId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Suburb");
+
+                    b.Navigation("Walker");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.Owner", b =>
+                {
+                    b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
+                        .WithMany("Owners")
+                        .HasForeignKey("SuburbPostcode")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Suburb");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.Walker", b =>
+                {
+                    b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
+                        .WithMany("Walkers")
+                        .HasForeignKey("SuburbPostcode")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Suburb");
+                });
+
             modelBuilder.Entity("ProgrammingProject.Models.Dog", b =>
                 {
                     b.Navigation("DogRatings");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.Suburb", b =>
+                {
+                    b.Navigation("Owners");
+
+                    b.Navigation("Walkers");
+
+                    b.Navigation("Walks");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.User", b =>
+                {
+                    b.Navigation("Login")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.Vet", b =>
@@ -445,11 +540,11 @@ namespace ProgrammingProject.Migrations
                 {
                     b.Navigation("DogRatings");
 
-                    b.Navigation("PlacesWalked");
-
                     b.Navigation("WalkerRatings");
 
                     b.Navigation("WalkingSessions");
+
+                    b.Navigation("Walks");
                 });
 #pragma warning restore 612, 618
         }

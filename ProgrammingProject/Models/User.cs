@@ -9,15 +9,16 @@ namespace ProgrammingProject.Models
 {
     public class User
     {
-        [Required, StringLength(50)]
-        public int Id { get; set; }
+        [Required]
+        public int UserId { get; set; }
         [Required, StringLength(50)]
         public string FirstName { get; set; }
         [Required, StringLength(50)]
         public string LastName { get; set; }
-        [Required, StringLength(50)]
-        public string Password { get; set; }
+        [Required, StringLength(320)]
         public string Email { get; set; }
+        
+        public virtual Login Login { get; set; }
 
     }
 }

@@ -5,13 +5,15 @@ namespace ProgrammingProject.Models
 {
     public class WalkingSession
     {
-        [Required, Key]
+
+        [Required]
         public DateTime StartTime { get; set; }
         [Required]
         public DateTime EndTime { get; set; }
         
         public virtual List<Dog> DogList { get; set; }
 
+        [Required]
         public int WalkerID { get; set; }
         public virtual Walker Walker { get; set; }
 
@@ -24,4 +26,4 @@ namespace ProgrammingProject.Models
     }
 }
 
- 
+
