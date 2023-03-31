@@ -9,19 +9,19 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Login">
+        <form asp-action="Register">
+
             <div class="form-group">
-                <label asp-for="LoginID" class="control-label"></label>
-                <input asp-for="LoginID" class="form-control" data-val="true"
-                       data-val-required="The ID field is required." />
-                <span asp-validation-for="LoginID" class="text-danger"></span>
-            </div>
-            <!--Changed Username . User.First Name, May need to change JC-->
-            <div class="form-group">
-                <label asp-for="User.FirstName" class="control-label"></label>
-                <input asp-for="User.FirstName" class="form-control" data-val="true"
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" data-val="true"
                        data-val-required="The Username field is required." />
-                <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" data-val="true"
+                       data-val-required="The Username field is required." />
+                <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="Password" class="control-label">Password</label>
@@ -30,12 +30,7 @@
                        data-val-required="The Password field is required." />
                 @Html.ValidationMessage("Password", new  { @class = "text-danger"})
             </div>
-            <div class="form-group">
-                <label for="UserImage" class="control-label">UserImage</label>
-                <input id="UserImage" name="UserImage" type="file"
-                       class="form-control" data-val="true"
-                       data-val-required="The UserImage field is required." />
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Register" class="btn btn-primary" />
             </div>
@@ -45,6 +40,7 @@
     </div>
 </div>
 @section Scripts{
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+    }
