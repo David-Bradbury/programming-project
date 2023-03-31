@@ -35,11 +35,9 @@ namespace ProgrammingProject.Models
                 ErrorMessage = "Must be 8 digits")]
         public string LoginID { get; set; }
         public string Password { get; set; }
-        public int LoginID { get; set; }
+        
 
 
     }
 }
 
-}
-}
