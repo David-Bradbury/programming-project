@@ -15,10 +15,14 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
-        public IActionResult Register() => View();
+        public async Task<IActionResult> Register()
+        {
+            RegisterViewModel viewModel = new RegisterViewModel();
 
+            return View(viewModel);
+        }
         //[HttpPost]
-        //public Task<IActionResult> Register()
+        //public async Task<IActionResult> Register()
         //{
 
         //}

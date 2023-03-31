@@ -5,7 +5,10 @@ namespace ProgrammingProject.Models
 {
     public class RegisterViewModel
     {
+        [Required, StringLength(50)]
         public string FirstName { get; set; }
+
+        [Required, StringLength(50)]
         public string LastName { get; set; }
         
         [Required, EmailAddress(ErrorMessage = "The email address is required")]
