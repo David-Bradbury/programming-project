@@ -30,10 +30,10 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Register()
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Register()
+        {
 
-        //}
+        }
     }
 }

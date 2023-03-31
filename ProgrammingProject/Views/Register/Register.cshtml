@@ -1,6 +1,4 @@
-﻿@*@model RegisterViewModel
-
-
+﻿@model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -16,6 +14,12 @@
                 <input asp-for="FirstName" class="form-control" data-val="true"
                        data-val-required="The Username field is required." />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" data-val="true"
+                       data-val-required="The Username field is required." />
+                <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
@@ -45,5 +49,3 @@
     }
 
     }
-*@
-
