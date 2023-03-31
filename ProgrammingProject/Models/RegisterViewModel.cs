@@ -20,13 +20,16 @@ namespace ProgrammingProject.Models
         public string StreetAddress { get; set; }
         [Required, StringLength(100)]
         public string Suburb { get; set; }
-        public int Postcode { get; set; }
         public string State { get; set; }
         [Required, StringLength(100)]
         public string Country { get; set; }
         [Required, StringLength(50)]
         public string PhNumber { get; set; }
-         public bool IsInsured { get; set; }
+
+        [Display(Name = "Are you insured? Tick if yes")]
+        public bool IsInsured { get; set; }
+
+        [Range (1, 4), Display(Name ="Choose between 1= Beginner, 4 = Advanced")]
         public int ExperienceLevel { get; set; }
         public string Password{ get; set; }
     }

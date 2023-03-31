@@ -9,7 +9,7 @@ namespace ProgrammingProject.Controllers
     public class RegisterController : Controller
     {
         private readonly EasyWalkContext _context;
-        public RegisterViewModel viewModel { get; set; }
+        public RegisterViewModel viewModel = new RegisterViewModel();
 
         public RegisterController(EasyWalkContext context)
         {
@@ -30,10 +30,10 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
-        [HttpPost]
-        public async Task<IActionResult> Register()
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> Register()
+        //{
 
-        }
+        //}
     }
 }
