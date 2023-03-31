@@ -18,6 +18,7 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
+   
         public async Task<IActionResult> Index()
         {
             //lazy loading
