@@ -19,7 +19,9 @@ namespace ProgrammingProject.Models
         [Required, StringLength(200)]
         public string StreetAddress { get; set; }
         [Required, StringLength(100)]
-        public string Suburb { get; set; }
+
+        public string SuburbName { get; set; }
+        public string Postcode { get; set; }    
         public string State { get; set; }
         [Required, StringLength(100)]
         public string Country { get; set; }

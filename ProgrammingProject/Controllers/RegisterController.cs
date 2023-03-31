@@ -30,10 +30,78 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Register()
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Register(int accountTypeSelected, string firstName, string lastName, string email, string streetAddress, 
+                                                                string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password)
+        {
 
-        //}
+            //insert server side validation here.
+            var suburb = new Suburb();
+            suburb.SuburbName = suburbName;
+            suburb.Postcode = postcode;
+            _context.Suburbs.Add(suburb);
+
+            Random rnd = new Random();
+         
+
+
+            if (accountTypeSelected == 1)
+            {
+                var owner = new Owner();
+                owner.FirstName = firstName;
+                owner.LastName = lastName;
+                owner.Email = email;
+                owner.StreetAddress = streetAddress;
+                owner.Suburb = suburb;
+                owner.Country = country;
+                owner.PhNumber = phNumber;
+                
+
+                _context.Add(owner);
+            }
+            else if(accountTypeSelected == 2)
+            {
+                var walker = new Walker();
+                walker.FirstName = firstName;
+                walker.LastName = lastName;
+                walker.Email = email;
+                walker.StreetAddress = streetAddress;
+                walker.Suburb = suburb;
+                walker.Country = country;
+                walker.PhNumber = phNumber;
+                walker.IsInsured = isInsured;
+                if (experienceLevel == 1)
+                    walker.ExperienceLevel = ExperienceLevel.Beginner;
+                else if(experienceLevel == 2)
+                    walker.ExperienceLevel = ExperienceLevel.Intermediate;
+                else if(experienceLevel == 3)
+                    walker.ExperienceLevel = ExperienceLevel.Advanced;
+                else if(experienceLevel == 4)
+                    walker.ExperienceLevel = ExperienceLevel.Expert;
+                _context.Add(walker);
+            }
+
+            _context.SaveChanges();
+
+         return RedirectToAction("Login", "Login");
+        }
+
+        public async int GenerateUserID()
+        {
+            bool inUse= true;
+            int randLoginId;
+            var rnd = new Random();
+            do
+            {
+                randLoginId = rnd.Next(10000000, 99999999);
+                var x = await _context.Logins.FindAsync(randLoginId);
+                if (x == null)
+                    inUse = false;
+
+            } while (inUse);
+            
+
+            return randLoginId;
+        }
     }
 }
