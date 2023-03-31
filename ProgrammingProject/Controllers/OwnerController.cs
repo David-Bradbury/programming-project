@@ -21,7 +21,6 @@ namespace ProgrammingProject.Controllers
    
         public async Task<IActionResult> Index()
         {
-            //lazy loading
             var owner = await _context.Owners.FindAsync(OwnerID);
             return View(owner);
         }

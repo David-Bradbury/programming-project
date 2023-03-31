@@ -55,8 +55,8 @@ namespace ProgrammingProject.Controllers
             }
             else if(a != null)
             {
-                HttpContext.Session.SetInt32(nameof(w.UserId), login.UserId);
-                HttpContext.Session.SetString(nameof(w.FirstName), login.User.FirstName);
+                HttpContext.Session.SetInt32(nameof(a.UserId), login.UserId);
+                HttpContext.Session.SetString(nameof(a.FirstName), login.User.FirstName);
                 userType = "Administrator";
 
             }
