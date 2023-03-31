@@ -42,9 +42,32 @@ namespace ProgrammingProject.Data
             suburbs[5].Postcode = "3145";
             suburbs[5].SuburbName = "Malvern East";
 
+            var vet1 = new Vet();
 
+            vet1.BusinessName = "Bays Vets";
+            vet1.PhNumber = "0402 201 201";
+            vet1.Address = "3 Baywater Road";
+            vet1.Email = "baysvets@gmail.com";
 
+            context.Vets.Add(vet1);
 
+            var vet2 = new Vet();
+
+            vet2.BusinessName = "Pets of the Mount";
+            vet2.PhNumber = "0440 404 040";
+            vet2.Address = "21 Mountain Street";
+            vet2.Email = "petsofthemount@hotmail.com";
+
+            context.Vets.Add(vet2);
+
+            var vet3 = new Vet();
+
+            vet3.BusinessName = "Dr Schmackos";
+            vet3.PhNumber = "1300 000 000";
+            vet3.Address = "31 Schmackos Place";
+            vet3.Email = "drschmackos@optus.net";
+
+            context.Vets.Add(vet3);
 
             var owner1 = new Owner();
 
@@ -253,10 +276,67 @@ namespace ProgrammingProject.Data
                     context.Logins.Add(login);
 
                 }
+            }
+            context.SaveChanges();
 
+            Dog[] dogs = new Dog[10];
 
+            foreach (var owner in context.Owners) {
 
+                if (owner.UserId == 1)
+                {
+                    dogs[0] = new Dog();
+                    dogs[0].Name = "Max";
+                    dogs[0].Breed = "Golden Retriever";
+                    dogs[0].MicrochipNumber = "123456";
+                    dogs[0].IsVaccinated = true;
+                    dogs[0].Temperament = Temperament.Friendly;
+                    dogs[0].DogSize = DogSize.Large;
+                    dogs[0].TrainingLevel = TrainingLevel.Basic;
+                    dogs[0].Owner = owner;
+                    dogs[0].Vet = vet1;
+                }
+                if (owner.UserId == 2)
+                {
+                    dogs[1] = new Dog();
+                    dogs[1].Name = "Bella";
+                    dogs[1].Breed = "Labrador";
+                    dogs[1].MicrochipNumber = "152655";
+                    dogs[1].IsVaccinated = true;
+                    dogs[1].Temperament = Temperament.Calm;
+                    dogs[1].DogSize = DogSize.Large;
+                    dogs[1].TrainingLevel = TrainingLevel.Fully;
+                    dogs[1].Owner = owner;
+                    dogs[1].Vet = vet2;
+                }
+                if (owner.UserId == 3) 
+                    {
+                    dogs[2] = new Dog();
+                    dogs[2].Name = "Teddy";
+                    dogs[2].Breed = "Beagle";
+                    dogs[2].MicrochipNumber = "111111";
+                    dogs[2].IsVaccinated = true;
+                    dogs[2].Temperament = Temperament.Friendly;
+                    dogs[2].DogSize = DogSize.Small;
+                    dogs[2].TrainingLevel = TrainingLevel.None;
+                    dogs[2].Owner = owner;
+                    dogs[2].Vet = vet3;
 
+                    dogs[3] = new Dog();
+                    dogs[3].Name = "Ruby";
+                    dogs[3].Breed = "Beagle";
+                    dogs[3].MicrochipNumber = "111112";
+                    dogs[3].IsVaccinated = true;
+                    dogs[3].Temperament = Temperament.Friendly;
+                    dogs[3].DogSize = DogSize.Small;
+                    dogs[3].TrainingLevel = TrainingLevel.Basic;
+                    dogs[3].Owner = owner;
+                    dogs[3].Vet = vet3;
+                }
+                }
+            foreach (Dog d in dogs) {
+                context.Dogs.Add(d);
+                context.SaveChanges();
             }
             context.SaveChanges();
         }
