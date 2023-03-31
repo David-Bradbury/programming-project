@@ -15,7 +15,7 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
-        public IActionResult Register() => View();
+        //public IActionResult Register() => View();
 
         //[HttpPost]
         //public Task<IActionResult> Register()
