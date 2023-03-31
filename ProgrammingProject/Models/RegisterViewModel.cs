@@ -5,6 +5,8 @@ namespace ProgrammingProject.Models
 {
     public class RegisterViewModel
     {
+        public int AccountTypeSelection { get; set; }
+
         [Required, StringLength(50)]
         public string FirstName { get; set; }
 
@@ -35,12 +37,7 @@ namespace ProgrammingProject.Models
                 ErrorMessage = "Must be 8 digits")]
         public string LoginID { get; set; }
 
-        public string Password { get; set; 
-
-        
-
-
-
+        public string Password{ get; set; }
     }
 }
 

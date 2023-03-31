@@ -9,15 +9,24 @@ namespace ProgrammingProject.Controllers
     public class RegisterController : Controller
     {
         private readonly EasyWalkContext _context;
+        public RegisterViewModel viewModel { get; set; }
 
         public RegisterController(EasyWalkContext context)
         {
             _context = context;
         }
 
-        public async Task<IActionResult> Register()
+        [Route("/Register/SelectAccountType",
+       Name = "selectAccount")]
+        public async Task<IActionResult> SelectAccountType()
         {
-            RegisterViewModel viewModel = new RegisterViewModel();
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Register(int id)
+        {
+            viewModel.AccountTypeSelection = id;
+
 
             return View(viewModel);
         }
