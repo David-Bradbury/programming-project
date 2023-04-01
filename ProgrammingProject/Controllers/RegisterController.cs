@@ -77,7 +77,7 @@ namespace ProgrammingProject.Controllers
                 _context.SaveChanges();
                 foreach (var o in _context.Owners)
                 {
-                    if (o == owner)
+                    if (o.Email == owner.Email)
                     {
                         login.User = o;
                         login.UserId = o.UserId;
@@ -107,7 +107,7 @@ namespace ProgrammingProject.Controllers
                 _context.SaveChanges();
                 foreach (var w in _context.Walkers)
                 {
-                    if (w == walker)
+                    if (w.Email == walker.Email)
                     {
                         login.User = w;
                         login.UserId = w.UserId;
