@@ -1,5 +1,6 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
+using ProgrammingProject.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProgrammingProject.Controllers
@@ -36,14 +37,30 @@ namespace ProgrammingProject.Controllers
         {
 
             //insert server side validation here.
+
+
             var suburb = new Suburb();
             suburb.SuburbName = suburbName;
             suburb.Postcode = postcode;
             _context.Suburbs.Add(suburb);
 
-            Random rnd = new Random();
-         
+            bool inUse = true;
+            int randLoginId;
+            var rnd = new Random();
+            do
+            {
+                randLoginId = rnd.Next(10000000, 99999999);
+                var x = await _context.Logins.FindAsync(randLoginId.ToString());
+                if (x == null)
+                    inUse = false;
 
+            } while (inUse);
+            var login = new Login();
+            login.LoginID = randLoginId.ToString();
+            login.PasswordHash = ControllerHelper.HashPassword(password);
+            login.Locked = Locked.unlocked;
+
+            _context.Logins.Add(login);
 
             if (accountTypeSelected == 1)
             {
@@ -86,22 +103,6 @@ namespace ProgrammingProject.Controllers
          return RedirectToAction("Login", "Login");
         }
 
-        public async int GenerateUserID()
-        {
-            bool inUse= true;
-            int randLoginId;
-            var rnd = new Random();
-            do
-            {
-                randLoginId = rnd.Next(10000000, 99999999);
-                var x = await _context.Logins.FindAsync(randLoginId);
-                if (x == null)
-                    inUse = false;
-
-            } while (inUse);
-            
-
-            return randLoginId;
-        }
+        
     }
 }
