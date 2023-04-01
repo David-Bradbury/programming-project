@@ -39,11 +39,28 @@ namespace ProgrammingProject.Controllers
 
             //insert server side validation here.
 
-
             var suburb = new Suburb();
             suburb.SuburbName = suburbName;
             suburb.Postcode = postcode;
-            _context.Suburbs.Add(suburb);
+
+
+
+
+            bool match = false;
+            foreach (var s in _context.Suburbs)
+            {
+                if (s.Postcode == postcode)
+                {
+                    match = true;
+                    suburb = s;
+                }
+            }
+            if (!match)
+                _context.Suburbs.Add(suburb);
+            //var suburb = new Suburb();
+            //suburb.SuburbName = suburbName;
+            //suburb.Postcode = postcode;
+            //_context.Suburbs.Add(suburb);
 
             bool inUse = true;
             int randLoginId;
