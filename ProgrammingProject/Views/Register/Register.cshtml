@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Register">
-
+            <input asp-for=AccountTypeSelection type="hidden" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" data-val="true"
@@ -64,6 +64,8 @@
                 <span asp-validation-for="PhNumber" class="text-danger"></span>
             </div>
 
+            
+
             @if (Model.AccountTypeSelection == 2)
             {
                 <div class="form-group">
@@ -72,8 +74,10 @@
                        data-val-required="This is required." />
                     <span asp-validation-for="IsInsured" class="text-danger"></span>
                 </div>
-
+                <input asp-for=AccountTypeSelection type="hidden" asp-route-id="2" />
             }
+         
+           
             <div class="form-group">
                 <label for="Password" class="control-label">Password</label>
                 <input id="Password" name="Password" type="password"

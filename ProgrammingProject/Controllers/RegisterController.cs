@@ -11,6 +11,7 @@ namespace ProgrammingProject.Controllers
     {
         private readonly EasyWalkContext _context;
         public RegisterViewModel viewModel = new RegisterViewModel();
+       
 
         public RegisterController(EasyWalkContext context)
         {
@@ -27,12 +28,12 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Register(int id)
         {
             viewModel.AccountTypeSelection = id;
-
+            
 
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Register(int accountTypeSelected, string firstName, string lastName, string email, string streetAddress,
+        public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress,
                                                                 string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password)
         {
 
@@ -61,7 +62,7 @@ namespace ProgrammingProject.Controllers
             login.PasswordHash = ControllerHelper.HashPassword(password);
             login.Locked = Locked.unlocked;
 
-            if (accountTypeSelected == 1)
+            if (accountTypeSelection == 1)
             {
                 var owner = new Owner();
                 owner.FirstName = firstName;
@@ -75,16 +76,11 @@ namespace ProgrammingProject.Controllers
 
                 _context.Add(owner);
                 _context.SaveChanges();
-                foreach (var o in _context.Owners)
-                {
-                    if (o.Email == owner.Email)
-                    {
-                        login.User = o;
-                        login.UserId = o.UserId;
-                    }
-                }
+
+                login.UserId = owner.UserId;
+
             }
-            else if (accountTypeSelected == 2)
+            else if (accountTypeSelection == 2)
             {
                 var walker = new Walker();
                 walker.FirstName = firstName;
@@ -105,19 +101,14 @@ namespace ProgrammingProject.Controllers
                     walker.ExperienceLevel = ExperienceLevel.Expert;
                 _context.Add(walker);
                 _context.SaveChanges();
-                foreach (var w in _context.Walkers)
-                {
-                    if (w.Email == walker.Email)
-                    {
-                        login.User = w;
-                        login.UserId = w.UserId;
-                    }
-                }
+
+                login.UserId = walker.UserId;
+
             }
 
             _context.Logins.Add(login);
 
-            _context.SaveChanges();
+           _context.SaveChanges();
 
             return RedirectToAction("Login", "Login");
         }
