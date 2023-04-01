@@ -64,7 +64,7 @@
                 <span asp-validation-for="PhNumber" class="text-danger"></span>
             </div>
 
-            
+
 
             @if (Model.AccountTypeSelection == 2)
             {
@@ -74,10 +74,15 @@
                        data-val-required="This is required." />
                     <span asp-validation-for="IsInsured" class="text-danger"></span>
                 </div>
-                <input asp-for=AccountTypeSelection type="hidden" asp-route-id="2" />
+                <div class="form-group">
+                    <label asp-for="ExperienceLevel" class="control-label"></label>
+                    <input asp-for="ExperienceLevel" class="form-control" data-val="true"
+                       data-val-required="This is required." />
+                    <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+                </div>
             }
-         
-           
+
+
             <div class="form-group">
                 <label for="Password" class="control-label">Password</label>
                 <input id="Password" name="Password" type="password"
