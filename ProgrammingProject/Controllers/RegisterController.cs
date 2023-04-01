@@ -32,7 +32,7 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Register(int accountTypeSelected, string firstName, string lastName, string email, string streetAddress, 
+        public async Task<IActionResult> Register(int accountTypeSelected, string firstName, string lastName, string email, string streetAddress,
                                                                 string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password)
         {
 
@@ -56,11 +56,10 @@ namespace ProgrammingProject.Controllers
 
             } while (inUse);
             var login = new Login();
+
             login.LoginID = randLoginId.ToString();
             login.PasswordHash = ControllerHelper.HashPassword(password);
             login.Locked = Locked.unlocked;
-
-            _context.Logins.Add(login);
 
             if (accountTypeSelected == 1)
             {
@@ -72,11 +71,20 @@ namespace ProgrammingProject.Controllers
                 owner.Suburb = suburb;
                 owner.Country = country;
                 owner.PhNumber = phNumber;
-                
+
 
                 _context.Add(owner);
+                _context.SaveChanges();
+                foreach (var o in _context.Owners)
+                {
+                    if (o == owner)
+                    {
+                        login.User = o;
+                        login.UserId = o.UserId;
+                    }
+                }
             }
-            else if(accountTypeSelected == 2)
+            else if (accountTypeSelected == 2)
             {
                 var walker = new Walker();
                 walker.FirstName = firstName;
@@ -89,20 +97,31 @@ namespace ProgrammingProject.Controllers
                 walker.IsInsured = isInsured;
                 if (experienceLevel == 1)
                     walker.ExperienceLevel = ExperienceLevel.Beginner;
-                else if(experienceLevel == 2)
+                else if (experienceLevel == 2)
                     walker.ExperienceLevel = ExperienceLevel.Intermediate;
-                else if(experienceLevel == 3)
+                else if (experienceLevel == 3)
                     walker.ExperienceLevel = ExperienceLevel.Advanced;
-                else if(experienceLevel == 4)
+                else if (experienceLevel == 4)
                     walker.ExperienceLevel = ExperienceLevel.Expert;
                 _context.Add(walker);
+                _context.SaveChanges();
+                foreach (var w in _context.Walkers)
+                {
+                    if (w == walker)
+                    {
+                        login.User = w;
+                        login.UserId = w.UserId;
+                    }
+                }
             }
+
+            _context.Logins.Add(login);
 
             _context.SaveChanges();
 
-         return RedirectToAction("Login", "Login");
+            return RedirectToAction("Login", "Login");
         }
 
-        
+
     }
 }
