@@ -12,29 +12,42 @@ namespace ProgrammingProject.UnitTests
 {
 
     [TestFixture]
-    internal class WalkerTests
+    internal class WalkerTests : MasterTest
     {
-        //private EasyWalkContext _context;
+        private EasyWalkContext _context;
+        private WalkerController _wc;
+        //private const string ConnectionString_ = ;
 
         [SetUp]
         public void SetUp()
         {
-            //_context = new EasyWalkContext();
-
+            //using var context = new EasyWalkContext(
+                //serviceProvider.GetRequiredService<DbContextOptions<EasyWalkContext>>());
+            //_context = new EasyWalkContext("Server=(localdb)\\MSSQLLocalDB;Database=TestLocalEasyWalk;Trusted_Connection=True;MultipleActiveResultSets=true");
+            _wc = new WalkerController();
 
         }
 
         [Test]
-        public void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs()
+        public async void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs()
+        {
+            var walker = new Walker();
+            walker.UserId = 4;
+            
+            await _wc.MatchDogsToWalker(walker.UserId);       
+
+            // Add Assert to make sure correct implementation.
+
+        }
+
+        [Test]
+        public void GetListOfSuitableDogsToWalkers_WhenProvidedWalkerID_ReturnsListOfDogs()
         {
             var walker = new Walker();
             walker.ExperienceLevel = ExperienceLevel.Beginner;
 
+
             // Get list of dogs
-
-            // Call method with Walker and List of Dogs
-
-            // Add Assert to make sure correct implementation.
 
         }
 
@@ -45,11 +58,10 @@ namespace ProgrammingProject.UnitTests
             dog.DogSize = DogSize.Medium;
             dog.Temperament = Temperament.Calm;
 
-            var wc = new WalkerController();
-
-            var result = await wc.GetDogTraitScore(dog);
+            var result = await _wc.GetDogTraitScore(dog);
 
             Assert.That(result, Is.EqualTo(4));
+            //Assert.That(result, Is.EqualTo(3));
         }
     }
 }
