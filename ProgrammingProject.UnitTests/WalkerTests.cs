@@ -56,15 +56,18 @@ namespace ProgrammingProject.UnitTests
         }
 
         [Test]
-        public async Task GetDogTraitScore_WhenCalled_ReturnsTheDogTraitScoreAsync()
+        [TestCase(DogSize.Small,Temperament.Reactive, 5)]
+        [TestCase(DogSize.Medium,Temperament.Calm, 4)]
+        [TestCase(DogSize.Large,Temperament.NonReactive, 4)]
+        public async Task GetDogTraitScore_WhenCalled_ReturnsTheDogTraitScoreAsync(DogSize a, Temperament b, int expectedResult)
         {
             var dog = new Dog();
-            dog.DogSize = DogSize.Medium;
-            dog.Temperament = Temperament.Calm;
+            dog.DogSize = a;
+            dog.Temperament = b;
 
             var result = await _wc.GetDogTraitScore(dog);
 
-            Assert.That(result, Is.EqualTo(4));
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
     }
 }
