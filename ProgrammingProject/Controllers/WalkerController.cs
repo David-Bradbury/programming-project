@@ -20,6 +20,10 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
+        public WalkerController()
+        {
+        }
+
         public async Task<IActionResult> Index()
         {
             //lazy loading
@@ -141,6 +145,54 @@ namespace ProgrammingProject.Controllers
         //    // Might be worth returning an IPagedList .DP
         //    ViewBag.Dog = tempList;
         //}
+
+        public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IQueryable<Dog> dogs)
+        {
+
+            var tempList = new List<Dog>();
+            var score = 0;
+
+            foreach (var dog in dogs)
+            {
+                if (dog != null)
+                {
+                    score = await GetDogTraitScore(dog);
+                }
+
+                if ((int)walker.ExperienceLevel == 4)
+                {
+                    tempList.Add(dog);
+                }
+                else if ((int)walker.ExperienceLevel == 3 && score < 7)
+                {
+                    tempList.Add(dog);
+                }
+                else if ((int)walker.ExperienceLevel == 2 && score < 5)
+                {
+                    tempList.Add(dog);
+                }
+                else if ((int)walker.ExperienceLevel == 1 && score < 3)
+                {
+                    tempList.Add(dog);
+                }
+            }
+
+            return tempList;
+        }
+
+        // Sets a difficulty score to the dog
+        public async Task<int> GetDogTraitScore(Dog dog)
+        {
+            var score = 0;
+
+            if (dog != null)
+            {
+                score += (int)dog.DogSize;
+                score += (int)dog.Temperament;
+            }
+
+            return score;
+        }
 
 
         // Add dog to walking session
