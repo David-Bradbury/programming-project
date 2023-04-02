@@ -36,8 +36,34 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress,
                                                                 string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password)
         {
-
+            var viewModel = new RegisterViewModel();
             //insert server side validation here.
+            if (firstName == null)
+                ModelState.AddModelError(nameof(firstName), "Firstname is required.");
+            if (lastName == null)
+                ModelState.AddModelError(nameof(lastName), "Lastname is required.");
+            if (email == null)
+                ModelState.AddModelError(nameof(email), "Email is required.");
+            if (streetAddress == null)
+                ModelState.AddModelError(nameof(streetAddress), "The address is required.");
+            if (suburbName == null)
+                ModelState.AddModelError(nameof(suburbName), "The suburb name is required.");
+            if (postcode == null)
+                ModelState.AddModelError(nameof(postcode), "The postcode is required.");
+            if (country == null)
+                ModelState.AddModelError(nameof(country), "The country is required.");
+            if (phNumber == null)
+                ModelState.AddModelError(nameof(phNumber), "Phone number is required.");
+            if (password == null)
+                ModelState.AddModelError(nameof(password), "Password is required.");
+            
+            
+            if (!ModelState.IsValid)
+            {
+                
+                ViewBag.email = email;
+                return View(viewModel);
+            }
 
             var suburb = new Suburb();
             suburb.SuburbName = suburbName;
@@ -57,10 +83,6 @@ namespace ProgrammingProject.Controllers
             }
             if (!match)
                 _context.Suburbs.Add(suburb);
-            //var suburb = new Suburb();
-            //suburb.SuburbName = suburbName;
-            //suburb.Postcode = postcode;
-            //_context.Suburbs.Add(suburb);
 
             bool inUse = true;
             int randLoginId;
