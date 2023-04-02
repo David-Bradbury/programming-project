@@ -21,10 +21,6 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
-        public WalkerController()
-        {
-        }
-
         public async Task<IActionResult> Index()
         {
             //lazy loading
@@ -84,7 +80,7 @@ namespace ProgrammingProject.Controllers
         //public async Task<IActionResult> MatchDogsToWalker(int id) => View(await _context.Dogs.FindAsync(id));
 
         [HttpPost]
-        public async Task MatchDogsToWalker(int id)
+        public async Task<List<Dog>> MatchDogsToWalker(int id)
         {
 
             // Get full list of dogs
@@ -115,7 +111,10 @@ namespace ProgrammingProject.Controllers
             // Return tempList to View. View to list suitable dogs
             // with contact details/button for the walker to select.
             // Might be worth returning an IPagedList .DP
-            ViewBag.Dog = tempList;
+            // ViewBag.Dog = tempList; --Uncomment after testing and remove return statement.
+            // Or create another method which calls this for added abstraction.DP
+
+            return tempList;
         }
 
         public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IEnumerable<Dog> dogs)

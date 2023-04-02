@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 using ProgrammingProject.Controllers;
 using ProgrammingProject.Data;
 using ProgrammingProject.Models;
@@ -12,32 +13,39 @@ namespace ProgrammingProject.UnitTests
 {
 
     [TestFixture]
-    internal class WalkerTests : MasterTest
+    internal class WalkerTests
     {
         private EasyWalkContext _context;
         private WalkerController _wc;
-        //private const string ConnectionString_ = ;
 
         [SetUp]
         public void SetUp()
         {
-            //using var context = new EasyWalkContext(
-                //serviceProvider.GetRequiredService<DbContextOptions<EasyWalkContext>>());
-            //_context = new EasyWalkContext("Server=(localdb)\\MSSQLLocalDB;Database=TestLocalEasyWalk;Trusted_Connection=True;MultipleActiveResultSets=true");
-            _wc = new WalkerController();
+            var mt = new MasterTest();
+            _context = mt.CreateContext();
+            _wc = new WalkerController(_context);
+            //_context = MasterTest.CreateContext();
+            
 
         }
 
         [Test]
-        public async void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs()
+        public void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs()
         {
             var walker = new Walker();
             walker.UserId = 4;
+
+            Task<List<Dog>> task = _wc.MatchDogsToWalker((int)walker.UserId);
+            //var result = await _wc.MatchDogsToWalker(walker.UserId);
+
+            task.Wait();
+
+            //List<Dog> result = task.Result;
+            var result = task.Result;
+
+            //Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.Count, Is.EqualTo(2));
             
-            await _wc.MatchDogsToWalker(walker.UserId);       
-
-            // Add Assert to make sure correct implementation.
-
         }
 
         [Test]
@@ -46,8 +54,12 @@ namespace ProgrammingProject.UnitTests
             var walker = new Walker();
             walker.ExperienceLevel = ExperienceLevel.Beginner;
 
-
+            IEnumerable<Dog> dogs = _context.Dogs.AsEnumerable();
             // Get list of dogs
+
+            //IEnumerable<Dog> dogs = GetDogs();
+
+            Assert.That(dogs.Count, Is.EqualTo(2));
 
         }
 
@@ -61,7 +73,6 @@ namespace ProgrammingProject.UnitTests
             var result = await _wc.GetDogTraitScore(dog);
 
             Assert.That(result, Is.EqualTo(4));
-            //Assert.That(result, Is.EqualTo(3));
         }
     }
 }

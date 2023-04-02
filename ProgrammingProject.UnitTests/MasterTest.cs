@@ -1,32 +1,44 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
+﻿using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using ProgrammingProject.Data;
 
 namespace ProgrammingProject.UnitTests
 {
     [TestFixture]
-    public abstract class MasterTest
+    public class MasterTest
     {
 
-        private TransactionScope scope;
+        private const string ConnectionString_ = "Server=(localdb)\\MSSQLLocalDB;Database=TestLocalEasyWalk;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-        [SetUp]
-        public void Setup()
+        private static readonly object _lock = new();
+        private static bool _databaseInitialized;
+
+        public MasterTest()
         {
-            scope = new TransactionScope();
-            // Need to set up DB Access from here...
+            lock (_lock)
+            {
+                if (!_databaseInitialized)
+                {
+                    using (var context = CreateContext())
+                    {
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
+
+                        var seedData = new SeedDataTest(context);
+                    }
+
+                    _databaseInitialized = true;
+                }
+            }
+
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            scope.Dispose();
-            // Need to reverse any DB actions
-        }
+        public EasyWalkContext CreateContext()
+            => new EasyWalkContext(
+                new DbContextOptionsBuilder<EasyWalkContext>()
+                    .UseSqlServer(ConnectionString_)
+                    .Options);
+
     }
 
 }
