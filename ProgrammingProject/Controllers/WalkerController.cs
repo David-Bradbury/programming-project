@@ -134,15 +134,15 @@ namespace ProgrammingProject.Controllers
                 {
                     tempList.Add(dog);
                 }
-                else if ((int)walker.ExperienceLevel == 3 && score < 7)
+                else if ((int)walker.ExperienceLevel == 3 && score <= 6)
                 {
                     tempList.Add(dog);
                 }
-                else if ((int)walker.ExperienceLevel == 2 && score < 5)
+                else if ((int)walker.ExperienceLevel == 2 && score <= 4)
                 {
                     tempList.Add(dog);
                 }
-                else if ((int)walker.ExperienceLevel == 1 && score < 3)
+                else if ((int)walker.ExperienceLevel == 1 && score <= 3)
                 {
                     tempList.Add(dog);
                 }

@@ -56,9 +56,9 @@ namespace ProgrammingProject.UnitTests
         }
 
         [Test]
-        [TestCase(DogSize.Small,Temperament.Reactive, 5)]
-        [TestCase(DogSize.Medium,Temperament.Calm, 4)]
-        [TestCase(DogSize.Large,Temperament.NonReactive, 4)]
+        [TestCase(DogSize.Small,Temperament.Reactive, 3)]
+        [TestCase(DogSize.Medium,Temperament.Calm, 2)]
+        [TestCase(DogSize.Large,Temperament.NonReactive, 2)]
         public async Task GetDogTraitScore_WhenCalled_ReturnsTheDogTraitScoreAsync(DogSize a, Temperament b, int expectedResult)
         {
             var dog = new Dog();
@@ -69,5 +69,6 @@ namespace ProgrammingProject.UnitTests
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }
+
     }
 }
