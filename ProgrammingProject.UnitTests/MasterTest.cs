@@ -8,7 +8,7 @@ namespace ProgrammingProject.UnitTests
     public class MasterTest
     {
 
-        private const string ConnectionString_ = "Server=(localdb)\\MSSQLLocalDB;Database=TestLocalEasyWalk;Trusted_Connection=True;MultipleActiveResultSets=true";
+        private const string ConnectionString_ = "Server=(localdb)\\MSSQLLocalDB;Database=TestLocalEasyWalkUnitTests;Trusted_Connection=True;MultipleActiveResultSets=true";
 
         private static readonly object _lock = new();
         private static bool _databaseInitialized;

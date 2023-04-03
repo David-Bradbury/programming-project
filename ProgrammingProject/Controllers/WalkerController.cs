@@ -92,29 +92,39 @@ namespace ProgrammingProject.Controllers
             // Get list of dogs suited for the walker
             var tempList = await GetListOfSuitableDogsToWalkers(walker, (IEnumerable<Dog>)dogs);
 
-            // TODO: Could add logic here to filter list down based on user preferences.
-            // E.g.Location or dates/times. Some filter work started below...
+            // passes the list of dogs to be filtered down based on specific parameters.
+            var filteredDogs = FilterDogs(tempList);
 
-            // Notes to discuss: AllowUnvaccinated as a question
-            // when adding walker (saved to model). Allows user to set requirements and
-            // makes filtering easy (as per below).
-
-            // Filter list based off specific rules
-            foreach (var temp in tempList)
-            {
-                if (temp.IsVaccinated == false /*&& walker.AllowUnvaccinated == false */)
-                    tempList.Remove(temp);
-                if (temp.Vet == null)
-                    tempList.Remove(temp);
-            }
-
-            // Return tempList to View. View to list suitable dogs
+            // Return filteredDog to View. View to list suitable dogs
             // with contact details/button for the walker to select.
             // Might be worth returning an IPagedList .DP
             // ViewBag.Dog = tempList; --Uncomment after testing and remove return statement.
             // Or create another method which calls this for added abstraction.DP
 
-            return tempList;
+            return filteredDogs;
+        }
+
+        // Filter list of dogs based off specific rules
+        public List<Dog> FilterDogs(List<Dog> dogs)
+        {
+            var filteredDogs = new List<Dog>();
+            
+            foreach (var d in dogs)
+            {
+                if (d.IsVaccinated == true)
+                    filteredDogs.Add(d);
+                if (d.Vet != null)
+                    filteredDogs.Add(d);
+            }
+
+            return filteredDogs;
+
+            // Notes to discuss: AllowUnvaccinated as a question
+            // when adding walker (saved to model). Allows user to set requirements and
+            // makes filtering easy (as per below).
+
+            // TODO: Could add logic here to filter list down based on user preferences.
+            // E.g.Location or dates/times. Some filter work started below...
         }
 
         public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IEnumerable<Dog> dogs)

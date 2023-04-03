@@ -342,9 +342,11 @@ namespace ProgrammingProject.UnitTests
             }
             foreach (Dog d in dogs)
             {
-                
-                //context.Dogs.Add(d);
-                //context.SaveChanges();
+                if (d != null)
+                {
+                    context.Dogs.Add(d);
+                    context.SaveChanges();
+                }
             }
             context.SaveChanges();
         }

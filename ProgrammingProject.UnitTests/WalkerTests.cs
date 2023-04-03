@@ -26,12 +26,29 @@ namespace ProgrammingProject.UnitTests
             _wc = new WalkerController(_context);           
 
         }
-
         [Test]
-        public void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs()
+        public void FilterDogs_WhenPassedAListOfDogs_ReturnsAFilteredList()
         {
             var walker = new Walker();
-            walker.UserId = 4;
+            walker.UserId = 6;
+
+            Task<List<Dog>> task = _wc.MatchDogsToWalker((int)walker.UserId);
+            task.Wait();
+
+            var result = _wc.FilterDogs(task.Result);
+
+            // Can improve once additional filters are provided.
+            Assert.That(result.Count, Is.LessThanOrEqualTo(task.Result.Count));
+        }
+
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [Test]
+        public void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs(int a)
+        {
+            var walker = new Walker();
+            walker.UserId = a;
 
             Task<List<Dog>> task = _wc.MatchDogsToWalker((int)walker.UserId);
             task.Wait();

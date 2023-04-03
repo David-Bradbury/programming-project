@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230403100541_AmmendedDogModel")]
-    partial class AmmendedDogModel
+    [Migration("20230403104916_AmmendedUserModels")]
+    partial class AmmendedUserModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
