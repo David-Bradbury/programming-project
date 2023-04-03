@@ -17,6 +17,7 @@ namespace ProgrammingProject.Models
         [RegularExpression("[0-9]{8}",
     ErrorMessage = "Must be 8 digits"),
             Key]
+
         public string LoginID { get; set; }
 
         [Column(TypeName = "char")]

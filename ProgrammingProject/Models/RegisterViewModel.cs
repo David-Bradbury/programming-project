@@ -21,7 +21,11 @@ namespace ProgrammingProject.Models
         [Required, StringLength(100)]
 
         public string SuburbName  { get; set; }
-        public string Postcode { get; set; }    
+        public string Postcode { get; set; }
+
+        [StringLength(3)]
+        [RegularExpression("NSW|QLD|SA|WA|TAS|VIC|NT|ACT",
+            ErrorMessage = "Must be  2 or 3 letter Australian state or territory (in CAPS)")]
         public string State { get; set; }
         [Required, StringLength(100)]
         public string Country { get; set; }
