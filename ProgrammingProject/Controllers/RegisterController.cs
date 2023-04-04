@@ -33,41 +33,41 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress,
-                                                                string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password)
+        public async Task<IActionResult> Register(int AccountTypeSelection, string FirstName, string LastName, string Email, string StreetAddress,
+                                                                string SuburbName, string Postcode, string Country, string PhNumber, bool IsInsured, int experienceLevel, string Password)
         {
             var viewModel = new RegisterViewModel();
             //insert server side validation here.
-            if (firstName == null)
-                ModelState.AddModelError(nameof(firstName), "Firstname is required.");
-            if (lastName == null)
-                ModelState.AddModelError(nameof(lastName), "Lastname is required.");
-            if (email == null)
-                ModelState.AddModelError(nameof(email), "Email is required.");
-            if (streetAddress == null)
-                ModelState.AddModelError(nameof(streetAddress), "The address is required.");
-            if (suburbName == null)
-                ModelState.AddModelError(nameof(suburbName), "The suburb name is required.");
-            if (postcode == null)
-                ModelState.AddModelError(nameof(postcode), "The postcode is required.");
-            if (country == null)
-                ModelState.AddModelError(nameof(country), "The country is required.");
-            if (phNumber == null)
-                ModelState.AddModelError(nameof(phNumber), "Phone number is required.");
-            if (password == null)
-                ModelState.AddModelError(nameof(password), "Password is required.");
+            if (FirstName == null)
+                ModelState.AddModelError(nameof(FirstName), "Firstname is test.");
+            if (LastName == null)
+                ModelState.AddModelError(nameof(LastName), "Lastname is required.");
+            if (Email == null)
+                ModelState.AddModelError(nameof(Email), "Email is required.");
+            if (StreetAddress == null)
+                ModelState.AddModelError(nameof(StreetAddress), "The address is required.");
+            if (SuburbName == null)
+                ModelState.AddModelError(nameof(SuburbName), "The suburb name is required.");
+            if (Postcode == null)
+                ModelState.AddModelError(nameof(Postcode), "The postcode is required.");
+            if (Country == null)
+                ModelState.AddModelError(nameof(Country), "The country is required.");
+            if (PhNumber == null)
+                ModelState.AddModelError(nameof(PhNumber), "Phone number is required.");
+            if (Password == null)
+                ModelState.AddModelError(nameof(Password), "Password is required.");
             
             
             if (!ModelState.IsValid)
             {
                 
-                ViewBag.email = email;
+                ViewBag.email = Email;
                 return View(viewModel);
             }
 
             var suburb = new Suburb();
-            suburb.SuburbName = suburbName;
-            suburb.Postcode = postcode;
+            suburb.SuburbName = SuburbName;
+            suburb.Postcode = Postcode;
 
 
 
@@ -75,7 +75,7 @@ namespace ProgrammingProject.Controllers
             bool match = false;
             foreach (var s in _context.Suburbs)
             {
-                if (s.Postcode == postcode)
+                if (s.Postcode == Postcode)
                 {
                     match = true;
                     suburb = s;
@@ -98,19 +98,19 @@ namespace ProgrammingProject.Controllers
             var login = new Login();
 
             login.LoginID = randLoginId.ToString();
-            login.PasswordHash = ControllerHelper.HashPassword(password);
+            login.PasswordHash = ControllerHelper.HashPassword(Password);
             login.Locked = Locked.unlocked;
 
-            if (accountTypeSelection == 1)
+            if (AccountTypeSelection == 1)
             {
                 var owner = new Owner();
-                owner.FirstName = firstName;
-                owner.LastName = lastName;
-                owner.Email = email;
-                owner.StreetAddress = streetAddress;
+                owner.FirstName = FirstName;
+                owner.LastName = LastName;
+                owner.Email = Email;
+                owner.StreetAddress = StreetAddress;
                 owner.Suburb = suburb;
-                owner.Country = country;
-                owner.PhNumber = phNumber;
+                owner.Country = Country;
+                owner.PhNumber = PhNumber;
 
 
                 _context.Add(owner);
@@ -119,17 +119,17 @@ namespace ProgrammingProject.Controllers
                 login.UserId = owner.UserId;
 
             }
-            else if (accountTypeSelection == 2)
+            else if (AccountTypeSelection == 2)
             {
                 var walker = new Walker();
-                walker.FirstName = firstName;
-                walker.LastName = lastName;
-                walker.Email = email;
-                walker.StreetAddress = streetAddress;
+                walker.FirstName = FirstName;
+                walker.LastName = LastName;
+                walker.Email = Email;
+                walker.StreetAddress = StreetAddress;
                 walker.Suburb = suburb;
-                walker.Country = country;
-                walker.PhNumber = phNumber;
-                walker.IsInsured = isInsured;
+                walker.Country = Country;
+                walker.PhNumber = PhNumber;
+                walker.IsInsured = IsInsured;
                 if (experienceLevel == 1)
                     walker.ExperienceLevel = ExperienceLevel.Beginner;
                 else if (experienceLevel == 2)
