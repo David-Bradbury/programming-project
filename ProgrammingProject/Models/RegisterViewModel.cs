@@ -7,8 +7,7 @@ namespace ProgrammingProject.Models
     {
         public int AccountTypeSelection { get; set; }
 
-        [Required, StringLength(50), RegularExpression("NSW|QLD|SA|WA|TAS|VIC|NT|ACT",
-            ErrorMessage = "Must be  2 or 3 letter Australian state or territory (in CAPS)")]
+        [Required, StringLength(50)]
         public string FirstName { get; set; }
 
         [Required, StringLength(50)]
@@ -24,7 +23,7 @@ namespace ProgrammingProject.Models
         public string SuburbName  { get; set; }
         public string Postcode { get; set; }
 
-        [StringLength(3), RegularExpression("NSW|QLD|SA|WA|TAS|VIC|NT|ACT",
+        [Required, StringLength(3), RegularExpression("NSW|QLD|SA|WA|TAS|VIC|NT|ACT",
             ErrorMessage = "Must be  2 or 3 letter Australian state or territory (in CAPS)")]
         public string State { get; set; }
         [Required, StringLength(100)]
@@ -37,7 +36,12 @@ namespace ProgrammingProject.Models
 
         [Range (1, 4), Display(Name ="Choose between 1= Beginner, 4 = Advanced")]
         public int ExperienceLevel { get; set; }
+
+        [Required]
         public string Password{ get; set; }
+
+        [Compare("Password", ErrorMessage = "The password does not match")]
+        public string ConfirmPassword { get; set; }
     }
 }
 
