@@ -3,6 +3,16 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Problem Files - Added By Josh
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.obj.project.assets.json
+*.obj.project.nuget.cache
+*.ProgrammingProject.dll
+*.ProgrammingProject.pdb
+*.ProgrammingProject.csproj.AssemblyReference.cache
+*.ProgrammingProject.csproj.FileListAbsolute.txt
+
 # User-specific files
 *.rsuser
 *.suo
