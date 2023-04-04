@@ -13,35 +13,60 @@ namespace ProgrammingProject.Data
 
 
             //  Look for any Owners.
-            if (context.Owners.Any())
-                return; // DB has been seeded already.
+            //if (context.Owners.Any())
+            // return; // DB has been seeded already.
 
-            Suburb[] suburbs = new Suburb[10];
 
-            suburbs[0] = new Suburb();
-            suburbs[0].Postcode = "3153";
-            suburbs[0].SuburbName = "Bayswater";
+            // Seed Suburbs
+            var suburb1 = new Suburb();
 
-            suburbs[1] = new Suburb();
-            suburbs[1].Postcode = "3149";
-            suburbs[1].SuburbName = "Mount Waverly";
+            suburb1.Postcode = "3153";
+            suburb1.SuburbName = "Bayswater";
 
-            suburbs[2] = new Suburb();
-            suburbs[2].Postcode = "3174";
-            suburbs[2].SuburbName = "Noble Park";
+            context.Suburbs.Add(suburb1);
 
-            suburbs[3] = new Suburb();
-            suburbs[3].Postcode = "3148";
-            suburbs[3].SuburbName = "Chadstone";
 
-            suburbs[4] = new Suburb();
-            suburbs[4].Postcode = "3122";
-            suburbs[4].SuburbName = "Hawthorn";
+            var suburb2 = new Suburb();
 
-            suburbs[5] = new Suburb();
-            suburbs[5].Postcode = "3145";
-            suburbs[5].SuburbName = "Malvern East";
+            suburb2.Postcode = "3149";
+            suburb2.SuburbName = "Mount Waverly";
 
+            context.Suburbs.Add(suburb2);
+
+
+            var suburb3 = new Suburb();
+
+            suburb3.Postcode = "3174";
+            suburb3.SuburbName = "Noble Park";
+
+            context.Suburbs.Add(suburb3);
+
+
+            var suburb4 = new Suburb();
+
+            suburb4.Postcode = "3148";
+            suburb4.SuburbName = "Chadstone";
+
+            context.Suburbs.Add(suburb4);
+
+
+            var suburb5 = new Suburb();
+
+            suburb5.Postcode = "3122";
+            suburb5.SuburbName = "Hawthorn";
+
+            context.Suburbs.Add(suburb5);
+
+
+            var suburb6 = new Suburb();
+
+            suburb6.Postcode = "3145";
+            suburb6.SuburbName = "Malvern East";
+
+            context.Suburbs.Add(suburb6);
+
+
+            // Seed Vets
             var vet1 = new Vet();
 
             vet1.BusinessName = "Bays Vets";
@@ -70,6 +95,7 @@ namespace ProgrammingProject.Data
             context.Vets.Add(vet3);
 
 
+            // Seed Logins
             var login1 = new Login();
 
             login1.Email = "johnsmith@proton.me";
@@ -132,204 +158,174 @@ namespace ProgrammingProject.Data
 
             context.Logins.Add(login7);
 
-            context.SaveChanges();
 
-            foreach (var login in context.Logins)
-            {
+            // Seed Users
+            var owner1 = new Owner();
 
-                if (login.Email == "johnsmith@proton.me")
-                {
-                    var owner = new Owner();
+            owner1.FirstName = "John";
+            owner1.LastName = "Smith";
+            owner1.Email = login1.Email;
+            owner1.StreetAddress = "12 Pine Rd";
+            owner1.Suburb = suburb1;
+            owner1.State = "Victoria";
+            owner1.Country = "Australia";
+            owner1.PhNumber = "0424 225 877";
+            login1.User = owner1;
 
-
-                    owner.FirstName = "John";
-                    owner.LastName = "Smith";
-                    owner.Email = login.Email;
-                    owner.StreetAddress = "12 Pine Rd";
-                    owner.Suburb = suburbs[0];
-                    owner.State = "Victoria";
-                    owner.Country = "Australia";
-                    owner.PhNumber = "0424 225 877";
-                    login.User = owner;
+            context.Owners.Add(owner1);
 
 
-                    context.Owners.Add(owner);
-                    context.SaveChanges();
-                }
-                if (login.Email == "p.carrigan@gogo.com")
-                {
-                    var owner = new Owner();
+            var owner2 = new Owner();
+
+            owner2.FirstName = "Peter";
+            owner2.LastName = "Carrigan";
+            owner2.Email = login2.Email;
+            owner2.StreetAddress = "26 Wills Ave";
+            owner2.Suburb = suburb2;
+            owner2.State = "Victoria";
+            owner2.Country = "Australia";
+            owner2.PhNumber = "0411 672 900";
+            login2.User = owner2;
+
+            context.Owners.Add(owner2);
 
 
-                    owner.FirstName = "Peter";
-                    owner.LastName = "Carrigan";
-                    owner.Email = login.Email;
-                    owner.StreetAddress = "26 Wills Ave";
-                    owner.Suburb = suburbs[1];
-                    owner.State = "Victoria";
-                    owner.Country = "Australia";
-                    owner.PhNumber = "0411 672 900";
-                    login.User = owner;
+            var owner3 = new Owner();
+
+            owner3.FirstName = "Judy";
+            owner3.LastName = "Wong";
+            owner3.Email = login3.Email;
+            owner3.StreetAddress = "42 Buckley St";
+            owner3.Suburb = suburb3;
+            owner3.State = "Victoria";
+            owner3.Country = "Australia";
+            owner3.PhNumber = "0456 853 345";
+            login3.User = owner3;
+
+            context.Owners.Add(owner3);
 
 
-                    context.Owners.Add(owner);
-                    context.SaveChanges();
-                }
-                if (login.Email == "jwong45@me.com")
-                {
-                    var owner = new Owner();
+            var walker1 = new Walker();
+
+            walker1.FirstName = "Karen";
+            walker1.LastName = "Fisher";
+            walker1.Email = login4.Email;
+            walker1.StreetAddress = "2 Jacana St";
+            walker1.Suburb = suburb4;
+            walker1.State = "Victoria";
+            walker1.Country = "Australia";
+            walker1.PhNumber = "0488 044 222";
+            walker1.IsInsured = true;
+            walker1.ExperienceLevel = ExperienceLevel.Advanced;
+            login4.User = walker1;
+
+            context.Walkers.Add(walker1);
 
 
-                    owner.FirstName = "Judy";
-                    owner.LastName = "Wong";
-                    owner.Email = login.Email;
-                    owner.StreetAddress = "42 Buckley St";
-                    owner.Suburb = suburbs[2];
-                    owner.State = "Victoria";
-                    owner.Country = "Australia";
-                    owner.PhNumber = "0456 853 345";
-                    login.User = owner;
+            var walker2 = new Walker();
+
+            walker2.FirstName = "Mitchell";
+            walker2.LastName = "Moses";
+            walker2.Email = login5.Email;
+            walker2.StreetAddress = "10 Camden Rd";
+            walker2.Suburb = suburb5;
+            walker2.State = "Victoria";
+            walker2.Country = "Australia";
+            walker2.PhNumber = "0432 142 732";
+            walker2.IsInsured = true;
+            walker2.ExperienceLevel = ExperienceLevel.Intermediate;
+            login5.User = walker2;
+
+            context.Walkers.Add(walker2);
 
 
-                    context.Owners.Add(owner);
-                    context.SaveChanges();
-                }
-                if (login.Email == "kf8877@gmail.com")
-                {
-                    var walker = new Walker();
+            var walker3 = new Walker();
 
-                    walker.FirstName = "Karen";
-                    walker.LastName = "Fisher";
-                    walker.Email = login.Email;
-                    walker.StreetAddress = "2 Jacana St";
-                    walker.Suburb = suburbs[3];
-                    walker.State = "Victoria";
-                    walker.Country = "Australia";
-                    walker.PhNumber = "0488 044 222";
-                    walker.IsInsured = true;
-                    walker.ExperienceLevel = ExperienceLevel.Advanced;
-                    login.User = walker;
+            walker3.FirstName = "Jane";
+            walker3.LastName = "Edgerton";
+            walker3.Email = login6.Email;
+            walker3.StreetAddress = "14 Nirvana Ave";
+            walker3.Suburb = suburb6;
+            walker3.State = "Victoria";
+            walker3.Country = "Australia";
+            walker3.PhNumber = "0455 332 897";
+            walker3.IsInsured = false;
+            walker3.ExperienceLevel = ExperienceLevel.Beginner;
+            login6.User = walker3;
+
+            context.Walkers.Add(walker3);
 
 
-                    context.Walkers.Add(walker);
-                    context.SaveChanges();
-                }
-                if (login.Email == "mitchy555@gmail.com")
-                {
-                    var walker = new Walker();
+            var admin = new Administrator();
 
-                    walker.FirstName = "Mitchell";
-                    walker.LastName = "Moses";
-                    walker.Email = login.Email;
-                    walker.StreetAddress = "10 Camden Rd";
-                    walker.Suburb = suburbs[4];
-                    walker.State = "Victoria";
-                    walker.Country = "Australia";
-                    walker.PhNumber = "0432 142 732";
-                    walker.IsInsured = true;
-                    walker.ExperienceLevel = ExperienceLevel.Intermediate;
-                    login.User = walker;
+            admin.FirstName = "EasyWalk";
+            admin.LastName = "Administrator";
+            admin.Email = login7.Email;
+            login7.User = admin;
+
+            context.Administrators.Add(admin);
 
 
-                    context.Walkers.Add(walker);
-                    context.SaveChanges();
-                }
-                if (login.Email == "jane.e@hotmail.com")
-                {
-                    var walker = new Walker();
+            // Seed Dogs
+            var dog1 = new Dog();
 
-                    walker.FirstName = "Jane";
-                    walker.LastName = "Edgerton";
-                    walker.Email = login.Email;
-                    walker.StreetAddress = "14 Nirvana Ave";
-                    walker.Suburb = suburbs[5];
-                    walker.State = "Victoria";
-                    walker.Country = "Australia";
-                    walker.PhNumber = "0455 332 897";
-                    walker.IsInsured = false;
-                    walker.ExperienceLevel = ExperienceLevel.Beginner;
-                    login.User = walker;
+            dog1.Name = "Max";
+            dog1.Breed = "Golden Retriever";
+            dog1.MicrochipNumber = "123456";
+            dog1.IsVaccinated = true;
+            dog1.Temperament = Temperament.Friendly;
+            dog1.DogSize = DogSize.Large;
+            dog1.TrainingLevel = TrainingLevel.Basic;
+            dog1.Owner = owner1;
+            dog1.Vet = vet1;
+
+            context.Dogs.Add(dog1);
 
 
-                    context.Walkers.Add(walker);
-                    context.SaveChanges();
-                }
-                if (login.Email == "admin@easywalk.com")
-                {
-                    var admin = new Administrator();
+            var dog2 = new Dog();
+   
+            dog2.Name = "Bella";
+            dog2.Breed = "Labrador";
+            dog2.MicrochipNumber = "152655";
+            dog2.IsVaccinated = true;
+            dog2.Temperament = Temperament.Calm;
+            dog2.DogSize = DogSize.Large;
+            dog2.TrainingLevel = TrainingLevel.Fully;
+            dog2.Owner = owner2;
+            dog2.Vet = vet2;
 
-                    admin.FirstName = "EasyWalk";
-                    admin.LastName = "Administrator";
-                    admin.Email = "admin@easywalk.com";
-                    login.User = admin;
+            context.Dogs.Add(dog2);
 
-                    context.Administrators.Add(admin);
-                    context.SaveChanges();
-                }
-                context.SaveChanges();
-            }
-            context.SaveChanges();
-            Dog[] dogs = new Dog[10];
 
-            foreach (var owner in context.Owners)
-            {
+            var dog3 = new Dog();
+         
+            dog3.Name = "Teddy";
+            dog3.Breed = "Beagle";
+            dog3.MicrochipNumber = "111111";
+            dog3.IsVaccinated = true;
+            dog3.Temperament = Temperament.Friendly;
+            dog3.DogSize = DogSize.Small;
+            dog3.TrainingLevel = TrainingLevel.None;
+            dog3.Owner = owner3;
+            dog3.Vet = vet3;
 
-                if (owner.UserId == 1)
-                {
-                    dogs[0] = new Dog();
-                    dogs[0].Name = "Max";
-                    dogs[0].Breed = "Golden Retriever";
-                    dogs[0].MicrochipNumber = "123456";
-                    dogs[0].IsVaccinated = true;
-                    dogs[0].Temperament = Temperament.Friendly;
-                    dogs[0].DogSize = DogSize.Large;
-                    dogs[0].TrainingLevel = TrainingLevel.Basic;
-                    dogs[0].Owner = owner;
-                    dogs[0].Vet = vet1;
-                }
-                if (owner.UserId == 2)
-                {
-                    dogs[1] = new Dog();
-                    dogs[1].Name = "Bella";
-                    dogs[1].Breed = "Labrador";
-                    dogs[1].MicrochipNumber = "152655";
-                    dogs[1].IsVaccinated = true;
-                    dogs[1].Temperament = Temperament.Calm;
-                    dogs[1].DogSize = DogSize.Large;
-                    dogs[1].TrainingLevel = TrainingLevel.Fully;
-                    dogs[1].Owner = owner;
-                    dogs[1].Vet = vet2;
-                }
-                if (owner.UserId == 3)
-                {
-                    dogs[2] = new Dog();
-                    dogs[2].Name = "Teddy";
-                    dogs[2].Breed = "Beagle";
-                    dogs[2].MicrochipNumber = "111111";
-                    dogs[2].IsVaccinated = true;
-                    dogs[2].Temperament = Temperament.Friendly;
-                    dogs[2].DogSize = DogSize.Small;
-                    dogs[2].TrainingLevel = TrainingLevel.None;
-                    dogs[2].Owner = owner;
-                    dogs[2].Vet = vet3;
+            context.Dogs.Add(dog3);
 
-                    dogs[3] = new Dog();
-                    dogs[3].Name = "Ruby";
-                    dogs[3].Breed = "Beagle";
-                    dogs[3].MicrochipNumber = "111112";
-                    dogs[3].IsVaccinated = true;
-                    dogs[3].Temperament = Temperament.Friendly;
-                    dogs[3].DogSize = DogSize.Small;
-                    dogs[3].TrainingLevel = TrainingLevel.Basic;
-                    dogs[3].Owner = owner;
-                    dogs[3].Vet = vet3;
-                }
-            }
-            foreach (Dog d in dogs)
-            {
-                context.Dogs.Add(d);
-                context.SaveChanges();
-            }
+
+            var dog4 = new Dog();
+
+            dog4.Name = "Ruby";
+            dog4.Breed = "Beagle";
+            dog4.MicrochipNumber = "111112";
+            dog4.IsVaccinated = true;
+            dog4.Temperament = Temperament.Friendly;
+            dog4.DogSize = DogSize.Small;
+            dog4.TrainingLevel = TrainingLevel.Basic;
+            dog4.Owner = owner3;
+            dog4.Vet = vet3;
+
+            context.Dogs.Add(dog4);
+
             context.SaveChanges();
         }
     }
