@@ -69,219 +69,210 @@ namespace ProgrammingProject.Data
 
             context.Vets.Add(vet3);
 
-            var owner1 = new Owner();
+
+            var login1 = new Login();
+
+            login1.Email = "johnsmith@proton.me";
+            login1.PasswordHash = "Up6PDCVvwYAJB6r4eob7OBmxNi7X8qKnRp5uOf4bFRcgm/P4uo9lsGtaWbalPDNG";
+            login1.Locked = Locked.unlocked;
+
+            context.Logins.Add(login1);
 
 
-            owner1.FirstName = "John";
-            owner1.LastName = "Smith";
-            owner1.Email = "johnsmith@proton.me";
-            owner1.StreetAddress = "12 Pine Rd";
-            owner1.Suburb = suburbs[0];
-            owner1.State = "Victoria";
-            owner1.Country = "Australia";
-            owner1.PhNumber = "0424 225 877";
+            var login2 = new Login();
+
+            login2.Email = "p.carrigan@gogo.com";
+            login2.PasswordHash = "OSChybFH9bpx45dkxtL/xIRgchujLLW/xrO5m09AYRHlrG8wQHwYM8aEG5I9N6kj";
+            login2.Locked = Locked.unlocked;
+
+            context.Logins.Add(login2);
 
 
-            context.Owners.Add(owner1);
+            var login3 = new Login();
 
-            var owner2 = new Owner();
+            login3.Email = "jwong45@me.com";
+            login3.PasswordHash = "+vNQb95E/n3R9+ocgKD7lh7x3FiJ9hrmeOs9RqQ0VK8W6wMvlX3SPqn6+Er3kUFN";
+            login3.Locked = Locked.unlocked;
 
-
-            owner2.FirstName = "Peter";
-            owner2.LastName = "Carrigan";
-            owner2.Email = "p.carrigan@gogo.com";
-            owner2.StreetAddress = "26 Wills Ave";
-            owner2.Suburb = suburbs[1];
-            owner2.State = "Victoria";
-            owner2.Country = "Australia";
-            owner2.PhNumber = "0411 672 900";
+            context.Logins.Add(login3);
 
 
-            context.Owners.Add(owner2);
+            var login4 = new Login();
 
-            var owner3 = new Owner();
+            login4.Email = "kf8877@gmail.com";
+            login4.PasswordHash = "0VpvMkBh9U527v321Wro+dJC0nY8HCYwiPFWp24WMSOdLW15krvKisfs6Ku5HzHt";
+            login4.Locked = Locked.unlocked;
 
-            owner3.FirstName = "Judy";
-            owner3.LastName = "Wong";
-            owner3.Email = "jwong45@me.com";
-            owner3.StreetAddress = "42 Buckley St";
-            owner3.Suburb = suburbs[2];
-            owner3.State = "Victoria";
-            owner3.Country = "Australia";
-            owner3.PhNumber = "0456 853 345";
+            context.Logins.Add(login4);
 
 
-            context.Owners.Add(owner3);
+            var login5 = new Login();
+
+            login5.Email = "mitchy555@gmail.com";
+            login5.PasswordHash = "ow/m3D+6bQTtuw8Pld486o9CzDDxFH1Gxy5XEmKXvswygE9ny0FPgNTnUokRxuI4";
+            login5.Locked = Locked.unlocked;
+
+            context.Logins.Add(login5);
 
 
-            var walker1 = new Walker();
+            var login6 = new Login();
 
-            walker1.FirstName = "Karen";
-            walker1.LastName = "Fisher";
-            walker1.Email = "kf8877@gmail.com";
-            walker1.StreetAddress = "2 Jacana St";
-            walker1.Suburb = suburbs[3];
-            walker1.State = "Victoria";
-            walker1.Country = "Australia";
-            walker1.PhNumber = "0488 044 222";
-            walker1.IsInsured = true;
-            walker1.ExperienceLevel = ExperienceLevel.Advanced;
+            login6.Email = "jane.e@hotmail.com";
+            login6.PasswordHash = "U3aiSza/zGtXt2AEuBwPSg4asyvXzErkOL4upGkbzo+RcoQ90c+E10n0Dy3HFviR";
+            login6.Locked = Locked.unlocked;
+
+            context.Logins.Add(login6);
 
 
+            var login7 = new Login();
 
-            context.Walkers.Add(walker1);
+            login7.Email = "admin@easywalk.com";
+            login7.PasswordHash = "IDjaWUHN76Ouz/3t9DKV/6t+YURpFHemb9JCo6B5Jfq/W1Iw5yo/fQd673znSE2K";
+            login7.Locked = Locked.unlocked;
 
-
-            var walker2 = new Walker();
-
-            walker2.FirstName = "Mitchell";
-            walker2.LastName = "Moses";
-            walker2.Email = "mitchy555@gmail.com";
-            walker2.StreetAddress = "10 Camden Rd";
-            walker2.Suburb = suburbs[4];
-            walker2.State = "Victoria";
-            walker2.Country = "Australia";
-            walker2.PhNumber = "0432 142 732";
-            walker2.IsInsured = true;
-            walker2.ExperienceLevel = ExperienceLevel.Intermediate;
-
-
-            context.Walkers.Add(walker2);
-
-
-            var walker3 = new Walker();
-
-            walker3.FirstName = "Jane";
-            walker3.LastName = "Edgerton";
-            walker3.Email = "jane.e@hotmail.com";
-            walker3.StreetAddress = "14 Nirvana Ave";
-            walker3.Suburb = suburbs[5];
-            walker3.State = "Victoria";
-            walker3.Country = "Australia";
-            walker3.PhNumber = "0455 332 897";
-            walker3.IsInsured = false;
-            walker3.ExperienceLevel = ExperienceLevel.Beginner;
-
-
-            context.Walkers.Add(walker3);
+            context.Logins.Add(login7);
 
             context.SaveChanges();
 
+            foreach (var login in context.Logins)
+            {
 
-            var admin = new Administrator();
+                if (login.Email == "johnsmith@proton.me")
+                {
+                    var owner = new Owner();
 
-            admin.FirstName = "EasyWalk";
-            admin.LastName = "Administrator";
-            admin.Email = "admin@easywalk.com";
-            context.Administrators.Add(admin);
 
+                    owner.FirstName = "John";
+                    owner.LastName = "Smith";
+                    owner.Email = login.Email;
+                    owner.StreetAddress = "12 Pine Rd";
+                    owner.Suburb = suburbs[0];
+                    owner.State = "Victoria";
+                    owner.Country = "Australia";
+                    owner.PhNumber = "0424 225 877";
+                    login.User = owner;
+
+
+                    context.Owners.Add(owner);
+                    context.SaveChanges();
+                }
+                if (login.Email == "p.carrigan@gogo.com")
+                {
+                    var owner = new Owner();
+
+
+                    owner.FirstName = "Peter";
+                    owner.LastName = "Carrigan";
+                    owner.Email = login.Email;
+                    owner.StreetAddress = "26 Wills Ave";
+                    owner.Suburb = suburbs[1];
+                    owner.State = "Victoria";
+                    owner.Country = "Australia";
+                    owner.PhNumber = "0411 672 900";
+                    login.User = owner;
+
+
+                    context.Owners.Add(owner);
+                    context.SaveChanges();
+                }
+                if (login.Email == "jwong45@me.com")
+                {
+                    var owner = new Owner();
+
+
+                    owner.FirstName = "Judy";
+                    owner.LastName = "Wong";
+                    owner.Email = login.Email;
+                    owner.StreetAddress = "42 Buckley St";
+                    owner.Suburb = suburbs[2];
+                    owner.State = "Victoria";
+                    owner.Country = "Australia";
+                    owner.PhNumber = "0456 853 345";
+                    login.User = owner;
+
+
+                    context.Owners.Add(owner);
+                    context.SaveChanges();
+                }
+                if (login.Email == "kf8877@gmail.com")
+                {
+                    var walker = new Walker();
+
+                    walker.FirstName = "Karen";
+                    walker.LastName = "Fisher";
+                    walker.Email = login.Email;
+                    walker.StreetAddress = "2 Jacana St";
+                    walker.Suburb = suburbs[3];
+                    walker.State = "Victoria";
+                    walker.Country = "Australia";
+                    walker.PhNumber = "0488 044 222";
+                    walker.IsInsured = true;
+                    walker.ExperienceLevel = ExperienceLevel.Advanced;
+                    login.User = walker;
+
+
+                    context.Walkers.Add(walker);
+                    context.SaveChanges();
+                }
+                if (login.Email == "mitchy555@gmail.com")
+                {
+                    var walker = new Walker();
+
+                    walker.FirstName = "Mitchell";
+                    walker.LastName = "Moses";
+                    walker.Email = login.Email;
+                    walker.StreetAddress = "10 Camden Rd";
+                    walker.Suburb = suburbs[4];
+                    walker.State = "Victoria";
+                    walker.Country = "Australia";
+                    walker.PhNumber = "0432 142 732";
+                    walker.IsInsured = true;
+                    walker.ExperienceLevel = ExperienceLevel.Intermediate;
+                    login.User = walker;
+
+
+                    context.Walkers.Add(walker);
+                    context.SaveChanges();
+                }
+                if (login.Email == "jane.e@hotmail.com")
+                {
+                    var walker = new Walker();
+
+                    walker.FirstName = "Jane";
+                    walker.LastName = "Edgerton";
+                    walker.Email = login.Email;
+                    walker.StreetAddress = "14 Nirvana Ave";
+                    walker.Suburb = suburbs[5];
+                    walker.State = "Victoria";
+                    walker.Country = "Australia";
+                    walker.PhNumber = "0455 332 897";
+                    walker.IsInsured = false;
+                    walker.ExperienceLevel = ExperienceLevel.Beginner;
+                    login.User = walker;
+
+
+                    context.Walkers.Add(walker);
+                    context.SaveChanges();
+                }
+                if (login.Email == "admin@easywalk.com")
+                {
+                    var admin = new Administrator();
+
+                    admin.FirstName = "EasyWalk";
+                    admin.LastName = "Administrator";
+                    admin.Email = "admin@easywalk.com";
+                    login.User = admin;
+
+                    context.Administrators.Add(admin);
+                    context.SaveChanges();
+                }
+                context.SaveChanges();
+            }
             context.SaveChanges();
+            Dog[] dogs = new Dog[10];
 
             foreach (var owner in context.Owners)
             {
-                if (owner.UserId == 1)
-                {
-                    var login = new Login();
-                    login.User = owner;
-                    login.UserId = owner.UserId;
-                    login.LoginID = "12345678";
-                    login.PasswordHash = "Up6PDCVvwYAJB6r4eob7OBmxNi7X8qKnRp5uOf4bFRcgm/P4uo9lsGtaWbalPDNG";
-                    login.Locked = Locked.unlocked;
-                    owner.Login = login;
-                    context.Logins.Add(login);
-
-                }
-                if (owner.UserId == 2)
-                {
-                    var login = new Login();
-                    login.User = owner;
-                    login.UserId = owner.UserId;
-                    login.LoginID = "54632896";
-                    login.PasswordHash = "OSChybFH9bpx45dkxtL/xIRgchujLLW/xrO5m09AYRHlrG8wQHwYM8aEG5I9N6kj";
-                    login.Locked = Locked.unlocked;
-                    owner.Login = login;
-                    context.Logins.Add(login);
-
-                }
-                if (owner.UserId == 3)
-                {
-                    var login = new Login();
-                    login.User = owner;
-                    login.UserId = owner.UserId;
-                    login.LoginID = "44665588";
-                    login.PasswordHash = "+vNQb95E/n3R9+ocgKD7lh7x3FiJ9hrmeOs9RqQ0VK8W6wMvlX3SPqn6+Er3kUFN";
-                    login.Locked = Locked.unlocked;
-                    owner.Login = login;
-                    context.Logins.Add(login);
-
-                }
-
-            }
-            context.SaveChanges();
-
-            foreach (var walker in context.Walkers)
-            {
-                if (walker.UserId == 4)
-                {
-                    var login = new Login();
-                    login.User = walker;
-                    login.UserId = walker.UserId;
-                    login.LoginID = "62547813";
-                    login.PasswordHash = "0VpvMkBh9U527v321Wro+dJC0nY8HCYwiPFWp24WMSOdLW15krvKisfs6Ku5HzHt";
-                    login.Locked = Locked.unlocked;
-                    walker.Login = login;
-                    context.Logins.Add(login);
-
-                }
-                if (walker.UserId == 5)
-                {
-                    var login = new Login();
-                    login.User = walker;
-                    login.UserId = walker.UserId;
-                    login.LoginID = "98765432";
-                    login.PasswordHash = "ow/m3D+6bQTtuw8Pld486o9CzDDxFH1Gxy5XEmKXvswygE9ny0FPgNTnUokRxuI4";
-                    login.Locked = Locked.unlocked;
-
-                    context.Logins.Add(login);
-
-                }
-
-                if (walker.UserId == 6)
-                {
-                    var login = new Login();
-                    login.User = walker;
-                    login.UserId = walker.UserId;
-                    login.LoginID = "55548692";
-                    login.PasswordHash = "U3aiSza/zGtXt2AEuBwPSg4asyvXzErkOL4upGkbzo+RcoQ90c+E10n0Dy3HFviR";
-                    login.Locked = Locked.unlocked;
-
-                    context.Logins.Add(login);
-
-                }
-
-                context.SaveChanges();
-            }
-
-            foreach (var a in context.Administrators)
-            {
-                if (admin.UserId == 7)
-                {
-                    var login = new Login();
-                    login.User = a;
-                    login.UserId = a.UserId;
-                    login.LoginID = "09876543";
-                    login.PasswordHash = "IDjaWUHN76Ouz/3t9DKV/6t+YURpFHemb9JCo6B5Jfq/W1Iw5yo/fQd673znSE2K";
-                    login.Locked = Locked.unlocked;
-                    admin.Login = login;
-                    context.Logins.Add(login);
-
-                }
-            }
-            context.SaveChanges();
-
-            Dog[] dogs = new Dog[10];
-
-            foreach (var owner in context.Owners) {
 
                 if (owner.UserId == 1)
                 {
@@ -309,8 +300,8 @@ namespace ProgrammingProject.Data
                     dogs[1].Owner = owner;
                     dogs[1].Vet = vet2;
                 }
-                if (owner.UserId == 3) 
-                    {
+                if (owner.UserId == 3)
+                {
                     dogs[2] = new Dog();
                     dogs[2].Name = "Teddy";
                     dogs[2].Breed = "Beagle";
@@ -333,8 +324,9 @@ namespace ProgrammingProject.Data
                     dogs[3].Owner = owner;
                     dogs[3].Vet = vet3;
                 }
-                }
-            foreach (Dog d in dogs) {
+            }
+            foreach (Dog d in dogs)
+            {
                 context.Dogs.Add(d);
                 context.SaveChanges();
             }

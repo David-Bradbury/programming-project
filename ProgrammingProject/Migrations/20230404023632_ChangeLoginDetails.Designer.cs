@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230328110350_FirstUpdate")]
-    partial class FirstUpdate
+    [Migration("20230404023632_ChangeLoginDetails")]
+    partial class ChangeLoginDetails
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,9 +118,9 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.Login", b =>
                 {
-                    b.Property<string>("LoginID")
-                        .HasMaxLength(8)
-                        .HasColumnType("char");
+                    b.Property<string>("Email")
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
 
                     b.Property<int>("Locked")
                         .HasColumnType("int");
@@ -130,13 +130,7 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("char");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LoginID");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasKey("Email");
 
                     b.ToTable("Logins");
                 });
@@ -183,6 +177,9 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("User");
 
@@ -425,15 +422,15 @@ namespace ProgrammingProject.Migrations
                     b.Navigation("Walker");
                 });
 
-            modelBuilder.Entity("ProgrammingProject.Models.Login", b =>
+            modelBuilder.Entity("ProgrammingProject.Models.User", b =>
                 {
-                    b.HasOne("ProgrammingProject.Models.User", "User")
-                        .WithOne("Login")
-                        .HasForeignKey("ProgrammingProject.Models.Login", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("ProgrammingProject.Models.Login", "Login")
+                        .WithOne("User")
+                        .HasForeignKey("ProgrammingProject.Models.User", "Email")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Login");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.WalkerRating", b =>
@@ -512,6 +509,12 @@ namespace ProgrammingProject.Migrations
                     b.Navigation("DogRatings");
                 });
 
+            modelBuilder.Entity("ProgrammingProject.Models.Login", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProgrammingProject.Models.Suburb", b =>
                 {
                     b.Navigation("Owners");
@@ -519,12 +522,6 @@ namespace ProgrammingProject.Migrations
                     b.Navigation("Walkers");
 
                     b.Navigation("Walks");
-                });
-
-            modelBuilder.Entity("ProgrammingProject.Models.User", b =>
-                {
-                    b.Navigation("Login")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.Vet", b =>

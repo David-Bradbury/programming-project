@@ -62,13 +62,14 @@ namespace ProgrammingProject.Data
                 ws.StartTime
             });
 
-            /*
-            modelBuilder.Entity<Login>()
-            .HasOne(u => u.User)
-            .WithOne(lo => lo.Login)
-            .HasForeignKey<User>(lo => lo.UserId)
+            
+            modelBuilder.Entity<User>()
+            .HasOne(l => l.Login)
+            .WithOne(u => u.User)
+            .HasForeignKey<User>(u => u.Email)
             .OnDelete(DeleteBehavior.ClientCascade);
-            */
+            
+
             modelBuilder.Entity<Walks>()
            .HasOne(w => w.Walker)
            .WithMany(wa => wa.Walks)
