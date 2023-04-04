@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Problem Files - Added By Josh
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.obj.project.assets.json
+*.obj.project.nuget.cache
+
 # User-specific files
 *.rsuser
 *.suo
