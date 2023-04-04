@@ -33,29 +33,47 @@ namespace ProgrammingProject.Controllers
                 return View(new Login { Email = Email }); ;
             }
 
-            //Customer login
+            Owner o = new Owner();
+            Walker w = new Walker();
+            Administrator a = new Administrator();
 
-            var o = await _context.Owners.FindAsync(login.Email);
-            var w = await _context.Walkers.FindAsync(login.Email);
-            var a = await _context.Administrators.FindAsync(login.Email);
+            //Find Userids
+            foreach (Owner owner in _context.Owners)
+            {
+                if (owner.Email == Email)
+                    o = await _context.Owners.FindAsync(owner.UserId);
+
+            }
+
+            foreach (Walker walker in _context.Walkers)
+            {
+                if (walker.Email == Email)
+                    w = await _context.Walkers.FindAsync(walker.UserId);
+            }
+            foreach (Administrator admin in _context.Administrators)
+            {
+                if (admin.Email == Email)
+                    a = await _context.Administrators.FindAsync(admin.UserId);
+            }
+
             string userType = "";
 
 
-            if (o != null)
+            if (o.Email != null)
             {
-      //          HttpContext.Session.SetInt32(nameof(o.UserId), login.UserId);
+                HttpContext.Session.SetInt32(nameof(o.UserId), login.User.UserId);
                 HttpContext.Session.SetString(nameof(o.FirstName), login.User.FirstName);
                 userType = "Owner";
             }
-            else if (w != null)
+            else if (w.Email != null)
             {
-     //           HttpContext.Session.SetInt32(nameof(w.UserId), login.UserId);
+                HttpContext.Session.SetInt32(nameof(w.UserId), login.User.UserId);
                 HttpContext.Session.SetString(nameof(w.FirstName), login.User.FirstName);
                 userType = "Walker";
             }
-            else if (a != null)
+            else if (a.Email != null)
             {
-      //          HttpContext.Session.SetInt32(nameof(a.UserId), login.UserId);
+                HttpContext.Session.SetInt32(nameof(a.UserId), login.User.UserId);
                 HttpContext.Session.SetString(nameof(a.FirstName), login.User.FirstName);
                 userType = "Administrator";
 
@@ -80,4 +98,3 @@ namespace ProgrammingProject.Controllers
 
     }
 }
-
