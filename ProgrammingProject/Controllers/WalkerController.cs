@@ -6,7 +6,7 @@ using System.Linq;
 namespace ProgrammingProject.Controllers
 {
     //Mask URL
-    [Route("/Walker")]
+    [Route("/Walker/[action]")]
     public class WalkerController : Controller
     {
         private readonly EasyWalkContext _context;
@@ -25,7 +25,10 @@ namespace ProgrammingProject.Controllers
         {
             //lazy loading
             var walker = await _context.Walkers.FindAsync(WalkerID);
-            return View(walker);
+            //return View(walker);
+            ViewBag.Walker = walker;
+            ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
+            return View();
         }
 
         //public async Task<IActionResult> Walker(int id)
@@ -81,6 +84,7 @@ namespace ProgrammingProject.Controllers
 
         [HttpPost]
         public async Task<List<Dog>> MatchDogsToWalker(int id)
+        //public async Task<IActionResult> MatchDogsToWalker(int id)
         {
 
             // Get full list of dogs
@@ -111,9 +115,7 @@ namespace ProgrammingProject.Controllers
             
             foreach (var d in dogs)
             {
-                if (d.IsVaccinated == true)
-                    filteredDogs.Add(d);
-                if (d.Vet != null)
+                if (d.IsVaccinated == true && d.Vet != null)
                     filteredDogs.Add(d);
             }
 
@@ -139,22 +141,24 @@ namespace ProgrammingProject.Controllers
                 {
                     score = await GetDogTraitScore(dog);
                 }
-
-                if ((int)walker.ExperienceLevel == 4)
+                if (walker != null)
                 {
-                    tempList.Add(dog);
-                }
-                else if ((int)walker.ExperienceLevel == 3 && score <= 6)
-                {
-                    tempList.Add(dog);
-                }
-                else if ((int)walker.ExperienceLevel == 2 && score <= 4)
-                {
-                    tempList.Add(dog);
-                }
-                else if ((int)walker.ExperienceLevel == 1 && score <= 3)
-                {
-                    tempList.Add(dog);
+                    if ((int)walker.ExperienceLevel == 4)
+                    {
+                        tempList.Add(dog);
+                    }
+                    else if ((int)walker.ExperienceLevel == 3 && score <= 6)
+                    {
+                        tempList.Add(dog);
+                    }
+                    else if ((int)walker.ExperienceLevel == 2 && score <= 4)
+                    {
+                        tempList.Add(dog);
+                    }
+                    else if ((int)walker.ExperienceLevel == 1 && score <= 3)
+                    {
+                        tempList.Add(dog);
+                    }
                 }
             }
 
@@ -162,7 +166,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Sets a difficulty score to the dog
-        public Task<int> GetDogTraitScore(Dog dog)
+        public async Task<int> GetDogTraitScore(Dog dog)
         {
             var score = 0;
 
@@ -172,7 +176,7 @@ namespace ProgrammingProject.Controllers
                 score += (int)dog.Temperament;
             }
 
-            return Task.FromResult(score);
+            return await Task.FromResult(score);
         }
 
         public static implicit operator WalkerController(string v)
