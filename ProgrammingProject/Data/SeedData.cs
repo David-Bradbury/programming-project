@@ -13,8 +13,8 @@ namespace ProgrammingProject.Data
 
 
             //  Look for any Owners.
-            //if (context.Owners.Any())
-            // return; // DB has been seeded already.
+            if (context.Owners.Any())
+            return; // DB has been seeded already.
 
 
             // Seed Suburbs

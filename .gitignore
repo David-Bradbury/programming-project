@@ -8,6 +8,13 @@
 *.csproj.nuget.g.props
 *.obj.project.assets.json
 *.obj.project.nuget.cache
+*.ProgrammingProject.dll
+*.ProgrammingProject.pdb
+*.ProgrammingProject.csproj.AssemblyReference.cache
+*.ProgrammingProject.csproj.FileListAbsolute.txt
+
+
+
 
 # User-specific files
 *.rsuser
