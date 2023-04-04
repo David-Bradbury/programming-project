@@ -11,7 +11,7 @@ namespace ProgrammingProject.Controllers
     {
         private readonly EasyWalkContext _context;
         public RegisterViewModel viewModel = new RegisterViewModel();
-       
+
 
         public RegisterController(EasyWalkContext context)
         {
@@ -28,7 +28,6 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Register(int id)
         {
             viewModel.AccountTypeSelection = id;
-            
 
             return View(viewModel);
         }
@@ -97,7 +96,7 @@ namespace ProgrammingProject.Controllers
             } while (inUse);
             var login = new Login();
 
-            login.LoginID = randLoginId.ToString();
+            login.Email = randLoginId.ToString();
             login.PasswordHash = ControllerHelper.HashPassword(password);
             login.Locked = Locked.unlocked;
 
@@ -116,7 +115,7 @@ namespace ProgrammingProject.Controllers
                 _context.Add(owner);
                 _context.SaveChanges();
 
-                login.UserId = owner.UserId;
+                owner.Email = login.Email;
 
             }
             else if (accountTypeSelection == 2)
@@ -141,7 +140,7 @@ namespace ProgrammingProject.Controllers
                 _context.Add(walker);
                 _context.SaveChanges();
 
-                login.UserId = walker.UserId;
+                walker.Email = login.Email;
 
             }
 

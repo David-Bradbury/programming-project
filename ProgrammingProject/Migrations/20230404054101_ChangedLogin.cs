@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstUpdate : Migration
+    public partial class ChangedLogin : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Logins",
+                columns: table => new
+                {
+                    Email = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
+                    PasswordHash = table.Column<string>(type: "char(64)", maxLength: 64, nullable: false),
+                    Locked = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logins", x => x.Email);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Suburbs",
                 columns: table => new
@@ -66,6 +79,11 @@ namespace ProgrammingProject.Migrations
                 {
                     table.PrimaryKey("PK_User", x => x.UserId);
                     table.ForeignKey(
+                        name: "FK_User_Logins_Email",
+                        column: x => x.Email,
+                        principalTable: "Logins",
+                        principalColumn: "Email");
+                    table.ForeignKey(
                         name: "FK_User_Suburbs_SuburbPostcode",
                         column: x => x.SuburbPostcode,
                         principalTable: "Suburbs",
@@ -107,26 +125,6 @@ namespace ProgrammingProject.Migrations
                         column: x => x.VetId,
                         principalTable: "Vets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Logins",
-                columns: table => new
-                {
-                    LoginID = table.Column<string>(type: "char(8)", maxLength: 8, nullable: false),
-                    PasswordHash = table.Column<string>(type: "char(64)", maxLength: 64, nullable: false),
-                    Locked = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Logins", x => x.LoginID);
-                    table.ForeignKey(
-                        name: "FK_Logins_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -264,9 +262,9 @@ namespace ProgrammingProject.Migrations
                 columns: new[] { "WalkingSessionsWalkerID", "WalkingSessionsStartTime" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Logins_UserId",
-                table: "Logins",
-                column: "UserId",
+                name: "IX_User_Email",
+                table: "User",
+                column: "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -300,9 +298,6 @@ namespace ProgrammingProject.Migrations
                 name: "DogWalkingSession");
 
             migrationBuilder.DropTable(
-                name: "Logins");
-
-            migrationBuilder.DropTable(
                 name: "WalkerRatings");
 
             migrationBuilder.DropTable(
@@ -319,6 +314,9 @@ namespace ProgrammingProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "Logins");
 
             migrationBuilder.DropTable(
                 name: "Suburbs");
