@@ -2,6 +2,7 @@
 using ProgrammingProject.Models;
 using ProgrammingProject.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace ProgrammingProject.Controllers
 {
@@ -32,7 +33,7 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress,
+        public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
                                                                 string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password, string confirmPassword)
         {
               var viewModel = new RegisterViewModel();
@@ -58,19 +59,35 @@ namespace ProgrammingProject.Controllers
             if(password != confirmPassword)
                 ModelState.AddModelError(nameof(confirmPassword), "Passwords need to match.");
 
+            foreach (var l in _context.Logins)
+                if (l.Email == email)
+                    ModelState.AddModelError(nameof(email), "This email is already registered in the system. Please try with a different email address.");
+           
+            // ALL NEEDS TESTING. JC 
+            // Might be worth changing to add full state/territory names. discuss with group JC
+            if (!Regex.IsMatch(state, "NSW|QLD|SA|WA|TAS|VIC|NT|ACT"))
+                ModelState.AddModelError(nameof(state), "This is not a valid Australia State or Territory. Please enter an Australian State or Territory");
+            if (!Regex.IsMatch(postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
+                ModelState.AddModelError(nameof(postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            // Will need to change to add different mobile entry options, such as 04xx xxx xxx or +614xx xxx xxx or various other combinations. JC
+            if (!Regex.IsMatch(phNumber, "04[0-9]{8}"))
+                ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+            // Add Email REGEX test here, needs to at the least match what the data annotation for EmailAddress accepts.
+
+
             if (!ModelState.IsValid)
             {
-
                 return View(viewModel);
             }
 
+            // Creating suburb based on form details
             var suburb = new Suburb();
             suburb.SuburbName = suburbName;
             suburb.Postcode = postcode;
 
 
 
-
+            // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
             bool match = false;
             foreach (var s in _context.Suburbs)
             {
@@ -83,22 +100,16 @@ namespace ProgrammingProject.Controllers
             if (!match)
                 _context.Suburbs.Add(suburb);
 
-            bool inUse = true;
-            int randLoginId;
-            var rnd = new Random();
-            do
-            {
-                randLoginId = rnd.Next(10000000, 99999999);
-                var x = await _context.Logins.FindAsync(randLoginId.ToString());
-                if (x == null)
-                    inUse = false;
-
-            } while (inUse);
+          
+            // Create a new login from form submission
             var login = new Login();
 
-            login.Email = randLoginId.ToString();
+            login.Email = email;
             login.PasswordHash = ControllerHelper.HashPassword(password);
             login.Locked = Locked.unlocked;
+
+            _context.Logins.Add(login);
+           
 
             if (accountTypeSelection == 1)
             {
@@ -115,7 +126,7 @@ namespace ProgrammingProject.Controllers
                 _context.Add(owner);
                 _context.SaveChanges();
 
-                owner.Email = login.Email;
+               
 
             }
             else if (accountTypeSelection == 2)
@@ -140,12 +151,10 @@ namespace ProgrammingProject.Controllers
                 _context.Add(walker);
                 _context.SaveChanges();
 
-                walker.Email = login.Email;
+             
 
             }
-
-            _context.Logins.Add(login);
-
+        
             _context.SaveChanges();
 
             return RedirectToAction("Login", "Login");
