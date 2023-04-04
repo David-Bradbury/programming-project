@@ -23,8 +23,8 @@ namespace ProgrammingProject.Models
         public string SuburbName  { get; set; }
 
         [StringLength(4)]
-        [RegularExpression("[1-9]{1}[0-9]{3}",
-    ErrorMessage = "Must be 4 digits")]
+        [RegularExpression(@"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)",
+    ErrorMessage = "Must be a valid Australia postcode with 4 digits")]
         public string Postcode { get; set; }
 
         [Required, StringLength(3), RegularExpression("NSW|QLD|SA|WA|TAS|VIC|NT|ACT",
