@@ -21,6 +21,10 @@ namespace ProgrammingProject.Models
         [Required, StringLength(100)]
 
         public string SuburbName  { get; set; }
+
+        [StringLength(4)]
+        [RegularExpression("[1-9]{1}[0-9]{3}",
+    ErrorMessage = "Must be 4 digits")]
         public string Postcode { get; set; }
 
         [Required, StringLength(3), RegularExpression("NSW|QLD|SA|WA|TAS|VIC|NT|ACT",
@@ -28,7 +32,11 @@ namespace ProgrammingProject.Models
         public string State { get; set; }
         [Required, StringLength(100)]
         public string Country { get; set; }
-        [Required, StringLength(50)]
+
+        [StringLength(12)]
+        [RegularExpression("04[0-9]{8}",
+    ErrorMessage = "Must be a mobile phone number starting with 04")]
+        [Display(Name = "Mobile Phone Number")]
         public string PhNumber { get; set; }
 
         [Display(Name = "Are you insured? Tick if yes")]
