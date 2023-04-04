@@ -74,6 +74,8 @@ namespace ProgrammingProject.Controllers
                 ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
             // Add Email REGEX test here, needs to at the least match what the data annotation for EmailAddress accepts.
 
+            // Also add  stringlength regex checking here too.
+
 
             if (!ModelState.IsValid)
             {
