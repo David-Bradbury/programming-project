@@ -28,7 +28,6 @@ namespace ProgrammingProject.Models
         [Required]
         public ExperienceLevel ExperienceLevel { get; set; }
 
-
         public virtual Suburb Suburb { get; set; }
         public virtual List<Walks> Walks { get; set; }
         public virtual List<WalkingSession> WalkingSessions { get; set; }

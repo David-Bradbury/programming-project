@@ -12,11 +12,11 @@ namespace ProgrammingProject.Models
     }
     public enum Temperament
     {
-        NonReactive = 1,
-        Calm = 2,
-        Friendly = 3,
-        Reactive = 4,
-        Aggresive = 5
+        NonReactive = -1,
+        Calm = 0,
+        Friendly = 1,
+        Reactive = 2,
+        Aggresive = 3
     }
     public enum TrainingLevel
     {

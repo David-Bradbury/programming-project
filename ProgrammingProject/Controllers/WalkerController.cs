@@ -1,11 +1,12 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ProgrammingProject.Controllers
 {
     //Mask URL
-    [Route("/Walker")]
+    [Route("/Walker/[action]")]
     public class WalkerController : Controller
     {
         private readonly EasyWalkContext _context;
@@ -24,7 +25,10 @@ namespace ProgrammingProject.Controllers
         {
             //lazy loading
             var walker = await _context.Walkers.FindAsync(WalkerID);
-            return View(walker);
+            //return View(walker);
+            ViewBag.Walker = walker;
+            ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
+            return View();
         }
 
         //public async Task<IActionResult> Walker(int id)
@@ -78,69 +82,107 @@ namespace ProgrammingProject.Controllers
 
         //public async Task<IActionResult> MatchDogsToWalker(int id) => View(await _context.Dogs.FindAsync(id));
 
-        //[HttpPost]
-        //public async Task MatchDogsToWalker(int id)
-        //{
+        [HttpPost]
+        public async Task<List<Dog>> MatchDogsToWalker(int id)
+        //public async Task<IActionResult> MatchDogsToWalker(int id)
+        {
 
-        //    //var dogs = await _context.Dogs.FindAsync();
-        //    var dogs = _context.Dogs.AsQueryable<Dog>;
+            // Get full list of dogs
+            var dogs = _context.Dogs.AsEnumerable();
 
-        //    var walker = await _context.Walkers.FindAsync(id);
+            // Get specific walker
+            var walker = await _context.Walkers.FindAsync(id);
 
+            // Get list of dogs suited for the walker
+            var tempList = await GetListOfSuitableDogsToWalkers(walker, (IEnumerable<Dog>)dogs);
 
-        //    var tempList = new List<Dog>();
+            // passes the list of dogs to be filtered down based on specific parameters.
+            var filteredDogs = FilterDogs(tempList);
 
-        //    var score = 0;
+            // Return filteredDog to View. View to list suitable dogs
+            // with contact details/button for the walker to select.
+            // Might be worth returning an IPagedList .DP
+            // ViewBag.Dog = tempList; --Uncomment after testing and remove return statement.
+            // Or create another method which calls this for added abstraction.DP
 
-        //    foreach (var dog in dogs)
-        //    {
-        //        // Sets a difficulty score to the dog
-        //        if (dog != null)
-        //        {
-        //            score += (int)dog.DogSize;
-        //            score += (int)dog.Temperament;
-        //        }
+            return filteredDogs;
+        }
 
-        //        // Below matches dog to suitable Walkers
-        //        if ((int)walker.ExperienceLevel == 4)
-        //        {
-        //            tempList.Add(dog);
-        //        }
-        //        else if ((int)walker.ExperienceLevel == 3 && score < 7)
-        //        {
-        //            tempList.Add(dog);
-        //        }
-        //        else if ((int)walker.ExperienceLevel == 2 && score < 5)
-        //        {
-        //            tempList.Add(dog);
-        //        }
-        //        else if ((int)walker.ExperienceLevel == 1 && score < 3)
-        //        {
-        //            tempList.Add(dog);
-        //        }
+        // Filter list of dogs based off specific rules
+        public List<Dog> FilterDogs(List<Dog> dogs)
+        {
+            var filteredDogs = new List<Dog>();
+            
+            foreach (var d in dogs)
+            {
+                if (d.IsVaccinated == true && d.Vet != null)
+                    filteredDogs.Add(d);
+            }
 
-        //    }
+            return filteredDogs;
 
-        //    // TODO: Could add logic here to filter list down based on user preferences.
-        //    // E.g.Location or dates/times. Some filter work started below...
+            // Notes to discuss: AllowUnvaccinated as a question
+            // when adding walker (saved to model). Allows user to set requirements and
+            // makes filtering easy (as per below).
 
-        //    // Notes to discuss: AllowUnvaccinated as a question
-        //    // when adding walker (saved to model). Allows user to set requirements and
-        //    // makes filtering easy (as per below).
+            // TODO: Could add logic here to filter list down based on user preferences.
+            // E.g.Location or dates/times. Some filter work started below...
+        }
 
-        //    foreach (var temp in tempList)
-        //    {
-        //        if (temp.IsVaccinated == false /*&& walker.AllowUnvaccinated == false */)
-        //            tempList.Remove(temp);
-        //        if (temp.Vet == null)
-        //            tempList.Remove(temp);
-        //    }
+        public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IEnumerable<Dog> dogs)
+        {
 
-        //    // Return tempList to View. View to list suitable dogs
-        //    // with contact details/button for the walker to select.
-        //    // Might be worth returning an IPagedList .DP
-        //    ViewBag.Dog = tempList;
-        //}
+            var tempList = new List<Dog>();
+            var score = 0;
+
+            foreach (var dog in dogs)
+            {
+                if (dog != null)
+                {
+                    score = await GetDogTraitScore(dog);
+                }
+                if (walker != null)
+                {
+                    if ((int)walker.ExperienceLevel == 4)
+                    {
+                        tempList.Add(dog);
+                    }
+                    else if ((int)walker.ExperienceLevel == 3 && score <= 6)
+                    {
+                        tempList.Add(dog);
+                    }
+                    else if ((int)walker.ExperienceLevel == 2 && score <= 4)
+                    {
+                        tempList.Add(dog);
+                    }
+                    else if ((int)walker.ExperienceLevel == 1 && score <= 3)
+                    {
+                        tempList.Add(dog);
+                    }
+                }
+            }
+
+            return tempList;
+        }
+
+        // Sets a difficulty score to the dog
+        public async Task<int> GetDogTraitScore(Dog dog)
+        {
+            var score = 0;
+
+            if (dog != null)
+            {
+                score += (int)dog.DogSize;
+                score += (int)dog.Temperament;
+            }
+
+            return await Task.FromResult(score);
+        }
+
+        public static implicit operator WalkerController(string v)
+        {
+            throw new NotImplementedException();
+        }
 
 
         // Add dog to walking session

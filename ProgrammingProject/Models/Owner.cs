@@ -14,7 +14,6 @@ namespace ProgrammingProject.Models
         public string Country { get; set; }
         [Required, StringLength(50)]
         public string PhNumber { get; set; }  
-        
         public virtual Suburb Suburb { get; set; }
         public virtual List<Dog> Dogs { get; set; }
         public virtual List<WalkerRating> WalkerRatings { get; set;}
