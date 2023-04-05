@@ -25,16 +25,16 @@
                             </span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout">Logout</a>
+                            <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>
                         </li>
                     }
                     else {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Login" asp-action="Login">Login</a>
+                            <a class="nav-link" asp-controller="Login" asp-action="Login">Login</a>
                         </li>
                     }
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                 </ul>
 
@@ -42,3 +42,19 @@
         </div>
     </nav>
 </div>
+
+<script>
+    // remove active from all menu items
+    var navItems = document.querySelectorAll('li.active')
+    navItems.forEach(i => {
+        i.classList.remove('active')
+    })
+
+    // find menu item where href matches page location; make active
+    var selector = 'a[href="' + location.pathname + '"].nav-link';
+    var activeItem = document.querySelector(selector)
+    if (activeItem != null) {
+        activeItem.parentElement.classList.add('active')
+    }
+
+</script>
