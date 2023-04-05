@@ -3,6 +3,7 @@ using ProgrammingProject.Models;
 using ProgrammingProject.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ProgrammingProject.Controllers
 {
@@ -30,8 +31,44 @@ namespace ProgrammingProject.Controllers
         {
             viewModel.AccountTypeSelection = id;
 
+            List<string> statesList = new List<string>
+            {
+                "South Australia",
+                "Victoria",
+                "Western Australia",
+                "Northern Territory",
+                "New South Wales",
+                "Australian Capital Territory",
+                "Queensland",
+                "Tasmania"
+            };
+
+            viewModel.StatesList = new List<SelectListItem>();
+
+            foreach (var state in statesList)
+            {
+                viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
+            }
+
             return View(viewModel);
         }
+
+        //public List<string> GetStates()
+        //{
+        //    return new List<String>
+        //    {
+        //        "South Australia",
+        //        "Victoria",
+        //        "Western Australia",
+        //        "Northern Territory",
+        //        "New South Wales",
+        //        "Australian Capital Territory",
+        //        "Queensland",
+        //        "Tasmania"
+        //    };
+        //}
+
+
         [HttpPost]
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
                                                                 string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password, string confirmPassword)
@@ -48,6 +85,8 @@ namespace ProgrammingProject.Controllers
                 ModelState.AddModelError(nameof(streetAddress), "The address is required.");
             if (suburbName == null)
                 ModelState.AddModelError(nameof(suburbName), "The suburb name is required.");
+            if (state == null)
+                ModelState.AddModelError(nameof(state), "The state is required.");
             if (postcode == null)
                 ModelState.AddModelError(nameof(postcode), "The postcode is required.");
             if (country == null)
@@ -63,14 +102,11 @@ namespace ProgrammingProject.Controllers
                 if (l.Email == email)
                     ModelState.AddModelError(nameof(email), "This email is already registered in the system. Please try with a different email address.");
            
-            // ALL NEEDS TESTING. JC 
-            // Might be worth changing to add full state/territory names. discuss with group JC
-            if (!Regex.IsMatch(state, "NSW|QLD|SA|WA|TAS|VIC|NT|ACT"))
-                ModelState.AddModelError(nameof(state), "This is not a valid Australia State or Territory. Please enter an Australian State or Territory");
+            // ALL NEEDS TESTING. JC        
             if (!Regex.IsMatch(postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
                 ModelState.AddModelError(nameof(postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
             // Will need to change to add different mobile entry options, such as 04xx xxx xxx or +614xx xxx xxx or various other combinations. JC
-            if (!Regex.IsMatch(phNumber, "04[0-9]{8}"))
+            if (!Regex.IsMatch(phNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
                 ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
             // Add Email REGEX test here, needs to at the least match what the data annotation for EmailAddress accepts.
 
@@ -117,6 +153,7 @@ namespace ProgrammingProject.Controllers
                 owner.FirstName = firstName;
                 owner.LastName = lastName;
                 owner.Email = email;
+                owner.State = state;
                 owner.StreetAddress = streetAddress;
                 owner.Suburb = suburb;
                 owner.Country = country;
@@ -136,6 +173,7 @@ namespace ProgrammingProject.Controllers
                 walker.LastName = lastName;
                 walker.Email = email;
                 walker.StreetAddress = streetAddress;
+                walker.State = state;
                 walker.Suburb = suburb;
                 walker.Country = country;
                 walker.PhNumber = phNumber;

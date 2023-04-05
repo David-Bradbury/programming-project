@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace ProgrammingProject.Models
@@ -27,15 +28,14 @@ namespace ProgrammingProject.Models
     ErrorMessage = "Must be a valid Australia postcode with 4 digits")]
         public string Postcode { get; set; }
 
-        [Required, StringLength(3), RegularExpression("NSW|QLD|SA|WA|TAS|VIC|NT|ACT",
-            ErrorMessage = "Must be  2 or 3 letter Australian state or territory (in CAPS)")]
+        [Required, StringLength(30)]
         public string State { get; set; }
         [Required, StringLength(100)]
         public string Country { get; set; }
 
         [StringLength(12)]
-        [RegularExpression("04[0-9]{8}",
-    ErrorMessage = "Must be a mobile phone number starting with 04")]
+        [RegularExpression(@"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$",
+    ErrorMessage = "Must be an Australian phone number starting (Example 04XX XXX XXX")]
         [Display(Name = "Mobile Phone Number")]
         public string PhNumber { get; set; }
 
@@ -50,6 +50,8 @@ namespace ProgrammingProject.Models
 
         [Compare("Password", ErrorMessage = "The password does not match")]
         public string ConfirmPassword { get; set; }
+
+        public List<SelectListItem> StatesList { get; set; }
     }
 }
 
