@@ -50,8 +50,12 @@
         i.classList.remove('active')
     })
 
+    // Assumes all links are of the form /Controllername with a capital letter.
+    var pathname = location.pathname.length > 1 ? location.pathname.charAt(0) + location.pathname.charAt(1).toUpperCase() + location.pathname.substring(2) : location.pathname;
+    if (pathname == '/Home') pathname = '/'
+
     // find menu item where href matches page location; make active
-    var selector = 'a[href="' + location.pathname + '"].nav-link';
+    var selector = 'a[href="' + pathname + '"].nav-link';
     var activeItem = document.querySelector(selector)
     if (activeItem != null) {
         activeItem.parentElement.classList.add('active')
