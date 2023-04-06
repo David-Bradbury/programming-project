@@ -2,5 +2,11 @@
 
 -Possibly worth looking into whether we sepearate a listing into requests and offers.
 
--Need to also create user types. E.g. Admin + user. - Worth making an abstract class of a user and then only including sub classes for different types. Or simply create enum of the different user types and include as an object variable.
-- (DB )Re admin account, I think one of the requirements was to have seperate classes for these accounts
+- Need to create Password regex for valid passwords
+
+- Need to change address form or registerviewmodel and perhaps change to autocomplete complete address using google api
+
+- Need to fix mobile number regex
+
+- Maybe import db with all australian postcodes and instead of using regex check postcode against db entries
+
