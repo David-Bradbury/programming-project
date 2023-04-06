@@ -5,10 +5,12 @@
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[0].use[3]!./node_modules/sass-loader/dist/cjs.js!./wwwroot/scss/site.scss (1) ***!
   \*******************************************************************************************************************************************************************************************/
+/* font */
 @font-face {
   font-family: BoldenVan;
   src: url(31b6b12d22f0ef3ddb4c.ttf); }
 
+/* breakpoints */
 /*!
  * Bootstrap v4.6.2 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors
@@ -7240,19 +7242,9 @@ body {
 
 /* navbar */
 /********************************************************************/
-/*
-.nav-item {
-    &.active, &:hover {
-        text-decoration: underline;
-        text-decoration-color: $primary;
-        text-decoration-thickness: 20%;
-    }
-    &:hover {
-
-    }
-}*/
 .nav-link {
-  position: relative; }
+  position: relative;
+  width: max-content; }
   .nav-link::after {
     content: '';
     position: absolute;
@@ -7281,5 +7273,5 @@ body {
   transform: scale(1); }
 
 /********************************************************************/
-/* end navbar styling*/
+/* end navbar styling */
 
