@@ -12,48 +12,51 @@
             <input asp-for=AccountTypeSelection type="hidden" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+               <input asp-for="FirstName" class="form-control" data-val="true"
+                       data-val-required="The First Name field is required." />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
 
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" data-val="true"
-                       data-val-required="The Username field is required." />
+                       data-val-required="The Last Name field is required." />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" data-val="true"
-                       data-val-required="Email field is required." />
+                       data-val-required="The Email field is required." />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StreetAddress" class="control-label"></label>
                 <input asp-for="StreetAddress" class="form-control" data-val="true"
-                       data-val-required="The address field is required." />
+                       data-val-required="The Address field is required." placeholder="1 This Avenue"/>
                 <span asp-validation-for="StreetAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SuburbName" class="control-label"></label>
                 <input asp-for="SuburbName" class="form-control" data-val="true"
-                       data-val-required="The suburb field is required." />
+                       data-val-required="The Suburb field is required." />
                 <span asp-validation-for="SuburbName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Postcode" class="control-label"></label>
                 <input asp-for="Postcode" class="form-control" data-val="true"
-                       data-val-required="Postcode is required." />
+                       data-val-required="The Postcode field is required." />
                 <span asp-validation-for="Postcode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
+                <select class="form-select" asp-items="Model.StatesList" asp-for="State">
+                    <option value="" hidden>-- Please Select A State --</option>
+                </select>
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" data-val="true"
+                <input asp-for="Country" class="form-control" Value="Australia" readonly="true" data-val="true"
                        data-val-required="The country is required." />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
