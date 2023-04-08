@@ -18,17 +18,22 @@
                     @{
                         var isLoggedIn = Context.Session.GetInt32(nameof(Owner.UserId)).HasValue;
                     }
-                    @if (isLoggedIn) {
+                    @if (isLoggedIn)
+                    {
                         <li class="nav-item">
                             <span class="nav-link text-dark">
                                 Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
                             </span>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" asp-controller="Profile" asp-action="YourProfile">Your Profile</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>
                         </li>
                     }
-                    else {
+                    else
+                    {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Login" asp-action="Login">Login</a>
                         </li>
