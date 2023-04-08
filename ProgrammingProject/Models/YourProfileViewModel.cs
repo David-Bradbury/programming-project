@@ -1,4 +1,8 @@
-﻿namespace ProgrammingProject.Models
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace ProgrammingProject.Models
 {
     public class YourProfileViewModel
     {
@@ -36,6 +40,5 @@
         [Compare("Password", ErrorMessage = "The password does not match")]
         public string ConfirmPassword { get; set; }
 
-        public List<SelectListItem> StatesList { get; set; }
     }
 }

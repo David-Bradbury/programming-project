@@ -25,7 +25,9 @@ namespace ProgrammingProject.Controllers
 
         public async Task<IActionResult> YourProfile()
         {
+            var viewModel = new YourProfileViewModel();
 
+            return View(viewModel);
         }
 
     }
