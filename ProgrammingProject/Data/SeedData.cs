@@ -13,8 +13,8 @@ namespace ProgrammingProject.Data
 
 
             //  Look for any Owners.
-            if (context.Owners.Any())
-            return; // DB has been seeded already.
+            //if (context.Owners.Any())
+            //    return; // DB has been seeded already.
 
 
             // Seed Suburbs
@@ -325,6 +325,20 @@ namespace ProgrammingProject.Data
             dog4.Vet = vet3;
 
             context.Dogs.Add(dog4);
+
+            // seed walkingSessions
+
+            var walk = new WalkingSession();
+            walk.StartTime = DateTime.Now;
+            walk.EndTime = DateTime.Now.AddHours(1);
+            walk.WalkerID = 4;
+
+            var walk1 = new WalkingSession();
+            walk.StartTime = DateTime.Now.AddHours(2);
+            walk.EndTime = DateTime.Now.AddHours(3);
+            walk.WalkerID = 4;
+
+            context.WalkingSessions.Add(walk1);
 
             context.SaveChanges();
         }

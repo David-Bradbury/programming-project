@@ -32,6 +32,27 @@
 <br />
 
 <div>
+    <h3>Walker Sessions</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="table-primary">Start Time</th>
+                <th class="table-primary">End Time</th>
+            </tr>
+
+            @foreach (var walk in walker.WalkingSessions)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => walk.StartTime)</td>
+                    <td>@Html.DisplayFor(x => walk.EndTime)</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
     <h3>Suitable Dogs</h3>
 
     <div class="table-responsive">

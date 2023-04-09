@@ -2,7 +2,7 @@
 using ProgrammingProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProgrammingProject.Controllers
 {
@@ -185,14 +185,44 @@ namespace ProgrammingProject.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateWalkingSessions(DateTime Date, DateTime StartTime, DateTime EndTime)
+        {
+
+            var walker = await _context.Walkers.FindAsync(WalkerID);
+
+            var walkingSessions = await _context.WalkingSessions.ToListAsync();
+
+            if (Date == null || Date < DateTime.UtcNow)
+                ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
+            if (StartTime == null)
+                ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
+            if (EndTime == null || EndTime < StartTime)
+                ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
+
+            walkingSessions.Add(
+            new WalkingSession
+            {
+                StartTime = StartTime,
+                EndTime = EndTime,
+                WalkerID = walker.UserId,
+                Walker = walker,
+            });
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
+            //return View();
+        }
 
         //public async Task<IActionResult> SelectWalkingSession(int DogID) => View(await _context.Dogs.FindAsync(DogID));
 
         [HttpPost]
         public async Task<IActionResult> WalkingSessions(int DogID)
         {
-            // logic to add dog to walking session.
-            var dog = await _context.Dogs.FindAsync(DogID);
+            //// logic to add dog to walking session.
+            //var dog = await _context.Dogs.FindAsync(DogID);
 
             var walkerSessions = _context.WalkingSessions.AsEnumerable();
 
