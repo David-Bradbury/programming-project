@@ -11,6 +11,27 @@
 </div>
 
 <div>
+    <form asp-action="CreateWalkingSession">
+            <p class="display-4">Create New Walking Session</p>
+            <label for="Date" class="control-label">Date of Walk</label>
+            <input type="date" id="Date" name="Date" class="form-control" value=""
+                   data-val="true" data-val-date="The field Date must be a date."
+                   data-val-required="The date field is required." />
+            <label for="StartTime" class="control-label">Start Time of Walk</label>
+            <input type="time" id="StartTime" name="StartTime" class="form-control" value=""
+                   data-val="true" data-val-time="The field StartTimne must be a time."
+                   data-val-required="The StartTime field is required." />
+            <label for="EndTime" class="control-label">End Time of Walk</label>
+            <input type="time" id="EndTime" name="EndTime" class="form-control" value=""
+                   data-val="true" data-val-time="The field EndTime must be a time."
+                   data-val-required="The EndTime field is required." />
+            <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
+                   value="Create Walking Session" asp-route-id="CreateWalkingSessions" />      
+    </form>
+</div>
+<br />
+
+<div>
     <h3>Suitable Dogs</h3>
 
     <div class="table-responsive">
@@ -21,7 +42,6 @@
                 <th class="table-primary">@Html.DisplayNameFor(x => x.Name)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.Temperament)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.TrainingLevel)</th>
-                @*<th class="table-primary">@Html.DisplayNameFor(x => x.Owner.FirstName)</th>*@
                 <th class="table-primary">Owners First Name</th>
                 <th class="table-primary">Action</th>
             </tr>
@@ -29,7 +49,6 @@
             @foreach (var dog in dogs)
             {
                 <tr>
-                    @*<td>@Html.DisplayFor(x => dog.Breed)</td>*@
                     <td>@Html.DisplayFor(x => dog.Breed)</td>
                     <td>@Html.DisplayFor(x => dog.DogSize)</td>
                     <td>@Html.DisplayFor(x => dog.Name)</td>
