@@ -2,6 +2,7 @@
 using ProgrammingProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Data.Entity;
 
 namespace ProgrammingProject.Controllers
 {
@@ -184,6 +185,34 @@ namespace ProgrammingProject.Controllers
             throw new NotImplementedException();
         }
 
+
+        //public async Task<IActionResult> SelectWalkingSession(int DogID) => View(await _context.Dogs.FindAsync(DogID));
+
+        [HttpPost]
+        public async Task<IActionResult> WalkingSessions(int DogID)
+        {
+            // logic to add dog to walking session.
+            var dog = await _context.Dogs.FindAsync(DogID);
+
+            var walkerSessions = _context.WalkingSessions.AsEnumerable();
+
+            //var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
+
+            var walkingSession = new List<WalkingSession>();
+
+            foreach (var walker in walkerSessions)
+            {
+                if (walker != null && DateTime.UtcNow <= walker.StartTime)
+                {
+                    walkingSession.Add(walker);
+                }
+            }
+
+            ViewBag.WalkingSession = walkingSession;
+            ViewBag.DogID = DogID;
+
+            return View();
+        }
 
         // Add dog to walking session
 

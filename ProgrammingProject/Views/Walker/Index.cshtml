@@ -21,7 +21,9 @@
                 <th class="table-primary">@Html.DisplayNameFor(x => x.Name)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.Temperament)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.TrainingLevel)</th>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.Owner.FirstName)</th>
+                @*<th class="table-primary">@Html.DisplayNameFor(x => x.Owner.FirstName)</th>*@
+                <th class="table-primary">Owners First Name</th>
+                <th class="table-primary">Action</th>
             </tr>
 
             @foreach (var dog in dogs)
@@ -34,6 +36,14 @@
                     <td>@Html.DisplayFor(x => dog.Temperament)</td>
                     <td>@Html.DisplayFor(x => dog.TrainingLevel)</td>
                     <td>@Html.DisplayFor(x => dog.Owner.FirstName)</td>
+                    <form asp-action="WalkingSessions">
+                    <td>
+                        <input name="DogID" class="form-control"
+                           type="hidden" value="@dog.Id" />
+                        <input type="submit" class="btn btn-primary" asp-action="WalkingSessions"
+                           value="Add Dog To Walking Session" asp-route-id="WalkingSessions" />
+                    </td>
+                    </form>
                 </tr>
             }
         </table>
