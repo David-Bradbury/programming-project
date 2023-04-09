@@ -23,7 +23,7 @@ namespace ProgrammingProject.UnitTests
         {
             var mt = new MasterTest();
             _context = mt.CreateContext();
-            _wc = new WalkerController(_context);           
+            _wc = new WalkerController(_context);
 
         }
         [Test]
@@ -45,19 +45,26 @@ namespace ProgrammingProject.UnitTests
         [TestCase(5)]
         [TestCase(6)]
         [Test]
-        public void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs(int a)
+        //public void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs(int a)
+        public async Task MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs(int a)
         {
             var walker = new Walker();
             walker.UserId = a;
+            walker.ExperienceLevel = ExperienceLevel.Advanced;
 
-            Task<List<Dog>> task = _wc.MatchDogsToWalker((int)walker.UserId);
-            task.Wait();
+            //List<Dog> task = await _wc.MatchDogsToWalker((int)walker.UserId);
+            var task = await _wc.MatchDogsToWalker(walker.UserId);
+            //task.Wait();
 
-            var result = task.Result;
+            //var result = task.Result;
 
             // Can improve on this ensure exact amount is produced.
-            Assert.That(result.Count, Is.GreaterThanOrEqualTo(1));
-            
+            Assert.That(task.ToList().FirstOrDefault, Is.InstanceOf<Dog>());
+            //Assert.That(result.Count, Is.GreaterThanOrEqualTo(1));
+
+            // Not sure why test is failing. For some reason the method when
+            // called is not finding any walkers in context even though id is added.DP
+
         }
 
         [Test]
@@ -73,9 +80,9 @@ namespace ProgrammingProject.UnitTests
         }
 
         [Test]
-        [TestCase(DogSize.Small,Temperament.Reactive, 3)]
-        [TestCase(DogSize.Medium,Temperament.Calm, 2)]
-        [TestCase(DogSize.Large,Temperament.NonReactive, 2)]
+        [TestCase(DogSize.Small, Temperament.Reactive, 3)]
+        [TestCase(DogSize.Medium, Temperament.Calm, 2)]
+        [TestCase(DogSize.Large, Temperament.NonReactive, 2)]
         public async Task GetDogTraitScore_WhenCalled_ReturnsTheDogTraitScoreAsync(DogSize a, Temperament b, int expectedResult)
         {
             var dog = new Dog();
