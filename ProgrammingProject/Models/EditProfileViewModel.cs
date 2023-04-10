@@ -9,7 +9,7 @@ namespace ProgrammingProject.Models
         public string UserType { get; set; }
         public string Email { get; set; }
 
-        [Required, StringLength(200), Display(Name = "Street Address")]
+        
         public string SelectedField { get; set; }
 
         [Required, StringLength(50), Display(Name = "First Name")]
@@ -18,7 +18,7 @@ namespace ProgrammingProject.Models
         [Required, StringLength(50), Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Address")]
+        [Required, StringLength(200), Display(Name = "Address")]
         public string StreetAddress { get; set; }
 
         [Required, StringLength(100), Display(Name = "Suburb")]

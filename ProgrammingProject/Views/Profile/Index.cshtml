@@ -66,6 +66,7 @@
                    asp-action="EditProfile" asp-route-id="6">Edit</a>
             </td>
         </tr>
+
         @if(Model.UserType.Equals("Walker")){
         <tr>
             <td><b>@Html.DisplayNameFor(Model => Model.IsInsured): </b> @Model.IsInsured</td>
