@@ -6,23 +6,28 @@ namespace ProgrammingProject.Models
     public class WalkingSession
     {
 
+        // ID (Required but only key)
+
+        // Add date (Required)
+
+        // make scheduled
         [Required]
         public DateTime StartTime { get; set; }
+        // make scheduled
         [Required]
         public DateTime EndTime { get; set; }
         
+        // Add actual start
+
+        // Add actual end
+
         public virtual List<Dog> DogList { get; set; }
 
         [Required]
         public int WalkerID { get; set; }
         public virtual Walker Walker { get; set; }
 
-
-        // TODO: Is it worth having the walking session as a
-        // virtual property in walker? i'm thinking
-        // that it would make it easier to add a dog to a WalkingSession
-        // from the WalkerController class with only the SessionID.DP
-
+        // Boolean of recurring
     }
 }
 

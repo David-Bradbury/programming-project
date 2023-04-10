@@ -263,7 +263,7 @@ namespace ProgrammingProject.Controllers
 
             if (walkerSession.DogList.Count >= 6)
             {
-                ModelState.AddModelError(nameof(walkerSession), "Too many dogs on this walk.");
+                ModelState.AddModelError(nameof(StartTime), "Too many dogs on this walk.");
             }
             else
             {

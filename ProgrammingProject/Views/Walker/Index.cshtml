@@ -14,15 +14,15 @@
     <form asp-action="CreateWalkingSession">
             <p class="display-4">Create New Walking Session</p>
             <label for="Date" class="control-label">Date of Walk</label>
-            <input type="date" id="Date" name="Date" class="form-control" value=""
+            <input type="date" id="Date" name="Date" class="form-control" 
                    data-val="true" data-val-date="The field Date must be a date."
                    data-val-required="The date field is required." />
             <label for="StartTime" class="control-label">Start Time of Walk</label>
-            <input type="time" id="StartTime" name="StartTime" class="form-control" value=""
+            <input type="time" id="StartTime" name="StartTime" class="form-control" 
                    data-val="true" data-val-time="The field StartTimne must be a time."
                    data-val-required="The StartTime field is required." />
             <label for="EndTime" class="control-label">End Time of Walk</label>
-            <input type="time" id="EndTime" name="EndTime" class="form-control" value=""
+            <input type="time" id="EndTime" name="EndTime" class="form-control" 
                    data-val="true" data-val-time="The field EndTime must be a time."
                    data-val-required="The EndTime field is required." />
             <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
