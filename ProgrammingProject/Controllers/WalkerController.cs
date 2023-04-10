@@ -89,7 +89,8 @@ namespace ProgrammingProject.Controllers
         {
 
             // Get full list of dogs
-            var dogs = _context.Dogs.AsEnumerable();
+            var dogs = await _context.Dogs.ToListAsync();
+            //var dogs = _context.Dogs.AsEnumerable();
 
             // Get specific walker
             var walker = await _context.Walkers.FindAsync(id);
@@ -193,11 +194,11 @@ namespace ProgrammingProject.Controllers
 
             var walkingSessions = await _context.WalkingSessions.ToListAsync();
 
-            if (Date == null || Date < DateTime.UtcNow)
+            if (Date < DateTime.UtcNow)
                 ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
-            if (StartTime == null)
-                ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
-            if (EndTime == null || EndTime < StartTime)
+            //if (StartTime == null)
+            //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
+            if (EndTime < StartTime)
                 ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
 
             walkingSessions.Add(
@@ -208,6 +209,8 @@ namespace ProgrammingProject.Controllers
                 WalkerID = walker.UserId,
                 Walker = walker,
             });
+
+            walker.WalkingSessions = walkingSessions;
 
             await _context.SaveChangesAsync();
 
