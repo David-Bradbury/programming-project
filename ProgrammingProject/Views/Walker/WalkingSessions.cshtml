@@ -17,6 +17,7 @@
             <tr>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.StartTime)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.EndTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.DogList)</th>
                 <th class="table-primary">Action</th>
             </tr>
 
@@ -26,13 +27,26 @@
                     @*<td>@Html.DisplayFor(x => dog.Breed)</td>*@
                     <td>@Html.DisplayFor(x => sessions.StartTime)</td>
                     <td>@Html.DisplayFor(x => sessions.EndTime)</td>
+                    @if (sessions.DogList != null)
+                    {
+                        @foreach (var d in sessions.DogList)
+                        {
+                            <td>@Html.DisplayFor(x => d.Name)</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>No Dogs</td>
+                    }
                     <form asp-action="AddDogToWalkingSession">
                     <td>
                         <input name="DogID" class="form-control"
                            type="hidden" value="@dog" />
                         <input name="StartTime" class="form-control"
                            type="hidden" value="@sessions.StartTime" />
-                        <input type="submit" class="btn btn-primary" asp-action="AddDogWalkingSession"
+                           <input name="EndTime" class="form-control"
+                           type="hidden" value="@sessions.EndTime" />
+                        <input type="submit" class="btn btn-primary" asp-action="AddDogToWalkingSession"
                            value="Add Dog To Walking Session" asp-route-id="AddDogToWalkingSession" />
                     </td>
                     </form>

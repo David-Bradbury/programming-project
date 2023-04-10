@@ -114,7 +114,7 @@ namespace ProgrammingProject.Controllers
         public List<Dog> FilterDogs(List<Dog> dogs)
         {
             var filteredDogs = new List<Dog>();
-            
+
             foreach (var d in dogs)
             {
                 if (d.IsVaccinated == true && d.Vet != null)
@@ -250,6 +250,40 @@ namespace ProgrammingProject.Controllers
         // Add dog to walking session
 
         //public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID) => View(await _context.Dogs.FindAsync(DogID));
+
+        [HttpPost]
+        public async Task<IActionResult> AddDogToWalkingSession(int DogID, DateTime StartTime, DateTime EndTime)
+        {
+            // logic to add dog to walking session.
+            var dog = await _context.Dogs.FindAsync(DogID);
+
+            //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+
+            var walkerSession = await _context.WalkingSessions.FindAsync(StartTime, EndTime);
+
+            if (walkerSession.DogList.Count >= 6)
+            {
+                ModelState.AddModelError(nameof(walkerSession), "Too many dogs on this walk.");
+            }
+            else
+            {
+                walkerSession.DogList.Add(dog);
+                //walkerSession.Add(
+                //    new WalkingSession
+                //    {
+                //        StartTime = StartTime,
+                //        EndTime = EndTime,
+                //        WalkerID = walker.UserId,
+                //        Walker = walker,
+                //    });
+
+                //walker.WalkingSessions = walkingSessions;
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
         //[HttpPost]
         //public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID)
