@@ -10,24 +10,25 @@ namespace ProgrammingProject.Controllers
     {
         private readonly EasyWalkContext _context;
         private bool isOwner;
-        private int? OwnerID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
-        private int? WalkerID => HttpContext.Session.GetInt32(nameof(Walker.UserId)).Value;
+        private int UserID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
+
        
         [AuthorizeUser]
         public ProfileController(EasyWalkContext context)
         {
             _context = context;
-            if (OwnerID == null || WalkerID != null)
-            {
-                isOwner = false;
-            }
+
         }
 
-        public async Task<IActionResult> YourProfile()
+        [AuthorizeUser]
+        public async Task<IActionResult> Index()
         {
-            var viewModel = new YourProfileViewModel();
+            var walker = await _context.Walkers.FindAsync(UserID);
+            //return View(walker);
+            ViewBag.Walker = walker;
 
-            return View(viewModel);
+            return View();
+
         }
 
     }

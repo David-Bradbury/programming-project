@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Walker";
+    var walker = (Walker)ViewBag.Walker;
+}
+
+<div>
+    <h1 class="display-4">This is, @walker.FirstName @walker.LastName</h1>
+    <h6 class="display-4">@walker.FirstName is a Walker, this is her profile</h6>
+</div>
