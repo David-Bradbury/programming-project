@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class _6of4of23Update : Migration
+    public partial class AmmendedWalkingSessionModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -156,13 +156,19 @@ namespace ProgrammingProject.Migrations
                 name: "WalkingSessions",
                 columns: table => new
                 {
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WalkerID = table.Column<int>(type: "int", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SessionID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ScheduledStartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ScheduledEndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActualStartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActualEndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsRecurring = table.Column<bool>(type: "bit", nullable: false),
+                    WalkerID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WalkingSessions", x => new { x.WalkerID, x.StartTime });
+                    table.PrimaryKey("PK_WalkingSessions", x => x.SessionID);
                     table.ForeignKey(
                         name: "FK_WalkingSessions_User_WalkerID",
                         column: x => x.WalkerID,
@@ -221,12 +227,11 @@ namespace ProgrammingProject.Migrations
                 columns: table => new
                 {
                     DogListId = table.Column<int>(type: "int", nullable: false),
-                    WalkingSessionsWalkerID = table.Column<int>(type: "int", nullable: false),
-                    WalkingSessionsStartTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    WalkingSessionsSessionID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DogWalkingSession", x => new { x.DogListId, x.WalkingSessionsWalkerID, x.WalkingSessionsStartTime });
+                    table.PrimaryKey("PK_DogWalkingSession", x => new { x.DogListId, x.WalkingSessionsSessionID });
                     table.ForeignKey(
                         name: "FK_DogWalkingSession_Dogs_DogListId",
                         column: x => x.DogListId,
@@ -234,10 +239,10 @@ namespace ProgrammingProject.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DogWalkingSession_WalkingSessions_WalkingSessionsWalkerID_WalkingSessionsStartTime",
-                        columns: x => new { x.WalkingSessionsWalkerID, x.WalkingSessionsStartTime },
+                        name: "FK_DogWalkingSession_WalkingSessions_WalkingSessionsSessionID",
+                        column: x => x.WalkingSessionsSessionID,
                         principalTable: "WalkingSessions",
-                        principalColumns: new[] { "WalkerID", "StartTime" },
+                        principalColumn: "SessionID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -257,9 +262,9 @@ namespace ProgrammingProject.Migrations
                 column: "VetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DogWalkingSession_WalkingSessionsWalkerID_WalkingSessionsStartTime",
+                name: "IX_DogWalkingSession_WalkingSessionsSessionID",
                 table: "DogWalkingSession",
-                columns: new[] { "WalkingSessionsWalkerID", "WalkingSessionsStartTime" });
+                column: "WalkingSessionsSessionID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",
@@ -281,6 +286,11 @@ namespace ProgrammingProject.Migrations
                 name: "IX_WalkerRatings_OwnerID",
                 table: "WalkerRatings",
                 column: "OwnerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WalkingSessions_WalkerID",
+                table: "WalkingSessions",
+                column: "WalkerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Walks_Postcode",

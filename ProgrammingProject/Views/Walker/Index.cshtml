@@ -44,8 +44,8 @@
             @foreach (var walk in walker.WalkingSessions)
             {
                 <tr>
-                    <td>@Html.DisplayFor(x => walk.StartTime)</td>
-                    <td>@Html.DisplayFor(x => walk.EndTime)</td>
+                    <td>@Html.DisplayFor(x => walk.ScheduledStartTime)</td>
+                    <td>@Html.DisplayFor(x => walk.ScheduledEndTime)</td>
                 </tr>
             }
         </table>

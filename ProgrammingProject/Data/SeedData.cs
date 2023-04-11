@@ -333,15 +333,15 @@ namespace ProgrammingProject.Data
             dogs.Add(dog3);
 
             var walk = new WalkingSession();
-            walk.StartTime = DateTime.Now;
-            walk.EndTime = DateTime.Now.AddHours(1);
+            walk.ScheduledStartTime = DateTime.Now;
+            walk.ScheduledEndTime = DateTime.Now.AddHours(1);
             walk.WalkerID = 4;
             walk.Walker = walker1;
             walk.DogList = dogs;
 
             var walk1 = new WalkingSession();
-            walk1.StartTime = DateTime.Now.AddHours(2);
-            walk1.EndTime = DateTime.Now.AddHours(3);
+            walk1.ScheduledStartTime = DateTime.Now.AddHours(2);
+            walk1.ScheduledEndTime = DateTime.Now.AddHours(3);
             walk1.WalkerID = 4;
             walk1.Walker = walker1;
             walk1.DogList = dogs;

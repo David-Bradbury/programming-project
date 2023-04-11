@@ -15,6 +15,7 @@
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <tr>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.SessionID)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledStartTime)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledEndTime)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.DogList)</th>
@@ -24,7 +25,7 @@
             @foreach (var sessions in walks)
             {
                 <tr>
-                    @*<td>@Html.DisplayFor(x => dog.Breed)</td>*@
+                    <td>@Html.DisplayFor(x => sessions.SessionID)</td>
                     <td>@Html.DisplayFor(x => sessions.ScheduledStartTime)</td>
                     <td>@Html.DisplayFor(x => sessions.ScheduledEndTime)</td>
                     @if (sessions.DogList != null)

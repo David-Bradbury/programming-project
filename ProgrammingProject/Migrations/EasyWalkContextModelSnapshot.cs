@@ -30,15 +30,12 @@ namespace ProgrammingProject.Migrations
                     b.Property<int>("DogListId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WalkingSessionsWalkerID")
+                    b.Property<int>("WalkingSessionsSessionID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("WalkingSessionsStartTime")
-                        .HasColumnType("datetime2");
+                    b.HasKey("DogListId", "WalkingSessionsSessionID");
 
-                    b.HasKey("DogListId", "WalkingSessionsWalkerID", "WalkingSessionsStartTime");
-
-                    b.HasIndex("WalkingSessionsWalkerID", "WalkingSessionsStartTime");
+                    b.HasIndex("WalkingSessionsSessionID");
 
                     b.ToTable("DogWalkingSession");
                 });
@@ -241,16 +238,36 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.WalkingSession", b =>
                 {
+                    b.Property<int>("SessionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SessionID"));
+
+                    b.Property<DateTime>("ActualEndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ActualStartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRecurring")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ScheduledEndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ScheduledStartTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("WalkerID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.HasKey("SessionID");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("WalkerID", "StartTime");
+                    b.HasIndex("WalkerID");
 
                     b.ToTable("WalkingSessions");
                 });
@@ -376,7 +393,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasOne("ProgrammingProject.Models.WalkingSession", null)
                         .WithMany()
-                        .HasForeignKey("WalkingSessionsWalkerID", "WalkingSessionsStartTime")
+                        .HasForeignKey("WalkingSessionsSessionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
