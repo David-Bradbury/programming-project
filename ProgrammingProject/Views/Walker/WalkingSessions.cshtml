@@ -1,0 +1,58 @@
+﻿@model WalkingSession
+@{
+    ViewData["Title"] = "Walker";
+    var dog = (int)ViewBag.DogID;
+    var walks = (List<WalkingSession>)ViewBag.WalkingSession;
+}
+
+<div>
+    <h1 class="display-4">Walking Sessions</h1>
+</div>
+
+<div>
+    <h3>Suitable Sessions</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.StartTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.EndTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.DogList)</th>
+                <th class="table-primary">Action</th>
+            </tr>
+
+            @foreach (var sessions in walks)
+            {
+                <tr>
+                    @*<td>@Html.DisplayFor(x => dog.Breed)</td>*@
+                    <td>@Html.DisplayFor(x => sessions.StartTime)</td>
+                    <td>@Html.DisplayFor(x => sessions.EndTime)</td>
+                    @if (sessions.DogList != null)
+                    {
+                        @foreach (var d in sessions.DogList)
+                        {
+                            <td>@Html.DisplayFor(x => d.Name)</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>No Dogs</td>
+                    }
+                    <form asp-action="AddDogToWalkingSession">
+                    <td>
+                        <input name="DogID" class="form-control"
+                           type="hidden" value="@dog" />
+                        <input name="StartTime" class="form-control"
+                           type="hidden" value="@sessions.StartTime" />
+                           <input name="EndTime" class="form-control"
+                           type="hidden" value="@sessions.EndTime" />
+                        <input type="submit" class="btn btn-primary" asp-action="AddDogToWalkingSession"
+                           value="Add Dog To Walking Session" asp-route-id="AddDogToWalkingSession" />
+                    </td>
+                    </form>
+                </tr>
+            }
+        </table>
+    </div>
+
+</div>
