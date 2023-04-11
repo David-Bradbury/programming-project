@@ -54,15 +54,7 @@ namespace ProgrammingProject.Data
             .WithMany(ws => ws.WalkingSessions)
             .HasForeignKey(ws => ws.WalkerID)
             .OnDelete(DeleteBehavior.ClientCascade);
-
-            modelBuilder.Entity<WalkingSession>()
-            .HasKey(ws => new
-            {
-                ws.WalkerID,
-                ws.StartTime
-            });
-
-            
+               
             modelBuilder.Entity<User>()
             .HasOne(l => l.Login)
             .WithOne(u => u.User)
