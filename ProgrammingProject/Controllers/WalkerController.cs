@@ -197,28 +197,27 @@ namespace ProgrammingProject.Controllers
             if (EndTime < StartTime)
                 ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
 
-            Date.Add(StartTime.TimeOfDay);
-            DateTime end = Date;
-            end.Add(EndTime.TimeOfDay);
+            DateTime start = new DateTime(Date.Year, Date.Month, Date.Day, StartTime.Hour,
+                                          StartTime.Minute, StartTime.Second);
+
+            DateTime end = new DateTime(Date.Year, Date.Month, Date.Day, EndTime.Hour,
+                                          EndTime.Minute, EndTime.Second);
 
             walkingSessions.Add(
             new WalkingSession
             {
                 Date = Date,
-                ScheduledStartTime = Date,
+                ScheduledStartTime = start,
                 ScheduledEndTime = end,
                 WalkerID = walker.UserId,
                 Walker = walker,
             });
 
-            //walker.WalkingSessions = walkingSessions;
             walker.WalkingSessions.Add(walkingSessions.Last());
 
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-
-            //return View();
         }
 
         //public async Task<IActionResult> SelectWalkingSession(int DogID) => View(await _context.Dogs.FindAsync(DogID));
