@@ -55,12 +55,12 @@ namespace ProgrammingProject.Data
             .HasForeignKey(ws => ws.WalkerID)
             .OnDelete(DeleteBehavior.ClientCascade);
 
-            modelBuilder.Entity<WalkingSession>()
-            .HasKey(ws => new
-            {
-                ws.WalkerID,
-                ws.StartTime
-            });
+            //modelBuilder.Entity<WalkingSession>()
+            //.HasKey(ws => new
+            //{
+            //    ws.WalkerID,
+            //    ws.StartTime
+            //});
 
             
             modelBuilder.Entity<User>()
