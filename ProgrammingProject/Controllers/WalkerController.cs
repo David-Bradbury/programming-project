@@ -264,21 +264,14 @@ namespace ProgrammingProject.Controllers
             if (walkerSession.DogList.Count >= 6)
             {
                 ModelState.AddModelError(nameof(StartTime), "Too many dogs on this walk.");
+            } 
+            else if (walkerSession.DogList.Contains(dog))
+            {
+                ModelState.AddModelError(nameof(StartTime), "Dog is already on this walk.");
             }
             else
             {
                 walkerSession.DogList.Add(dog);
-                //walkerSession.Add(
-                //    new WalkingSession
-                //    {
-                //        StartTime = StartTime,
-                //        EndTime = EndTime,
-                //        WalkerID = walker.UserId,
-                //        Walker = walker,
-                //    });
-
-                //walker.WalkingSessions = walkingSessions;
-
                 await _context.SaveChangesAsync();
             }
 
