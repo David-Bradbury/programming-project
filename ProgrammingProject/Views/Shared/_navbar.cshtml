@@ -17,18 +17,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                @if (isLoggedIn) {
-                    <span class="">
-                        Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
-                    </span>
-                }
                 <ul class="navbar-nav">
                     @if (isLoggedIn) {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="@accountType" asp-action="Index">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                                <a class="dropdown-item" asp-controller="Login" asp-action="Logout">Logout</a>
+                            </div>
                         </li>
                     }
                     else {

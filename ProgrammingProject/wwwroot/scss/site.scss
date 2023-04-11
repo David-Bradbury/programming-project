@@ -23,7 +23,7 @@ body {
 
 /* navbar */
 /********************************************************************/
-.nav-link {
+.nav-link:not(.dropdown-toggle) {
     position: relative;
     width: max-content;
 
