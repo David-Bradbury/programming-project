@@ -39,6 +39,7 @@ namespace ProgrammingProject.Models
         public Temperament Temperament { get; set; }
         public DogSize DogSize { get; set; }
         public TrainingLevel TrainingLevel { get; set; }
+        public byte[] image { get; set; }
 
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }

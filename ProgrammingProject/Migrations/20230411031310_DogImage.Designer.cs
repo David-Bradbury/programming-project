@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230406041636_6of4of23Update")]
-    partial class _6of4of23Update
+    [Migration("20230411031310_DogImage")]
+    partial class DogImage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,10 @@ namespace ProgrammingProject.Migrations
 
                     b.Property<int>("VetId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 

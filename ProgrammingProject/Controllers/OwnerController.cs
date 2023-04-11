@@ -12,6 +12,7 @@ namespace ProgrammingProject.Controllers
     {
         private readonly EasyWalkContext _context;
         private int OwnerID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
+        private int DogID => HttpContext.Session.GetInt32(nameof(Dog.Id)).Value;
 
         public OwnerController(EasyWalkContext context)
         {
@@ -32,8 +33,13 @@ namespace ProgrammingProject.Controllers
         //    return View(dog);
         //}
 
-        //// Add a dog to the owner
-        //public async Task<IActionResult> AddDog(int id) => View(await _context.Dogs.FindAsync(id));
+         //Add a dog to the owner
+        //public async Task<IActionResult> AddDog()
+        //{
+        //    // I know this is wrong here! JC
+        //    var dog = await _context.Dogs.FindAsync(DogID);
+        //    return View(dog);
+        //}
 
         //[HttpPost]
         //public async Task<IActionResult> AddDog(int ownerID, DogSize size, Temperament temperament, int id,

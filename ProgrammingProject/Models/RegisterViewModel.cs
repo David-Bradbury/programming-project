@@ -37,6 +37,8 @@ namespace ProgrammingProject.Models
         [Range(1, 4), Display(Name = "Choose between 1= Beginner, 4 = Advanced")]
         public int ExperienceLevel { get; set; }
         [Required]
+        [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$", 
+   ErrorMessage = "Password must contain at least one upper case letter, one lower case letter, a special character, a number, and at least 8 characters in length")]
         public string Password { get; set; }
         [Compare("Password", ErrorMessage = "The password does not match")]
         public string ConfirmPassword { get; set; }

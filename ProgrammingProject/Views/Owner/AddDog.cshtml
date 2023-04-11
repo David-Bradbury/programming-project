@@ -1,0 +1,81 @@
+﻿@model Dog
+
+@{
+    ViewData["Title"] = "Owner";
+}
+
+<h1 class="display-4">Add Dog To Profile</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddDog">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" data-val="true"
+                       data-val-required="Dogs name field is required." />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Breed" class="control-label"></label>
+                <input asp-for="Breed" class="form-control" data-val="true"
+                       data-val-required="Dogs breed field is required." />
+                <span asp-validation-for="Breed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MicrochipNumber" class="control-label"></label>
+                <input asp-for="MicrochipNumber" class="form-control" data-val="true"
+                       data-val-required="Dogs microchip number field is required." />
+                <span asp-validation-for="MicrochipNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsVaccinated" class="control-label"></label>
+                <input asp-for="IsVaccinated" class="form-control" data-val="true"
+                       data-val-required="This field is required." />
+                <span asp-validation-for="IsVaccinated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsVaccinated" class="control-label"></label>
+                <input asp-for="IsVaccinated" class="form-control" data-val="true"
+                       data-val-required="This field is required." />
+                <span asp-validation-for="IsVaccinated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temperament" class="control-label"></label>
+                <input asp-for="Temperament" class="form-control" data-val="true"
+                       data-val-required="This field is required." />
+                <span asp-validation-for="Temperament" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DogSize" class="control-label"></label>
+                <input asp-for="DogSize" class="form-control" data-val="true"
+                       data-val-required="This field is required." />
+                <span asp-validation-for="DogSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrainingLevel" class="control-label"></label>
+                <input asp-for="TrainingLevel" class="form-control" data-val="true"
+                       data-val-required="This field is required." />
+                <span asp-validation-for="TrainingLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="image" class="control-label"></label>
+                <div class="custom-file">
+                <input asp-for="image" class="custom-file-input" id="customFile"> 
+                <label class="custom-file-label" for="image">Upload File</label>
+                </div>
+                <span asp-validation-for="image" class="text-danger"></span>            
+            </div>
+       
+        </form>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        // The following code shows the name of the file  on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}  

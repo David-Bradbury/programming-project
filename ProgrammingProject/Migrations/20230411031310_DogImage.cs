@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class _6of4of23Update : Migration
+    public partial class DogImage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -108,6 +108,7 @@ namespace ProgrammingProject.Migrations
                     Temperament = table.Column<int>(type: "int", nullable: false),
                     DogSize = table.Column<int>(type: "int", nullable: false),
                     TrainingLevel = table.Column<int>(type: "int", nullable: false),
+                    image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     OwnerUserId = table.Column<int>(type: "int", nullable: false),
                     VetId = table.Column<int>(type: "int", nullable: false)
                 },

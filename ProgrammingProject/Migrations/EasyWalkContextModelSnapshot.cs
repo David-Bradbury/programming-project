@@ -83,6 +83,10 @@ namespace ProgrammingProject.Migrations
                     b.Property<int>("VetId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerUserId");
