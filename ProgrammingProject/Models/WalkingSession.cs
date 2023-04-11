@@ -3,31 +3,29 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProgrammingProject.Models
 {
+    // A Walking Session includes a generated ID, A date, scheduled and actual walk times, between dogs and a walker.
     public class WalkingSession
     {
 
-        // ID (Required but only key)
+        [Required, Key]
+        public int SessionID { get; set; }
 
-        // Add date (Required)
-
-        // make scheduled
         [Required]
-        public DateTime StartTime { get; set; }
-        // make scheduled
+        public DateTime Date { get; set; }
         [Required]
-        public DateTime EndTime { get; set; }
-        
-        // Add actual start
+        public DateTime ScheduledStartTime { get; set; }
+        [Required]
+        public DateTime ScheduledEndTime { get; set; }
 
-        // Add actual end
+        public DateTime ActualStartTime { get; set; }
+        public DateTime ActualEndTime { get; set; }
+
+        public bool IsRecurring { get; set; }
 
         public virtual List<Dog> DogList { get; set; }
-
         [Required]
         public int WalkerID { get; set; }
         public virtual Walker Walker { get; set; }
-
-        // Boolean of recurring
     }
 }
 
