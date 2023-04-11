@@ -1,7 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model Owner
 @{
+     
 }
 <div id="navbar">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -27,7 +29,18 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>
                         </li>
-                    }
+
+                     @*   Owner o = new Owner();
+
+                        foreach(var owner in model.Owner)
+                            if(owner.Email == Context.Session.GetString(nameof(Owner.Email)))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Owner" asp-action="AddDog">Add Dog</a>
+                                </li>
+
+                            } *@                                         
+                    }                                     
                     else {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Login" asp-action="Login">Login</a>

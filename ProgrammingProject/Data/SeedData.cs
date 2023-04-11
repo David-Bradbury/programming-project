@@ -17,7 +17,7 @@ namespace ProgrammingProject.Data
             //    return; // DB has been seeded already.
 
 
-            // Seed Suburbs
+            //// Seed Suburbs
             var suburb1 = new Suburb();
 
             suburb1.Postcode = "3153";
@@ -283,7 +283,7 @@ namespace ProgrammingProject.Data
 
 
             var dog2 = new Dog();
-   
+
             dog2.Name = "Bella";
             dog2.Breed = "Labrador";
             dog2.MicrochipNumber = "152655";
@@ -292,13 +292,13 @@ namespace ProgrammingProject.Data
             dog2.DogSize = DogSize.Large;
             dog2.TrainingLevel = TrainingLevel.Fully;
             dog2.Owner = owner2;
-            dog2.Vet = vet2;
+            dog2.Vet = vet2;          
 
             context.Dogs.Add(dog2);
 
 
             var dog3 = new Dog();
-         
+
             dog3.Name = "Teddy";
             dog3.Breed = "Beagle";
             dog3.MicrochipNumber = "111111";
@@ -326,27 +326,27 @@ namespace ProgrammingProject.Data
 
             context.Dogs.Add(dog4);
 
-            //// seed walkingSessions
+            ////// seed walkingSessions
 
-            //var dogs = new List<Dog>();
-            //dogs.Add(dog4);
-            //dogs.Add(dog3);
+            ////var dogs = new List<Dog>();
+            ////dogs.Add(dog4);
+            ////dogs.Add(dog3);
 
-            //var walk = new WalkingSession();
-            //walk.StartTime = DateTime.Now;
-            //walk.EndTime = DateTime.Now.AddHours(1);
-            //walk.WalkerID = 4;
-            //walk.Walker = walker1;
-            //walk.DogList = dogs;
+            ////var walk = new WalkingSession();
+            ////walk.StartTime = DateTime.Now;
+            ////walk.EndTime = DateTime.Now.AddHours(1);
+            ////walk.WalkerID = 4;
+            ////walk.Walker = walker1;
+            ////walk.DogList = dogs;
 
-            //var walk1 = new WalkingSession();
-            //walk1.StartTime = DateTime.Now.AddHours(2);
-            //walk1.EndTime = DateTime.Now.AddHours(3);
-            //walk1.WalkerID = 4;
-            //walk1.Walker = walker1;
-            //walk1.DogList = dogs;
+            ////var walk1 = new WalkingSession();
+            ////walk1.StartTime = DateTime.Now.AddHours(2);
+            ////walk1.EndTime = DateTime.Now.AddHours(3);
+            ////walk1.WalkerID = 4;
+            ////walk1.Walker = walker1;
+            ////walk1.DogList = dogs;
 
-            //context.WalkingSessions.Add(walk1);
+            ////context.WalkingSessions.Add(walk1);
 
             context.SaveChanges();
         }
