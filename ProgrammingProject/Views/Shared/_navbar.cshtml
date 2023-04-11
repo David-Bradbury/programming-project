@@ -3,6 +3,10 @@
 *@
 @{
 }
+@{
+    var isLoggedIn = Context.Session.GetInt32(nameof(Owner.UserId)).HasValue;
+    var accountType = Context.Session.GetString("AccountType");
+}
 <div id="navbar">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
@@ -12,17 +16,16 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                @if (isLoggedIn) {
+                    <span class="">
+                        Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
+                    </span>
+                }
                 <ul class="navbar-nav">
-                    @{
-                        var isLoggedIn = Context.Session.GetInt32(nameof(Owner.UserId)).HasValue;
-                    }
                     @if (isLoggedIn) {
                         <li class="nav-item">
-                            <span class="nav-link text-dark">
-                                Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
-                            </span>
+                            <a class="nav-link" asp-controller="@accountType" asp-action="Index">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>
@@ -30,14 +33,14 @@
                     }
                     else {
                         <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" asp-controller="Login" asp-action="Login">Login</a>
                         </li>
                     }
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
                 </ul>
-
             </div>
         </div>
     </nav>
