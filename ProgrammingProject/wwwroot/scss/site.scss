@@ -23,21 +23,9 @@ body {
 
 /* navbar */
 /********************************************************************/
-/*
-.nav-item {
-    &.active, &:hover {
-        text-decoration: underline;
-        text-decoration-color: $primary;
-        text-decoration-thickness: 20%;
-    }
-    &:hover {
-
-    }
-}*/
-
-.nav-link {
-
+.nav-link:not(.dropdown-toggle) {
     position: relative;
+    width: max-content;
 
     &::after {
         content: '';
@@ -49,7 +37,6 @@ body {
         background-color: $primary;
         opacity: 0;
         transition: opacity 300ms, transform 300ms;
-
         opacity: 1;
         transform: scale(0);
         transform-origin: center;
@@ -71,7 +58,6 @@ body {
     opacity: 1;
     transform: scale(1);
 }
-
 
 /********************************************************************/
 /* end navbar styling*/

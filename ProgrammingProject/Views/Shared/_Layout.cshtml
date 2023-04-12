@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProgrammingProject.styles.css" asp-append-version="true" />*@
     <link rel="stylesheet" href="~/dist/bundle.css" asp-append-version="true" />
+    <link rel="icon" href="~/logo-transparent.png" type="image/png" />
 </head>
 <body>
-    <header>
-        <partial name="_navbar" />
+    <header class="sticky-top">
+        <partial name="_navbar" model="User"/>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
