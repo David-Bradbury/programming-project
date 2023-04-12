@@ -63,18 +63,21 @@ namespace ProgrammingProject.Controllers
             {
                 HttpContext.Session.SetInt32(nameof(o.UserId), login.User.UserId);
                 HttpContext.Session.SetString(nameof(o.FirstName), login.User.FirstName);
+                HttpContext.Session.SetString("AccountType", "Owner");
                 userType = "Owner";
             }
             else if (w.Email != null)
             {
                 HttpContext.Session.SetInt32(nameof(w.UserId), login.User.UserId);
                 HttpContext.Session.SetString(nameof(w.FirstName), login.User.FirstName);
+                HttpContext.Session.SetString("AccountType", "Walker");
                 userType = "Walker";
             }
             else if (a.Email != null)
             {
                 HttpContext.Session.SetInt32(nameof(a.UserId), login.User.UserId);
                 HttpContext.Session.SetString(nameof(a.FirstName), login.User.FirstName);
+                HttpContext.Session.SetString("AccountType", "Administrator");
                 userType = "Administrator";
 
             }
