@@ -9,14 +9,21 @@
 
 <div class="container pt-md-5 min-vh-100">
     <div class="row">
-        <div class="col-sm-6">
-            <img src="~/img/placeholder.jpg" width="400" height="300" alt="placeholder" />
+        <div class="col-sm-6 d-flex flex-column justify-content-center mt-5 mt-md-0">
+            <img class="img-fluid" src="~/img/placeholder.jpg"  alt="placeholder" style="border: 1px solid black;"/>
         </div>
-        <div class="col-sm-6">
-            <h1>Find Dog Walkers Near You</h1>
+        <div class="col-sm-6 d-flex flex-column justify-content-end mt-5 mt-md-0">
+            <h1 class="text-primary" style="font-size: 3.5rem;">Find Dog Walkers Near You</h1>
             <p>Welcome to EasyWalk, where we connect your furry friend to dog walkers in your area. Sign up now!</p>
-            <a class="btn btn-primary" asp-route="selectAccount">Sign Up</a>
-            <a class="btn btn-outline-primary ml-2" asp-controller="Login" asp-action="Login">Login</a>
+            <div>
+                <a class="btn btn-primary" asp-route="selectAccount">Sign Up</a>
+                <a class="btn btn-outline-primary ml-2" asp-controller="Login" asp-action="Login">Login</a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col d-flex flex-row justify-content-center">
+            <img class="img-fluid w-100" src="~/img/placeholder.jpg" alt="placeholder" style="border: 1px solid black;" />
         </div>
     </div>
 </div>
