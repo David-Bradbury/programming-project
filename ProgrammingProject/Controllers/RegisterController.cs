@@ -180,15 +180,19 @@ namespace ProgrammingProject.Controllers
                 _context.Add(walker);
                 _context.SaveChanges();
 
-
-
             }
 
             _context.SaveChanges();
 
+            // Parameters to send through to email method. Front End to modify messages.
+            string recipient = email;
+            string subject = "Thankyou for Registering with EasyWalk";
+            string htmlContent = "You have successfully registered with EasyWalk";
+
+            //Calling the method to send email.
+            Email.SendEmail(recipient, subject, htmlContent);
+
             return RedirectToAction("Login", "Login");
         }
-
-
     }
 }
