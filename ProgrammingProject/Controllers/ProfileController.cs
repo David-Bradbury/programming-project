@@ -95,7 +95,7 @@ namespace ProgrammingProject.Controllers
                 viewModel.Email = w.Email;
                 viewModel.StreetAddress = w.StreetAddress;
                 viewModel.SuburbName = w.Suburb.SuburbName;
-                viewModel.Postcode = w.Suburb.SuburbName;
+                viewModel.Postcode = w.Suburb.Postcode;
                 viewModel.State = w.State;
                 viewModel.Country = w.Country;
                 viewModel.PhNumber = w.PhNumber;
@@ -112,7 +112,7 @@ namespace ProgrammingProject.Controllers
                 viewModel.Email = o.Email;
                 viewModel.StreetAddress = o.StreetAddress;
                 viewModel.SuburbName = o.Suburb.SuburbName;
-                viewModel.Postcode = o.Suburb.SuburbName;
+                viewModel.Postcode = o.Suburb.Postcode;
                 viewModel.State = o.State;
                 viewModel.Country = o.Country;
                 viewModel.PhNumber = o.PhNumber;
@@ -128,12 +128,14 @@ namespace ProgrammingProject.Controllers
             if (id == 4)
                 viewModel.SelectedField = nameof(viewModel.SuburbName);
             if (id == 5)
-                viewModel.SelectedField = nameof(viewModel.State);
+                viewModel.SelectedField = nameof(viewModel.Postcode);
             if (id == 6)
-                viewModel.SelectedField = nameof(viewModel.PhNumber);
+                viewModel.SelectedField = nameof(viewModel.State);
             if (id == 7)
-                viewModel.SelectedField = nameof(viewModel.IsInsured);
+                viewModel.SelectedField = nameof(viewModel.PhNumber);
             if (id == 8)
+                viewModel.SelectedField = nameof(viewModel.IsInsured);
+            if (id == 9)
                 viewModel.SelectedField = nameof(viewModel.ExperienceLevel);
 
             return View(viewModel);
