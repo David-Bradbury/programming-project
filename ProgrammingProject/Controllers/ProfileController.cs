@@ -165,7 +165,12 @@ namespace ProgrammingProject.Controllers
             if (w == null)
             {
                 if (selectedField.Equals(nameof(viewModel.FirstName)))
+                {
                     o.FirstName = viewModel.FirstName;
+                    //set session data
+                    HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
+                }
+
 
                 if (selectedField.Equals(nameof(viewModel.LastName)))
                     o.LastName = viewModel.LastName;
@@ -183,7 +188,12 @@ namespace ProgrammingProject.Controllers
             else
             {
                 if (selectedField.Equals(nameof(viewModel.FirstName)))
+                {
                     w.FirstName = viewModel.FirstName;
+                    //set session data
+                    HttpContext.Session.SetString(nameof(o.FirstName), w.FirstName);
+                }
+
 
                 if (selectedField.Equals(nameof(viewModel.LastName)))
                     w.LastName = viewModel.LastName;
