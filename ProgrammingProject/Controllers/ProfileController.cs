@@ -161,17 +161,47 @@ namespace ProgrammingProject.Controllers
             var w = new Walker();
             w = await _context.Walkers.FindAsync(UserID);
 
+            //Check if walker or Owner and update fields accordingly
             if (w == null)
             {
+                if (selectedField.Equals(nameof(viewModel.FirstName)))
+                    o.FirstName = viewModel.FirstName;
 
+                if (selectedField.Equals(nameof(viewModel.LastName)))
+                    o.LastName = viewModel.LastName;
 
-                //NEED TO DO REST OF FIELDS IN HERE (ran out of time) DB
+                if (selectedField.Equals(nameof(viewModel.StreetAddress)))
+                    o.StreetAddress = viewModel.StreetAddress;
+
+                if (selectedField.Equals(nameof(viewModel.State)))
+                    o.State = viewModel.State;
+
+                if (selectedField.Equals(nameof(viewModel.PhNumber)))
+                    o.PhNumber = viewModel.PhNumber;
+
             }
             else
             {
                 if (selectedField.Equals(nameof(viewModel.FirstName)))
-                    o.FirstName = viewModel.FirstName;
-                //NEED TO DO WALKER FIELDS IN HERE (ran out of time) DB
+                    w.FirstName = viewModel.FirstName;
+
+                if (selectedField.Equals(nameof(viewModel.LastName)))
+                    w.LastName = viewModel.LastName;
+
+                if (selectedField.Equals(nameof(viewModel.StreetAddress)))
+                    w.StreetAddress = viewModel.StreetAddress;
+
+                if (selectedField.Equals(nameof(viewModel.State)))
+                    w.State = viewModel.State;
+
+                if (selectedField.Equals(nameof(viewModel.PhNumber)))
+                    w.PhNumber = viewModel.PhNumber;
+
+                if (selectedField.Equals(nameof(viewModel.IsInsured)))
+                    w.IsInsured = viewModel.IsInsured;
+
+                if (selectedField.Equals(nameof(viewModel.PhNumber)))
+                    w.IsInsured = viewModel.IsInsured;
 
             }
 
