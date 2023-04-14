@@ -62,7 +62,6 @@ namespace ProgrammingProject.Controllers
             }
 
 
-            // insert server side validation here.
             if (firstName == null)
                 ModelState.AddModelError(nameof(firstName), "First Name is required.");
             if (lastName == null)
@@ -121,7 +120,7 @@ namespace ProgrammingProject.Controllers
             bool match = false;
             foreach (var s in _context.Suburbs)
             {
-                if (s.Postcode == postcode)
+                if (s.Postcode == postcode && s.SuburbName ==suburbName)
                 {
                     match = true;
                     suburb = s;

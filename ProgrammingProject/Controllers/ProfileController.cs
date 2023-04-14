@@ -2,6 +2,7 @@
 using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
+using System.Text.RegularExpressions;
 
 
 namespace ProgrammingProject.Controllers
@@ -9,7 +10,6 @@ namespace ProgrammingProject.Controllers
     public class ProfileController : Controller
     {
         private readonly EasyWalkContext _context;
-        private bool isOwner;
         private int UserID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
 
 
@@ -41,7 +41,7 @@ namespace ProgrammingProject.Controllers
                 viewModel.Email = w.Email;
                 viewModel.StreetAddress = w.StreetAddress;
                 viewModel.SuburbName = w.Suburb.SuburbName;
-                viewModel.Postcode = w.Suburb.SuburbName;
+                viewModel.Postcode = w.Suburb.Postcode;
                 viewModel.State = w.State;
                 viewModel.Country = w.Country;
                 viewModel.PhNumber = w.PhNumber;
@@ -58,7 +58,7 @@ namespace ProgrammingProject.Controllers
                 viewModel.Email = o.Email;
                 viewModel.StreetAddress = o.StreetAddress;
                 viewModel.SuburbName = o.Suburb.SuburbName;
-                viewModel.Postcode = o.Suburb.SuburbName;
+                viewModel.Postcode = o.Suburb.Postcode;
                 viewModel.State = o.State;
                 viewModel.Country = o.Country;
                 viewModel.PhNumber = o.PhNumber;
@@ -150,6 +150,36 @@ namespace ProgrammingProject.Controllers
                 SelectedField = selectedField,
                 UserType = userType,
             };
+
+            if (selectedField == nameof(firstName) && firstName == null)
+                ModelState.AddModelError(nameof(firstName), "First Name is required.");
+            if (selectedField == nameof(lastName) && lastName == null)
+                ModelState.AddModelError(nameof(lastName), "Last Name is required.");
+            if (selectedField == nameof(streetAddress) && streetAddress == null)
+                ModelState.AddModelError(nameof(streetAddress), "The address is required.");
+            if (selectedField == nameof(suburbName) && suburbName == null)
+                ModelState.AddModelError(nameof(suburbName), "The suburb name is required.");
+            if (selectedField == nameof(state) && state == null)
+                ModelState.AddModelError(nameof(state), "The state is required.");
+            if (selectedField == nameof(postcode) && postcode == null)
+                ModelState.AddModelError(nameof(postcode), "The postcode is required.");
+
+            if (selectedField == nameof(postcode) && !Regex.IsMatch(postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
+                ModelState.AddModelError(nameof(postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            // Will need to change to add different mobile entry options, such as 04xx xxx xxx or +614xx xxx xxx or various other combinations. JC
+            if (selectedField == nameof(phNumber) && !Regex.IsMatch(phNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
+                ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+
+            // Checking to see if the state of the model is valid before continuing.
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+
+
+
+
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
 
@@ -200,6 +230,30 @@ namespace ProgrammingProject.Controllers
                 else
                 {
                     viewModel.PhNumber = o.PhNumber;
+                }
+
+                // Creating suburb based on form details
+                if (selectedField == nameof(suburbName))
+                {
+                    var suburb = new Suburb();
+
+                    suburb.SuburbName = suburbName;
+                    suburb.Postcode = postcode;
+
+                    // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
+                    bool match = false;
+                    foreach (var s in _context.Suburbs)
+                    {
+                        if (s.Postcode == postcode && s.SuburbName == suburbName)
+                        {
+                            match = true;
+                            suburb = s;
+                        }
+                    }
+                    if (!match)
+                        _context.Suburbs.Add(suburb);
+                    o.Suburb = suburb;
+
                 }
 
             }
@@ -256,6 +310,29 @@ namespace ProgrammingProject.Controllers
                     viewModel.ExperienceLevel = (int)w.ExperienceLevel;
                 }
 
+                // Creating suburb based on form details
+                if (selectedField == nameof(suburbName))
+                {
+                    var suburb = new Suburb();
+
+                    suburb.SuburbName = suburbName;
+                    suburb.Postcode = postcode;
+
+                    // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
+                    bool match = false;
+                    foreach (var s in _context.Suburbs)
+                    {
+                        if (s.Postcode == postcode && s.SuburbName == suburbName)
+                        {
+                            match = true;
+                            suburb = s;
+                        }
+                    }
+                    if (!match)
+                        _context.Suburbs.Add(suburb);
+                    w.Suburb = suburb;
+
+                }
 
             }
 
