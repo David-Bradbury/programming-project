@@ -143,6 +143,7 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> EditProfile(string email, string selectedField, string userType, string firstName, string lastName,
          string streetAddress, string suburbName, string postcode, string state, string phNumber, bool isInsured, int experienceLevel)
         {
+
             var viewModel = new EditProfileViewModel
             {
                 Email = email,
@@ -185,20 +186,6 @@ namespace ProgrammingProject.Controllers
                 else
                 {
                     viewModel.StreetAddress = o.StreetAddress;
-                }
-
-                if (selectedField.Equals(nameof(viewModel.SuburbName)))
-                    o.StreetAddress = viewModel.SuburbName;
-                else
-                {
-                    viewModel.SuburbName = o.Suburb.SuburbName;
-                }
-
-                if (selectedField.Equals(nameof(viewModel.Postcode)))
-                    o.P = viewModel.SuburbName;
-                else
-                {
-                    viewModel.SuburbName = o.Suburb.SuburbName;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.State)))

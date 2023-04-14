@@ -18,7 +18,7 @@ namespace ProgrammingProject.Models
         [Required, StringLength(50), Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required, StringLength(200), Display(Name = "Address")]
+        [Required, StringLength(200), Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
 
         [Required, StringLength(100), Display(Name = "Suburb")]
@@ -42,10 +42,10 @@ namespace ProgrammingProject.Models
         public string PhNumber { get; set; }
 
 
-        [Display(Name = "Insured")]
+        [Display(Name = "Are you insured? Tick if yes")]
         public bool IsInsured { get; set; }
 
-        [Range(1, 4), Display(Name = "Experience Level")]
+        [Range(1, 4), Display(Name = "Choose between 1= Beginner & 4 = Advanced")]
         public int ExperienceLevel { get; set; }
 
     }

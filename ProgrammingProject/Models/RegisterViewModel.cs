@@ -34,7 +34,7 @@ namespace ProgrammingProject.Models
         public string PhNumber { get; set; }
         [Display(Name = "Are you insured? Tick if yes")]
         public bool IsInsured { get; set; }
-        [Range(1, 4), Display(Name = "Choose between 1= Beginner, 4 = Advanced")]
+        [Range(1, 4), Display(Name = "Choose between 1= Beginner & 4 = Advanced")]
         public int ExperienceLevel { get; set; }
         [Required]
         public string Password { get; set; }
