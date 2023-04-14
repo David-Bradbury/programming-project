@@ -140,20 +140,14 @@ namespace ProgrammingProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(string selectedField, string userType, string firstName, string lastName,
+        public async Task<IActionResult> EditProfile(string email, string selectedField, string userType, string firstName, string lastName,
          string streetAddress, string state, string phNumber, bool isInsured, int experienceLevel)
         {
             var viewModel = new EditProfileViewModel
             {
+                Email = email,
                 SelectedField = selectedField,
                 UserType = userType,
-                FirstName = firstName,
-                LastName = lastName,
-                StreetAddress = streetAddress,
-                State = state,
-                PhNumber = phNumber,
-                IsInsured = isInsured,
-                ExperienceLevel = experienceLevel
             };
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
@@ -166,29 +160,53 @@ namespace ProgrammingProject.Controllers
             {
                 if (selectedField.Equals(nameof(viewModel.FirstName)))
                 {
+                    viewModel.FirstName = firstName;
                     o.FirstName = viewModel.FirstName;
                     //set session data
                     HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
                 }
-
+                else
+                {
+                    viewModel.FirstName = o.FirstName;
+                }
 
                 if (selectedField.Equals(nameof(viewModel.LastName)))
+                {
                     o.LastName = viewModel.LastName;
+                }
+                else
+                {
+                    viewModel.LastName = o.LastName;
+                }
+
 
                 if (selectedField.Equals(nameof(viewModel.StreetAddress)))
                     o.StreetAddress = viewModel.StreetAddress;
+                else
+                {
+                    viewModel.StreetAddress = o.StreetAddress;
+                }
 
                 if (selectedField.Equals(nameof(viewModel.State)))
                     o.State = viewModel.State;
+                else
+                {
+                    viewModel.State = o.State;
+                }
 
                 if (selectedField.Equals(nameof(viewModel.PhNumber)))
                     o.PhNumber = viewModel.PhNumber;
+                else
+                {
+                    viewModel.PhNumber = o.PhNumber;
+                }
 
             }
             else
             {
                 if (selectedField.Equals(nameof(viewModel.FirstName)))
                 {
+                    viewModel.FirstName = firstName;
                     w.FirstName = viewModel.FirstName;
                     //set session data
                     HttpContext.Session.SetString(nameof(o.FirstName), w.FirstName);
@@ -197,21 +215,46 @@ namespace ProgrammingProject.Controllers
 
                 if (selectedField.Equals(nameof(viewModel.LastName)))
                     w.LastName = viewModel.LastName;
+                else
+                {
+                    viewModel.LastName = w.LastName;
+                }
 
                 if (selectedField.Equals(nameof(viewModel.StreetAddress)))
                     w.StreetAddress = viewModel.StreetAddress;
+                else
+                {
+                    viewModel.StreetAddress = w.StreetAddress;
+                }
 
                 if (selectedField.Equals(nameof(viewModel.State)))
                     w.State = viewModel.State;
+                else
+                {
+                    viewModel.State = w.State;
+                }
 
                 if (selectedField.Equals(nameof(viewModel.PhNumber)))
                     w.PhNumber = viewModel.PhNumber;
+                else
+                {
+                    viewModel.PhNumber = w.PhNumber;
+                }
 
                 if (selectedField.Equals(nameof(viewModel.IsInsured)))
                     w.IsInsured = viewModel.IsInsured;
+                else
+                {
+                    viewModel.IsInsured = w.IsInsured;
+                }
 
-                if (selectedField.Equals(nameof(viewModel.PhNumber)))
-                    w.IsInsured = viewModel.IsInsured;
+                if (selectedField.Equals(nameof(viewModel.ExperienceLevel)))
+                    w.ExperienceLevel = (ExperienceLevel)experienceLevel;
+                else
+                {
+                    viewModel.ExperienceLevel = (int)w.ExperienceLevel;
+                }
+
 
             }
 
