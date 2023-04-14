@@ -141,7 +141,7 @@ namespace ProgrammingProject.Controllers
 
         [HttpPost]
         public async Task<IActionResult> EditProfile(string email, string selectedField, string userType, string firstName, string lastName,
-         string streetAddress, string suburbName, string postcode, string state, string phNumber, bool isInsured, int experienceLevel)
+         string streetAddress, string suburbName, string postcode, string state, string phNumber, bool isInsured, int experienceLevel, string country)
         {
 
             var viewModel = new EditProfileViewModel
@@ -149,6 +149,7 @@ namespace ProgrammingProject.Controllers
                 Email = email,
                 SelectedField = selectedField,
                 UserType = userType,
+                Country= country,
             };
 
             if (selectedField == nameof(firstName) && firstName == null)
@@ -255,6 +256,11 @@ namespace ProgrammingProject.Controllers
                     o.Suburb = suburb;
 
                 }
+                else
+                {
+                    viewModel.SuburbName = o.Suburb.SuburbName;
+                    viewModel.Postcode = o.Suburb.Postcode;
+                }
 
             }
             else
@@ -332,6 +338,11 @@ namespace ProgrammingProject.Controllers
                         _context.Suburbs.Add(suburb);
                     w.Suburb = suburb;
 
+                }
+                else
+                {
+                    viewModel.SuburbName = w.Suburb.SuburbName;
+                    viewModel.Postcode = w.Suburb.Postcode;
                 }
 
             }
