@@ -161,7 +161,7 @@ namespace ProgrammingProject.Controllers
             var w = new Walker();
             w = await _context.Walkers.FindAsync(UserID);
 
-            if (o == null)
+            if (w == null)
             {
 
 
