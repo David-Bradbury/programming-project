@@ -128,14 +128,12 @@ namespace ProgrammingProject.Controllers
             if (id == 4)
                 viewModel.SelectedField = nameof(viewModel.SuburbName);
             if (id == 5)
-                viewModel.SelectedField = nameof(viewModel.Postcode);
-            if (id == 6)
                 viewModel.SelectedField = nameof(viewModel.State);
-            if (id == 7)
+            if (id == 6)
                 viewModel.SelectedField = nameof(viewModel.PhNumber);
-            if (id == 8)
+            if (id == 7)
                 viewModel.SelectedField = nameof(viewModel.IsInsured);
-            if (id == 9)
+            if (id == 8)
                 viewModel.SelectedField = nameof(viewModel.ExperienceLevel);
 
             return View(viewModel);
@@ -143,7 +141,7 @@ namespace ProgrammingProject.Controllers
 
         [HttpPost]
         public async Task<IActionResult> EditProfile(string email, string selectedField, string userType, string firstName, string lastName,
-         string streetAddress, string state, string phNumber, bool isInsured, int experienceLevel)
+         string streetAddress, string suburbName, string postcode, string state, string phNumber, bool isInsured, int experienceLevel)
         {
             var viewModel = new EditProfileViewModel
             {
@@ -187,6 +185,20 @@ namespace ProgrammingProject.Controllers
                 else
                 {
                     viewModel.StreetAddress = o.StreetAddress;
+                }
+
+                if (selectedField.Equals(nameof(viewModel.SuburbName)))
+                    o.StreetAddress = viewModel.SuburbName;
+                else
+                {
+                    viewModel.SuburbName = o.Suburb.SuburbName;
+                }
+
+                if (selectedField.Equals(nameof(viewModel.Postcode)))
+                    o.P = viewModel.SuburbName;
+                else
+                {
+                    viewModel.SuburbName = o.Suburb.SuburbName;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.State)))

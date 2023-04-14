@@ -46,6 +46,21 @@
                 </div>
 
             }
+            @if (Model.SelectedField.Equals(nameof(Model.SuburbName)))
+            {
+                <div class="form-group">
+                    <label asp-for="SuburbName" class="control-label"></label>
+                    <input asp-for="SuburbName" class="form-control" />
+                    <span asp-validation-for="SuburbName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Postcode" class="control-label"></label>
+                    <input asp-for="Postcode" class="form-control" />
+                    <span asp-validation-for="Postcode" class="text-danger"></span>
+                </div>
+
+            }
+
             @if (Model.SelectedField.Equals(nameof(Model.State)))
             {
                 <div class="form-group">
