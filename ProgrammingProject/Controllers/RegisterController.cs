@@ -187,8 +187,6 @@ namespace ProgrammingProject.Controllers
 
             // Parameters to send through to email method. Front End to modify messages.
             string recipient = email;
-            string subject = "Thankyou for Registering with EasyWalk";
-            string htmlContent = "You have successfully registered with EasyWalk";
             string subject = "Thank you for Registering with EasyWalk";
             string personName = firstName;
             string htmlContent = GetRegisterEmailContent(personName);
