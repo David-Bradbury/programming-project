@@ -3,6 +3,8 @@ using ProgrammingProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using ProgrammingProject.Filters;
+
 
 namespace ProgrammingProject.Controllers
 {
@@ -18,6 +20,7 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
+        [AuthorizeUser]
         public async Task<IActionResult> Index()
         {
             //lazy loading

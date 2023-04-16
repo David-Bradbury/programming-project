@@ -14,7 +14,7 @@ namespace ProgrammingProject.Models
     public class Walker : User
     {
 
-        [Required, StringLength(200)]
+        [Required, StringLength(200), Display(Name = "Address")]
         public string StreetAddress { get; set; }
         [Required, StringLength(100)]
         public string State { get; set; }

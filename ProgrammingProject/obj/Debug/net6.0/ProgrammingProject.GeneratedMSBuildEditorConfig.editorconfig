@@ -5,73 +5,80 @@ build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
-build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ProgrammingProject
 build_property.RootNamespace = ProgrammingProject
-build_property.ProjectDir = C:\Users\joshc\Desktop\programming-project\ProgrammingProject\
+build_property.ProjectDir = C:\Users\david\Documents\GitHub\programming-project\ProgrammingProject\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\joshc\Desktop\programming-project\ProgrammingProject
+build_property.MSBuildProjectDirectory = C:\Users\david\Documents\GitHub\programming-project\ProgrammingProject
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Administrator/Index.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Administrator/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Home/Index.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Home/Privacy.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Login/Login.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Login/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Owner/Index.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Owner/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3duZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Register/Register.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Profile/EditProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxFZGl0UHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Register/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Register/SelectAccountType.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Register/SelectAccountType.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcU2VsZWN0QWNjb3VudFR5cGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Shared/Error.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Shared/_navbar.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Shared/_navbar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9uYXZiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Walker/Index.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Walker/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Fsa2VyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Walker/WalkingSessions.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Walker/WalkingSessions.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Fsa2VyXFdhbGtpbmdTZXNzaW9ucy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/_ViewImports.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/_ViewStart.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/joshc/Desktop/programming-project/ProgrammingProject/Views/Shared/_Layout.cshtml]
+[C:/Users/david/Documents/GitHub/programming-project/ProgrammingProject/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-v4mks21rt4

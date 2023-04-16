@@ -10,10 +10,10 @@
 <div id="navbar">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand h1 text-primary" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="navbar-brand text-primary h1 d-flex flex-row justify-content-between mb-0" asp-area="" asp-controller="Home" asp-action="Index">
                 @*Need to update image with svg*@
-                <img src="~/logo-transparent.png" alt="EasyWalk logo" width="30" height="30" />
-                EasyWalk
+                <img src="~/logo-transparent.png" alt="EasyWalk logo" width="40" height="37" />
+                <span class="ms-3" style="font-size: 2rem;">EasyWalk</span>
             </a>
             @*should remove data-bs-toggle - or update bootstrap version used by bundler*@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,21 +22,28 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                 <ul class="navbar-nav">
-                    @if (isLoggedIn) {
+
+                    @if (isLoggedIn)
+                    {
+
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="@accountType" asp-action="Index">Dashboard</a>
                         </li>
-                        
+
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                                <a class="nav-link" asp-controller="Profile" asp-action="Index">Your Profile</a>
                                 <a class="dropdown-item" asp-controller="Login" asp-action="Logout">Logout</a>
+
                             </div>
                         </li>
                     }
-                    else {
+                    else
+                    {
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>

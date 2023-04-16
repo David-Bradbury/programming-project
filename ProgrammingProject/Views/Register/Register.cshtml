@@ -4,47 +4,49 @@
     ViewData["Title"] = "Register";
 }
 
-<h1 class="display-4">Register</h1>
+<div class="p-5">
+
+<h1 class="display-4 text-center">Register</h1>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 g-5 mx-auto">
         <form asp-action="Register">
             <input asp-for=AccountTypeSelection type="hidden" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                <input asp-for="FirstName" class="form-control" data-val="true"
-                       data-val-required="The First Name field is required." />
+                       data-val-required="The First Name field is required." placeholder="First Name"/>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
 
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" data-val="true"
-                       data-val-required="The Last Name field is required." />
+                       data-val-required="The Last Name field is required." placeholder="Last Name"/>
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" data-val="true"
-                       data-val-required="The Email field is required." />
+                       data-val-required="The Email field is required." placeholder="Email"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StreetAddress" class="control-label"></label>
                 <input asp-for="StreetAddress" class="form-control" data-val="true"
-                       data-val-required="The Address field is required." placeholder="1 This Avenue"/>
+                       data-val-required="The Address field is required." placeholder="Address Line 1"/>
                 <span asp-validation-for="StreetAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SuburbName" class="control-label"></label>
                 <input asp-for="SuburbName" class="form-control" data-val="true"
-                       data-val-required="The Suburb field is required." />
+                       data-val-required="The Suburb field is required." placeholder="Suburb"/>
                 <span asp-validation-for="SuburbName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Postcode" class="control-label"></label>
                 <input asp-for="Postcode" class="form-control" data-val="true"
-                       data-val-required="The Postcode field is required." />
+                       data-val-required="The Postcode field is required." placeholder="Postcode"/>
                 <span asp-validation-for="Postcode" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -63,7 +65,7 @@
             <div class="form-group">
                 <label asp-for="PhNumber" class="control-label"></label>
                 <input asp-for="PhNumber" class="form-control" data-val="true"
-                       data-val-required="Phone number is required." />
+                       data-val-required="Phone number is required." placeholder="04XX XXX XXX"/>
                 <span asp-validation-for="PhNumber" class="text-danger"></span>
             </div>
 
@@ -90,7 +92,7 @@
                 <label for="Password" class="control-label">Password</label>
                 <input id="Password" name="Password" type="password"
                        class="form-control" data-val="true"
-                       data-val-required="The Password field is required." />
+                       data-val-required="The Password field is required." placeholder="Enter Password"/>
                 @Html.ValidationMessage("Password", new  { @class = "text-danger"})
             </div>
 
@@ -98,7 +100,7 @@
                 <label for="ConfirmPassword" class="control-label">Confirm Password</label>
                 <input id="ConfirmPassword" name="ConfirmPassword" type="password"
                        class="form-control" data-val="true"
-                       data-val-required="The Password field is required." />
+                       data-val-required="The Password field is required." placeholder="Re-enter Password"/>
                 @Html.ValidationMessage("confirmPassword", new  { @class = "text-danger"})
             </div>
 
@@ -109,6 +111,7 @@
             @Html.ValidationMessage("RegistrationFailure", new {@class = ""})
         </form>
     </div>
+</div>
 </div>
 @section Scripts{
     @{

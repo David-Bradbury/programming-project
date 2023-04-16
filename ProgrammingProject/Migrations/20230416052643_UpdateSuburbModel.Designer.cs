@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230411075353_AmmendedWalkingSessionModel")]
-    partial class AmmendedWalkingSessionModel
+    [Migration("20230416052643_UpdateSuburbModel")]
+    partial class UpdateSuburbModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,7 +62,6 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("MicrochipNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -71,7 +70,7 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("OwnerUserId")
+                    b.Property<int?>("OwnerUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("Temperament")
@@ -80,7 +79,7 @@ namespace ProgrammingProject.Migrations
                     b.Property<int>("TrainingLevel")
                         .HasColumnType("int");
 
-                    b.Property<int>("VetId")
+                    b.Property<int?>("VetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -138,10 +137,9 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SuburbName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Postcode");
+                    b.HasKey("Postcode", "SuburbName");
 
                     b.ToTable("Suburbs");
                 });
@@ -283,9 +281,13 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("SuburbName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("WalkerId", "Postcode");
 
-                    b.HasIndex("Postcode");
+                    b.HasIndex("Postcode", "SuburbName");
 
                     b.ToTable("Walks");
                 });
@@ -321,11 +323,13 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("SuburbPostcode")
-                        .IsRequired()
+                    b.Property<string>("SuburbName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("SuburbPostcode");
+                    b.Property<string>("SuburbPostcode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("SuburbPostcode", "SuburbName");
 
                     b.HasDiscriminator().HasValue("Owner");
                 });
@@ -359,11 +363,13 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("SuburbPostcode")
-                        .IsRequired()
+                    b.Property<string>("SuburbName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("SuburbPostcode");
+                    b.Property<string>("SuburbPostcode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("SuburbPostcode", "SuburbName");
 
                     b.ToTable("User", t =>
                         {
@@ -378,6 +384,9 @@ namespace ProgrammingProject.Migrations
 
                             t.Property("StreetAddress")
                                 .HasColumnName("Walker_StreetAddress");
+
+                            t.Property("SuburbName")
+                                .HasColumnName("Walker_SuburbName");
 
                             t.Property("SuburbPostcode")
                                 .HasColumnName("Walker_SuburbPostcode");
@@ -405,15 +414,11 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Owner", "Owner")
                         .WithMany("Dogs")
-                        .HasForeignKey("OwnerUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerUserId");
 
                     b.HasOne("ProgrammingProject.Models.Vet", "Vet")
                         .WithMany("Dogs")
-                        .HasForeignKey("VetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VetId");
 
                     b.Navigation("Owner");
 
@@ -482,15 +487,15 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.Walks", b =>
                 {
-                    b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
-                        .WithMany("Walks")
-                        .HasForeignKey("Postcode")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
                     b.HasOne("ProgrammingProject.Models.Walker", "Walker")
                         .WithMany("Walks")
                         .HasForeignKey("WalkerId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
+                        .WithMany("Walks")
+                        .HasForeignKey("Postcode", "SuburbName")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
@@ -503,9 +508,8 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany("Owners")
-                        .HasForeignKey("SuburbPostcode")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasForeignKey("SuburbPostcode", "SuburbName")
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Suburb");
                 });
@@ -514,9 +518,8 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany("Walkers")
-                        .HasForeignKey("SuburbPostcode")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasForeignKey("SuburbPostcode", "SuburbName")
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Suburb");
                 });
@@ -528,8 +531,7 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.Login", b =>
                 {
-                    b.Navigation("User")
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.Suburb", b =>

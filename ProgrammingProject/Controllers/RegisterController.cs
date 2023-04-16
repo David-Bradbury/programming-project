@@ -62,7 +62,6 @@ namespace ProgrammingProject.Controllers
             }
 
 
-            // insert server side validation here.
             if (firstName == null)
                 ModelState.AddModelError(nameof(firstName), "First Name is required.");
             if (lastName == null)
@@ -101,7 +100,8 @@ namespace ProgrammingProject.Controllers
             // Add Email REGEX test here, needs to at the least match what the data annotation for EmailAddress accepts.
             if (!Regex.IsMatch(email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
                 ModelState.AddModelError(nameof(email), "This is not a valid email address. Please enter a valid email address");
-
+            if (!Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))
+                ModelState.AddModelError(nameof(password), "Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
 
             // Also add  stringlength regex checking here too.
 
@@ -121,7 +121,7 @@ namespace ProgrammingProject.Controllers
             bool match = false;
             foreach (var s in _context.Suburbs)
             {
-                if (s.Postcode == postcode)
+                if (s.Postcode == postcode && s.SuburbName ==suburbName)
                 {
                     match = true;
                     suburb = s;
@@ -180,15 +180,19 @@ namespace ProgrammingProject.Controllers
                 _context.Add(walker);
                 _context.SaveChanges();
 
-
-
             }
 
             _context.SaveChanges();
 
+            // Parameters to send through to email method. Front End to modify messages.
+            string recipient = email;
+            string subject = "Thankyou for Registering with EasyWalk";
+            string htmlContent = "You have successfully registered with EasyWalk";
+
+            //Calling the method to send email.
+            Email.SendEmail(recipient, subject, htmlContent);
+
             return RedirectToAction("Login", "Login");
         }
-
-
     }
 }
