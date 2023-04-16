@@ -22,10 +22,19 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                 <ul class="navbar-nav">
+
                     @if (isLoggedIn) {
+
+                    @{
+                        var isLoggedIn = Context.Session.GetInt32(nameof(Owner.UserId)).HasValue;
+                    }
+                    @if (isLoggedIn)
+                    {
+
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="@accountType" asp-action="Index">Dashboard</a>
                         </li>
+
                         
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,9 +43,17 @@
                             <div class="dropdown-menu" aria-labelledby="accountDropdown">
                                 <a class="dropdown-item" asp-controller="Login" asp-action="Logout">Logout</a>
                             </div>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Profile" asp-action="Index">Your Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>
+
                         </li>
                     }
-                    else {
+                    else
+                    {
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
