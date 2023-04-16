@@ -8,11 +8,9 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditProfile">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+  
             <input asp-for=Email type="hidden" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for=SelectedField type="hidden" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for=UserType type="hidden" />
 
             @if (Model.SelectedField.Equals(nameof(Model.FirstName)))
@@ -23,7 +21,7 @@
                     <div class="form-group">
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
-                    <input asp-for=FirstName type="hidden" />
+
                     <input asp-for=LastName type="hidden" />
                     <input asp-for=StreetAddress type="hidden" />
                     <input asp-for=SuburbName type="hidden" />
@@ -44,6 +42,7 @@
                     <div class="form-group">
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
+
                     <input asp-for=FirstName type="hidden" />
                     <input asp-for=StreetAddress type="hidden" />
                     <input asp-for=SuburbName type="hidden" />
