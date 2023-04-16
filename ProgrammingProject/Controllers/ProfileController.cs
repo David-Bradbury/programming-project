@@ -3,6 +3,9 @@ using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
 using System.Text.RegularExpressions;
+using ProgrammingProject.Utilities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ProgrammingProject.Helper;
 
 
 namespace ProgrammingProject.Controllers
@@ -30,6 +33,7 @@ namespace ProgrammingProject.Controllers
             w = await _context.Walkers.FindAsync(UserID);
 
             var viewModel = new EditProfileViewModel();
+
 
             //Check usertype and create viewModel
             if (o == null)
@@ -75,7 +79,17 @@ namespace ProgrammingProject.Controllers
         {
             //create view model and assign the selected field from the profile page.
             var viewModel = new EditProfileViewModel();
+            List<string> statesList = States.GetStates();
 
+            viewModel.StatesList = new List<SelectListItem>();
+
+            foreach (var state in statesList)
+            {
+                viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
+            }
+
+            viewModel.Password = "";
+            viewModel.ConfirmPassword = "";
 
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
@@ -101,6 +115,7 @@ namespace ProgrammingProject.Controllers
                 viewModel.PhNumber = w.PhNumber;
                 viewModel.IsInsured = w.IsInsured;
                 viewModel.ExperienceLevel = (int)w.ExperienceLevel;
+               
 
             }
             else
@@ -135,13 +150,16 @@ namespace ProgrammingProject.Controllers
                 viewModel.SelectedField = nameof(viewModel.IsInsured);
             if (id == 8)
                 viewModel.SelectedField = nameof(viewModel.ExperienceLevel);
+            if (id == 9)
+                viewModel.SelectedField = nameof(viewModel.Password);
+
 
             return View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditProfile(string email, string selectedField, string userType, string firstName, string lastName,
-         string streetAddress, string suburbName, string postcode, string state, string phNumber, bool isInsured, int experienceLevel, string country)
+         string streetAddress, string suburbName, string postcode, string state, string phNumber, bool isInsured, int experienceLevel, string country, string password, string confirmPassword)
         {
 
             var viewModel = new EditProfileViewModel
@@ -149,7 +167,7 @@ namespace ProgrammingProject.Controllers
                 Email = email,
                 SelectedField = selectedField,
                 UserType = userType,
-                Country= country,
+                Country = country,
             };
 
             if (selectedField == nameof(firstName) && firstName == null)
@@ -171,7 +189,14 @@ namespace ProgrammingProject.Controllers
             if (selectedField == nameof(phNumber) && !Regex.IsMatch(phNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
                 ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
 
-            // Checking to see if the state of the model is valid before continuing.
+            if (selectedField.Equals(nameof(viewModel.Password)))
+            {
+                if (password == null)
+                    ModelState.AddModelError(nameof(password), "Password is required.");
+                if (password != confirmPassword)
+                    ModelState.AddModelError(nameof(confirmPassword), "Passwords need to match.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
@@ -275,6 +300,14 @@ namespace ProgrammingProject.Controllers
                     viewModel.Postcode = o.Suburb.Postcode;
                 }
 
+                if (selectedField.Equals(nameof(viewModel.Password)))
+                {
+
+                    o.Login.PasswordHash = ControllerHelper.HashPassword(password);
+
+                }
+
+
             }
             else
             {
@@ -377,6 +410,14 @@ namespace ProgrammingProject.Controllers
                     viewModel.SuburbName = w.Suburb.SuburbName;
                     viewModel.Postcode = w.Suburb.Postcode;
                 }
+
+                if (selectedField.Equals(nameof(viewModel.Password)))
+                {
+
+                    w.Login.PasswordHash = ControllerHelper.HashPassword(password);
+
+                }
+
 
             }
 

@@ -47,6 +47,9 @@ namespace ProgrammingProject.Models
 
         [Range(1, 4), Display(Name = "Experience Level")]
         public int ExperienceLevel { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+        public List<SelectListItem> StatesList { get; set; }
 
     }
 }

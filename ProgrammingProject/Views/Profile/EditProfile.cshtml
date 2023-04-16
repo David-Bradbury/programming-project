@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditProfile">
-  
+
             <input asp-for=Email type="hidden" />
             <input asp-for=SelectedField type="hidden" />
             <input asp-for=UserType type="hidden" />
@@ -31,6 +31,8 @@
                     <input asp-for=PhNumber type="hidden" />
                     <input asp-for=IsInsured type="hidden" />
                     <input asp-for=ExperienceLevel type="hidden" />
+                    <input asp-for=Password type="hidden" />
+                    <input asp-for=ConfirmPassword type="hidden" />
                 </div>
 
             }
@@ -52,6 +54,8 @@
                     <input asp-for=PhNumber type="hidden" />
                     <input asp-for=IsInsured type="hidden" />
                     <input asp-for=ExperienceLevel type="hidden" />
+                    <input asp-for=Password type="hidden" />
+                    <input asp-for=ConfirmPassword type="hidden" />
                 </div>
 
             }
@@ -71,6 +75,8 @@
                 <input asp-for=PhNumber type="hidden" />
                 <input asp-for=IsInsured type="hidden" />
                 <input asp-for=ExperienceLevel type="hidden" />
+                <input asp-for=Password type="hidden" />
+                <input asp-for=ConfirmPassword type="hidden" />
 
             }
             @if (Model.SelectedField.Equals(nameof(Model.SuburbName)))
@@ -93,6 +99,8 @@
                 <input asp-for=PhNumber type="hidden" />
                 <input asp-for=IsInsured type="hidden" />
                 <input asp-for=ExperienceLevel type="hidden" />
+                <input asp-for=Password type="hidden" />
+                <input asp-for=ConfirmPassword type="hidden" />
 
             }
 
@@ -100,7 +108,9 @@
             {
                 <div class="form-group">
                     <label asp-for="State" class="control-label"></label>
-                    <input asp-for="State" class="form-control" />
+                    <select class="form-select" asp-items="Model.StatesList" asp-for="State">
+                        <option value="" hidden>-- Please Select A State --</option>
+                    </select>
                     <span asp-validation-for="State" class="text-danger"></span>
                 </div>
                 <input asp-for=FirstName type="hidden" />
@@ -112,6 +122,8 @@
                 <input asp-for=PhNumber type="hidden" />
                 <input asp-for=IsInsured type="hidden" />
                 <input asp-for=ExperienceLevel type="hidden" />
+                <input asp-for=Password type="hidden" />
+                <input asp-for=ConfirmPassword type="hidden" />
 
             }
             @if (Model.SelectedField.Equals(nameof(Model.PhNumber)))
@@ -130,6 +142,8 @@
                 <input asp-for=Country type="hidden" />
                 <input asp-for=IsInsured type="hidden" />
                 <input asp-for=ExperienceLevel type="hidden" />
+                <input asp-for=Password type="hidden" />
+                <input asp-for=ConfirmPassword type="hidden" />
 
             }
             @if (Model.SelectedField.Equals(nameof(Model.IsInsured)))
@@ -148,6 +162,8 @@
                 <input asp-for=Country type="hidden" />
                 <input asp-for=PhNumber type="hidden" />
                 <input asp-for=ExperienceLevel type="hidden" />
+                <input asp-for=Password type="hidden" />
+                <input asp-for=ConfirmPassword type="hidden" />
 
             }
             @if (Model.SelectedField.Equals(nameof(Model.ExperienceLevel)))
@@ -166,6 +182,37 @@
                 <input asp-for=Country type="hidden" />
                 <input asp-for=PhNumber type="hidden" />
                 <input asp-for=IsInsured type="hidden" />
+                <input asp-for=Password type="hidden" />
+                <input asp-for=ConfirmPassword type="hidden" />
+
+            }
+            @if (Model.SelectedField.Equals(nameof(Model.Password)))
+            {
+                <div class="form-group">
+                    <label for="Password" class="control-label">Password</label>
+                    <input id="Password" name="Password" type="password"
+                       class="form-control" data-val="true"
+                       data-val-required="The Password field is required." />
+                    @Html.ValidationMessage("Password", new  { @class = "text-danger"})
+                </div>
+
+                <div class="form-group">
+                    <label for="ConfirmPassword" class="control-label">Confirm Password</label>
+                    <input id="ConfirmPassword" name="ConfirmPassword" type="password"
+                       class="form-control" data-val="true"
+                       data-val-required="The Password field is required." />
+                    @Html.ValidationMessage("confirmPassword", new  { @class = "text-danger"})
+                </div>
+                <input asp-for=FirstName type="hidden" />
+                <input asp-for=LastName type="hidden" />
+                <input asp-for=StreetAddress type="hidden" />
+                <input asp-for=SuburbName type="hidden" />
+                <input asp-for=Postcode type="hidden" />
+                <input asp-for=State type="hidden" />
+                <input asp-for=Country type="hidden" />
+                <input asp-for=PhNumber type="hidden" />
+                <input asp-for=IsInsured type="hidden" />
+                <input asp-for=ExperienceLevel type="hidden" />
 
             }
 
