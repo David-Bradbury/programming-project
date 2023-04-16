@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:ProgrammingProject/Migrations/20230411075353_AmmendedWalkingSessionModel.cs
-    public partial class AmmendedWalkingSessionModel : Migration
-========
     public partial class UpdateSuburbModel : Migration
->>>>>>>> profile:ProgrammingProject/Migrations/20230414033747_UpdateSuburbModel.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,13 +105,13 @@ namespace ProgrammingProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MicrochipNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MicrochipNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IsVaccinated = table.Column<bool>(type: "bit", nullable: false),
                     Temperament = table.Column<int>(type: "int", nullable: false),
                     DogSize = table.Column<int>(type: "int", nullable: false),
                     TrainingLevel = table.Column<int>(type: "int", nullable: false),
-                    OwnerUserId = table.Column<int>(type: "int", nullable: false),
-                    VetId = table.Column<int>(type: "int", nullable: false)
+                    OwnerUserId = table.Column<int>(type: "int", nullable: true),
+                    VetId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,14 +120,12 @@ namespace ProgrammingProject.Migrations
                         name: "FK_Dogs_User_OwnerUserId",
                         column: x => x.OwnerUserId,
                         principalTable: "User",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                     table.ForeignKey(
                         name: "FK_Dogs_Vets_VetId",
                         column: x => x.VetId,
                         principalTable: "Vets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -295,16 +289,12 @@ namespace ProgrammingProject.Migrations
                 column: "OwnerID");
 
             migrationBuilder.CreateIndex(
-<<<<<<<< HEAD:ProgrammingProject/Migrations/20230411075353_AmmendedWalkingSessionModel.cs
                 name: "IX_WalkingSessions_WalkerID",
                 table: "WalkingSessions",
                 column: "WalkerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Walks_Postcode",
-========
                 name: "IX_Walks_Postcode_SuburbName",
->>>>>>>> profile:ProgrammingProject/Migrations/20230414033747_UpdateSuburbModel.cs
                 table: "Walks",
                 columns: new[] { "Postcode", "SuburbName" });
         }
