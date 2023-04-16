@@ -204,6 +204,7 @@ namespace ProgrammingProject.Controllers
 
                 if (selectedField.Equals(nameof(viewModel.LastName)))
                 {
+                    viewModel.LastName = lastName;
                     o.LastName = viewModel.LastName;
                 }
                 else
@@ -213,28 +214,38 @@ namespace ProgrammingProject.Controllers
 
 
                 if (selectedField.Equals(nameof(viewModel.StreetAddress)))
+                {
+                    viewModel.StreetAddress = streetAddress;
                     o.StreetAddress = viewModel.StreetAddress;
+                }
+
                 else
                 {
                     viewModel.StreetAddress = o.StreetAddress;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.State)))
+                {
+                    viewModel.State = state;
                     o.State = viewModel.State;
+                }
                 else
                 {
                     viewModel.State = o.State;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.PhNumber)))
+                {
+                    viewModel.PhNumber = phNumber;
                     o.PhNumber = viewModel.PhNumber;
+                }
                 else
                 {
                     viewModel.PhNumber = o.PhNumber;
                 }
 
                 // Creating suburb based on form details
-                if (selectedField == nameof(suburbName))
+                if (selectedField.Equals(nameof(viewModel.SuburbName)))
                 {
                     var suburb = new Suburb();
 
@@ -254,6 +265,8 @@ namespace ProgrammingProject.Controllers
                     if (!match)
                         _context.Suburbs.Add(suburb);
                     o.Suburb = suburb;
+                    viewModel.SuburbName = o.Suburb.SuburbName;
+                    viewModel.Postcode = o.Suburb.Postcode;
 
                 }
                 else
@@ -275,49 +288,67 @@ namespace ProgrammingProject.Controllers
 
 
                 if (selectedField.Equals(nameof(viewModel.LastName)))
+                {
+                    viewModel.LastName = lastName;
                     w.LastName = viewModel.LastName;
+                }
                 else
                 {
                     viewModel.LastName = w.LastName;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.StreetAddress)))
+                {
+                    viewModel.StreetAddress = streetAddress;
                     w.StreetAddress = viewModel.StreetAddress;
+                }
                 else
                 {
                     viewModel.StreetAddress = w.StreetAddress;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.State)))
+                {
+                    viewModel.State = state;
                     w.State = viewModel.State;
+                }
                 else
                 {
                     viewModel.State = w.State;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.PhNumber)))
+                {
+                    viewModel.PhNumber = phNumber;
                     w.PhNumber = viewModel.PhNumber;
+                }
                 else
                 {
                     viewModel.PhNumber = w.PhNumber;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.IsInsured)))
+                {
+                    viewModel.IsInsured = isInsured;
                     w.IsInsured = viewModel.IsInsured;
+                }
                 else
                 {
                     viewModel.IsInsured = w.IsInsured;
                 }
 
                 if (selectedField.Equals(nameof(viewModel.ExperienceLevel)))
+                {
+                    viewModel.ExperienceLevel = experienceLevel;
                     w.ExperienceLevel = (ExperienceLevel)experienceLevel;
+                }
                 else
                 {
                     viewModel.ExperienceLevel = (int)w.ExperienceLevel;
                 }
 
                 // Creating suburb based on form details
-                if (selectedField == nameof(suburbName))
+                if (selectedField.Equals(nameof(viewModel.SuburbName)))
                 {
                     var suburb = new Suburb();
 
@@ -337,6 +368,8 @@ namespace ProgrammingProject.Controllers
                     if (!match)
                         _context.Suburbs.Add(suburb);
                     w.Suburb = suburb;
+                    viewModel.SuburbName = w.Suburb.SuburbName;
+                    viewModel.Postcode = w.Suburb.Postcode;
 
                 }
                 else
