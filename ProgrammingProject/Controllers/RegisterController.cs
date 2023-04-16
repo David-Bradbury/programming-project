@@ -189,6 +189,9 @@ namespace ProgrammingProject.Controllers
             string recipient = email;
             string subject = "Thankyou for Registering with EasyWalk";
             string htmlContent = "You have successfully registered with EasyWalk";
+            string subject = "Thank you for Registering with EasyWalk";
+            string personName = firstName;
+            string htmlContent = GetRegisterEmailContent(personName);
 
             //Calling the method to send email.
             Email.SendEmail(recipient, subject, htmlContent);
