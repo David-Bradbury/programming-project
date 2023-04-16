@@ -5096,9 +5096,9 @@ textarea.form-control-lg {
     flex-direction: column;
     max-width: 100%;
     color: var(--bs-offcanvas-color);
-    background-clip: padding-box;
     visibility: hidden;
     background-color: var(--bs-offcanvas-bg);
+    background-clip: padding-box;
     outline: 0;
     transition: transform 0.3s ease-in-out; } }
   @media (max-width: 991.98px) and (prefers-reduced-motion: reduce) {
@@ -8445,6 +8445,21 @@ body {
   transform: scale(1); }
 
 /********************************************************************/
-/* end navbar styling*/
+/* end navbar styling */
 .btn {
   border-radius: 1.25rem; }
+
+/* landing */
+/********************************************************************/
+@media (min-width: 768px) and (max-width: 991.98px) {
+  #hero-img {
+    background-image: url(b81a5a4f520959ac26c9.jpg);
+    background-size: auto 100%;
+    background-origin: content-box;
+    background-repeat: no-repeat;
+    border-right: 20px solid #ffffff; }
+    #hero-img img {
+      display: none; } }
+
+/* end landing styling */
+
