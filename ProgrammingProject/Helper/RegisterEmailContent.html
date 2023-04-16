@@ -3,23 +3,99 @@
 <head>
     <meta charset="utf-8" />
     <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width" />
     <style>
         html {{
             box-sizing: border-box;
-            font-family: Garamond, serif;
+            font-family: Montserrat, Garamond, serif;
+        }}
+
+        .body {{
+            padding: 22px;
+            max-width: 700px;
+            color: #444;
+            margin-left: auto;
+            margin-right: auto;
+        }}
+
+        h1 {{
+            color: #007e8a;
+        }}
+
+        .logo {{
+            border-bottom: 1px solid #007e8a;
+            background-color: #007e8a;
+            padding: 5px;
+        }}
+
+        .footer {{
+            font-size: 12px;
+            color: #6c757d;
+            border-bottom: 25px solid #007e8a;
+            margin-top: 15px;
+        }}
+
+        a.standard {{
+            color: #007e8a;
+            text-decoration: none;
+        }}
+
+        a.standard:hover {{
+            text-decoration: underline;
+        }}
+
+        .login {{
+            padding: 10px 0;
+        }}
+
+        a.login-link {{
+            text-decoration: none;
+            color: white;
+            font-size: 1.15em;
+            padding: 0.8em 1.3em;
+            background-color: #007e8a;
+            margin: 4em 1em;
+            border-radius: 2em;
+        }}
+
+        a.login-link:hover {{
+            background-color: #006c75;
+        }}
+
+        .bold {{
+            font-weight: bold;
         }}
     </style>
 </head>
-<body>
+<div class="body">
     <div class="logo">
-        <p>Logo</p>
+        <a href="https://programmingproject-easywalk.azurewebsites.net">
+            <img src="https://programmingproject-easywalk.azurewebsites.net/logo-transparent-text-white.png" width="30" height="27"/>
+        </a>
     </div>
     <div class="title">
-        <h1>Thank you {0} for signing up</h1>
+        <h1>Registration confirmed</h1>
     </div>
-    <div class="body">
-        <p>Thank you again.</p>
+    <div class="content-body">
+        <p>Hi {0},</p>
+        <p>Thank you for registering for EasyWalk! Your account is now active.</p>
+        <p></p>
+        <div class="login">
+            <a class="login-link" href="https://programmingproject-easywalk.azurewebsites.net/Login">Login</a>
+        </div>
+        <p></p>
+        <p>See you soon,</p> 
+        <p class="bold">The EasyWalk Team</p>
+        <div class="footer">
+            <p>You are receiving this email because your email address was used to register for an EasyWalk account. 
+                If you did not register for an account, another user may have entered your email by mistake. Please 
+                <a class="standard" href="https://programmingproject-easywalk.azurewebsites.net">get in touch</a> to fix this issue. </p>
+            <p>The EasyWalk website has been created by RMIT students for COSC2650 - Programming Project 1. 
+                For more information please visit <a class="standard" href="https://programmingproject-easywalk.azurewebsites.net">our website</a>.</p>
+        </div>
     </div>
-</body>
+</div>
 </html>
