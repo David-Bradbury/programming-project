@@ -36,7 +36,7 @@
                                 Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountDropdown">
-                                <a class="nav-link" asp-controller="Profile" asp-action="Index">Your Profile</a>
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Index">Profile</a>
                                 <a class="dropdown-item" asp-controller="Login" asp-action="Logout">Logout</a>
 
                             </div>
