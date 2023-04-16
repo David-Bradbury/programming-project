@@ -195,5 +195,23 @@ namespace ProgrammingProject.Controllers
 
             return RedirectToAction("Login", "Login");
         }
+        private string GetRegisterEmailContent(string name) {
+            string content = "";
+
+            try 
+            {
+                using (var sr = new StreamReader("./Helper/RegisterEmailContent.html")) {
+                    string fileContent = sr.ReadToEnd();
+                    content = String.Format(fileContent, name);
+                    
+                }
+            }
+            catch (Exception e) 
+            {
+                content = "You have successfully registered with EasyWalk";
+            }
+
+            return content;
+        }
     }
 }
