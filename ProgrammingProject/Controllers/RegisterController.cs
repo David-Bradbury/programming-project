@@ -33,7 +33,7 @@ namespace ProgrammingProject.Controllers
         {
             viewModel.AccountTypeSelection = id;
 
-            List<string> statesList = States.GetStates();
+            List<string> statesList = DropDownLists.GetStates();
 
             viewModel.StatesList = new List<SelectListItem>();
 
@@ -41,16 +41,10 @@ namespace ProgrammingProject.Controllers
             {
                 viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
             }
-            
-            viewModel.IsInsuredList = new List<SelectListItem>();
-            viewModel.IsInsuredList.Add(new SelectListItem { Text = "Yes, I have insurance", Value = "true" });
-            viewModel.IsInsuredList.Add(new SelectListItem { Text = "No, I do not have insurance", Value = "false" });
 
-            viewModel.ExperienceList = new List<SelectListItem>();
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Beginner", Value = "1" });
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Intermediate", Value = "2" });
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Advanced", Value = "3" });
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Expert", Value = "4" });
+            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
+            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
+
 
 
             return View(viewModel);
@@ -64,7 +58,7 @@ namespace ProgrammingProject.Controllers
             var viewModel = new RegisterViewModel();
             viewModel.AccountTypeSelection = accountTypeSelection;
 
-            List<string> statesList = States.GetStates();
+            List<string> statesList = DropDownLists.GetStates();
 
             viewModel.StatesList = new List<SelectListItem>();
 
@@ -73,15 +67,8 @@ namespace ProgrammingProject.Controllers
                 viewModel.StatesList.Add(new SelectListItem { Text = states, Value = states });
             }
 
-            viewModel.IsInsuredList = new List<SelectListItem>();
-            viewModel.IsInsuredList.Add(new SelectListItem { Text = "Yes, I have insurance", Value = "true" });
-            viewModel.IsInsuredList.Add(new SelectListItem { Text = "No, I do not have insurance", Value = "false" });
-
-            viewModel.ExperienceList = new List<SelectListItem>();
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Beginner", Value = "1" });
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Intermediate", Value = "2" });
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Advanced", Value = "3" });
-            viewModel.ExperienceList.Add(new SelectListItem { Text = "Expert", Value = "4" });
+            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
+            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
 
             if (firstName == null)
@@ -143,7 +130,7 @@ namespace ProgrammingProject.Controllers
             bool match = false;
             foreach (var s in _context.Suburbs)
             {
-                if (s.Postcode == postcode && s.SuburbName ==suburbName)
+                if (s.Postcode == postcode && s.SuburbName == suburbName)
                 {
                     match = true;
                     suburb = s;
@@ -190,9 +177,9 @@ namespace ProgrammingProject.Controllers
                 walker.Suburb = suburb;
                 walker.Country = country;
                 walker.PhNumber = phNumber;
-                if(isInsured.Equals("true"))
+                if (isInsured.Equals("true"))
                     walker.IsInsured = true;
-                else if(isInsured.Equals("false"))
+                else if (isInsured.Equals("false"))
                     walker.IsInsured = false;
 
                 if (experienceLevel.Equals("1"))
@@ -222,17 +209,19 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-        private string GetRegisterEmailContent(string name) {
+        private string GetRegisterEmailContent(string name)
+        {
             string content = "";
 
-            try 
+            try
             {
-                using (var sr = new StreamReader("./Helper/RegisterEmailContent.html")) {
+                using (var sr = new StreamReader("./Helper/RegisterEmailContent.html"))
+                {
                     string fileContent = sr.ReadToEnd();
                     content = String.Format(fileContent, name);
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 content = "You have successfully registered with EasyWalk";
             }

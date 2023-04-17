@@ -79,7 +79,7 @@ namespace ProgrammingProject.Controllers
         {
             //create view model and assign the selected field from the profile page.
             var viewModel = new EditProfileViewModel();
-            List<string> statesList = States.GetStates();
+            List<string> statesList = DropDownLists.GetStates();
 
             viewModel.StatesList = new List<SelectListItem>();
 
