@@ -51,7 +51,7 @@ namespace ProgrammingProject.Controllers
                 viewModel.State = w.State;
                 viewModel.Country = w.Country;
                 viewModel.PhNumber = w.PhNumber;
-                if(w.IsInsured = true)
+                if(w.IsInsured == true)
                 {
                     viewModel.IsInsured = "Insured";
                 }
@@ -95,6 +95,8 @@ namespace ProgrammingProject.Controllers
             //create view model and assign the selected field from the profile page.
             var viewModel = new EditProfileViewModel();
             List<string> statesList = DropDownLists.GetStates();
+            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
+            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
             viewModel.StatesList = new List<SelectListItem>();
 
