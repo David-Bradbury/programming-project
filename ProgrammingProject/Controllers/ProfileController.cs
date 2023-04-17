@@ -33,6 +33,8 @@ namespace ProgrammingProject.Controllers
             w = await _context.Walkers.FindAsync(UserID);
 
             var viewModel = new EditProfileViewModel();
+            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
+            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
 
             //Check usertype and create viewModel
@@ -49,8 +51,22 @@ namespace ProgrammingProject.Controllers
                 viewModel.State = w.State;
                 viewModel.Country = w.Country;
                 viewModel.PhNumber = w.PhNumber;
-                viewModel.IsInsured = w.IsInsured;
-                viewModel.ExperienceLevel = (int)w.ExperienceLevel;
+                if(w.IsInsured = true)
+                {
+                    viewModel.IsInsured = "Insured";
+                }
+                else
+                {
+                    viewModel.IsInsured = "Uninsured";
+                }
+               if(w.ExperienceLevel == ExperienceLevel.Beginner)
+                    viewModel.ExperienceLevel = "Beginner";
+               else if (w.ExperienceLevel == ExperienceLevel.Intermediate)
+                    viewModel.ExperienceLevel = "Intermediate";
+                else if (w.ExperienceLevel == ExperienceLevel.Advanced)
+                    viewModel.ExperienceLevel = "Advanced";
+                else 
+                    viewModel.ExperienceLevel = "Expert";
 
             }
             else
@@ -66,8 +82,7 @@ namespace ProgrammingProject.Controllers
                 viewModel.State = o.State;
                 viewModel.Country = o.Country;
                 viewModel.PhNumber = o.PhNumber;
-                //default values for ExperienceLevel an IsInsured as are not used for owner.
-
+               
             }
 
             return View(viewModel);
@@ -113,9 +128,23 @@ namespace ProgrammingProject.Controllers
                 viewModel.State = w.State;
                 viewModel.Country = w.Country;
                 viewModel.PhNumber = w.PhNumber;
-                viewModel.IsInsured = w.IsInsured;
-                viewModel.ExperienceLevel = (int)w.ExperienceLevel;
-               
+                if (w.IsInsured = true)
+                {
+                    viewModel.IsInsured = "Insured";
+                }
+                else
+                {
+                    viewModel.IsInsured = "Uninsured";
+                }
+                if (w.ExperienceLevel == ExperienceLevel.Beginner)
+                    viewModel.ExperienceLevel = "Beginner";
+                else if (w.ExperienceLevel == ExperienceLevel.Intermediate)
+                    viewModel.ExperienceLevel = "Intermediate";
+                else if (w.ExperienceLevel == ExperienceLevel.Advanced)
+                    viewModel.ExperienceLevel = "Advanced";
+                else
+                    viewModel.ExperienceLevel = "Expert";
+
 
             }
             else
@@ -159,7 +188,7 @@ namespace ProgrammingProject.Controllers
 
         [HttpPost]
         public async Task<IActionResult> EditProfile(string email, string selectedField, string userType, string firstName, string lastName,
-         string streetAddress, string suburbName, string postcode, string state, string phNumber, bool isInsured, int experienceLevel, string country, string password, string confirmPassword)
+         string streetAddress, string suburbName, string postcode, string state, string phNumber, string isInsured, string experienceLevel, string country, string password, string confirmPassword)
         {
 
             var viewModel = new EditProfileViewModel
@@ -365,21 +394,41 @@ namespace ProgrammingProject.Controllers
                 if (selectedField.Equals(nameof(viewModel.IsInsured)))
                 {
                     viewModel.IsInsured = isInsured;
-                    w.IsInsured = viewModel.IsInsured;
+                    if (isInsured.Equals("Insured"))
+                        w.IsInsured = true;
+                    else if (isInsured.Equals("Uninsured"))
+                        w.IsInsured = false;
                 }
                 else
                 {
-                    viewModel.IsInsured = w.IsInsured;
+                    if (w.IsInsured = true)
+                        viewModel.IsInsured = "Insured";
+                    else if (w.IsInsured = false)
+                        viewModel.IsInsured = "Uninsured";
                 }
 
                 if (selectedField.Equals(nameof(viewModel.ExperienceLevel)))
                 {
                     viewModel.ExperienceLevel = experienceLevel;
-                    w.ExperienceLevel = (ExperienceLevel)experienceLevel;
+                    if (experienceLevel.Equals("Beginner"))
+                        w.ExperienceLevel = ExperienceLevel.Beginner;
+                    else if (experienceLevel.Equals("Intermediate"))
+                        w.ExperienceLevel = ExperienceLevel.Intermediate;
+                    else if (experienceLevel.Equals("Advanced"))
+                        w.ExperienceLevel = ExperienceLevel.Advanced;
+                    else if (experienceLevel.Equals("Expert"))
+                        w.ExperienceLevel = ExperienceLevel.Expert;
                 }
                 else
                 {
-                    viewModel.ExperienceLevel = (int)w.ExperienceLevel;
+                    if (w.ExperienceLevel == ExperienceLevel.Beginner)
+                        viewModel.ExperienceLevel = "Beginner";
+                    else if (w.ExperienceLevel == ExperienceLevel.Intermediate)
+                        viewModel.ExperienceLevel = "Intermediate";
+                    else if (w.ExperienceLevel == ExperienceLevel.Advanced)
+                        viewModel.ExperienceLevel = "Advanced";
+                    else
+                        viewModel.ExperienceLevel = "Expert";
                 }
 
                 // Creating suburb based on form details

@@ -42,14 +42,16 @@ namespace ProgrammingProject.Models
         public string PhNumber { get; set; }
 
 
-        [Display(Name = "Insured")]
-        public bool IsInsured { get; set; }
+        [Display(Name = "Insurance status")]
+        public string IsInsured { get; set; }
 
-        [Range(1, 4), Display(Name = "Experience Level")]
-        public int ExperienceLevel { get; set; }
+        [Display(Name = "Dog walking experience level")]
+        public string ExperienceLevel { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public List<SelectListItem> StatesList { get; set; }
+        public List<SelectListItem> IsInsuredList { get; set; }
+        public List<SelectListItem> ExperienceList { get; set; }
 
     }
 }

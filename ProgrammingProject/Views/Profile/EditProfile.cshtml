@@ -148,9 +148,18 @@
             }
             @if (Model.SelectedField.Equals(nameof(Model.IsInsured)))
             {
-                <div class="form-group">
+                <!-- <div class="form-group">
+                      <label asp-for="IsInsured" class="control-label"></label>
+                      <input asp-for="IsInsured" class="form-control" />
+                      <span asp-validation-for="IsInsured" class="text-danger"></span>
+                  </div>-->
+
+
+                <div class="form-group mt-3">
                     <label asp-for="IsInsured" class="control-label"></label>
-                    <input asp-for="IsInsured" class="form-control" />
+                    <select class="form-select" asp-items="Model.IsInsuredList" asp-for="IsInsured">
+                        <option value="" hidden>-- Please Select --</option>
+                    </select>
                     <span asp-validation-for="IsInsured" class="text-danger"></span>
                 </div>
                 <input asp-for=FirstName type="hidden" />
@@ -168,11 +177,20 @@
             }
             @if (Model.SelectedField.Equals(nameof(Model.ExperienceLevel)))
             {
-                <div class="form-group">
+                <!-- <div class="form-group">
+                     <label asp-for="ExperienceLevel" class="control-label"></label>
+                     <input asp-for="ExperienceLevel" class="form-control" />
+                     <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+                 </div>-->
+
+                <div class="form-group mt-3">
                     <label asp-for="ExperienceLevel" class="control-label"></label>
-                    <input asp-for="ExperienceLevel" class="form-control" />
+                    <select class="form-select" asp-items="Model.ExperienceList" asp-for="ExperienceLevel">
+                        <option value="" hidden>-- Please Select --</option>
+                    </select>
                     <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
                 </div>
+
                 <input asp-for=FirstName type="hidden" />
                 <input asp-for=LastName type="hidden" />
                 <input asp-for=StreetAddress type="hidden" />

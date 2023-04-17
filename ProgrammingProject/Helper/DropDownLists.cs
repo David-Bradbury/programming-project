@@ -24,8 +24,8 @@ namespace ProgrammingProject.Helper
 
             List<SelectListItem> InsuranceList = new List<SelectListItem>();
             
-            InsuranceList.Add(new SelectListItem { Text = "Yes, I have insurance", Value = "true" });
-            InsuranceList.Add(new SelectListItem { Text = "No, I do not have insurance", Value = "false" });
+            InsuranceList.Add(new SelectListItem { Text = "Yes, I have insurance", Value = "Insured" });
+            InsuranceList.Add(new SelectListItem { Text = "No, I do not have insurance", Value = "Uninsured" });
 
             return InsuranceList;
         }
@@ -34,10 +34,10 @@ namespace ProgrammingProject.Helper
         {
             List<SelectListItem> ExperienceList = new List<SelectListItem>();
 
-            ExperienceList.Add(new SelectListItem { Text = "Beginner", Value = "1" });
-            ExperienceList.Add(new SelectListItem { Text = "Intermediate", Value = "2" });
-            ExperienceList.Add(new SelectListItem { Text = "Advanced", Value = "3" });
-            ExperienceList.Add(new SelectListItem { Text = "Expert", Value = "4" });
+            ExperienceList.Add(new SelectListItem { Text = "Beginner", Value = "Beginner" });
+            ExperienceList.Add(new SelectListItem { Text = "Intermediate", Value = "Intermediate" });
+            ExperienceList.Add(new SelectListItem { Text = "Advanced", Value = "Advanced" });
+            ExperienceList.Add(new SelectListItem { Text = "Expert", Value = "Expert" });
 
             return ExperienceList;
         }

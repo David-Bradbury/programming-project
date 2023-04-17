@@ -177,18 +177,18 @@ namespace ProgrammingProject.Controllers
                 walker.Suburb = suburb;
                 walker.Country = country;
                 walker.PhNumber = phNumber;
-                if (isInsured.Equals("true"))
+                if (isInsured.Equals("Insured"))
                     walker.IsInsured = true;
-                else if (isInsured.Equals("false"))
+                else if (isInsured.Equals("Uninsured"))
                     walker.IsInsured = false;
 
-                if (experienceLevel.Equals("1"))
+                if (experienceLevel.Equals("Beginner"))
                     walker.ExperienceLevel = ExperienceLevel.Beginner;
-                else if (experienceLevel.Equals("2"))
+                else if (experienceLevel.Equals("Intermediate"))
                     walker.ExperienceLevel = ExperienceLevel.Intermediate;
-                else if (experienceLevel.Equals("3"))
+                else if (experienceLevel.Equals("Advanced"))
                     walker.ExperienceLevel = ExperienceLevel.Advanced;
-                else if (experienceLevel.Equals("4"))
+                else if (experienceLevel.Equals("Expert"))
                     walker.ExperienceLevel = ExperienceLevel.Expert;
                 _context.Add(walker);
                 _context.SaveChanges();
