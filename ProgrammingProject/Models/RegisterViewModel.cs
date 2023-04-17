@@ -32,10 +32,12 @@ namespace ProgrammingProject.Models
     ErrorMessage = "Must be an Australian phone number starting (Example 04XX XXX XXX")]
         [Display(Name = "Phone Number")]
         public string PhNumber { get; set; }
-        [Display(Name = "Are you insured? Tick if yes")]
-        public bool IsInsured { get; set; }
-        [Range(1, 4), Display(Name = "Choose between 1= Beginner & 4 = Advanced")]
-        public int ExperienceLevel { get; set; }
+
+        [Display(Name = "Are you insured?")]
+        public string IsInsured { get; set; }
+
+        [Display(Name = "Dog walking experience level")]
+        public string ExperienceLevel { get; set; }
         [Required]
         [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$",
     ErrorMessage = "Password must include at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length")]
@@ -44,6 +46,8 @@ namespace ProgrammingProject.Models
         public string ConfirmPassword { get; set; }
 
         public List<SelectListItem> StatesList { get; set; }
+        public List<SelectListItem> IsInsuredList { get; set; }
+        public List<SelectListItem> ExperienceList { get; set; }
     }
 }
 

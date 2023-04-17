@@ -41,16 +41,28 @@ namespace ProgrammingProject.Controllers
             {
                 viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
             }
+            
+            viewModel.IsInsuredList = new List<SelectListItem>();
+            viewModel.IsInsuredList.Add(new SelectListItem { Text = "Yes, I have insurance", Value = "true" });
+            viewModel.IsInsuredList.Add(new SelectListItem { Text = "No, I do not have insurance", Value = "false" });
+
+            viewModel.ExperienceList = new List<SelectListItem>();
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Beginner", Value = "1" });
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Intermediate", Value = "2" });
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Advanced", Value = "3" });
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Expert", Value = "4" });
+
 
             return View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
-                                                                string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password, string confirmPassword)
+                                                                string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword)
         {
 
             var viewModel = new RegisterViewModel();
+            viewModel.AccountTypeSelection = accountTypeSelection;
 
             List<string> statesList = States.GetStates();
 
@@ -60,6 +72,16 @@ namespace ProgrammingProject.Controllers
             {
                 viewModel.StatesList.Add(new SelectListItem { Text = states, Value = states });
             }
+
+            viewModel.IsInsuredList = new List<SelectListItem>();
+            viewModel.IsInsuredList.Add(new SelectListItem { Text = "Yes, I have insurance", Value = "true" });
+            viewModel.IsInsuredList.Add(new SelectListItem { Text = "No, I do not have insurance", Value = "false" });
+
+            viewModel.ExperienceList = new List<SelectListItem>();
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Beginner", Value = "1" });
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Intermediate", Value = "2" });
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Advanced", Value = "3" });
+            viewModel.ExperienceList.Add(new SelectListItem { Text = "Expert", Value = "4" });
 
 
             if (firstName == null)
@@ -168,14 +190,18 @@ namespace ProgrammingProject.Controllers
                 walker.Suburb = suburb;
                 walker.Country = country;
                 walker.PhNumber = phNumber;
-                walker.IsInsured = isInsured;
-                if (experienceLevel == 1)
+                if(isInsured.Equals("true"))
+                    walker.IsInsured = true;
+                else if(isInsured.Equals("false"))
+                    walker.IsInsured = false;
+
+                if (experienceLevel.Equals("1"))
                     walker.ExperienceLevel = ExperienceLevel.Beginner;
-                else if (experienceLevel == 2)
+                else if (experienceLevel.Equals("2"))
                     walker.ExperienceLevel = ExperienceLevel.Intermediate;
-                else if (experienceLevel == 3)
+                else if (experienceLevel.Equals("3"))
                     walker.ExperienceLevel = ExperienceLevel.Advanced;
-                else if (experienceLevel == 4)
+                else if (experienceLevel.Equals("4"))
                     walker.ExperienceLevel = ExperienceLevel.Expert;
                 _context.Add(walker);
                 _context.SaveChanges();
