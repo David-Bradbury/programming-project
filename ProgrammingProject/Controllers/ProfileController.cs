@@ -188,6 +188,8 @@ namespace ProgrammingProject.Controllers
             // Will need to change to add different mobile entry options, such as 04xx xxx xxx or +614xx xxx xxx or various other combinations. JC
             if (selectedField == nameof(phNumber) && !Regex.IsMatch(phNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
                 ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+            if (selectedField == nameof(password) && !Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))
+                ModelState.AddModelError(nameof(password), "Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
 
             if (selectedField.Equals(nameof(viewModel.Password)))
             {
