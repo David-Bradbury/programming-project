@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230414033610_suburbKeyChange")]
-    partial class suburbKeyChange
+    [Migration("20230417045157_UpdateSuburbModel")]
+    partial class UpdateSuburbModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,15 +33,12 @@ namespace ProgrammingProject.Migrations
                     b.Property<int>("DogListId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WalkingSessionsWalkerID")
+                    b.Property<int>("WalkingSessionsSessionID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("WalkingSessionsStartTime")
-                        .HasColumnType("datetime2");
+                    b.HasKey("DogListId", "WalkingSessionsSessionID");
 
-                    b.HasKey("DogListId", "WalkingSessionsWalkerID", "WalkingSessionsStartTime");
-
-                    b.HasIndex("WalkingSessionsWalkerID", "WalkingSessionsStartTime");
+                    b.HasIndex("WalkingSessionsSessionID");
 
                     b.ToTable("DogWalkingSession");
                 });
@@ -65,7 +62,6 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("MicrochipNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -74,7 +70,7 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("OwnerUserId")
+                    b.Property<int?>("OwnerUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("Temperament")
@@ -83,12 +79,8 @@ namespace ProgrammingProject.Migrations
                     b.Property<int>("TrainingLevel")
                         .HasColumnType("int");
 
-                    b.Property<int>("VetId")
+                    b.Property<int?>("VetId")
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
@@ -247,16 +239,36 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.WalkingSession", b =>
                 {
+                    b.Property<int>("SessionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SessionID"));
+
+                    b.Property<DateTime>("ActualEndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ActualStartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRecurring")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ScheduledEndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ScheduledStartTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("WalkerID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.HasKey("SessionID");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("WalkerID", "StartTime");
+                    b.HasIndex("WalkerID");
 
                     b.ToTable("WalkingSessions");
                 });
@@ -312,11 +324,9 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("SuburbName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SuburbPostcode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasIndex("SuburbPostcode", "SuburbName");
@@ -354,11 +364,9 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("SuburbName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SuburbPostcode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasIndex("SuburbPostcode", "SuburbName");
@@ -397,7 +405,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasOne("ProgrammingProject.Models.WalkingSession", null)
                         .WithMany()
-                        .HasForeignKey("WalkingSessionsWalkerID", "WalkingSessionsStartTime")
+                        .HasForeignKey("WalkingSessionsSessionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -406,15 +414,11 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Owner", "Owner")
                         .WithMany("Dogs")
-                        .HasForeignKey("OwnerUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerUserId");
 
                     b.HasOne("ProgrammingProject.Models.Vet", "Vet")
                         .WithMany("Dogs")
-                        .HasForeignKey("VetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VetId");
 
                     b.Navigation("Owner");
 
@@ -505,8 +509,7 @@ namespace ProgrammingProject.Migrations
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany("Owners")
                         .HasForeignKey("SuburbPostcode", "SuburbName")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Suburb");
                 });
@@ -516,8 +519,7 @@ namespace ProgrammingProject.Migrations
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany("Walkers")
                         .HasForeignKey("SuburbPostcode", "SuburbName")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Suburb");
                 });
@@ -529,8 +531,7 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.Login", b =>
                 {
-                    b.Navigation("User")
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.Suburb", b =>
