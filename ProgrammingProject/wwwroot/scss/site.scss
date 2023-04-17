@@ -61,3 +61,24 @@ body {
 
 /********************************************************************/
 /* end navbar styling */
+
+.btn {
+    border-radius: 1.25rem;
+}
+
+/* landing */
+/********************************************************************/
+@include media-breakpoint-only(md) {
+    #hero-img {
+        background-image: url("../img/angel-luciano-LATYeZyw88c-unsplash-crop.jpg");
+        background-size: auto 100%;
+        background-origin: content-box;
+        background-repeat: no-repeat;
+        border-right: 20px solid #ffffff;
+
+        img {
+            display: none;
+        }
+    }
+}
+/* end landing styling */
