@@ -186,13 +186,32 @@ namespace ProgrammingProject.Controllers
 
             // Parameters to send through to email method. Front End to modify messages.
             string recipient = email;
-            string subject = "Thankyou for Registering with EasyWalk";
-            string htmlContent = "You have successfully registered with EasyWalk";
+            string subject = "Thank you for Registering with EasyWalk";
+            string personName = firstName;
+            string htmlContent = GetRegisterEmailContent(personName);
 
             //Calling the method to send email.
             Email.SendEmail(recipient, subject, htmlContent);
 
             return RedirectToAction("Login", "Login");
+        }
+
+        private string GetRegisterEmailContent(string name) {
+            string content = "";
+
+            try 
+            {
+                using (var sr = new StreamReader("./Helper/RegisterEmailContent.html")) {
+                    string fileContent = sr.ReadToEnd();
+                    content = String.Format(fileContent, name);
+                }
+            }
+            catch (Exception e) 
+            {
+                content = "You have successfully registered with EasyWalk";
+            }
+
+            return content;
         }
     }
 }
