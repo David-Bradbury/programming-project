@@ -92,9 +92,11 @@
                 </dd>
             </dl>
         </div>
-        <input name="DogID" class="form-control"
-            type="hidden" value="@Model.Id" />
-        <input type="submit" class="btn btn-primary" asp-action="WalkingSessions"
-            value="Add Dog To Walking Session" asp-route-id="WalkingSessions" />
+        <form method="post">
+            <input name="DogID" class="form-control"
+                type="hidden" value="@Model.Id" />
+            <input type="submit" class="btn btn-primary" asp-controller="Walker" asp-action="WalkingSessions"
+                value="Add Dog To Walking Session" asp-route-id="WalkingSessions" />
+        </form>
     </div>
 </div>
