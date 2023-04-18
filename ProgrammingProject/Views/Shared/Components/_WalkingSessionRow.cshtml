@@ -6,37 +6,40 @@
 }
 <div class="card">
     <div class="card-body container">
-        <div class="row">
-            <div class="col-12 col-sm-4 col-md-2">
-                <p class="fw-bold mb-0">Date</p>
-                <p>@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
-            </div>
-            <div class="col-6 col-sm-4 col-md-2">
-                <p class="fw-bold mb-0">Start</p>
-                <p>@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
-            </div>
-            <div class="col-6 col-sm-4 col-md-2">
-                <p class="fw-bold mb-0">End</p>
-                <p>@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
-            </div>
-            <div class="col-md-4">
-                <p class="fw-bold mb-0">Dogs On Walk</p>
-                @if (Model.DogList.Count() > 0)
-                {
-                    <p>
-                    @foreach (var d in Model.DogList)
+        <div class="d-flex justify-content-between">
+            <div class="row flex-grow-1">
+                <div class="col-12 col-sm-3 col-md-2">
+                    <p class="fw-bold mb-0">Date</p>
+                    <p>@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
+                </div>
+                <div class="col-2 col-sm-2 col-md-2">
+                    <p class="fw-bold mb-0">Start</p>
+                    <p>@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
+                </div>
+                <div class="col-10 col-sm-7 col-md-2">
+                    <p class="fw-bold mb-0">End</p>
+                    <p>@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="fw-bold mb-0">Dogs On Walk</p>
+                    @if (Model.DogList.Count() > 0)
                     {
-                        @Html.DisplayFor(x => d.Name)
-                        <br />
+                        <p>
+                        @foreach (var d in Model.DogList)
+                        {
+                            @Html.DisplayFor(x => d.Name)
+                            <br />
+                        }
+                        </p>
                     }
-                    </p>
-                }
-                else
-                {
-                    <p>No Dogs</p>
-                }
+                    else
+                    {
+                        <p>No Dogs</p>
+                    }
+                </div>
+            
             </div>
-            <div class="col-md-2">
+            <div class="d-flex flex-column gap-1">
                 <button type="button" class="btn btn-secondary" disabled>
                     <i class="bi bi-pencil-square"></i>
                 </button>

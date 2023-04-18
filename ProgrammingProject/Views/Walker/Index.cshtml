@@ -44,7 +44,7 @@
 
 <div>
     <h3>Suitable Dogs</h3>
-    <div class="d-flex justify-content-around align-items-stretch flex-wrap gap-4">
+    <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
         @foreach (var dog in dogs) 
         {
             <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />

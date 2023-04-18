@@ -14300,6 +14300,10 @@ html {
 body {
   margin-bottom: 60px; }
 
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px; } }
+
 /* navbar */
 /********************************************************************/
 .nav-link:not(.dropdown-toggle) {

@@ -21,6 +21,12 @@ body {
 }
 
 
+@include media-breakpoint-up(lg) {
+    .container {
+        max-width: 960px;
+    }
+}
+
 /* navbar */
 /********************************************************************/
 .nav-link:not(.dropdown-toggle) {
