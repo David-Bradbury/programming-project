@@ -7,33 +7,43 @@
 
 <div>
     <h1>Dashboard</h1>
-    <p class="">This is, @walker.FirstName @walker.LastName. @walker.FirstName is a Walker.</p>
+    <p class="">This is @walker.FirstName @walker.LastName. @walker.FirstName is a Walker.</p>
 </div>
 
 <div>
     <form asp-action="CreateWalkingSession">
-        <h3 class="">Create New Walking Session</h3>
-        <label for="Date" class="control-label">Date of Walk</label>
-        <input type="date" id="Date" name="Date" class="form-control"
-               data-val="true" data-val-date="The field Date must be a date."
-               data-val-required="The date field is required." />
-        <label for="StartTime" class="control-label">Start Time of Walk</label>
-        <input type="time" id="StartTime" name="StartTime" class="form-control"
-               data-val="true" data-val-time="The field StartTimne must be a time."
-               data-val-required="The StartTime field is required." />
-        <label for="EndTime" class="control-label">End Time of Walk</label>
-        <input type="time" id="EndTime" name="EndTime" class="form-control"
-               data-val="true" data-val-time="The field EndTime must be a time."
-               data-val-required="The EndTime field is required." />
-        <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
-               value="Create Walking Session" asp-route-id="CreateWalkingSessions" />
+        <h3>Create New Walking Session</h3>
+        <div class="d-sm-flex align-items-sm-end gap-4">
+            <div class="flex-grow-1 mb-3 mb-sm-0">
+                <label for="Date" class="form-label">Date</label>
+                <input type="date" id="Date" name="Date" class="form-control"
+                        data-val="true" data-val-date="The field Date must be a date."
+                        data-val-required="The date field is required." />
+            </div>
+            <div class="flex-grow-1 mb-3 mb-sm-0">
+                <label for="StartTime" class="form-label">Start Time</label>
+                <input type="time" id="StartTime" name="StartTime" class="form-control"
+                        data-val="true" data-val-time="The field StartTimne must be a time."
+                        data-val-required="The StartTime field is required." />
+            </div>
+            <div class="flex-grow-1 mb-3 mb-sm-0">
+                <label for="EndTime" class="form-label">End Time</label>
+                <input type="time" id="EndTime" name="EndTime" class="form-control"
+                        data-val="true" data-val-time="The field EndTime must be a time."
+                        data-val-required="The EndTime field is required." />
+            </div>
+            <div class="flex-grow-1">
+                <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
+                    value="Add Session" asp-route-id="CreateWalkingSessions" />
+            </div>
+            
+        </div>
     </form>
 </div>
 <br />
 
 <div>
     <h3>Sessions</h3>
-
     <div class="mb-5 d-flex flex-column gap-1">
         @foreach (var walk in walker.WalkingSessions)
         {
