@@ -25,10 +25,17 @@
                     @if (Model.DogList.Count() > 0)
                     {
                         <p>
+                        @{
+                            int count = 0;
+                        }
                         @foreach (var d in Model.DogList)
                         {
+                            if (count > 0) {
+                               @Html.Raw(", ")
+                            }
                             @Html.DisplayFor(x => d.Name)
-                            <br />
+                            count++;
+                            
                         }
                         </p>
                     }
