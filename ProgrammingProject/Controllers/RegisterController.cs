@@ -279,7 +279,7 @@ namespace ProgrammingProject.Controllers
             }
             catch (Exception e)
             {
-                content = "Please verify you email address using this link: ";
+                content = url;
             }
 
             return content;

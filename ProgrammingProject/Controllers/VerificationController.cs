@@ -14,10 +14,6 @@ namespace ProgrammingProject.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [Route("/Verification/Verify")]
         public IActionResult Verify(string emailToken)
@@ -39,7 +35,7 @@ namespace ProgrammingProject.Controllers
             if(verified == true)
                     return View();
             else
-               return View("Home", "Index");
+               return View("Index", "Home");
         }
 
 
