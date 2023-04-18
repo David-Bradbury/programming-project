@@ -26,10 +26,19 @@ namespace ProgrammingProject.Controllers
             //find login id
             var login = await _context.Logins.FindAsync(Email);
 
+
+
             //attempt password check
             if (login == null || string.IsNullOrEmpty(password) || !PBKDF2.Verify(login.PasswordHash, password))
             {
                 ModelState.AddModelError("LoginFailure", "Login attempt failed, please try again");
+                return View(new Login { Email = Email }); ;
+            }
+
+            //attempt verified email
+            if (login.Locked == Locked.locked)
+            {
+                ModelState.AddModelError("LoginFailure", "Email has not been validated. Please check inbox or junk folder to validate");
                 return View(new Login { Email = Email }); ;
             }
 

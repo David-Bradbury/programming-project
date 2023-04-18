@@ -17,6 +17,7 @@ namespace ProgrammingProject.Models
         [Required, StringLength(64)]
         public string PasswordHash { get; set; }
         public Locked Locked { get; set; }
+        public string EmailToken { get; set; }
 
         public virtual User User { get; set; }
     

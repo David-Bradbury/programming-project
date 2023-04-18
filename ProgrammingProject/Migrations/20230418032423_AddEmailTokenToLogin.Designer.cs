@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230417045157_UpdateSuburbModel")]
-    partial class UpdateSuburbModel
+    [Migration("20230418032423_AddEmailTokenToLogin")]
+    partial class AddEmailTokenToLogin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,6 +117,9 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(320)
                         .HasColumnType("nvarchar(320)");
+
+                    b.Property<string>("EmailToken")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Locked")
                         .HasColumnType("int");

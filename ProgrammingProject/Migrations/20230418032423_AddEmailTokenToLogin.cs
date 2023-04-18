@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateSuburbModel : Migration
+    public partial class AddEmailTokenToLogin : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,8 @@ namespace ProgrammingProject.Migrations
                 {
                     Email = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
                     PasswordHash = table.Column<string>(type: "char(64)", maxLength: 64, nullable: false),
-                    Locked = table.Column<int>(type: "int", nullable: false)
+                    Locked = table.Column<int>(type: "int", nullable: false),
+                    EmailToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
