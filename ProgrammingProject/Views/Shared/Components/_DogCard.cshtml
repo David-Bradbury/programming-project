@@ -1,7 +1,7 @@
 ﻿@model ProgrammingProject.Models.Dog
 
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
+<div class="card dog-card">
+    <div class="card-body d-flex flex-column">
         <div class="d-flex">
             <img src="~/img/dog-avatar.jpg" width="80" height="80" style="border-radius: 80px;" class="ms-1"/>
             <div class="ms-4">
@@ -10,7 +10,7 @@
                 <p><i class="bi bi-star-fill"></i> 4.5 (14)</p>
             </div>
         </div>
-        <div class="container">
+        <div class="container mb-auto">
             <dl class="row">
                 <dt class="col-7">
                     @Html.DisplayNameFor(model => model.Temperament)
@@ -43,7 +43,6 @@
                     @Html.DisplayFor(model => model.Owner.FirstName)
                 </dd>
             </dl>
-            @*<p class="text-center mb-1" style="0.9rem;">@Model.Name belongs to @Model.Owner.FirstName</p>*@
         </div>
         <form method="post">
             <input name="DogID" class="form-control"

@@ -11624,6 +11624,9 @@ textarea.form-control-lg {
 .top-0 {
   top: 0 !important; }
 
+.top-10 {
+  top: 10% !important; }
+
 .top-50 {
   top: 50% !important; }
 
@@ -11632,6 +11635,9 @@ textarea.form-control-lg {
 
 .bottom-0 {
   bottom: 0 !important; }
+
+.bottom-10 {
+  bottom: 10% !important; }
 
 .bottom-50 {
   bottom: 50% !important; }
@@ -11642,6 +11648,9 @@ textarea.form-control-lg {
 .start-0 {
   left: 0 !important; }
 
+.start-10 {
+  left: 10% !important; }
+
 .start-50 {
   left: 50% !important; }
 
@@ -11650,6 +11659,9 @@ textarea.form-control-lg {
 
 .end-0 {
   right: 0 !important; }
+
+.end-10 {
+  right: 10% !important; }
 
 .end-50 {
   right: 50% !important; }
@@ -14371,4 +14383,19 @@ footer {
 
 /********************************************************************/
 /* end landing styling */
+/* dog card */
+/********************************************************************/
+.dog-card {
+  width: 18rem; }
+  @media (max-width: 767.98px) {
+    .dog-card {
+      margin-left: auto;
+      margin-right: auto; } }
+
+/********************************************************************/
+/* end dog card styling*/
+/* session row */
+/********************************************************************/
+/********************************************************************/
+/* end session row styling*/
 
