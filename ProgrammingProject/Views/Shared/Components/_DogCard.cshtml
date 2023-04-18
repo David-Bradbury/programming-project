@@ -1,6 +1,6 @@
 ﻿@model ProgrammingProject.Models.Dog
 
-<div>
+@*<div>
     <h4>Dog</h4>
     <hr />
     <dl class="row">
@@ -51,4 +51,50 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
+</div>
+*@
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <div class="d-flex">
+            <img src="~/img/dog-avatar.jpg" width="80" height="80" style="border-radius: 80px;" class="ms-1"/>
+            <div class="ms-4">
+                <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.Name)</p>
+                <p class="card-subtitle">@Html.DisplayFor(model => model.Breed)</p>
+                <p><i class="bi bi-star-fill"></i> 4.5 (14)</p>
+            </div>
+        </div>
+        <div class="container">
+            <dl class="row">
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.Temperament)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.Temperament)
+                </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.DogSize)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.DogSize)
+                </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.TrainingLevel)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.TrainingLevel)
+                </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.IsVaccinated)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.IsVaccinated)
+                </dd>
+            </dl>
+        </div>
+        <input name="DogID" class="form-control"
+            type="hidden" value="@Model.Id" />
+        <input type="submit" class="btn btn-primary" asp-action="WalkingSessions"
+            value="Add Dog To Walking Session" asp-route-id="WalkingSessions" />
+    </div>
 </div>
