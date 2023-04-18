@@ -39,7 +39,6 @@ namespace ProgrammingProject.Models
         [Display(Name = "Dog walking experience level")]
         public string ExperienceLevel { get; set; }
         [Required]
-
         [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$",
     ErrorMessage = "Password must include at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length")]
         public string Password { get; set; }

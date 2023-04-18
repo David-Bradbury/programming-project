@@ -16,7 +16,7 @@ namespace ProgrammingProject.Models
         Calm = 0,
         Friendly = 1,
         Reactive = 2,
-        Aggresive = 3
+        Aggressive = 3
     }
     public enum TrainingLevel
     {

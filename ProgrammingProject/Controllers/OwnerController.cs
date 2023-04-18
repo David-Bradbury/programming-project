@@ -2,6 +2,7 @@
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
 using Microsoft.AspNetCore.Mvc;
+using ProgrammingProject.Helper;
 
 namespace ProgrammingProject.Controllers
 {
@@ -12,6 +13,7 @@ namespace ProgrammingProject.Controllers
     public class OwnerController : Controller
     {
         private readonly EasyWalkContext _context;
+        public AddDogViewModel viewModel = new AddDogViewModel();
         private int OwnerID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
        // private int DogID => HttpContext.Session.GetInt32(nameof(Dog.Id)).Value;
 
@@ -20,11 +22,8 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
-<<<<<<< HEAD
 
-=======
         [AuthorizeUser]
->>>>>>> main
         public async Task<IActionResult> Index()
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
@@ -43,9 +42,14 @@ namespace ProgrammingProject.Controllers
      Name = "AddDog")]
         public async Task<IActionResult> AddDog()
         {
-            // I know this is wrong here! JC
-            var dog = new Dog();
-            return View(dog);
+            viewModel.DogSizeList = DropDownLists.GetDogSize();
+            viewModel.TemperamentList = DropDownLists.GetTemperament();
+            viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
+            //fix that
+            viewModel.StatesList = DropDownLists.GetStates();
+            viewModel.IsVaccinatedList =DropDownLists.GetVaccinatedList();
+            
+            return View(viewModel);
         }
 
         //[HttpPost]

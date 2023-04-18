@@ -41,5 +41,48 @@ namespace ProgrammingProject.Helper
 
             return ExperienceList;
         }
+        public static List<SelectListItem> GetDogSize()
+        {
+            List<SelectListItem> DogSizeList = new List<SelectListItem>();
+
+            DogSizeList.Add(new SelectListItem { Text = "Small", Value = "Small" });
+            DogSizeList.Add(new SelectListItem { Text = "Medium", Value = "Medium" });
+            DogSizeList.Add(new SelectListItem { Text = "Large", Value = "Large" });
+            DogSizeList.Add(new SelectListItem { Text = "ExtraLarge", Value = "ExtraLarge" });
+
+            return DogSizeList;
+        }
+        public static List<SelectListItem> GetTemperament()
+        {
+            List<SelectListItem> TemperamentList = new List<SelectListItem>();
+
+            TemperamentList.Add(new SelectListItem { Text = "NonReactive", Value = "NonReactive" });
+            TemperamentList.Add(new SelectListItem { Text = "Calm", Value = "Calm" });
+            TemperamentList.Add(new SelectListItem { Text = "Friendly", Value = "Friendly" });
+            TemperamentList.Add(new SelectListItem { Text = "Reactive", Value = "Reactive" });
+            TemperamentList.Add(new SelectListItem { Text = "Aggresive", Value = "Agressive" });
+
+            return TemperamentList;
+        }
+        public static List<SelectListItem> GetTrainingLevel()
+        {
+            List<SelectListItem> TrainingLevel = new List<SelectListItem>();
+
+            TrainingLevel.Add(new SelectListItem { Text = "None", Value = "None" });
+            TrainingLevel.Add(new SelectListItem { Text = "Basic", Value = "Basic" });
+            TrainingLevel.Add(new SelectListItem { Text = "Fully", Value = "Fully" });       
+
+            return TrainingLevel;
+        }
+        public static List<SelectListItem> GetVaccinatedList()
+        {
+
+            List<SelectListItem> VaccinatedList = new List<SelectListItem>();
+
+            VaccinatedList.Add(new SelectListItem { Text = "Yes, the dog is vaccinated", Value = "Vaccinated" });
+            VaccinatedList.Add(new SelectListItem { Text = "No, the dog is not vaccinated", Value = "Unvaccinated" });
+
+            return VaccinatedList;
+        }
     }
 }
