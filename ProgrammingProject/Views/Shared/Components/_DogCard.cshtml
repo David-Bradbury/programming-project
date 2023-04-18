@@ -91,6 +91,7 @@
                     @Html.DisplayFor(model => model.IsVaccinated)
                 </dd>
             </dl>
+            <p class="text-center mb-1" style="0.9rem;">@Model.Name belongs to @Model.Owner.FirstName</p>
         </div>
         <form method="post">
             <input name="DogID" class="form-control"
