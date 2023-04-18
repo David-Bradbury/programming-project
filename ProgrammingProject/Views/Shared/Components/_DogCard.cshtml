@@ -1,59 +1,5 @@
 ﻿@model ProgrammingProject.Models.Dog
 
-@*<div>
-    <h4>Dog</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Breed)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Breed)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MicrochipNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MicrochipNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsVaccinated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsVaccinated)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Temperament)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Temperament)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DogSize)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DogSize)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TrainingLevel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TrainingLevel)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-*@
-
 <div class="card" style="width: 18rem;">
     <div class="card-body">
         <div class="d-flex">
@@ -90,8 +36,14 @@
                 <dd class="col-5">
                     @Html.DisplayFor(model => model.IsVaccinated)
                 </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.Owner)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.Owner.FirstName)
+                </dd>
             </dl>
-            <p class="text-center mb-1" style="0.9rem;">@Model.Name belongs to @Model.Owner.FirstName</p>
+            @*<p class="text-center mb-1" style="0.9rem;">@Model.Name belongs to @Model.Owner.FirstName</p>*@
         </div>
         <form method="post">
             <input name="DogID" class="form-control"

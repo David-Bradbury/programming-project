@@ -6,7 +6,7 @@
 }
 
 <div>
-    <h1>Profile</h1>
+    <h1>Dashboard</h1>
     <p class="">This is, @walker.FirstName @walker.LastName. @walker.FirstName is a Walker.</p>
 </div>
 
@@ -34,47 +34,17 @@
 <div>
     <h3>Sessions</h3>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <tr>
-                @*                <th class="table-primary">Start Time</th>
-                    <th class="table-primary">End Time</th>*@
-                <th class="table-primary">Session ID</th>
-                <th class="table-primary">Scheduled Start Time</th>
-                <th class="table-primary">Scheduled End Time</th>
-                <th class="table-primary">Dogs On Walk</th>
-            </tr>
-
-            @foreach (var walk in walker.WalkingSessions)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(x => walk.SessionID)</td>
-                    <td>@Html.DisplayFor(x => walk.ScheduledStartTime)</td>
-                    <td>@Html.DisplayFor(x => walk.ScheduledEndTime)</td>
-                                       @if (walk.DogList != null)
-                    {
-                        <td>
-                            @foreach (var d in walk.DogList)
-                            {
-                                @Html.DisplayFor(x => d.Name)
-
-                                <br />
-                            }
-                        </td>
-                    }
-                    else
-                    {
-                        <td>No Dogs</td>
-                    }
-                </tr>
-            }
-        </table>
+    <div class="mb-5 d-flex flex-column gap-1">
+        @foreach (var walk in walker.WalkingSessions)
+        {
+            <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk"/>
+        }
     </div>
 </div>
 
 <div>
     <h3>Suitable Dogs</h3>
-    <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
+    <div class="d-flex justify-content-around align-items-stretch flex-wrap gap-4">
         @foreach (var dog in dogs) 
         {
             <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />

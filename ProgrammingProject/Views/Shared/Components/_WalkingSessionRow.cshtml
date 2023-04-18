@@ -1,0 +1,49 @@
+﻿@model ProgrammingProject.Models.WalkingSession
+@{
+    string displayTime(DateTime t, String format) {
+        return t.ToString(format);
+    }
+}
+<div class="card">
+    <div class="card-body container">
+        <div class="row">
+            <div class="col-12 col-sm-4 col-md-2">
+                <p class="fw-bold mb-0">Date</p>
+                <p>@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2">
+                <p class="fw-bold mb-0">Start</p>
+                <p>@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2">
+                <p class="fw-bold mb-0">End</p>
+                <p>@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
+            </div>
+            <div class="col-md-4">
+                <p class="fw-bold mb-0">Dogs On Walk</p>
+                @if (Model.DogList.Count() > 0)
+                {
+                    <p>
+                    @foreach (var d in Model.DogList)
+                    {
+                        @Html.DisplayFor(x => d.Name)
+                        <br />
+                    }
+                    </p>
+                }
+                else
+                {
+                    <p>No Dogs</p>
+                }
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-secondary" disabled>
+                    <i class="bi bi-pencil-square"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" disabled>
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
