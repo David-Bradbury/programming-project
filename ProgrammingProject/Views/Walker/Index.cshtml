@@ -6,107 +6,58 @@
 }
 
 <div>
-    <h1 class="display-4">This is, @walker.FirstName @walker.LastName</h1>
-    <h6 class="display-4">@walker.FirstName is a Walker</h6>
+    <h1>Dashboard</h1>
 </div>
 
 <div>
     <form asp-action="CreateWalkingSession">
-        <p class="display-4">Create New Walking Session</p>
-        <label for="Date" class="control-label">Date of Walk</label>
-        <input type="date" id="Date" name="Date" class="form-control"
-               data-val="true" data-val-date="The field Date must be a date."
-               data-val-required="The date field is required." />
-        <label for="StartTime" class="control-label">Start Time of Walk</label>
-        <input type="time" id="StartTime" name="StartTime" class="form-control"
-               data-val="true" data-val-time="The field StartTimne must be a time."
-               data-val-required="The StartTime field is required." />
-        <label for="EndTime" class="control-label">End Time of Walk</label>
-        <input type="time" id="EndTime" name="EndTime" class="form-control"
-               data-val="true" data-val-time="The field EndTime must be a time."
-               data-val-required="The EndTime field is required." />
-        <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
-               value="Create Walking Session" asp-route-id="CreateWalkingSessions" />
+        <h3>Create New Walking Session</h3>
+        <div class="d-sm-flex align-items-sm-end gap-4">
+            <div class="flex-grow-1 mb-3 mb-sm-0">
+                <label for="Date" class="form-label">Date</label>
+                <input type="date" id="Date" name="Date" class="form-control"
+                        data-val="true" data-val-date="The field Date must be a date."
+                        data-val-required="The date field is required." />
+            </div>
+            <div class="flex-grow-1 mb-3 mb-sm-0">
+                <label for="StartTime" class="form-label">Start Time</label>
+                <input type="time" id="StartTime" name="StartTime" class="form-control"
+                        data-val="true" data-val-time="The field StartTimne must be a time."
+                        data-val-required="The StartTime field is required." />
+            </div>
+            <div class="flex-grow-1 mb-3 mb-sm-0">
+                <label for="EndTime" class="form-label">End Time</label>
+                <input type="time" id="EndTime" name="EndTime" class="form-control"
+                        data-val="true" data-val-time="The field EndTime must be a time."
+                        data-val-required="The EndTime field is required." />
+            </div>
+            <div class="flex-grow-1">
+                <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
+                    value="Add Session" asp-route-id="CreateWalkingSessions" />
+            </div>
+            
+        </div>
     </form>
 </div>
 <br />
 
 <div>
-    <h3>Walker Sessions</h3>
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <tr>
-                @*                <th class="table-primary">Start Time</th>
-                    <th class="table-primary">End Time</th>*@
-                <th class="table-primary">Session ID</th>
-                <th class="table-primary">Scheduled Start Time</th>
-                <th class="table-primary">Scheduled End Time</th>
-                <th class="table-primary">Dogs On Walk</th>
-            </tr>
-
-            @foreach (var walk in walker.WalkingSessions)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(x => walk.SessionID)</td>
-                    <td>@Html.DisplayFor(x => walk.ScheduledStartTime)</td>
-                    <td>@Html.DisplayFor(x => walk.ScheduledEndTime)</td>
-                                       @if (walk.DogList != null)
-                    {
-                        <td>
-                            @foreach (var d in walk.DogList)
-                            {
-                                @Html.DisplayFor(x => d.Name)
-
-                                <br />
-                            }
-                        </td>
-                    }
-                    else
-                    {
-                        <td>No Dogs</td>
-                    }
-                </tr>
-            }
-        </table>
+    <h3>Sessions</h3>
+    <div class="mb-5 d-flex flex-column gap-1">
+        @foreach (var walk in walker.WalkingSessions)
+        {
+            <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk"/>
+        }
     </div>
 </div>
 
 <div>
     <h3>Suitable Dogs</h3>
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <tr>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.Breed)</th>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.DogSize)</th>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.Name)</th>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.Temperament)</th>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.TrainingLevel)</th>
-                <th class="table-primary">Owners First Name</th>
-                <th class="table-primary">Action</th>
-            </tr>
-
-            @foreach (var dog in dogs)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(x => dog.Breed)</td>
-                    <td>@Html.DisplayFor(x => dog.DogSize)</td>
-                    <td>@Html.DisplayFor(x => dog.Name)</td>
-                    <td>@Html.DisplayFor(x => dog.Temperament)</td>
-                    <td>@Html.DisplayFor(x => dog.TrainingLevel)</td>
-                    <td>@Html.DisplayFor(x => dog.Owner.FirstName)</td>
-                    <form asp-action="WalkingSessions">
-                    <td>
-                        <input name="DogID" class="form-control"
-                           type="hidden" value="@dog.Id" />
-                        <input type="submit" class="btn btn-primary" asp-action="WalkingSessions"
-                           value="Add Dog To Walking Session" asp-route-id="WalkingSessions" />
-                    </td>
-                    </form>
-                </tr>
-            }
-        </table>
+    <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
+        @foreach (var dog in dogs) 
+        {
+            <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
+        }
     </div>
 
 </div>
