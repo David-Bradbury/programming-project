@@ -14298,7 +14298,15 @@ html {
   min-height: 100%; }
 
 body {
-  margin-bottom: 60px; }
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center; }
+
+.btn {
+  border-radius: 1.25rem; }
 
 @media (min-width: 992px) {
   .container {
@@ -14338,9 +14346,17 @@ body {
 
 /********************************************************************/
 /* end navbar styling */
-.btn {
-  border-radius: 1.25rem; }
+/* footer */
+/********************************************************************/
+footer {
+  background-color: #007e8a;
+  text-align: center;
+  /*position: fixed;
+    bottom: 0;*/
+  width: 100%; }
 
+/********************************************************************/
+/* end footer styling*/
 /* landing */
 /********************************************************************/
 @media (min-width: 768px) and (max-width: 991.98px) {
@@ -14353,5 +14369,6 @@ body {
     #hero-img img {
       display: none; } }
 
+/********************************************************************/
 /* end landing styling */
 

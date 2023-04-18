@@ -17,9 +17,17 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.btn {
+    border-radius: 1.25rem;
+}
 
 @include media-breakpoint-up(lg) {
     .container {
@@ -68,9 +76,18 @@ body {
 /********************************************************************/
 /* end navbar styling */
 
-.btn {
-    border-radius: 1.25rem;
+/* footer */
+/********************************************************************/
+
+footer {
+    background-color: $primary;
+    text-align: center;
+    /*position: fixed;
+    bottom: 0;*/
+    width: 100%;
 }
+/********************************************************************/
+/* end footer styling*/
 
 /* landing */
 /********************************************************************/
@@ -87,4 +104,5 @@ body {
         }
     }
 }
+/********************************************************************/
 /* end landing styling */
