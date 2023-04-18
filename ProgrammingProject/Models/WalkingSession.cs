@@ -3,26 +3,29 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProgrammingProject.Models
 {
+    // A Walking Session includes a generated ID, A date, scheduled and actual walk times, between dogs and a walker.
     public class WalkingSession
     {
 
-        [Required]
-        public DateTime StartTime { get; set; }
-        [Required]
-        public DateTime EndTime { get; set; }
-        
-        public virtual List<Dog> DogList { get; set; }
+        [Required, Key]
+        public int SessionID { get; set; }
 
+        [Required]
+        public DateTime Date { get; set; }
+        [Required]
+        public DateTime ScheduledStartTime { get; set; }
+        [Required]
+        public DateTime ScheduledEndTime { get; set; }
+
+        public DateTime ActualStartTime { get; set; }
+        public DateTime ActualEndTime { get; set; }
+
+        public bool IsRecurring { get; set; }
+
+        public virtual List<Dog> DogList { get; set; }
         [Required]
         public int WalkerID { get; set; }
         public virtual Walker Walker { get; set; }
-
-
-        // TODO: Is it worth having the walking session as a
-        // virtual property in walker? i'm thinking
-        // that it would make it easier to add a dog to a WalkingSession
-        // from the WalkerController class with only the SessionID.DP
-
     }
 }
 

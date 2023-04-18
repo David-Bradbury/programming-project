@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProgrammingProject.styles.css" asp-append-version="true" />*@
     <link rel="stylesheet" href="~/dist/bundle.css" asp-append-version="true" />
+    <link rel="icon" href="~/logo-transparent.png" type="image/png" />
 </head>
 <body>
-    <header>
-        <partial name="_navbar" />
+    <header class="sticky-top">
+        <partial name="_navbar" model="User"/>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -19,9 +20,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - ProgrammingProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer style="background-color:#429EA6; text-align:center; padding-top:25px; padding-bottom:25px; position:fixed; bottom: 0; width: 100%;" class="border-top footer text-muted" class="border-top footer text-muted">
+        <div style="color:white;" class="container">
+            &copy; 2023 - EasyWalk - <a style="color:white;" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     @*<script src="~/lib/jquery/dist/jquery.min.js"></script>

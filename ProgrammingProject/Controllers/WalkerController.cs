@@ -3,6 +3,8 @@ using ProgrammingProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using ProgrammingProject.Filters;
+
 
 namespace ProgrammingProject.Controllers
 {
@@ -13,15 +15,12 @@ namespace ProgrammingProject.Controllers
         private readonly EasyWalkContext _context;
         private int WalkerID => HttpContext.Session.GetInt32(nameof(Walker.UserId)).Value;
 
-        //private int WalkerID => HttpContext.Session.GetInt32(nameof(Walker.WalkerID)).Value;
-        //private int WalkerID = 1; // This needs to be swapped after working out how to retrieve User.id 
-
-
         public WalkerController(EasyWalkContext context)
         {
             _context = context;
         }
 
+        [AuthorizeUser]
         public async Task<IActionResult> Index()
         {
             //lazy loading
@@ -201,22 +200,27 @@ namespace ProgrammingProject.Controllers
             if (EndTime < StartTime)
                 ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
 
+            DateTime start = new DateTime(Date.Year, Date.Month, Date.Day, StartTime.Hour,
+                                          StartTime.Minute, StartTime.Second);
+
+            DateTime end = new DateTime(Date.Year, Date.Month, Date.Day, EndTime.Hour,
+                                          EndTime.Minute, EndTime.Second);
+
             walkingSessions.Add(
             new WalkingSession
             {
-                StartTime = StartTime,
-                EndTime = EndTime,
+                Date = Date,
+                ScheduledStartTime = start,
+                ScheduledEndTime = end,
                 WalkerID = walker.UserId,
                 Walker = walker,
             });
 
-            walker.WalkingSessions = walkingSessions;
+            walker.WalkingSessions.Add(walkingSessions.Last());
 
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-
-            //return View();
         }
 
         //public async Task<IActionResult> SelectWalkingSession(int DogID) => View(await _context.Dogs.FindAsync(DogID));
@@ -224,8 +228,6 @@ namespace ProgrammingProject.Controllers
         [HttpPost]
         public async Task<IActionResult> WalkingSessions(int DogID)
         {
-            //// logic to add dog to walking session.
-            //var dog = await _context.Dogs.FindAsync(DogID);
 
             var walkerSessions = _context.WalkingSessions.AsEnumerable();
 
@@ -235,7 +237,7 @@ namespace ProgrammingProject.Controllers
 
             foreach (var walker in walkerSessions)
             {
-                if (walker != null && DateTime.UtcNow <= walker.StartTime)
+                if (walker != null && DateTime.UtcNow <= walker.ScheduledStartTime)
                 {
                     walkingSession.Add(walker);
                 }
@@ -252,33 +254,26 @@ namespace ProgrammingProject.Controllers
         //public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID) => View(await _context.Dogs.FindAsync(DogID));
 
         [HttpPost]
-        public async Task<IActionResult> AddDogToWalkingSession(int DogID, DateTime StartTime, DateTime EndTime)
+        public async Task<IActionResult> AddDogToWalkingSession(int DogID, int SessionID, DateTime StartTime, DateTime EndTime)
         {
             // logic to add dog to walking session.
             var dog = await _context.Dogs.FindAsync(DogID);
 
             //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
 
-            var walkerSession = await _context.WalkingSessions.FindAsync(StartTime, EndTime);
+            var walkerSession = await _context.WalkingSessions.FindAsync(SessionID);
 
             if (walkerSession.DogList.Count >= 6)
             {
-                ModelState.AddModelError(nameof(walkerSession), "Too many dogs on this walk.");
+                ModelState.AddModelError(nameof(StartTime), "Too many dogs on this walk.");
+            } 
+            else if (walkerSession.DogList.Contains(dog))
+            {
+                ModelState.AddModelError(nameof(StartTime), "Dog is already on this walk.");
             }
             else
             {
                 walkerSession.DogList.Add(dog);
-                //walkerSession.Add(
-                //    new WalkingSession
-                //    {
-                //        StartTime = StartTime,
-                //        EndTime = EndTime,
-                //        WalkerID = walker.UserId,
-                //        Walker = walker,
-                //    });
-
-                //walker.WalkingSessions = walkingSessions;
-
                 await _context.SaveChangesAsync();
             }
 

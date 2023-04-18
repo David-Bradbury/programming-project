@@ -15,8 +15,9 @@
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <tr>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.StartTime)</th>
-                <th class="table-primary">@Html.DisplayNameFor(x => x.EndTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.SessionID)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledStartTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledEndTime)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.DogList)</th>
                 <th class="table-primary">Action</th>
             </tr>
@@ -24,15 +25,19 @@
             @foreach (var sessions in walks)
             {
                 <tr>
-                    @*<td>@Html.DisplayFor(x => dog.Breed)</td>*@
-                    <td>@Html.DisplayFor(x => sessions.StartTime)</td>
-                    <td>@Html.DisplayFor(x => sessions.EndTime)</td>
+                    <td>@Html.DisplayFor(x => sessions.SessionID)</td>
+                    <td>@Html.DisplayFor(x => sessions.ScheduledStartTime)</td>
+                    <td>@Html.DisplayFor(x => sessions.ScheduledEndTime)</td>
                     @if (sessions.DogList != null)
                     {
-                        @foreach (var d in sessions.DogList)
-                        {
-                            <td>@Html.DisplayFor(x => d.Name)</td>
-                        }
+                        <td>
+                            @foreach (var d in sessions.DogList)
+                            {
+                                @Html.DisplayFor(x => d.Name)
+
+                                <br />
+                            }
+                        </td>
                     }
                     else
                     {
@@ -42,10 +47,12 @@
                     <td>
                         <input name="DogID" class="form-control"
                            type="hidden" value="@dog" />
+                        <input name="SessionID" class="form-control"
+                           type="hidden" value="@sessions.SessionID" />
                         <input name="StartTime" class="form-control"
-                           type="hidden" value="@sessions.StartTime" />
-                           <input name="EndTime" class="form-control"
-                           type="hidden" value="@sessions.EndTime" />
+                           type="hidden" value="@sessions.ScheduledStartTime" />
+                        <input name="EndTime" class="form-control"
+                           type="hidden" value="@sessions.ScheduledEndTime" />
                         <input type="submit" class="btn btn-primary" asp-action="AddDogToWalkingSession"
                            value="Add Dog To Walking Session" asp-route-id="AddDogToWalkingSession" />
                     </td>

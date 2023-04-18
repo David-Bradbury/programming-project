@@ -6,7 +6,7 @@ namespace ProgrammingProject.Models
     {
         [Required, Key]
         public string Postcode { get; set; }
-        [Required]
+        [Required, Key]
         public string SuburbName { get; set; }
 
         public virtual List<Walks> Walks { get; set; }

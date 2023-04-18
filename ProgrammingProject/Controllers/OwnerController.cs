@@ -1,5 +1,6 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
+using ProgrammingProject.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProgrammingProject.Controllers
@@ -19,7 +20,11 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
+<<<<<<< HEAD
 
+=======
+        [AuthorizeUser]
+>>>>>>> main
         public async Task<IActionResult> Index()
         {
             var owner = await _context.Owners.FindAsync(OwnerID);

@@ -33,7 +33,7 @@ namespace ProgrammingProject.Controllers
         {
             viewModel.AccountTypeSelection = id;
 
-            List<string> statesList = States.GetStates();
+            List<string> statesList = DropDownLists.GetStates();
 
             viewModel.StatesList = new List<SelectListItem>();
 
@@ -42,17 +42,23 @@ namespace ProgrammingProject.Controllers
                 viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
             }
 
+            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
+            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
+
+
+
             return View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
-                                                                string suburbName, string postcode, string country, string phNumber, bool isInsured, int experienceLevel, string password, string confirmPassword)
+                                                                string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword)
         {
 
             var viewModel = new RegisterViewModel();
+            viewModel.AccountTypeSelection = accountTypeSelection;
 
-            List<string> statesList = States.GetStates();
+            List<string> statesList = DropDownLists.GetStates();
 
             viewModel.StatesList = new List<SelectListItem>();
 
@@ -61,8 +67,10 @@ namespace ProgrammingProject.Controllers
                 viewModel.StatesList.Add(new SelectListItem { Text = states, Value = states });
             }
 
+            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
+            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
-            // insert server side validation here.
+
             if (firstName == null)
                 ModelState.AddModelError(nameof(firstName), "First Name is required.");
             if (lastName == null)
@@ -121,7 +129,7 @@ namespace ProgrammingProject.Controllers
             bool match = false;
             foreach (var s in _context.Suburbs)
             {
-                if (s.Postcode == postcode)
+                if (s.Postcode == postcode && s.SuburbName == suburbName)
                 {
                     match = true;
                     suburb = s;
@@ -168,27 +176,56 @@ namespace ProgrammingProject.Controllers
                 walker.Suburb = suburb;
                 walker.Country = country;
                 walker.PhNumber = phNumber;
-                walker.IsInsured = isInsured;
-                if (experienceLevel == 1)
+                if (isInsured.Equals("Insured"))
+                    walker.IsInsured = true;
+                else if (isInsured.Equals("Uninsured"))
+                    walker.IsInsured = false;
+
+                if (experienceLevel.Equals("Beginner"))
                     walker.ExperienceLevel = ExperienceLevel.Beginner;
-                else if (experienceLevel == 2)
+                else if (experienceLevel.Equals("Intermediate"))
                     walker.ExperienceLevel = ExperienceLevel.Intermediate;
-                else if (experienceLevel == 3)
+                else if (experienceLevel.Equals("Advanced"))
                     walker.ExperienceLevel = ExperienceLevel.Advanced;
-                else if (experienceLevel == 4)
+                else if (experienceLevel.Equals("Expert"))
                     walker.ExperienceLevel = ExperienceLevel.Expert;
                 _context.Add(walker);
                 _context.SaveChanges();
-
-
 
             }
 
             _context.SaveChanges();
 
+            // Parameters to send through to email method. Front End to modify messages.
+            string recipient = email;
+            string subject = "Thank you for Registering with EasyWalk";
+            string personName = firstName;
+            string htmlContent = GetRegisterEmailContent(personName);
+
+            //Calling the method to send email.
+            Email.SendEmail(recipient, subject, htmlContent);
+
             return RedirectToAction("Login", "Login");
         }
 
+        private string GetRegisterEmailContent(string name)
+        {
+            string content = "";
 
+            try
+            {
+                using (var sr = new StreamReader("./Helper/RegisterEmailContent.html"))
+                {
+                    string fileContent = sr.ReadToEnd();
+                    content = String.Format(fileContent, name);
+                }
+            }
+            catch (Exception e)
+            {
+                content = "You have successfully registered with EasyWalk";
+            }
+
+            return content;
+        }
     }
 }

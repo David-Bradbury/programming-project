@@ -55,21 +55,12 @@ namespace ProgrammingProject.Data
             .HasForeignKey(ws => ws.WalkerID)
             .OnDelete(DeleteBehavior.ClientCascade);
 
-            modelBuilder.Entity<WalkingSession>()
-            .HasKey(ws => new
-            {
-                ws.WalkerID,
-                ws.StartTime
-            });
-
-
             modelBuilder.Entity<User>()
             .HasOne(l => l.Login)
             .WithOne(u => u.User)
             .HasForeignKey<User>(u => u.Email)
             .OnDelete(DeleteBehavior.ClientCascade);
             
-
             modelBuilder.Entity<Walks>()
            .HasOne(w => w.Walker)
            .WithMany(wa => wa.Walks)
@@ -79,7 +70,11 @@ namespace ProgrammingProject.Data
             modelBuilder.Entity<Walks>()
            .HasOne(s => s.Suburb)
            .WithMany(wa => wa.Walks)
-           .HasForeignKey(wa => wa.Postcode)
+           .HasForeignKey(wa => new
+           {
+               wa.Postcode,
+               wa.SuburbName
+           }) 
            .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Walks>()
@@ -98,6 +93,13 @@ namespace ProgrammingProject.Data
             .HasOne(s => s.Suburb)
             .WithMany(o => o.Owners)
             .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<Suburb>()
+                .HasKey(s => new
+                {
+                    s.Postcode,
+                    s.SuburbName
+                });
         }
 
 

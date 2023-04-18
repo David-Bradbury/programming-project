@@ -1,0 +1,94 @@
+﻿@model EditProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+
+}
+
+<div>
+    <h1 class="display-4">My Profile</h1>
+
+    <table class="table">
+
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.Email): </b> @Model.Email</td>
+        </tr>
+
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.FirstName): </b> @Model.FirstName</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="1">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.LastName): </b> @Model.LastName</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="2">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.StreetAddress):</b> @Model.StreetAddress</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="3">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b> @Model.SuburbName</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="4">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b> @Model.Postcode</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="4">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.State): </b> @Model.State</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="5">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.Country): </b> @Model.Country</td>
+
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.PhNumber): </b> @Model.PhNumber</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="6">Edit</a>
+            </td>
+        </tr>
+
+        @if(Model.UserType.Equals("Walker")){
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.IsInsured): </b> @Model.IsInsured</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="7">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(Model => Model.ExperienceLevel): </b> @Model.ExperienceLevel</td>
+            <td>
+                <a class="btn btn-primary"
+                   asp-action="EditProfile" asp-route-id="8">Edit</a>
+            </td>
+        </tr>
+
+        }
+
+    </table>
+    <div>
+        <a class="btn btn-primary" style="padding-top: 15px"
+           asp-action="EditProfile" asp-route-id="9">Change Password</a>
+    </div>
+
+</div>
