@@ -8,11 +8,11 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddDog">
+        <form asp-action="AddDog" enctype="multipart/form-data">
             <div class="form-group mt-3">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" data-val="true"
-                       data-val-required="Dogs name field is required." placeholder="Dogs Name"/>
+                       data-val-required="Dogs name field is required." placeholder="Dogs Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group mt-3">
@@ -55,81 +55,92 @@
                 </select>
                 <span asp-validation-for="TrainingLevel" class="text-danger"></span>
             </div>
-        @*    <div class="form-group mt-3">
-                <label asp-for="Image" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="Image" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="image">Upload File</label>
+            <div class="form-control">
+                <label asp-for="DogImage" class="control-label"></label>
+                <input asp-for="DogImage" accept="image/*" />
+                <span asp-validation-for="DogImage" class="text-danger"></span>
+            </div>
+             @*  <div class="form-group mt-3">
+            <label asp-for="Image" class="control-label"></label>
+            <div class="custom-file">
+            <input asp-for="Image" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="Image">Upload File</label>
+            </div>
+            <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Image, new { type = "file" })
+                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                </div>*@
+                @*  <h2 class="display-4">Add Dogs Veterinarian Information</h2>*@
+                <div class="form-group mt-3">
+                    <label asp-for="BusinessName" class="control-label"></label>
+                    <input asp-for="BusinessName" class="form-control" data-val="true"
+                           data-val-required="Vets Business Name field is required." placeholder="Vets Business Name" />
+                    <span asp-validation-for="BusinessName" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>*@
-            <h2 class="display-4">Add Dogs Veterinarian Information</h2>
-            <div class="form-group mt-3">
-                <label asp-for="BusinessName" class="control-label"></label>
-                <input asp-for="BusinessName" class="form-control" data-val="true"
-                       data-val-required="Vets Business Name field is required." placeholder="Vets Business Name" />
-                <span asp-validation-for="BusinessName" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="PhNumber" class="control-label"></label>
-                <input asp-for="PhNumber" class="form-control" data-val="true"
-                       data-val-required="Vets Phone Number field is required." placeholder="Vets Phone Number" />
-                <span asp-validation-for="PhNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" data-val="true"
-                       data-val-required="Vets Email field is required." placeholder="Vets Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="StreetAddress" class="control-label"></label>
-                <input asp-for="StreetAddress" class="form-control" data-val="true"
-                       data-val-required="The Address field is required." placeholder="Address Line 1" />
-                <span asp-validation-for="StreetAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="SuburbName" class="control-label"></label>
-                <input asp-for="SuburbName" class="form-control" data-val="true"
-                       data-val-required="The Suburb field is required." placeholder="Suburb" />
-                <span asp-validation-for="SuburbName" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="Postcode" class="control-label"></label>
-                <input asp-for="Postcode" class="form-control" data-val="true"
-                       data-val-required="The Postcode field is required." placeholder="Postcode" />
-                <span asp-validation-for="Postcode" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="State" class="control-label"></label>
-                <select class="form-select" asp-items="Model.StatesList" asp-for="State">
-                    <option value="" hidden>-- Please Select A State --</option>
-                </select>
-                <span asp-validation-for="State" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" Value="Australia" readonly="true" data-val="true"
-                       data-val-required="The country is required." />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
+                <div class="form-group mt-3">
+                    <label asp-for="PhNumber" class="control-label"></label>
+                    <input asp-for="PhNumber" class="form-control" data-val="true"
+                           data-val-required="Vets Phone Number field is required." placeholder="Vets Phone Number" />
+                    <span asp-validation-for="PhNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" data-val="true"
+                           data-val-required="Vets Email field is required." placeholder="Vets Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="StreetAddress" class="control-label"></label>
+                    <input asp-for="StreetAddress" class="form-control" data-val="true"
+                           data-val-required="The Address field is required." placeholder="Address Line 1" />
+                    <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="SuburbName" class="control-label"></label>
+                    <input asp-for="SuburbName" class="form-control" data-val="true"
+                           data-val-required="The Suburb field is required." placeholder="Suburb" />
+                    <span asp-validation-for="SuburbName" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Postcode" class="control-label"></label>
+                    <input asp-for="Postcode" class="form-control" data-val="true"
+                           data-val-required="The Postcode field is required." placeholder="Postcode" />
+                    <span asp-validation-for="Postcode" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="State" class="control-label"></label>
+                    <select class="form-select" asp-items="Model.StatesList" asp-for="State">
+                        <option value="" hidden>-- Please Select A State --</option>
+                    </select>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" class="form-control" Value="Australia" readonly="true" data-val="true"
+                           data-val-required="The country is required." />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
 
-            <div class="form-group mt-3">
-                <input type="submit" value="Register Dog" class="btn btn-primary" />
-            </div>
+                <div class="form-group mt-3">
+                    <input type="submit" value="Register Dog" class="btn btn-primary" />
+                </div>
 
-            @Html.ValidationMessage("RegistrationFailure", new {@class = ""})
+                @Html.ValidationMessage("RegistrationFailure", new {@class = ""})
         </form>
     </div>
 </div>
 @section scripts{
-  @*  <script type="text/javascript">
+    @*  <script type="text/javascript">
 
         // The following code shows the name of the file  on select
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });      
+        });
     </script>*@
 
     @{

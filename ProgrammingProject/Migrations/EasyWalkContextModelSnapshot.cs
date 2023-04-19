@@ -52,11 +52,11 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DogImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DogSize")
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<bool>("IsVaccinated")
                         .HasColumnType("bit");

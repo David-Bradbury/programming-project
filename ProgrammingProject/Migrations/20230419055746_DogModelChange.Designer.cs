@@ -12,7 +12,7 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230419030002_DogModelChange")]
+    [Migration("20230419055746_DogModelChange")]
     partial class DogModelChange
     {
         /// <inheritdoc />
@@ -55,11 +55,11 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DogImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DogSize")
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<bool>("IsVaccinated")
                         .HasColumnType("bit");

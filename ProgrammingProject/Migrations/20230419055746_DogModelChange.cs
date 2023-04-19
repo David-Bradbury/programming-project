@@ -190,7 +190,7 @@ namespace ProgrammingProject.Migrations
                     Temperament = table.Column<int>(type: "int", nullable: false),
                     DogSize = table.Column<int>(type: "int", nullable: false),
                     TrainingLevel = table.Column<int>(type: "int", nullable: false),
-                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    DogImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OwnerUserId = table.Column<int>(type: "int", nullable: true),
                     VetId = table.Column<int>(type: "int", nullable: true)
                 },
