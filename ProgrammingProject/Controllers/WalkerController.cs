@@ -31,57 +31,7 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> Walker(int id)
-        //{
-        //    var walker = await _context.Walker.FindAsync(id);
-        //    return View(walker);
-        //}
-
-        //// Add a new walker
-        //public async Task<IActionResult> AddWalker(int id) => View(await _context.Walker.FindAsync(id));
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddWalker(int walkerID, string firstName, string lastName, string address,
-        //                         string phNumber, string email, bool IsInsured, ExperienceLevel experience)
-        //{
-        //    var walker = await _context.Walker.FindAsync(walkerID);
-
-        //    if (firstName == null)
-        //        ModelState.AddModelError(nameof(firstName), "We need your name.");
-        //    if (lastName == null)
-        //        ModelState.AddModelError(nameof(lastName), "We need your surname.");
-        //    if (address == null)
-        //        ModelState.AddModelError(nameof(address), "We need your address.");
-        //    if (phNumber == null)
-        //        ModelState.AddModelError(nameof(phNumber), "We need to know how to contact you.");
-        //    if (email == null)
-        //        ModelState.AddModelError(nameof(email), "we need your email.");
-        //    if (IsInsured == null)
-        //        ModelState.AddModelError(nameof(IsInsured), "We need to know your insurance status.");
-        //    if (experience == null)
-        //        ModelState.AddModelError(nameof(experience), "We need to know how experienced you are.");
-
-        //    Walker.Add(
-        //    new Walker
-        //    {
-        //        FirstName = firstName,
-        //        LastName = lastName,
-        //        Address = address,
-        //        PhNumber = phNumber,
-        //        Email = email,
-        //        IsInsured = IsInsured,
-        //        ExperienceLevel = experience
-        //    });
-
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //// Match suitable dogs to walkers
-
-        //public async Task<IActionResult> MatchDogsToWalker(int id) => View(await _context.Dogs.FindAsync(id));
-
+        // Match suitable dogs to walkers
         [HttpPost]
         public async Task<List<Dog>> MatchDogsToWalker(int id)
         //public async Task<IActionResult> MatchDogsToWalker(int id)
@@ -92,7 +42,8 @@ namespace ProgrammingProject.Controllers
             //var dogs = _context.Dogs.AsEnumerable();
 
             // Get specific walker
-            var walker = await _context.Walkers.FindAsync(id);
+            var walker = await _context.Walkers.Where(x => x.UserId == id).SingleOrDefaultAsync();
+            //var walker = await _context.Walkers.FindAsync(id);
 
             // Get list of dogs suited for the walker
             var tempList = await GetListOfSuitableDogsToWalkers(walker, (IEnumerable<Dog>)dogs);
@@ -130,6 +81,7 @@ namespace ProgrammingProject.Controllers
             // E.g.Location or dates/times. Some filter work started below...
         }
 
+        // Returns a list of dogs which match the experience level of the passed walker.
         public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IEnumerable<Dog> dogs)
         {
 
