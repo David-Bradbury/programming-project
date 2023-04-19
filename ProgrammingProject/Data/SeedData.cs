@@ -71,7 +71,10 @@ namespace ProgrammingProject.Data
 
             vet1.BusinessName = "Bays Vets";
             vet1.PhNumber = "0402 201 201";
-            vet1.Address = "3 Baywater Road";
+            vet1.StreetAddress = "3 Baywater Road";
+            vet1.Suburb = suburb1;
+            vet1.State = "Victoria";
+            vet1.Country = "Australia";
             vet1.Email = "baysvets@gmail.com";
 
             context.Vets.Add(vet1);
@@ -80,7 +83,10 @@ namespace ProgrammingProject.Data
 
             vet2.BusinessName = "Pets of the Mount";
             vet2.PhNumber = "0440 404 040";
-            vet2.Address = "21 Mountain Street";
+            vet2.StreetAddress = "21 Mountain Street";
+            vet2.Suburb = suburb2;
+            vet2.State = "Victoria";
+            vet2.Country = "Australia";
             vet2.Email = "petsofthemount@hotmail.com";
 
             context.Vets.Add(vet2);
@@ -89,7 +95,10 @@ namespace ProgrammingProject.Data
 
             vet3.BusinessName = "Dr Schmackos";
             vet3.PhNumber = "1300 000 000";
-            vet3.Address = "31 Schmackos Place";
+            vet3.StreetAddress = "31 Schmackos Place";
+            vet3.Suburb = suburb3;
+            vet3.State = "Victoria";
+            vet3.Country = "Australia";
             vet3.Email = "drschmackos@optus.net";
 
             context.Vets.Add(vet3);

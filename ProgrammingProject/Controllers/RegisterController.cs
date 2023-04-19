@@ -32,20 +32,10 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Register(int id)
         {
             viewModel.AccountTypeSelection = id;
-
-            List<string> statesList = DropDownLists.GetStates();
-
-            viewModel.StatesList = new List<SelectListItem>();
-
-            foreach (var state in statesList)
-            {
-                viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
-            }
-
+         
+            viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
-
-
 
             return View(viewModel);
         }
@@ -54,19 +44,10 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
                                                                 string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword)
         {
-
             var viewModel = new RegisterViewModel();
             viewModel.AccountTypeSelection = accountTypeSelection;
-
-            List<string> statesList = DropDownLists.GetStates();
-
-            viewModel.StatesList = new List<SelectListItem>();
-
-            foreach (var states in statesList)
-            {
-                viewModel.StatesList.Add(new SelectListItem { Text = states, Value = states });
-            }
-
+        
+            viewModel.StatesList = DropDownLists.GetStates();        
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 

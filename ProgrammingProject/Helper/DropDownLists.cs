@@ -4,19 +4,19 @@ namespace ProgrammingProject.Helper
 {
     public class DropDownLists
     {
-        public static List<string> GetStates()
+        public static List<SelectListItem> GetStates()
         {
-            List<string> statesList = new List<string>
-            {
-                "South Australia",
-                "Victoria",
-                "Western Australia",
-                "Northern Territory",
-                "New South Wales",
-                "Australian Capital Territory",
-                "Queensland",
-                "Tasmania"
-            };
+            List<SelectListItem> statesList = new List<SelectListItem>();
+
+                statesList.Add(new SelectListItem { Text = "South Australia", Value = "South Australia" });
+                statesList.Add(new SelectListItem { Text = "Victoria", Value = "Victoria" });
+                statesList.Add(new SelectListItem { Text = "Western Australia", Value = "Western Australia" });
+                statesList.Add(new SelectListItem { Text = "Northern Territory", Value = "Northern Territory" });
+                statesList.Add(new SelectListItem { Text = "New South Wales", Value = "New South Wales" });
+                statesList.Add(new SelectListItem { Text = "Australian Capital Territory", Value = "Australian Capital Territory" });
+                statesList.Add(new SelectListItem { Text = "Queensland", Value = "Queensland" });
+                statesList.Add(new SelectListItem { Text = "Tasmania", Value = "Tasmania" });
+                      
             return statesList;
         }
 

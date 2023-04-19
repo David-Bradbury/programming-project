@@ -45,7 +45,6 @@ namespace ProgrammingProject.Controllers
             viewModel.DogSizeList = DropDownLists.GetDogSize();
             viewModel.TemperamentList = DropDownLists.GetTemperament();
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
-            //fix that
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsVaccinatedList =DropDownLists.GetVaccinatedList();
             
