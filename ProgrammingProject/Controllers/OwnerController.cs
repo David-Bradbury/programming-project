@@ -3,6 +3,7 @@ using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
 using Microsoft.AspNetCore.Mvc;
 using ProgrammingProject.Helper;
+using System.Text.RegularExpressions;
 
 namespace ProgrammingProject.Controllers
 {
@@ -15,7 +16,6 @@ namespace ProgrammingProject.Controllers
         private readonly EasyWalkContext _context;
         public AddDogViewModel viewModel = new AddDogViewModel();
         private int OwnerID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
-       // private int DogID => HttpContext.Session.GetInt32(nameof(Dog.Id)).Value;
 
         public OwnerController(EasyWalkContext context)
         {
@@ -29,13 +29,6 @@ namespace ProgrammingProject.Controllers
             var owner = await _context.Owners.FindAsync(OwnerID);
             return View(owner);
         }
-
-
-        //public async Task<IActionResult> Dogs(int id)
-        //{
-        //    var dog = await _context.Dogs.FindAsync(id);
-        //    return View(dog);
-        //}
 
         //Add a dog to the owner
         [Route("/Owner/AddDog",
@@ -51,25 +44,166 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddDog(int ownerID, DogSize size, Temperament temperament, int id,
-        //                         string name, string microchip, bool IsVaccinated, Vet vet)
-        //{
-        //    //var dog = await _context.Dogs.FindAsync(id);
-        //    var owner = await _context.Owner.FindAsync(ownerID);
+        [HttpPost]
+        public async Task<IActionResult> AddDog(string name, string breed, string microchipNumber, string isVaccinated, string temperament,
+            string dogSize, string trainingLevel, string businessName, string phNumber, string email, string streetAddress,
+            string suburbName, string postcode, string state, string country)
+        {
+            var viewModel = new AddDogViewModel();
 
-        //    if (size == null)
-        //        ModelState.AddModelError(nameof(dogSize), "invalid Size chosen.");
-        //    if (temperament == null)
-        //        ModelState.AddModelError(nameof(dogTemperament), "invalid Temperament chosen.");
-        //    if (name == null)
-        //        ModelState.AddModelError(nameof(dogName), "Your dog has to have a name.");
-        //    if (microchip == null)
-        //        ModelState.AddModelError(nameof(MicrochipNumber), "Please enter in your dogs Microchip number.");
-        //    if (IsVaccinated == null)
-        //        ModelState.AddModelError(nameof(VaccinationStatus), "You need to let us know your dogs vaccination status.");
-        //    if (vet == null)
-        //        ModelState.AddModelError(nameof(dogsVet), "We can't walk your dog if we don't know their vet.");
+            viewModel.DogSizeList = DropDownLists.GetDogSize();
+            viewModel.TemperamentList = DropDownLists.GetTemperament();
+            viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
+            viewModel.StatesList = DropDownLists.GetStates();
+            viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
+
+            var owner = new Owner();
+            foreach (var o in _context.Owners)
+                if (o.UserId == OwnerID)
+                    owner = o;
+
+            if (name == null)
+                ModelState.AddModelError(nameof(name), "Dogs Name is required.");
+            if (breed == null)
+                ModelState.AddModelError(nameof(breed), "Dogs Breed is required.");
+            if (microchipNumber == null)
+                ModelState.AddModelError(nameof(microchipNumber), "Dogs Microchip Number is required.");
+            if (isVaccinated == null)
+                ModelState.AddModelError(nameof(isVaccinated), "Dogs Vaccination Status is required.");
+            if (temperament == null)
+                ModelState.AddModelError(nameof(temperament), "Dogs Temperament is required.");
+            if (dogSize == null)
+                ModelState.AddModelError(nameof(dogSize), "Dogs Size is required.");
+            if (trainingLevel == null)
+                ModelState.AddModelError(nameof(trainingLevel), "Dogs Training Level is required.");
+            //if (image == null)
+            //   ModelState.AddModelError(nameof(image), "Dogs Image is required.");
+            if (businessName == null)
+                ModelState.AddModelError(nameof(businessName), "Vets Business Name is required.");
+            if (phNumber == null)
+                ModelState.AddModelError(nameof(phNumber), "Vets Phone Number is required.");
+            if (email == null)
+                ModelState.AddModelError(nameof(email), "Vets Email is required.");
+            if (streetAddress == null)
+                ModelState.AddModelError(nameof(streetAddress), "Vets Street Address is required.");
+            if (suburbName == null)
+                ModelState.AddModelError(nameof(suburbName), "Vets Suburb is required.");
+            if (postcode == null)
+                ModelState.AddModelError(nameof(postcode), "Vets Postcode is required.");
+            if (state == null)
+                ModelState.AddModelError(nameof(state), "Vets State is required.");
+            if (country == null)
+                ModelState.AddModelError(nameof(country), "Vets Country is required.");
+
+            if (!Regex.IsMatch(postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
+                ModelState.AddModelError(nameof(postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            // Not perfect and needs updates for proper Australian phone numbers.
+            if (!Regex.IsMatch(phNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
+                ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+            if (!Regex.IsMatch(email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
+                ModelState.AddModelError(nameof(email), "This is not a valid email address. Please enter a valid email address");
+            // Maybe This Error Message IS Not Enough, maybe a pop up or something needs to occur. Discuss at nextr meeting. JC
+            if (isVaccinated.Equals("Unvaccinated"))
+                ModelState.AddModelError(nameof(isVaccinated), "Sorry, All dogs must be vaccinated before being registered with EasyWalk");
+
+            // Checking to see if the state of the model is valid before continuing.
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            // Creating suburb based on form details
+            var suburb = new Suburb();
+            suburb.SuburbName = suburbName;
+            suburb.Postcode = postcode;
+
+            // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
+            bool match = false;
+            foreach (var s in _context.Suburbs)
+            {
+                if (s.Postcode == postcode && s.SuburbName == suburbName)
+                {
+                    match = true;
+                    suburb = s;
+                }
+            }
+            if (!match)
+                _context.Suburbs.Add(suburb);
+
+
+            // Create a new Vet from form submission.
+            var vet = new Vet();
+
+            vet.BusinessName = businessName;
+            vet.PhNumber = phNumber;
+            vet.Email = email;
+            vet.StreetAddress = streetAddress;
+            vet.Suburb = suburb;
+            vet.State = state;
+            vet.Country = country;
+
+            // Checking BusinessName for now but this is wrong as BusinessName is not key.
+            match = false;
+            foreach(var v in _context.Vets)
+            {
+                if (v.BusinessName == businessName)
+                {
+                    match = true;
+                    vet = v;
+                }
+            }
+            if (!match)
+                _context.Vets.Add(vet);
+
+
+            // Create a new dog from form submission.
+            var dog = new Dog();
+
+            dog.Name = name;
+            dog.Breed = breed;
+            dog.MicrochipNumber = microchipNumber;
+           // dog.Image = image;
+            dog.Owner = owner;
+            dog.Vet = vet;
+            dog.IsVaccinated = true;
+
+            if (temperament.Equals("NonReactive"))
+                dog.Temperament = Temperament.NonReactive;
+            if (temperament.Equals("Calm"))
+                dog.Temperament = Temperament.Calm;
+            if (temperament.Equals("Friendly"))
+                dog.Temperament = Temperament.Friendly;
+            if (temperament.Equals("Reactive"))
+                dog.Temperament = Temperament.Reactive;
+            if (temperament.Equals("Agressive"))
+                dog.Temperament = Temperament.Aggressive;
+
+            if (dogSize.Equals("Small"))
+                dog.DogSize = DogSize.Small;
+            if (dogSize.Equals("Medium"))
+                dog.DogSize = DogSize.Medium;
+            if (dogSize.Equals("Large"))
+                dog.DogSize = DogSize.Large;
+            if (dogSize.Equals("ExtraLarge"))
+                dog.DogSize = DogSize.ExtraLarge;
+
+            if (trainingLevel.Equals("None"))
+                dog.TrainingLevel = TrainingLevel.None;
+            if (trainingLevel.Equals("Basic"))
+                dog.TrainingLevel = TrainingLevel.Basic;
+            if (trainingLevel.Equals("Fully"))
+                dog.TrainingLevel = TrainingLevel.Fully;
+
+            _context.Add(dog);
+
+            _context.SaveChanges();
+
+
+            return View("Index", viewModel);
+        }
+       
+          
+
 
         //    owner.Dogs.Add(
         //    new Dog

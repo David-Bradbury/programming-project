@@ -29,9 +29,9 @@ namespace ProgrammingProject.Models
         [RegularExpression(@"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$",
     ErrorMessage = "Must be an Australian phone number starting (Example 04XX XXX XXX")]
         public string PhNumber { get; set; }
-        [Required, StringLength(320), Display(Name = "Vets Email Address")]
+        [Required, StringLength(320), EmailAddress(ErrorMessage = "An email address is required"), Display(Name = "Vets Email Address")]
         public string Email { get; set; }
-        [Required, EmailAddress(ErrorMessage = "An email address is required"), Display(Name = "Vets Street Address")]
+        [Required, Display(Name = "Vets Street Address")]
         public string StreetAddress { get; set; }
         [Required, StringLength(100), Display(Name = "Vets Suburb")]
         public string SuburbName { get; set; }

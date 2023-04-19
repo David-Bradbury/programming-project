@@ -55,6 +55,9 @@ namespace ProgrammingProject.Migrations
                     b.Property<int>("DogSize")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<bool>("IsVaccinated")
                         .HasColumnType("bit");
 
@@ -78,9 +81,6 @@ namespace ProgrammingProject.Migrations
 
                     b.Property<int?>("VetId")
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("image")
-                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
