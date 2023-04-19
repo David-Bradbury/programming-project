@@ -225,9 +225,9 @@ namespace ProgrammingProject.Controllers
             _context.SaveChanges();
 
             //String for working locally
-            string verifyUrl = "https://localhost:7199/Verification/Verify?emailToken=" + token;
+            //string verifyUrl = "https://localhost:7199/Verification/Verify?emailToken=" + token;
             //String for working in online deployment
-            //string verifyUrl = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify?emailToken=" + token;
+            string verifyUrl = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify?emailToken=" + token;
 
             // Parameters to send through to email method. Front End to modify messages.
             string recipient = login.Email;
