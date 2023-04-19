@@ -57,24 +57,10 @@
             </div>
             <div class="form-control">
                 <label asp-for="DogImage" class="control-label"></label>
-                <input asp-for="DogImage" accept="image/*" />
+                <input asp-for="DogImage" id="DogImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
                 <span asp-validation-for="DogImage" class="text-danger"></span>
             </div>
-             @*  <div class="form-group mt-3">
-            <label asp-for="Image" class="control-label"></label>
-            <div class="custom-file">
-            <input asp-for="Image" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="Image">Upload File</label>
-            </div>
-            <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Image, new { type = "file" })
-                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                </div>*@
-                @*  <h2 class="display-4">Add Dogs Veterinarian Information</h2>*@
+                  <h2 class="display-4">Add Dogs Veterinarian Information</h2>
                 <div class="form-group mt-3">
                     <label asp-for="BusinessName" class="control-label"></label>
                     <input asp-for="BusinessName" class="form-control" data-val="true"
@@ -134,14 +120,21 @@
     </div>
 </div>
 @section scripts{
-    @*  <script type="text/javascript">
+      <script type="text/javascript">
 
-        // The following code shows the name of the file  on select
-        $(".custom-file-input").on("change", function () {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
-    </script>*@
+        // The following code validates that an only jpeg, jpg, or png files are accepted.
+        function validateFileType()
+        {
+            var dogImage = document.getElementById("DogImage").value;
+            var indexDot = dogImage.lastIndexOf(".") + 1;
+            var endFile = dogImage.substr(indexDot, dogImage.length).toLowerCase();
+            if (endFile != "jpg" && endFile != "jpeg" && endFile != "png") 
+            {
+                alert("Only jpg/jpeg and png files accepted.");
+                document.getElementById("DogImage").value = "";
+            }
+        }
+    </script>
 
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
