@@ -11,7 +11,7 @@ namespace ProgrammingProject.Controllers
     //Mask URL
     [Route("/Owner")]
 
-   
+
     public class OwnerController : Controller
     {
         private readonly EasyWalkContext _context;
@@ -43,11 +43,13 @@ namespace ProgrammingProject.Controllers
             viewModel.TemperamentList = DropDownLists.GetTemperament();
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
             viewModel.StatesList = DropDownLists.GetStates();
-            viewModel.IsVaccinatedList =DropDownLists.GetVaccinatedList();
-            
+            viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
+
             return View(viewModel);
         }
 
+        [Route("/Owner/AddDog",
+Name = "AddDog")]
         [HttpPost]
         public async Task<IActionResult> AddDog(AddDogViewModel viewModel)
         {
@@ -65,7 +67,7 @@ namespace ProgrammingProject.Controllers
             foreach (var o in _context.Owners)
                 if (o.UserId == OwnerID)
                     owner = o;
-           
+
             if (viewModel.Name == null)
                 ModelState.AddModelError(nameof(viewModel.Name), "Dogs Name is required.");
             if (viewModel.Breed == null)
@@ -148,7 +150,7 @@ namespace ProgrammingProject.Controllers
 
             // Checking BusinessName for now but this is wrong as BusinessName is not key.
             match = false;
-            foreach(var v in _context.Vets)
+            foreach (var v in _context.Vets)
             {
                 if (v.BusinessName == viewModel.BusinessName)
                 {
@@ -212,9 +214,9 @@ namespace ProgrammingProject.Controllers
             if (viewModel.DogImage != null)
             {
                 string uploadDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "img");
-                fileName = Guid.NewGuid().ToString() + "-" + viewModel.DogImage.FileName; 
+                fileName = Guid.NewGuid().ToString() + "-" + viewModel.DogImage.FileName;
                 string filePath = Path.Combine(uploadDirectory, fileName);
-                using (var fileStream = new FileStream(filePath,FileMode.Create))
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     viewModel.DogImage.CopyTo(fileStream);
                 }
