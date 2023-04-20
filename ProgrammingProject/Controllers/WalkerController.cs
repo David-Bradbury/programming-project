@@ -249,6 +249,8 @@ namespace ProgrammingProject.Controllers
 
             await _context.SaveChangesAsync();
 
+            ViewBag.WalkingSession = walkerSession;
+
             return View();
         }
 
