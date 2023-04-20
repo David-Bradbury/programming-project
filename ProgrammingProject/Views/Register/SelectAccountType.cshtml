@@ -4,9 +4,19 @@
 @{
     ViewData["Title"] = "Register";
 }
-            <div class="form-group">
-                                <a class="btn btn-primary" asp-action="Register" asp-route-id="1">Owner</a>
-            </div>            
-            <div class="form-group">
-                 <a class="btn btn-primary" asp-action="Register" asp-route-id="2">Walker</a>
-            </div>
+<div class="account-container d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3">
+    <div class="flex-grow-1 mx-auto d-flex flex-column align-items-center justify-content-center">
+        <img src="~/img/placeholder.jpg" width="100" height="100" />
+        <a class="btn btn-primary" asp-action="Register" asp-route-id="1">Owner</a>
+        <p class="text-center">Content</p>
+    </div>
+    <div class="flex-shrink-1">
+        <p>OR</p>
+    </div>
+    <div class="flex-grow-1 mx-auto d-flex flex-column align-items-center justify-content-center">
+        <img src="~/img/placeholder.jpg" width="100" height="100"/>
+        <a class="btn btn-primary" asp-action="Register" asp-route-id="2">Walker</a>
+        <p class="text-center">Content</p>
+    </div>
+</div>
+            
