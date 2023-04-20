@@ -79,8 +79,8 @@ namespace ProgrammingProject.Helper
 
             List<SelectListItem> VaccinatedList = new List<SelectListItem>();
 
-            VaccinatedList.Add(new SelectListItem { Text = "Yes, the dog is vaccinated", Value = "Vaccinated" });
-            VaccinatedList.Add(new SelectListItem { Text = "No, the dog is not vaccinated", Value = "Unvaccinated" });
+            VaccinatedList.Add(new SelectListItem { Text = "Yes, the dog is fully vaccinated", Value = "Vaccinated" });
+            VaccinatedList.Add(new SelectListItem { Text = "No, the dog is not fully vaccinated", Value = "Unvaccinated" });
 
             return VaccinatedList;
         }
