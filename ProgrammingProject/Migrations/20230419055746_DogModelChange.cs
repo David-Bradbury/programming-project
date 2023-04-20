@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateSuburbModel : Migration
+    public partial class DogModelChange : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,22 +34,6 @@ namespace ProgrammingProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Suburbs", x => new { x.Postcode, x.SuburbName });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Vets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(95)", maxLength: 95, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,34 +82,28 @@ namespace ProgrammingProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Dogs",
+                name: "Vets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MicrochipNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    IsVaccinated = table.Column<bool>(type: "bit", nullable: false),
-                    Temperament = table.Column<int>(type: "int", nullable: false),
-                    DogSize = table.Column<int>(type: "int", nullable: false),
-                    TrainingLevel = table.Column<int>(type: "int", nullable: false),
-                    OwnerUserId = table.Column<int>(type: "int", nullable: true),
-                    VetId = table.Column<int>(type: "int", nullable: true)
+                    BusinessName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PhNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
+                    StreetAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SuburbPostcode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Dogs", x => x.Id);
+                    table.PrimaryKey("PK_Vets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Dogs_User_OwnerUserId",
-                        column: x => x.OwnerUserId,
-                        principalTable: "User",
-                        principalColumn: "UserId");
-                    table.ForeignKey(
-                        name: "FK_Dogs_Vets_VetId",
-                        column: x => x.VetId,
-                        principalTable: "Vets",
-                        principalColumn: "Id");
+                        name: "FK_Vets_Suburbs_SuburbPostcode_SuburbName",
+                        columns: x => new { x.SuburbPostcode, x.SuburbName },
+                        principalTable: "Suburbs",
+                        principalColumns: new[] { "Postcode", "SuburbName" });
                 });
 
             migrationBuilder.CreateTable(
@@ -197,6 +175,38 @@ namespace ProgrammingProject.Migrations
                         column: x => x.WalkerId,
                         principalTable: "User",
                         principalColumn: "UserId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Dogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MicrochipNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IsVaccinated = table.Column<bool>(type: "bit", nullable: false),
+                    Temperament = table.Column<int>(type: "int", nullable: false),
+                    DogSize = table.Column<int>(type: "int", nullable: false),
+                    TrainingLevel = table.Column<int>(type: "int", nullable: false),
+                    DogImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OwnerUserId = table.Column<int>(type: "int", nullable: true),
+                    VetId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Dogs_User_OwnerUserId",
+                        column: x => x.OwnerUserId,
+                        principalTable: "User",
+                        principalColumn: "UserId");
+                    table.ForeignKey(
+                        name: "FK_Dogs_Vets_VetId",
+                        column: x => x.VetId,
+                        principalTable: "Vets",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -282,6 +292,11 @@ namespace ProgrammingProject.Migrations
                 name: "IX_User_Walker_SuburbPostcode_Walker_SuburbName",
                 table: "User",
                 columns: new[] { "Walker_SuburbPostcode", "Walker_SuburbName" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vets_SuburbPostcode_SuburbName",
+                table: "Vets",
+                columns: new[] { "SuburbPostcode", "SuburbName" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_WalkerRatings_OwnerID",

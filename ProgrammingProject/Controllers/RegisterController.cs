@@ -32,20 +32,10 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Register(int id)
         {
             viewModel.AccountTypeSelection = id;
-
-            List<string> statesList = DropDownLists.GetStates();
-
-            viewModel.StatesList = new List<SelectListItem>();
-
-            foreach (var state in statesList)
-            {
-                viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
-            }
-
+         
+            viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
-
-
 
             return View(viewModel);
         }
@@ -54,19 +44,10 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
                                                                 string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword)
         {
-
             var viewModel = new RegisterViewModel();
             viewModel.AccountTypeSelection = accountTypeSelection;
-
-            List<string> statesList = DropDownLists.GetStates();
-
-            viewModel.StatesList = new List<SelectListItem>();
-
-            foreach (var states in statesList)
-            {
-                viewModel.StatesList.Add(new SelectListItem { Text = states, Value = states });
-            }
-
+        
+            viewModel.StatesList = DropDownLists.GetStates();        
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
@@ -103,10 +84,9 @@ namespace ProgrammingProject.Controllers
             // ALL NEEDS TESTING. JC        
             if (!Regex.IsMatch(postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
                 ModelState.AddModelError(nameof(postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
-            // Will need to change to add different mobile entry options, such as 04xx xxx xxx or +614xx xxx xxx or various other combinations. JC
+            // Not perfect and needs updates for proper Australian phone numbers.
             if (!Regex.IsMatch(phNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
                 ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
-            // Add Email REGEX test here, needs to at the least match what the data annotation for EmailAddress accepts.
             if (!Regex.IsMatch(email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
                 ModelState.AddModelError(nameof(email), "This is not a valid email address. Please enter a valid email address");
             if (!Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))

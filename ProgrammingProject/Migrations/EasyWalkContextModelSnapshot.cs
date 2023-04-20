@@ -52,6 +52,9 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DogImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DogSize")
                         .HasColumnType("int");
 
@@ -188,15 +191,15 @@ namespace ProgrammingProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(95)
-                        .HasColumnType("nvarchar(95)");
-
                     b.Property<string>("BusinessName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -208,7 +211,25 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("SuburbName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SuburbPostcode")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SuburbPostcode", "SuburbName");
 
                     b.ToTable("Vets");
                 });
@@ -450,6 +471,15 @@ namespace ProgrammingProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Login");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.Vet", b =>
+                {
+                    b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
+                        .WithMany()
+                        .HasForeignKey("SuburbPostcode", "SuburbName");
+
+                    b.Navigation("Suburb");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.WalkerRating", b =>

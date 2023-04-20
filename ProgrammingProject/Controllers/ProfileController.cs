@@ -94,16 +94,13 @@ namespace ProgrammingProject.Controllers
         {
             //create view model and assign the selected field from the profile page.
             var viewModel = new EditProfileViewModel();
-            List<string> statesList = DropDownLists.GetStates();
+            viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
             viewModel.StatesList = new List<SelectListItem>();
 
-            foreach (var state in statesList)
-            {
-                viewModel.StatesList.Add(new SelectListItem { Text = state, Value = state });
-            }
+           
 
             viewModel.Password = "";
             viewModel.ConfirmPassword = "";

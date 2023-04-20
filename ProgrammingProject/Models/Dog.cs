@@ -16,7 +16,7 @@ namespace ProgrammingProject.Models
         Calm = 0,
         Friendly = 1,
         Reactive = 2,
-        Aggresive = 3
+        Aggressive = 3
     }
     public enum TrainingLevel
     {
@@ -39,6 +39,7 @@ namespace ProgrammingProject.Models
         public Temperament Temperament { get; set; }
         public DogSize DogSize { get; set; }
         public TrainingLevel TrainingLevel { get; set; }
+        public string DogImage { get; set; }
 
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }

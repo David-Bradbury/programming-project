@@ -17,7 +17,7 @@ namespace ProgrammingProject.Data
                 return; // DB has been seeded already.
 
 
-            // Seed Suburbs
+            //// Seed Suburbs
             var suburb1 = new Suburb();
 
             suburb1.Postcode = "3153";
@@ -71,7 +71,10 @@ namespace ProgrammingProject.Data
 
             vet1.BusinessName = "Bays Vets";
             vet1.PhNumber = "0402 201 201";
-            vet1.Address = "3 Baywater Road";
+            vet1.StreetAddress = "3 Baywater Road";
+            vet1.Suburb = suburb1;
+            vet1.State = "Victoria";
+            vet1.Country = "Australia";
             vet1.Email = "baysvets@gmail.com";
 
             context.Vets.Add(vet1);
@@ -80,7 +83,10 @@ namespace ProgrammingProject.Data
 
             vet2.BusinessName = "Pets of the Mount";
             vet2.PhNumber = "0440 404 040";
-            vet2.Address = "21 Mountain Street";
+            vet2.StreetAddress = "21 Mountain Street";
+            vet2.Suburb = suburb2;
+            vet2.State = "Victoria";
+            vet2.Country = "Australia";
             vet2.Email = "petsofthemount@hotmail.com";
 
             context.Vets.Add(vet2);
@@ -89,7 +95,10 @@ namespace ProgrammingProject.Data
 
             vet3.BusinessName = "Dr Schmackos";
             vet3.PhNumber = "1300 000 000";
-            vet3.Address = "31 Schmackos Place";
+            vet3.StreetAddress = "31 Schmackos Place";
+            vet3.Suburb = suburb3;
+            vet3.State = "Victoria";
+            vet3.Country = "Australia";
             vet3.Email = "drschmackos@optus.net";
 
             context.Vets.Add(vet3);
@@ -283,7 +292,7 @@ namespace ProgrammingProject.Data
 
 
             var dog2 = new Dog();
-   
+
             dog2.Name = "Bella";
             dog2.Breed = "Labrador";
             dog2.MicrochipNumber = "152655";
@@ -292,13 +301,13 @@ namespace ProgrammingProject.Data
             dog2.DogSize = DogSize.Large;
             dog2.TrainingLevel = TrainingLevel.Fully;
             dog2.Owner = owner2;
-            dog2.Vet = vet2;
+            dog2.Vet = vet2;          
 
             context.Dogs.Add(dog2);
 
 
             var dog3 = new Dog();
-         
+
             dog3.Name = "Teddy";
             dog3.Breed = "Beagle";
             dog3.MicrochipNumber = "111111";
@@ -325,8 +334,9 @@ namespace ProgrammingProject.Data
             dog4.Vet = vet3;
 
             context.Dogs.Add(dog4);
-            //
-           // seed walkingSessions
+
+            // seed walkingSessions
+
 
             var dogs = new List<Dog>();
             dogs.Add(dog4);
@@ -347,7 +357,7 @@ namespace ProgrammingProject.Data
             walk1.DogList = dogs;
 
             context.WalkingSessions.Add(walk1);
-            //
+
             context.SaveChanges();
         }
     }

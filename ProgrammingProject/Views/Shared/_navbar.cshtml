@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+     
 }
 @{
     var isLoggedIn = Context.Session.GetInt32(nameof(Owner.UserId)).HasValue;
@@ -36,6 +37,7 @@
                                 Welcome, @Context.Session.GetString(nameof(Owner.FirstName))
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                                <a class="dropdown-item" asp-controller="Owner" asp-action="AddDog">Add Dog</a>
                                 <a class="dropdown-item" asp-controller="Profile" asp-action="Index">Profile</a>
                                 <a class="dropdown-item" asp-controller="Login" asp-action="Logout">Logout</a>
 
@@ -47,7 +49,6 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Login" asp-action="Login">Login</a>
                         </li>

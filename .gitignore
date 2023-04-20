@@ -12,6 +12,8 @@
 *.ProgrammingProject.pdb
 *.ProgrammingProject.csproj.AssemblyReference.cache
 *.ProgrammingProject.csproj.FileListAbsolute.txt
+bin/
+obj/
 
 # User-specific files
 *.rsuser
