@@ -29,6 +29,7 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
 
+    
         public async Task<IActionResult> Register(int id)
         {
             viewModel.AccountTypeSelection = id;
@@ -125,10 +126,11 @@ namespace ProgrammingProject.Controllers
 
             login.Email = email;
             login.PasswordHash = ControllerHelper.HashPassword(password);
-            login.Locked = Locked.unlocked;
+            login.Locked = Locked.locked;
 
             _context.Logins.Add(login);
 
+            SendEmailVerification(login);
 
             if (accountTypeSelection == 1)
             {
@@ -177,7 +179,8 @@ namespace ProgrammingProject.Controllers
 
             _context.SaveChanges();
 
-            // Parameters to send through to email method. Front End to modify messages.
+   
+              // Parameters to send through to email method. Front End to modify messages.
             string recipient = email;
             string subject = "Thank you for Registering with EasyWalk";
             string personName = firstName;
@@ -185,9 +188,41 @@ namespace ProgrammingProject.Controllers
 
             //Calling the method to send email.
             Email.SendEmail(recipient, subject, htmlContent);
+         //   htmlContent = GetVerifyEmailContent(personName, )
 
             return RedirectToAction("Login", "Login");
         }
+
+
+        [Route("/Register/SendEmailVerification")]
+        public void SendEmailVerification(Login login)
+        {
+            //generate token for verification 
+            Random random = new Random();
+
+            string token = ControllerHelper.HashPassword((random.Next().ToString()));
+            login.EmailToken = token;
+            _context.SaveChanges();
+
+            //String for working locally
+            //string verifyUrl = "https://localhost:7199/Verification/Verify?emailToken=" + token;
+            //String for working in online deployment
+            string verifyUrl = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify?emailToken=" + token;
+
+            // Parameters to send through to email method. Front End to modify messages.
+            string recipient = login.Email;
+            string subject = "Please verify your email address";
+        
+            string htmlContent = GetVerifyEmailContent(verifyUrl);
+
+            //Calling the method to send email.
+            Email.SendEmail(recipient, subject, htmlContent);
+            //   htmlContent = GetVerifyEmailContent(personName, )
+
+         
+
+        }
+
 
         private string GetRegisterEmailContent(string name)
         {
@@ -204,6 +239,27 @@ namespace ProgrammingProject.Controllers
             catch (Exception e)
             {
                 content = "You have successfully registered with EasyWalk";
+            }
+
+            return content;
+        }
+
+
+        private string GetVerifyEmailContent(string url)
+        {
+            string content = "";
+
+            try
+            {
+                using (var sr = new StreamReader("./Helper/VerifyEmailContent.html"))
+                {
+                    string fileContent = sr.ReadToEnd();
+                    content = String.Format(fileContent, url);
+                }
+            }
+            catch (Exception e)
+            {
+                content = url;
             }
 
             return content;

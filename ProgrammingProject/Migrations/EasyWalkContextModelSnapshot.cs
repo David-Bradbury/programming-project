@@ -118,6 +118,9 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(320)
                         .HasColumnType("nvarchar(320)");
 
+                    b.Property<string>("EmailToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Locked")
                         .HasColumnType("int");
 
