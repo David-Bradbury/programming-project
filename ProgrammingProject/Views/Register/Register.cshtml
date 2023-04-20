@@ -29,6 +29,7 @@
                     <input id="Email1" asp-for="Email" class="form-control" data-val="true"
                            data-val-required="The Email field is required." placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
+                    <span id="form-1-message-email" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
                     <label for="Password" class="control-label">Password</label>
@@ -43,10 +44,10 @@
                            class="form-control" data-val="true"
                            data-val-required="The Password field is required." placeholder="Re-enter Password" />
                     @Html.ValidationMessage("ConfirmPassword", new  { @class = "text-danger"})
+                    <span id="form-1-message-password" class="text-danger"></span>
                 </div>
                 <input type="button" onclick="validateForm1()" class="btn btn-primary" value="Next"/>
 
-                <span id="form-1-message" class="text-danger"></span>
             </form>
             <form asp-action="Register" id="form-2" class="d-none">
                 <input asp-for=AccountTypeSelection type="hidden" value="@Model.AccountTypeSelection"/>
@@ -55,26 +56,7 @@
                 <input id="Email2" type="hidden" asp-for="Email" />
                 <input id="Password2" type="hidden" asp-for="Password" />
                 <input id="ConfirmPassword2" type="hidden" asp-for="ConfirmPassword" />
-                @*<input asp-for=AccountTypeSelection type="hidden" />
-                <div class="form-group">
-                    <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" data-val="true"
-                           data-val-required="The First Name field is required." placeholder="First Name" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-
-                </div>
-                <div class="form-group mt-3">
-                    <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" data-val="true"
-                           data-val-required="The Last Name field is required." placeholder="Last Name" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-3">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" data-val="true"
-                           data-val-required="The Email field is required." placeholder="Email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>*@
+ 
                 <div class="form-group mt-3">
                     <label asp-for="StreetAddress" class="control-label"></label>
                     <input asp-for="StreetAddress" class="form-control" data-val="true"
@@ -145,23 +127,6 @@
                         <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
                     </div>
                 }
-
-
-                @*<div class="form-group mt-3">
-                    <label for="Password" class="control-label">Password</label>
-                    <input id="Password" name="Password" type="password"
-                           class="form-control" data-val="true"
-                           data-val-required="The Password field is required." placeholder="Enter Password" />
-                    @Html.ValidationMessage("Password", new  { @class = "text-danger"})
-                </div>
-
-                <div class="form-group mt-3">
-                    <label for="ConfirmPassword" class="control-label">Confirm Password</label>
-                    <input id="ConfirmPassword" name="ConfirmPassword" type="password"
-                           class="form-control" data-val="true"
-                           data-val-required="The Password field is required." placeholder="Re-enter Password" />
-                    @Html.ValidationMessage("confirmPassword", new  { @class = "text-danger"})
-                </div>*@
                 <input type="button" class="btn btn-primary" onclick="toggleForm()" value="Back"/>
                 <div class="form-group mt-3">
                     <input type="button" value="Register" class="btn btn-primary" onclick="submitForm2()" />
@@ -201,21 +166,38 @@
 
             if (!$form1.valid()) return;
 
-            const $pattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@@#$%^&+=]).*$/;
+            var badForm = false;
+
+            // regex / equivalence checking on the password
+            const $passwordPattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@@#$%^&+=]).*$/;
             var $password = $("#Password");
-
-            // Todo - regex on the email
-
-            if (!$pattern.test($password.val())) {
-                $("#form-1-message").text("Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length")
-                return;
+            if (!$passwordPattern.test($password.val())) {
+                $("#form-1-message-password").text("Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
+                badForm = true;
+            } else if ($password.val() !== $("#ConfirmPassword").val()) {
+                $("#form-1-message-password").text("Passwords need to match")
+                badForm = true;
+            } else {
+                // clear message if fine
+                $("#form-1-message-password").text("")
             }
-            if ($password.val() !== $("#ConfirmPassword").val()) {
-                $("#form-1-message").text("Passwords need to match")
-                return;
+
+            // regex on the email - this clashes just slightly with the validator.
+            const $emailPattern = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$/;
+            if (!$emailPattern.test($("#Email1").val())) {
+                $("#form-1-message-email").text("Please enter a valid email address");
+                badForm = true;
+            } else {
+                // clear message if fine
+                $("#form-1-message-email").text("");
             }
+
+            // don't go any further if it's a bad form
+            if (badForm) return;
 
             toggleForm()
+
+            // Set values from form 1 as hidden fields in form 2
             $("#FirstName2").val($("#FirstName1").val());
             $("#LastName2").val($("#LastName1").val());
             $("#Email2").val($("#Email1").val());
@@ -229,9 +211,21 @@
             $.validator.unobtrusive.parse($form2);
             $form2.validate();
 
-            if ($form2.valid()) {
-                $form2.submit();
+            if (!$form2.valid()) {
+                return;
             }
+
+            var badForm = false;
+            // todo
+            // regex phNumber
+            // regex postcode
+            // require insured
+            // require experience level
+
+            if (badForm) return;
+
+            $form2.submit();
+
         }
     </script>
 }
