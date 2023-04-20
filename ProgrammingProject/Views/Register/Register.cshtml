@@ -10,8 +10,52 @@
 
     <div class="row">
         <div class="col-md-6 g-5 mx-auto">
-            <form asp-action="Register">
-                <input asp-for=AccountTypeSelection type="hidden" />
+            <form action="" id="form-1">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input id="FirstName1" asp-for="FirstName" class="form-control" data-val="true"
+                           data-val-required="The First Name field is required." placeholder="First Name" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input id="LastName1" asp-for="LastName" class="form-control" data-val="true"
+                           data-val-required="The Last Name field is required." placeholder="Last Name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input id="Email1" asp-for="Email" class="form-control" data-val="true"
+                           data-val-required="The Email field is required." placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="Password" class="control-label">Password</label>
+                    <input id="Password" name="Password" type="password"
+                           class="form-control" data-val="true"
+                           data-val-required="The Password field is required." placeholder="Enter Password" />
+                    @Html.ValidationMessage("Password", new  { @class = "text-danger"})
+                </div>
+                <div class="form-group mt-3">
+                    <label for="ConfirmPassword" class="control-label">Confirm Password</label>
+                    <input id="ConfirmPassword" name="ConfirmPassword" type="password"
+                           class="form-control" data-val="true"
+                           data-val-required="The Password field is required." placeholder="Re-enter Password" />
+                    @Html.ValidationMessage("ConfirmPassword", new  { @class = "text-danger"})
+                </div>
+                <input type="button" onclick="validateForm1()" class="btn btn-primary" value="Next"/>
+
+                <span id="form-1-message" class="text-danger"></span>
+            </form>
+            <form asp-action="Register" id="form-2" class="d-none">
+                <input asp-for=AccountTypeSelection type="hidden" value="@Model.AccountTypeSelection"/>
+                <input id="FirstName2" type="hidden" asp-for="FirstName" />
+                <input id="LastName2" type="hidden" asp-for="LastName" />
+                <input id="Email2" type="hidden" asp-for="Email" />
+                <input id="Password2" type="hidden" asp-for="Password" />
+                <input id="ConfirmPassword2" type="hidden" asp-for="ConfirmPassword" />
+                @*<input asp-for=AccountTypeSelection type="hidden" />
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input asp-for="FirstName" class="form-control" data-val="true"
@@ -30,7 +74,7 @@
                     <input asp-for="Email" class="form-control" data-val="true"
                            data-val-required="The Email field is required." placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
+                </div>*@
                 <div class="form-group mt-3">
                     <label asp-for="StreetAddress" class="control-label"></label>
                     <input asp-for="StreetAddress" class="form-control" data-val="true"
@@ -103,7 +147,7 @@
                 }
 
 
-                <div class="form-group mt-3">
+                @*<div class="form-group mt-3">
                     <label for="Password" class="control-label">Password</label>
                     <input id="Password" name="Password" type="password"
                            class="form-control" data-val="true"
@@ -117,10 +161,10 @@
                            class="form-control" data-val="true"
                            data-val-required="The Password field is required." placeholder="Re-enter Password" />
                     @Html.ValidationMessage("confirmPassword", new  { @class = "text-danger"})
-                </div>
-
+                </div>*@
+                <input type="button" class="btn btn-primary" onclick="toggleForm()" value="Back"/>
                 <div class="form-group mt-3">
-                    <input type="submit" value="Register" class="btn btn-primary" />
+                    <input type="button" value="Register" class="btn btn-primary" onclick="submitForm2()" />
                 </div>
 
                 @Html.ValidationMessage("RegistrationFailure", new {@class = ""})
@@ -132,5 +176,62 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script type="text/javascript">
+        var $form = $("#form-2");
+        $.validator.unobtrusive.parse($form);
+        $form.validate();
 
-    }
+        if ($form.valid()) {
+            console.log("valid")
+        } else {
+            console.log("invalid")
+        }
+
+        function toggleForm() {
+            var $form1 = $("#form-1");
+            $form1.toggleClass("d-none");
+            var $form2 = $("#form-2");
+            $form2.toggleClass("d-none");
+        }
+
+        function validateForm1() {
+            var $form1 = $("#form-1");
+            $.validator.unobtrusive.parse($form1);
+            $form1.validate();
+
+            if (!$form1.valid()) return;
+
+            const $pattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@@#$%^&+=]).*$/;
+            var $password = $("#Password");
+
+            // Todo - regex on the email
+
+            if (!$pattern.test($password.val())) {
+                $("#form-1-message").text("Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length")
+                return;
+            }
+            if ($password.val() !== $("#ConfirmPassword").val()) {
+                $("#form-1-message").text("Passwords need to match")
+                return;
+            }
+
+            toggleForm()
+            $("#FirstName2").val($("#FirstName1").val());
+            $("#LastName2").val($("#LastName1").val());
+            $("#Email2").val($("#Email1").val());
+            $("#Password2").val($("#Password").val());
+            $("#ConfirmPassword2").val($("#ConfirmPassword").val());
+        }
+
+        function submitForm2() {
+            var $form1 = $("#form-1");
+            var $form2 = $("#form-2");
+            $.validator.unobtrusive.parse($form2);
+            $form2.validate();
+
+            if ($form2.valid()) {
+                $form2.submit();
+            }
+        }
+    </script>
+}
