@@ -16,26 +16,26 @@
             <div class="flex-grow-1 mb-3 mb-sm-0">
                 <label for="Date" class="form-label">Date</label>
                 <input type="date" id="Date" name="Date" class="form-control"
-                        data-val="true" data-val-date="The field Date must be a date."
-                        data-val-required="The date field is required." />
+                       data-val="true" data-val-date="The field Date must be a date."
+                       data-val-required="The date field is required." />
             </div>
             <div class="flex-grow-1 mb-3 mb-sm-0">
                 <label for="StartTime" class="form-label">Start Time</label>
                 <input type="time" id="StartTime" name="StartTime" class="form-control"
-                        data-val="true" data-val-time="The field StartTimne must be a time."
-                        data-val-required="The StartTime field is required." />
+                       data-val="true" data-val-time="The field StartTimne must be a time."
+                       data-val-required="The StartTime field is required." />
             </div>
             <div class="flex-grow-1 mb-3 mb-sm-0">
                 <label for="EndTime" class="form-label">End Time</label>
                 <input type="time" id="EndTime" name="EndTime" class="form-control"
-                        data-val="true" data-val-time="The field EndTime must be a time."
-                        data-val-required="The EndTime field is required." />
+                       data-val="true" data-val-time="The field EndTime must be a time."
+                       data-val-required="The EndTime field is required." />
             </div>
             <div class="flex-grow-1">
                 <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
-                    value="Add Session" asp-route-id="CreateWalkingSessions" />
+                       value="Add Session" asp-route-id="CreateWalkingSessions" />
             </div>
-            
+
         </div>
     </form>
 </div>
@@ -46,7 +46,7 @@
     <div class="mb-5 d-flex flex-column gap-1">
         @foreach (var walk in walker.WalkingSessions)
         {
-            <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk"/>
+            <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
         }
     </div>
 </div>
@@ -54,10 +54,25 @@
 <div>
     <h3>Suitable Dogs</h3>
     <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
-        @foreach (var dog in dogs) 
+        @foreach (var dog in dogs)
         {
             <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
         }
     </div>
 
+</div>
+
+<div>
+    <form asp-action="StartWalkingSession">
+        <div class="flex-grow-1 mb-3 mb-sm-0">
+            <label for="SessionID" class="form-label">SessionID</label>
+            <input type="number" id="SessionID" name="SessionID" class="form-control"
+                   data-val="true" value=""
+        </div>
+        <div class="flex-grow-1">
+            <input type="submit" class="btn btn-primary" asp-action="StartWalkingSession"
+                   value="Start Session" asp-route-id="StartWalkingSession" />
+        </div>
+
+    </form>
 </div>
