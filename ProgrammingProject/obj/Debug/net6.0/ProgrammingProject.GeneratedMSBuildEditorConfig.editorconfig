@@ -31,10 +31,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Owner/AddDog.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3duZXJcQWRkRG9nLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Owner/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3duZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -55,14 +51,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcU2VsZWN0QWNjb3VudFR5cGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Shared/Components/_DogCard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcX0RvZ0NhcmQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Shared/Components/_WalkingSessionRow.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcX1dhbGtpbmdTZXNzaW9uUm93LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -75,16 +63,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Verification/Verify.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVyaWZpY2F0aW9uXFZlcmlmeS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Walker/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Fsa2VyXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Walker/StartWalkingSession.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Fsa2VyXFN0YXJ0V2Fsa2luZ1Nlc3Npb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/info/Source/Repos/programming-project/ProgrammingProject/Views/Walker/WalkingSessions.cshtml]

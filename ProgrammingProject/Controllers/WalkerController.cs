@@ -31,6 +31,7 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
+        // Match suitable dogs to walkers
         [HttpPost]
         public async Task<List<Dog>> MatchDogsToWalker(int id)
         //public async Task<IActionResult> MatchDogsToWalker(int id)
@@ -41,7 +42,8 @@ namespace ProgrammingProject.Controllers
             //var dogs = _context.Dogs.AsEnumerable();
 
             // Get specific walker
-            var walker = await _context.Walkers.FindAsync(id);
+            var walker = await _context.Walkers.Where(x => x.UserId == id).SingleOrDefaultAsync();
+            //var walker = await _context.Walkers.FindAsync(id);
 
             // Get list of dogs suited for the walker
             var tempList = await GetListOfSuitableDogsToWalkers(walker, (IEnumerable<Dog>)dogs);
@@ -79,6 +81,7 @@ namespace ProgrammingProject.Controllers
             // E.g.Location or dates/times. Some filter work started below...
         }
 
+        // Returns a list of dogs which match the experience level of the passed walker.
         public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IEnumerable<Dog> dogs)
         {
 
