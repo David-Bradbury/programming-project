@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230420032934_LoginChanges")]
-    partial class LoginChanges
+    [Migration("20230420103252_RefreshDBLoginError")]
+    partial class RefreshDBLoginError
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
