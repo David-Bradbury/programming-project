@@ -10,7 +10,7 @@ namespace ProgrammingProject.Models
         public string Name { get; set; }
         [Required, StringLength(50), Display(Name = "Dogs Breed")]
         public string Breed { get; set; }
-        [Required, StringLength(50), Display(Name = "Dogs Microchip Number")]
+        [StringLength(50), Display(Name = "Dogs Microchip Number")]
         public string MicrochipNumber { get; set; }
         [Required, Display(Name = "Dogs Vaccination Status")]
         public string IsVaccinated { get; set; }

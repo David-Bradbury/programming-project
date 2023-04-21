@@ -283,6 +283,7 @@ namespace ProgrammingProject.Data
             dog1.MicrochipNumber = "123456";
             dog1.IsVaccinated = true;
             dog1.Temperament = Temperament.Friendly;
+            dog1.DogImage = "dog-avatar.jpg";
             dog1.DogSize = DogSize.Large;
             dog1.TrainingLevel = TrainingLevel.Basic;
             dog1.Owner = owner1;
@@ -298,6 +299,7 @@ namespace ProgrammingProject.Data
             dog2.MicrochipNumber = "152655";
             dog2.IsVaccinated = true;
             dog2.Temperament = Temperament.Calm;
+            dog2.DogImage = "dog-avatar.jpg";
             dog2.DogSize = DogSize.Large;
             dog2.TrainingLevel = TrainingLevel.Fully;
             dog2.Owner = owner2;
@@ -313,6 +315,7 @@ namespace ProgrammingProject.Data
             dog3.MicrochipNumber = "111111";
             dog3.IsVaccinated = true;
             dog3.Temperament = Temperament.Friendly;
+            dog3.DogImage = "dog-avatar.jpg";
             dog3.DogSize = DogSize.Small;
             dog3.TrainingLevel = TrainingLevel.None;
             dog3.Owner = owner3;
@@ -328,6 +331,7 @@ namespace ProgrammingProject.Data
             dog4.MicrochipNumber = "111112";
             dog4.IsVaccinated = true;
             dog4.Temperament = Temperament.Friendly;
+            dog4.DogImage = "dog-avatar.jpg";
             dog4.DogSize = DogSize.Small;
             dog4.TrainingLevel = TrainingLevel.Basic;
             dog4.Owner = owner3;
