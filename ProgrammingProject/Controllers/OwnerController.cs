@@ -12,7 +12,7 @@ namespace ProgrammingProject.Controllers
     //Mask URL
     [Route("/Owner")]
 
-    [Authorize]
+    
     public class OwnerController : Controller
     {
         private readonly EasyWalkContext _context;
