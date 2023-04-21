@@ -3,20 +3,29 @@
     string displayTime(DateTime t, String format) {
         return t.ToString(format);
     }
+
+    string duration(DateTime start, DateTime end ) {
+        TimeSpan d = end - start;
+        return String.Format("{0}h {1}m", d.Hours, d.Minutes);
+    }
 }
 <div class="card session-card">
     <div class="card-body container">
         <div class="d-flex justify-content-between">
             <div class="row flex-grow-1">
-                <div class="col-12 col-sm-3 col-md-2">
+                <div class="col-3 col-sm-3 col-md-2">
                     <p class="fw-bold mb-0">Date</p>
                     <p class="mb-0">@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
+                </div>
+                <div class="col-9 col-sm-3 col-md-2">
+                    <p class="fw-bold mb-0">Duration</p>
+                    <p class="mb-0">@duration(Model.ScheduledStartTime, Model.ScheduledEndTime)</p>
                 </div>
                 <div class="col-3 col-sm-2 col-md-2">
                     <p class="fw-bold mb-0">Start</p>
                     <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
                 </div>
-                <div class="col-9 col-sm-7 col-md-2">
+                <div class="col-9 col-sm-4 col-md-2">
                     <p class="fw-bold mb-0">End</p>
                     <p class="mb-0">@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
                 </div>
