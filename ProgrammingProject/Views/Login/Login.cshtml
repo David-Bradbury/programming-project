@@ -22,6 +22,7 @@
             data-val="true" data-val-required="The Password field is required." />
         @Html.ValidationMessage("Password", new { @class = "text-danger"})
     </div>
+        @Html.ValidationMessage("LoginFailure", new {@class = "text-danger text-center"})
 
     <div class="form-group row mt-3">
         <input type="submit" value="Login" class="btn btn-primary btn-block col-8 mx-auto" />
@@ -30,7 +31,6 @@
     <div class="form-group row mt-3">
         <a class="btn btn-primary btn-block col-8 mx-auto" asp-route="selectAccount">Create Account</a>
     </div>
-    @Html.ValidationMessage("LoginFailure", new {@class = ""})
 </form>
 </div>
 </div>
