@@ -73,7 +73,8 @@ namespace ProgrammingProject.Data
            .HasForeignKey(wa => new
            {
                wa.Postcode,
-               wa.SuburbName
+               wa.SuburbName,
+               wa.State
            }) 
            .OnDelete(DeleteBehavior.ClientCascade);
 
@@ -98,7 +99,8 @@ namespace ProgrammingProject.Data
                 .HasKey(s => new
                 {
                     s.Postcode,
-                    s.SuburbName
+                    s.SuburbName,
+                    s.State
                 });
         }
 

@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230420103252_RefreshDBLoginError")]
-    partial class RefreshDBLoginError
+    [Migration("20230422100450_SuburbModelChanged")]
+    partial class SuburbModelChanged
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,7 +145,16 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("SuburbName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Postcode", "SuburbName");
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Lat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Postcode", "SuburbName", "State");
 
                     b.ToTable("Suburbs");
                 });
@@ -233,9 +242,12 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("SuburbPostcode")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("SuburbState")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("SuburbPostcode", "SuburbName");
+                    b.HasIndex("SuburbPostcode", "SuburbName", "SuburbState");
 
                     b.ToTable("Vets");
                 });
@@ -305,13 +317,17 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SuburbName")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("WalkerId", "Postcode");
 
-                    b.HasIndex("Postcode", "SuburbName");
+                    b.HasIndex("Postcode", "SuburbName", "State");
 
                     b.ToTable("Walks");
                 });
@@ -353,7 +369,10 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("SuburbPostcode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("SuburbPostcode", "SuburbName");
+                    b.Property<string>("SuburbState")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("SuburbPostcode", "SuburbName", "SuburbState");
 
                     b.HasDiscriminator().HasValue("Owner");
                 });
@@ -393,7 +412,10 @@ namespace ProgrammingProject.Migrations
                     b.Property<string>("SuburbPostcode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("SuburbPostcode", "SuburbName");
+                    b.Property<string>("SuburbState")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("SuburbPostcode", "SuburbName", "SuburbState");
 
                     b.ToTable("User", t =>
                         {
@@ -414,6 +436,9 @@ namespace ProgrammingProject.Migrations
 
                             t.Property("SuburbPostcode")
                                 .HasColumnName("Walker_SuburbPostcode");
+
+                            t.Property("SuburbState")
+                                .HasColumnName("Walker_SuburbState");
                         });
 
                     b.HasDiscriminator().HasValue("Walker");
@@ -483,7 +508,7 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany()
-                        .HasForeignKey("SuburbPostcode", "SuburbName");
+                        .HasForeignKey("SuburbPostcode", "SuburbName", "SuburbState");
 
                     b.Navigation("Suburb");
                 });
@@ -528,7 +553,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany("Walks")
-                        .HasForeignKey("Postcode", "SuburbName")
+                        .HasForeignKey("Postcode", "SuburbName", "State")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
@@ -541,7 +566,7 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany("Owners")
-                        .HasForeignKey("SuburbPostcode", "SuburbName")
+                        .HasForeignKey("SuburbPostcode", "SuburbName", "SuburbState")
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Suburb");
@@ -551,7 +576,7 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Suburb", "Suburb")
                         .WithMany("Walkers")
-                        .HasForeignKey("SuburbPostcode", "SuburbName")
+                        .HasForeignKey("SuburbPostcode", "SuburbName", "SuburbState")
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Suburb");

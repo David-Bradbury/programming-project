@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class RefreshDBLoginError : Migration
+    public partial class SuburbModelChanged : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,11 +30,14 @@ namespace ProgrammingProject.Migrations
                 columns: table => new
                 {
                     Postcode = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Lat = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lon = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Suburbs", x => new { x.Postcode, x.SuburbName });
+                    table.PrimaryKey("PK_Suburbs", x => new { x.Postcode, x.SuburbName, x.State });
                 });
 
             migrationBuilder.CreateTable(
@@ -53,6 +56,7 @@ namespace ProgrammingProject.Migrations
                     PhNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     SuburbPostcode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SuburbState = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Walker_StreetAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Walker_State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Walker_Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -60,7 +64,8 @@ namespace ProgrammingProject.Migrations
                     IsInsured = table.Column<bool>(type: "bit", nullable: true),
                     ExperienceLevel = table.Column<int>(type: "int", nullable: true),
                     Walker_SuburbPostcode = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Walker_SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Walker_SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Walker_SuburbState = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,15 +76,15 @@ namespace ProgrammingProject.Migrations
                         principalTable: "Logins",
                         principalColumn: "Email");
                     table.ForeignKey(
-                        name: "FK_User_Suburbs_SuburbPostcode_SuburbName",
-                        columns: x => new { x.SuburbPostcode, x.SuburbName },
+                        name: "FK_User_Suburbs_SuburbPostcode_SuburbName_SuburbState",
+                        columns: x => new { x.SuburbPostcode, x.SuburbName, x.SuburbState },
                         principalTable: "Suburbs",
-                        principalColumns: new[] { "Postcode", "SuburbName" });
+                        principalColumns: new[] { "Postcode", "SuburbName", "State" });
                     table.ForeignKey(
-                        name: "FK_User_Suburbs_Walker_SuburbPostcode_Walker_SuburbName",
-                        columns: x => new { x.Walker_SuburbPostcode, x.Walker_SuburbName },
+                        name: "FK_User_Suburbs_Walker_SuburbPostcode_Walker_SuburbName_Walker_SuburbState",
+                        columns: x => new { x.Walker_SuburbPostcode, x.Walker_SuburbName, x.Walker_SuburbState },
                         principalTable: "Suburbs",
-                        principalColumns: new[] { "Postcode", "SuburbName" });
+                        principalColumns: new[] { "Postcode", "SuburbName", "State" });
                 });
 
             migrationBuilder.CreateTable(
@@ -95,16 +100,17 @@ namespace ProgrammingProject.Migrations
                     State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     SuburbPostcode = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SuburbState = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vets_Suburbs_SuburbPostcode_SuburbName",
-                        columns: x => new { x.SuburbPostcode, x.SuburbName },
+                        name: "FK_Vets_Suburbs_SuburbPostcode_SuburbName_SuburbState",
+                        columns: x => new { x.SuburbPostcode, x.SuburbName, x.SuburbState },
                         principalTable: "Suburbs",
-                        principalColumns: new[] { "Postcode", "SuburbName" });
+                        principalColumns: new[] { "Postcode", "SuburbName", "State" });
                 });
 
             migrationBuilder.CreateTable(
@@ -161,16 +167,17 @@ namespace ProgrammingProject.Migrations
                 {
                     WalkerId = table.Column<int>(type: "int", nullable: false),
                     Postcode = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Walks", x => new { x.WalkerId, x.Postcode });
                     table.ForeignKey(
-                        name: "FK_Walks_Suburbs_Postcode_SuburbName",
-                        columns: x => new { x.Postcode, x.SuburbName },
+                        name: "FK_Walks_Suburbs_Postcode_SuburbName_State",
+                        columns: x => new { x.Postcode, x.SuburbName, x.State },
                         principalTable: "Suburbs",
-                        principalColumns: new[] { "Postcode", "SuburbName" });
+                        principalColumns: new[] { "Postcode", "SuburbName", "State" });
                     table.ForeignKey(
                         name: "FK_Walks_User_WalkerId",
                         column: x => x.WalkerId,
@@ -285,19 +292,19 @@ namespace ProgrammingProject.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_SuburbPostcode_SuburbName",
+                name: "IX_User_SuburbPostcode_SuburbName_SuburbState",
                 table: "User",
-                columns: new[] { "SuburbPostcode", "SuburbName" });
+                columns: new[] { "SuburbPostcode", "SuburbName", "SuburbState" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_Walker_SuburbPostcode_Walker_SuburbName",
+                name: "IX_User_Walker_SuburbPostcode_Walker_SuburbName_Walker_SuburbState",
                 table: "User",
-                columns: new[] { "Walker_SuburbPostcode", "Walker_SuburbName" });
+                columns: new[] { "Walker_SuburbPostcode", "Walker_SuburbName", "Walker_SuburbState" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vets_SuburbPostcode_SuburbName",
+                name: "IX_Vets_SuburbPostcode_SuburbName_SuburbState",
                 table: "Vets",
-                columns: new[] { "SuburbPostcode", "SuburbName" });
+                columns: new[] { "SuburbPostcode", "SuburbName", "SuburbState" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_WalkerRatings_OwnerID",
@@ -310,9 +317,9 @@ namespace ProgrammingProject.Migrations
                 column: "WalkerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Walks_Postcode_SuburbName",
+                name: "IX_Walks_Postcode_SuburbName_State",
                 table: "Walks",
-                columns: new[] { "Postcode", "SuburbName" });
+                columns: new[] { "Postcode", "SuburbName", "State" });
         }
 
         /// <inheritdoc />

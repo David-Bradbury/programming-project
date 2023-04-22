@@ -132,11 +132,6 @@ namespace ProgrammingProject.Controllers
             return await Task.FromResult(score);
         }
 
-        //public static implicit operator WalkerController(string v)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         [HttpPost]
         public async Task<IActionResult> CreateWalkingSessions(DateTime Date, DateTime StartTime, DateTime EndTime)
         {
@@ -203,7 +198,6 @@ namespace ProgrammingProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddDogToWalkingSession(int DogID, int SessionID, DateTime StartTime, DateTime EndTime)
         {
-            // logic to add dog to walking session.
             var dog = await _context.Dogs.FindAsync(DogID);
 
             var walkerSession = await _context.WalkingSessions.FindAsync(SessionID);
@@ -226,9 +220,6 @@ namespace ProgrammingProject.Controllers
         }
 
         // Start walking session
-
-        //public async Task<IActionResult> StartWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
-
         [HttpPost]
         public async Task<IActionResult> StartWalkingSession(int sessionID)
         {
@@ -254,9 +245,7 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
-        //// End walking session
-        //public async Task<IActionResult> EndWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
-
+        // End walking session
         [HttpPost]
         public async Task<IActionResult> EndWalkingSession(int sessionID)
         {
@@ -277,6 +266,58 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
+        // Edit walking session
+        [HttpPost]
+        public async Task<IActionResult> EditWalkingSession(int sessionID)
+        {
 
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
+
+            foreach (var session in walker.WalkingSessions)
+            {
+                if (session.SessionID == sessionID)
+                {
+                    //session.ActualStartTime = DateTime.Now;
+                }
+            }
+
+            //walkerSession.ActualStartTime = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            //ViewBag.WalkingSession = walkerSession;
+
+            return View();
+        }
+
+        // Delete walking session
+        [HttpPost]
+        public async Task<IActionResult> DeleteWalkingSession(int sessionID)
+        {
+
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
+
+            //foreach (var session in walker.WalkingSessions)
+            //{
+            //    if (session.SessionID == sessionID)
+            //    {
+            //        //session.
+            //    }
+            //}
+
+            walker.WalkingSessions.Remove(walkerSession);
+            _context.WalkingSessions.Remove(walkerSession);
+            
+
+            await _context.SaveChangesAsync();
+
+            //ViewBag.WalkingSession = walkerSession;
+
+            return View();
+        }
     }
 }
