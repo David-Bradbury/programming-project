@@ -17,15 +17,24 @@
         </div>
         <div class="col-md-6 d-flex flex-column justify-content-end mt-5 mt-md-0">
             <h1 class="text-primary" style="font-size: 3.5rem;">Find Dog Walkers Near You</h1>
-            <p>Welcome to EasyWalk, where we connect your furry friend to dog walkers in your area. 
-                
-               @if (!isLoggedIn) { <span>Sign up now!</span> }
+            <p>
+                @if (isLoggedIn && accountType == "Owner") {
+                    <span>Welcome to EasyWalk, where we connect your furry friend to dog walkers in your area.</span>
+                } else if (isLoggedIn && accountType == "Walker") {
+                    <span>Welcome to EasyWalk, where we connect furry friends and local dog walkers.</span>
+                }
+                else {
+                    <span>Welcome to EasyWalk, where we connect furry friends and local dog walkers.</span>
+                    <span>Sign up now!</span>
+                }
             </p>
             <div>
-                @if (isLoggedIn) {
-                    @*The landing text doesn't make that much sense for walkers*@
+                @if (isLoggedIn && accountType == "Owner") {
                     <a class="btn btn-outline-primary" asp-controller="@accountType" asp-action="Index">Find a walker</a>
                 } 
+                else if (isLoggedIn && accountType == "Walker") {
+                    <a class="btn btn-outline-primary" asp-controller="@accountType" asp-action="Index">Get started</a>
+                }
                 else {
                     <a class="btn btn-primary" asp-route="selectAccount">Sign Up</a>
                     <a class="btn btn-outline-primary ms-2" asp-controller="Login" asp-action="Login">Login</a>
