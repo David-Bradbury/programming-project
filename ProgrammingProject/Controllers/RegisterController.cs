@@ -130,7 +130,7 @@ namespace ProgrammingProject.Controllers
 
             _context.Logins.Add(login);
 
-            SendEmailVerification(login);
+            SendEmailVerification(login, firstName);
 
             if (accountTypeSelection == 1)
             {
@@ -180,22 +180,22 @@ namespace ProgrammingProject.Controllers
             _context.SaveChanges();
 
    
-              // Parameters to send through to email method. Front End to modify messages.
-            string recipient = email;
-            string subject = "Thank you for Registering with EasyWalk";
-            string personName = firstName;
-            string htmlContent = GetRegisterEmailContent(personName);
+             // Parameters to send through to email method. Front End to modify messages.
+            //string recipient = email;
+            //string subject = "Thank you for Registering with EasyWalk";
+            //string personName = firstName;
+            //string htmlContent = GetRegisterEmailContent(personName);
 
             //Calling the method to send email.
-            Email.SendEmail(recipient, subject, htmlContent);
-         //   htmlContent = GetVerifyEmailContent(personName, )
+            //Email.SendEmail(recipient, subject, htmlContent);
+            // htmlContent = GetVerifyEmailContent(personName, )
 
             return RedirectToAction("Login", "Login");
         }
 
 
         [Route("/Register/SendEmailVerification")]
-        public void SendEmailVerification(Login login)
+        public void SendEmailVerification(Login login, string firstName)
         {
             //generate token for verification 
             Random random = new Random();
@@ -213,7 +213,7 @@ namespace ProgrammingProject.Controllers
             string recipient = login.Email;
             string subject = "Please verify your email address";
         
-            string htmlContent = GetVerifyEmailContent(verifyUrl);
+            string htmlContent = GetVerifyEmailContent(verifyUrl, firstName);
 
             //Calling the method to send email.
             Email.SendEmail(recipient, subject, htmlContent);
@@ -245,7 +245,7 @@ namespace ProgrammingProject.Controllers
         }
 
 
-        private string GetVerifyEmailContent(string url)
+        private string GetVerifyEmailContent(string url, string name)
         {
             string content = "";
 
@@ -254,12 +254,12 @@ namespace ProgrammingProject.Controllers
                 using (var sr = new StreamReader("./Helper/VerifyEmailContent.html"))
                 {
                     string fileContent = sr.ReadToEnd();
-                    content = String.Format(fileContent, url);
+                    content = String.Format(fileContent, name, url);
                 }
             }
             catch (Exception e)
             {
-                content = url;
+                content = "Please verify your email using this link: " + url;
             }
 
             return content;
