@@ -256,7 +256,7 @@ namespace ProgrammingProject.Controllers
 
             try
             {
-                using (var sr = new StreamReader("~/ProgrammingProject/Helper/VerifyEmailContent.html"))
+                using (var sr = new StreamReader("./Helper/VerifyEmailContent.html"))
                 {
                     string fileContent = sr.ReadToEnd();
                     content = String.Format(fileContent, url);
