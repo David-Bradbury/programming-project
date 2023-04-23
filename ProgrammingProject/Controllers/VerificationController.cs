@@ -27,6 +27,7 @@ namespace ProgrammingProject.Controllers
                 {
                     verified = true;
                     login.Locked = Locked.unlocked;
+                    login.EmailToken = null;
                     _context.SaveChanges();
                 }
 
