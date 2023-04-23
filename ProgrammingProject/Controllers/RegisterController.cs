@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProgrammingProject.Helper;
-
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace ProgrammingProject.Controllers
 {
@@ -204,22 +204,28 @@ namespace ProgrammingProject.Controllers
             login.EmailToken = token;
             _context.SaveChanges();
 
-            //String for working locally
-            //string verifyUrl = "https://localhost:7199/Verification/Verify?emailToken=" + token;
-            //String for working in online deployment
-            string verifyUrl = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify?emailToken=" + token;
 
             // Parameters to send through to email method. Front End to modify messages.
             string recipient = login.Email;
             string subject = "Please verify your email address";
-        
-            string htmlContent = GetVerifyEmailContent(verifyUrl);
+
+            //String for woring locally
+           // const string url = "https://localhost:7199/Verification/Verify";
+
+           //String for deployed version
+            const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify";
+
+            var param = new Dictionary<string, string>() { { "emailToken", token } };
+
+            var newUrl = new Uri(QueryHelpers.AddQueryString(url, param));
+
+            string htmlContent = GetVerifyEmailContent(newUrl.ToString());
 
             //Calling the method to send email.
             Email.SendEmail(recipient, subject, htmlContent);
             //   htmlContent = GetVerifyEmailContent(personName, )
 
-         
+
 
         }
 

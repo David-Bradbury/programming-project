@@ -35,7 +35,7 @@ namespace ProgrammingProject.Controllers
             if(verified == true)
                     return View();
             else
-               return View("Index", "Home");
+               return View("../Home/Index");
         }
 
 
