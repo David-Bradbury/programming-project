@@ -223,7 +223,6 @@ namespace ProgrammingProject.Controllers
 
             //Calling the method to send email.
             Email.SendEmail(recipient, subject, htmlContent);
-            //   htmlContent = GetVerifyEmailContent(personName, )
 
 
 
