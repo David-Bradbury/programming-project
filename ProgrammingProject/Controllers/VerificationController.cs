@@ -23,7 +23,7 @@ namespace ProgrammingProject.Controllers
 
             foreach (var login in _context.Logins)
             {
-                if (login.EmailToken == emailToken)
+                if (login.EmailToken == emailToken) 
                 {
                     verified = true;
                     login.Locked = Locked.unlocked;

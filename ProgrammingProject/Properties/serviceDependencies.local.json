@@ -4,6 +4,11 @@
       "ignored": "true",
       "type": "mssql",
       "connectionId": "ConnectionStrings:McbaContext"
+    },
+    "compute.appService1": {
+      "group": "connections",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/ProgrammingProject-EasyWalk",
+      "type": "compute.appService.windows"
     }
   }
 }
