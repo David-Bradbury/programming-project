@@ -10,27 +10,55 @@
 
     <div class="row">
         <div class="col-md-6 g-5 mx-auto">
-            <form asp-action="Register">
-                <input asp-for=AccountTypeSelection type="hidden" />
+            <form action="" id="form-1">
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" data-val="true"
+                    <input id="FirstName1" asp-for="FirstName" class="form-control" data-val="true"
                            data-val-required="The First Name field is required." placeholder="First Name" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
 
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" data-val="true"
+                    <input id="LastName1" asp-for="LastName" class="form-control" data-val="true"
                            data-val-required="The Last Name field is required." placeholder="Last Name" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" data-val="true"
+                    <input id="Email1" asp-for="Email" class="form-control" data-val="true"
                            data-val-required="The Email field is required." placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
+                    <span id="form-1-message-email" class="text-danger"></span>
                 </div>
+                <div class="form-group mt-3">
+                    <label for="Password" class="control-label">Password</label>
+                    <input id="Password" name="Password" type="password"
+                           class="form-control" data-val="true"
+                           data-val-required="The Password field is required." placeholder="Enter Password" />
+                    @Html.ValidationMessage("Password", new  { @class = "text-danger"})
+                </div>
+                <div class="form-group mt-3">
+                    <label for="ConfirmPassword" class="control-label">Confirm Password</label>
+                    <input id="ConfirmPassword" name="ConfirmPassword" type="password"
+                           class="form-control" data-val="true"
+                           data-val-required="The Password field is required." placeholder="Re-enter Password" />
+                    @Html.ValidationMessage("ConfirmPassword", new  { @class = "text-danger"})
+                    <span id="form-1-message-password" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3 d-flex justify-content-end">
+                    <input type="button" onclick="validateForm1()" class="btn btn-primary" value="Next"/>
+                </div>
+
+            </form>
+            <form asp-action="Register" id="form-2" class="d-none">
+                <input asp-for=AccountTypeSelection type="hidden" value="@Model.AccountTypeSelection"/>
+                <input id="FirstName2" type="hidden" asp-for="FirstName" />
+                <input id="LastName2" type="hidden" asp-for="LastName" />
+                <input id="Email2" type="hidden" asp-for="Email" />
+                <input id="Password2" type="hidden" asp-for="Password" />
+                <input id="ConfirmPassword2" type="hidden" asp-for="ConfirmPassword" />
+ 
                 <div class="form-group mt-3">
                     <label asp-for="StreetAddress" class="control-label"></label>
                     <input asp-for="StreetAddress" class="form-control" data-val="true"
@@ -45,9 +73,10 @@
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="Postcode" class="control-label"></label>
-                    <input asp-for="Postcode" class="form-control" data-val="true"
+                    <input id="Postcode" asp-for="Postcode" class="form-control" data-val="true"
                            data-val-required="The Postcode field is required." placeholder="Postcode" />
                     <span asp-validation-for="Postcode" class="text-danger"></span>
+                    <span id="form-2-message-postcode" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="State" class="control-label"></label>
@@ -64,9 +93,10 @@
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="PhNumber" class="control-label"></label>
-                    <input asp-for="PhNumber" class="form-control" data-val="true"
+                    <input id="PhNumber" asp-for="PhNumber" class="form-control" data-val="true"
                            data-val-required="Phone number is required." placeholder="04XX XXX XXX" />
                     <span asp-validation-for="PhNumber" class="text-danger"></span>
+                    <span id="form-2-message-phnumber" class="text-danger"></span>
                 </div>
 
 
@@ -88,39 +118,24 @@
                     -->
                     <div class="form-group mt-3">
                         <label asp-for="IsInsured" class="control-label"></label>
-                        <select class="form-select" asp-items="Model.IsInsuredList" asp-for="IsInsured">
+                        <select id="insurance" class="form-select" asp-items="Model.IsInsuredList" asp-for="IsInsured">
                             <option value="" hidden>-- Please Select --</option>
                         </select>
                         <span asp-validation-for="IsInsured" class="text-danger"></span>
+                        <span id="form-2-message-insurance" class="text-danger"></span>
                     </div>
                     <div class="form-group mt-3">
                         <label asp-for="ExperienceLevel" class="control-label"></label>
-                        <select class="form-select" asp-items="Model.ExperienceList" asp-for="ExperienceLevel">
+                        <select id="experience" class="form-select" asp-items="Model.ExperienceList" asp-for="ExperienceLevel">
                             <option value="" hidden>-- Please Select --</option>
                         </select>
                         <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+                        <span id="form-2-message-experience" class="text-danger"></span>
                     </div>
                 }
-
-
-                <div class="form-group mt-3">
-                    <label for="Password" class="control-label">Password</label>
-                    <input id="Password" name="Password" type="password"
-                           class="form-control" data-val="true"
-                           data-val-required="The Password field is required." placeholder="Enter Password" />
-                    @Html.ValidationMessage("Password", new  { @class = "text-danger"})
-                </div>
-
-                <div class="form-group mt-3">
-                    <label for="ConfirmPassword" class="control-label">Confirm Password</label>
-                    <input id="ConfirmPassword" name="ConfirmPassword" type="password"
-                           class="form-control" data-val="true"
-                           data-val-required="The Password field is required." placeholder="Re-enter Password" />
-                    @Html.ValidationMessage("confirmPassword", new  { @class = "text-danger"})
-                </div>
-
-                <div class="form-group mt-3">
-                    <input type="submit" value="Register" class="btn btn-primary" />
+                <div class="form-group mt-3 d-flex justify-content-between">
+                    <input type="button" class="btn btn-outline-primary" onclick="toggleForm()" value="Back" />
+                    <input type="button" value="Register" class="btn btn-primary" onclick="submitForm2()" />
                 </div>
 
                 @Html.ValidationMessage("RegistrationFailure", new {@class = ""})
@@ -132,5 +147,103 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script type="text/javascript">
+        function toggleForm() {
+            var $form1 = $("#form-1");
+            $form1.toggleClass("d-none");
+            var $form2 = $("#form-2");
+            $form2.toggleClass("d-none");
+        }
 
-    }
+        function validateForm1() {
+            var $form1 = $("#form-1");
+            $.validator.unobtrusive.parse($form1);
+            $form1.validate();
+
+            $("#form-1-message-password").text("")
+            $("#form-1-message-email").text("");
+
+            if (!$form1.valid()) return;
+
+            var badForm = false;
+
+            // regex / equivalence checking on the password
+            const $passwordPattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@@#$%^&+=]).*$/;
+            var $password = $("#Password");
+            if (!$passwordPattern.test($password.val())) {
+                $("#form-1-message-password").text("Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
+                badForm = true;
+            } else if ($password.val() !== $("#ConfirmPassword").val()) {
+                $("#form-1-message-password").text("Passwords need to match")
+                badForm = true;
+            }
+
+            // regex on the email - this clashes just slightly with the validator.
+            const $emailPattern = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$/;
+            if (!$emailPattern.test($("#Email1").val())) {
+                $("#form-1-message-email").text("Please enter a valid email address");
+                badForm = true;
+            }
+
+            // don't go any further if it's a bad form
+            if (badForm) return;
+
+            toggleForm()
+
+            // Set values from form 1 as hidden fields in form 2
+            $("#FirstName2").val($("#FirstName1").val());
+            $("#LastName2").val($("#LastName1").val());
+            $("#Email2").val($("#Email1").val());
+            $("#Password2").val($("#Password").val());
+            $("#ConfirmPassword2").val($("#ConfirmPassword").val());
+        }
+
+        function submitForm2() {
+            var $form1 = $("#form-1");
+            var $form2 = $("#form-2");
+            $.validator.unobtrusive.parse($form2);
+            $form2.validate();
+
+            $("#form-2-message-phnumber").text("");
+            $("#form-2-message-postcode").text("");
+            $("#form-2-message-insurance").text("");
+            $("#form-2-message-experience").text("");
+
+            if (!$form2.valid()) {
+                return;
+            }
+
+            var badForm = false;
+            // regex phNumber
+            var $phonePattern = /(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$/;
+            if (!$phonePattern.test($("#PhNumber").val())) {
+                $("#form-2-message-phnumber").text("This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+                badForm = true;
+            }
+
+            // regex postcode
+            var $postcodePattern = /(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)/;
+            if (!$postcodePattern.test($("#Postcode").val())) {
+                $("#form-2-message-postcode").text("This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+                badForm = true;
+            }
+
+            // require insured
+            if ($("#insurance").val() == "") {
+                $("#form-2-message-insurance").text("This field is required");
+                badForm = true;
+            }
+
+            // require experience level
+            if ($("#experience").val() == "") {
+                $("#form-2-message-experience").text("This field is required");
+                badForm = true;
+            }
+
+            if (badForm) return;
+
+            $form2.submit();
+
+        }
+    </script>
+}
