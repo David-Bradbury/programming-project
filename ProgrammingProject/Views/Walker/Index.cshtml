@@ -10,39 +10,61 @@
 </div>
 
 <div>
-    <form asp-action="CreateWalkingSession">
-        <h3>Create New Walking Session</h3>
-        <div class="d-sm-flex align-items-sm-end gap-4">
-            <div class="flex-grow-1 mb-3 mb-sm-0">
-                <label for="Date" class="form-label">Date</label>
-                <input type="date" id="Date" name="Date" class="form-control"
-                        data-val="true" data-val-date="The field Date must be a date."
-                        data-val-required="The date field is required." />
+    
+    <div class="modal fade" id="sessionModal" tabindex="-1" aria-labelledby="sessionModalLabel" aria-hidden="true">
+        <div id="sessionModal" class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create New Walking Session</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="CreateWalkingSessions" id="CreateWalkingSession" method="post">
+                        <div class="d-flex align-items-sm-end gap-4 flex-wrap">
+                            <div class="flex-grow-1">
+                                <label for="Date" class="form-label">Date</label>
+                                <input type="date" id="Date" name="Date" class="form-control"
+                                       data-val="true" data-val-date="The field Date must be a date."
+                                       data-val-required="The date field is required." required/>
+                            </div>
+                            <div class="d-flex gap-4 flex-wrap flex-grow-1">
+                                <div class="flex-grow-1">
+                                    <label for="StartTime" class="form-label">Start Time</label>
+                                    <input type="time" id="StartTime" name="StartTime" class="form-control"
+                                           data-val="true" data-val-time="The field StartTimne must be a time."
+                                           data-val-required="The StartTime field is required." required />
+                                </div>
+                                <div class="flex-grow-1">
+                                    <label for="EndTime" class="form-label">End Time</label>
+                                    <input type="time" id="EndTime" name="EndTime" class="form-control"
+                                           data-val="true" data-val-time="The field EndTime must be a time."
+                                           data-val-required="The EndTime field is required." required/>
+                                </div>
+                            </div>
+                            <div>
+                                <span id="sessionFormMessage" class="text-danger w-100"></span>
+                            </div>
+                            <div class="flex-grow-1 d-flex flex-column justify-content-end">
+                                <input type="button" class="btn btn-primary"
+                                       value="Add Session" onclick="walkingSessionSubmit()"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="flex-grow-1 mb-3 mb-sm-0">
-                <label for="StartTime" class="form-label">Start Time</label>
-                <input type="time" id="StartTime" name="StartTime" class="form-control"
-                        data-val="true" data-val-time="The field StartTimne must be a time."
-                        data-val-required="The StartTime field is required." />
-            </div>
-            <div class="flex-grow-1 mb-3 mb-sm-0">
-                <label for="EndTime" class="form-label">End Time</label>
-                <input type="time" id="EndTime" name="EndTime" class="form-control"
-                        data-val="true" data-val-time="The field EndTime must be a time."
-                        data-val-required="The EndTime field is required." />
-            </div>
-            <div class="flex-grow-1">
-                <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
-                    value="Add Session" asp-route-id="CreateWalkingSessions" />
-            </div>
-            
         </div>
-    </form>
+    </div>
+    
 </div>
 <br />
 
 <div>
-    <h3>Sessions</h3>
+    <div class="d-flex justify-content-between flex-wrap mb-2">
+        <h3>Sessions</h3>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sessionModal">
+            <i class="bi bi-plus"></i>Add a walking session
+        </button>
+    </div>
     <div class="mb-5 d-flex flex-column gap-1">
         @foreach (var walk in walker.WalkingSessions)
         {
@@ -58,6 +80,67 @@
         {
             <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
         }
+        @for (int i=0; i<2; i++) {
+            <div class="card dog-card" style="height: 0; border: none;"></div>
+        }
     </div>
 
 </div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+    
+        function walkingSessionSubmit() {
+            var $sessionForm = $("#CreateWalkingSession");
+            var $date = $("#Date");
+            var $startTime = $("#StartTime");
+            var $endTime = $("#EndTime");
+
+            $("#sessionFormMessage").text("");
+
+            if (!$sessionForm[0].checkValidity()) {
+                $sessionForm[0].reportValidity();
+                return;
+            }
+
+            var $badForm = false;
+
+            var $startHour = Number($startTime.val().toString().substring(0, 2));
+            var $endHour = Number($endTime.val().toString().substring(0, 2));
+
+            // if the hour is too early else if the time is too early, report.
+            if ($startHour > $endHour) {
+                $("#sessionFormMessage").text("The start time must be before the end time");
+                $badForm = true;
+            } else if ($startHour == $endHour
+                && Number($startTime.val().toString().substring(3, 5)) > Number($endTime.val().toString().substring(3, 5))) {
+                $("#sessionFormMessage").text("The start time must be before the end time");
+                $badForm = true;
+            }
+
+            var $now = new Date(Date.now())
+            $now.setUTCHours(0);
+            $now.setMinutes(0);
+            $now.setSeconds(0);
+            $now.setMilliseconds(0);
+            var $sessionDate = new Date($date.val());
+
+            // if date is in the past, report.
+            if ($sessionDate < $now) {
+                $("#sessionFormMessage").text("Date cannot be in the past.");
+                $badForm = true;
+            }
+
+            if ($badForm) {
+                return;
+            }
+
+            $sessionForm.submit();
+        }
+   
+
+    </script>
+}
