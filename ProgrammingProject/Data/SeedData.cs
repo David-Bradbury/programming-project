@@ -142,6 +142,19 @@ namespace ProgrammingProject.Data
 
             context.Vets.Add(vet3);
 
+            using (StreamReader r = new StreamReader("./Data/vets.json"))
+            {
+                string json = r.ReadToEnd();
+
+                List<Vet> items = JsonConvert.DeserializeObject<List<Vet>>(json);
+
+                foreach (var v in items)
+                {
+                    context.Vets.Add(v);
+                    context.SaveChanges();
+
+                }
+            }
 
             // Seed Logins
             var login1 = new Login();
@@ -387,6 +400,20 @@ namespace ProgrammingProject.Data
             dog4.Vet = vet3;
 
             context.Dogs.Add(dog4);
+
+            using (StreamReader r = new StreamReader("./Data/dogs.json"))
+            {
+                string json = r.ReadToEnd();
+
+                List<Dog> items = JsonConvert.DeserializeObject<List<Dog>>(json);
+
+                foreach (var d in items)
+                {
+                    context.Dogs.Add(d);
+                    context.SaveChanges();
+
+                }
+            }
 
             // seed walkingSessions
 
