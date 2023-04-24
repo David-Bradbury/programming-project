@@ -23,10 +23,11 @@ namespace ProgrammingProject.Controllers
 
             foreach (var login in _context.Logins)
             {
-                if (login.EmailToken == emailToken)
+                if (login.EmailToken == emailToken) 
                 {
                     verified = true;
                     login.Locked = Locked.unlocked;
+                    login.EmailToken = null;
                     _context.SaveChanges();
                 }
 
@@ -35,7 +36,7 @@ namespace ProgrammingProject.Controllers
             if(verified == true)
                     return View();
             else
-               return View("Index", "Home");
+               return View("../Home/Index");
         }
 
 
