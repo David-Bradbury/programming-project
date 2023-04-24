@@ -23,5 +23,32 @@ namespace ProgrammingProject.Controllers
 
             return View(admin);
         }
+
+        public async Task<IActionResult> DeleteUser()
+        {
+            var userList = new List<DeleteUserViewModel>();
+            var tempUser = new DeleteUserViewModel();
+
+            foreach(var o in _context.Owners)
+            {
+                tempUser.Email = o.Email;
+                tempUser.FirstName = o.FirstName;
+                tempUser.LastName = o.LastName;
+                tempUser.UserType = "Owner";
+                userList.Add(tempUser);
+
+            }
+            foreach (var w in _context.Walkers)
+            {
+                tempUser.Email = w.Email;
+                tempUser.FirstName = w.FirstName;
+                tempUser.LastName = w.LastName;
+                tempUser.UserType = "Walker";
+                userList.Add(tempUser);
+
+
+            }
+            return View(userList);
+        }
     }
 }
