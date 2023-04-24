@@ -209,10 +209,6 @@ namespace ProgrammingProject.Controllers
             string recipient = login.Email;
             string subject = "Please verify your email address";
 
-        
-            string htmlContent = GetVerifyEmailContent(verifyUrl, firstName);
-
-
             //String for woring locally
            // const string url = "https://localhost:7199/Verification/Verify";
 
@@ -223,7 +219,7 @@ namespace ProgrammingProject.Controllers
 
             var newUrl = new Uri(QueryHelpers.AddQueryString(url, param));
 
-            string htmlContent = GetVerifyEmailContent(newUrl.ToString());
+            string htmlContent = GetVerifyEmailContent(newUrl.ToString(), firstName);
 
 
             //Calling the method to send email.

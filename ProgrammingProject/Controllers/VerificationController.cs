@@ -19,11 +19,11 @@ namespace ProgrammingProject.Controllers
         public IActionResult Verify(string emailToken)
         {
             bool verified = false;
-   
+
 
             foreach (var login in _context.Logins)
             {
-                if (login.EmailToken == emailToken) 
+                if (login.EmailToken == emailToken)
                 {
                     verified = true;
                     login.Locked = Locked.unlocked;
@@ -33,10 +33,10 @@ namespace ProgrammingProject.Controllers
 
 
             }
-            if(verified == true)
-                    return View();
+            if (verified == true)
+                return View();
             else
-               return View("../Home/Index");
+                return RedirectToAction("Index", "Home");
         }
 
 
