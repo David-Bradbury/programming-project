@@ -6,11 +6,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedData : Migration
+    public partial class AddBreedModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Breeds",
+                columns: table => new
+                {
+                    BreedName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Breeds", x => x.BreedName);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Logins",
                 columns: table => new
@@ -192,19 +203,24 @@ namespace ProgrammingProject.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MicrochipNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IsVaccinated = table.Column<bool>(type: "bit", nullable: false),
                     Temperament = table.Column<int>(type: "int", nullable: false),
                     DogSize = table.Column<int>(type: "int", nullable: false),
                     TrainingLevel = table.Column<int>(type: "int", nullable: false),
                     DogImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BreedName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     OwnerUserId = table.Column<int>(type: "int", nullable: true),
                     VetId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Dogs_Breeds_BreedName",
+                        column: x => x.BreedName,
+                        principalTable: "Breeds",
+                        principalColumn: "BreedName");
                     table.ForeignKey(
                         name: "FK_Dogs_User_OwnerUserId",
                         column: x => x.OwnerUserId,
@@ -269,6 +285,11 @@ namespace ProgrammingProject.Migrations
                 name: "IX_DogRatings_WalkerID",
                 table: "DogRatings",
                 column: "WalkerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dogs_BreedName",
+                table: "Dogs",
+                column: "BreedName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dogs_OwnerUserId",
@@ -342,6 +363,9 @@ namespace ProgrammingProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "WalkingSessions");
+
+            migrationBuilder.DropTable(
+                name: "Breeds");
 
             migrationBuilder.DropTable(
                 name: "Vets");

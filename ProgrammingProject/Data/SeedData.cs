@@ -12,7 +12,7 @@ namespace ProgrammingProject.Data
     public class SeedData
     {
 
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async void Initialize(IServiceProvider serviceProvider)
         {
             using var context = new EasyWalkContext(
                 serviceProvider.GetRequiredService<DbContextOptions<EasyWalkContext>>());
@@ -340,12 +340,38 @@ namespace ProgrammingProject.Data
 
             context.Administrators.Add(admin);
 
+            using (StreamReader r = new StreamReader("./Data/breeds.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Breed> items = JsonConvert.DeserializeObject<List<Breed>>(json);
+
+                foreach (var b in items)
+                {
+                    context.Breeds.Add(b);
+                    context.SaveChanges();
+                }
+
+            }
+
+            var breed1 = context.Breeds.FirstOrDefault();
+            //breed1.BreedName = "BASENJI";
+            var breed2 = context.Breeds.FindAsync("BASENJI");
+            //var breed2 = new Breed();
+            //breed2.BreedName = "AUSTRALIAN TERRIER";
+            var breed3 = context.Breeds.FindAsync("ST. BERNARD");
+            //breed3.BreedName = "ST. BERNARD";
+            var breed4 = context.Breeds.FindAsync("AUSTRALIAN TERRIER");
+            //breed4.BreedName = "AUSTRIAN  PINSCHER";
+
+            await breed2;
+            await breed3;
+            await breed4;
 
             // Seed Dogs
             var dog1 = new Dog();
 
             dog1.Name = "Max";
-            dog1.Breed = "Golden Retriever";
+            
             dog1.MicrochipNumber = "123456";
             dog1.IsVaccinated = true;
             dog1.Temperament = Temperament.Friendly;
@@ -360,7 +386,7 @@ namespace ProgrammingProject.Data
             var dog2 = new Dog();
 
             dog2.Name = "Bella";
-            dog2.Breed = "Labrador";
+            dog2.Breed = breed2.Result;
             dog2.MicrochipNumber = "152655";
             dog2.IsVaccinated = true;
             dog2.Temperament = Temperament.Calm;
@@ -375,7 +401,7 @@ namespace ProgrammingProject.Data
             var dog3 = new Dog();
 
             dog3.Name = "Teddy";
-            dog3.Breed = "Beagle";
+            dog3.Breed = breed3.Result;
             dog3.MicrochipNumber = "111111";
             dog3.IsVaccinated = true;
             dog3.Temperament = Temperament.Friendly;
@@ -390,7 +416,7 @@ namespace ProgrammingProject.Data
             var dog4 = new Dog();
 
             dog4.Name = "Ruby";
-            dog4.Breed = "Beagle";
+            dog4.Breed = breed4.Result;
             dog4.MicrochipNumber = "111112";
             dog4.IsVaccinated = true;
             dog4.Temperament = Temperament.Friendly;
@@ -401,7 +427,9 @@ namespace ProgrammingProject.Data
 
             context.Dogs.Add(dog4);
 
-            using (StreamReader r = new StreamReader("./Data/dogs.json"))
+            context.SaveChanges();
+
+            using (StreamReader r = new StreamReader("./Data/Dogs1.json"))
             {
                 string json = r.ReadToEnd();
 

@@ -40,6 +40,17 @@ namespace ProgrammingProject.Migrations
                     b.ToTable("DogWalkingSession");
                 });
 
+            modelBuilder.Entity("ProgrammingProject.Models.Breed", b =>
+                {
+                    b.Property<string>("BreedName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("BreedName");
+
+                    b.ToTable("Breeds");
+                });
+
             modelBuilder.Entity("ProgrammingProject.Models.Dog", b =>
                 {
                     b.Property<int>("Id")
@@ -48,9 +59,9 @@ namespace ProgrammingProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Breed")
+                    b.Property<string>("BreedName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("DogImage")
                         .HasColumnType("nvarchar(max)");
@@ -83,6 +94,8 @@ namespace ProgrammingProject.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BreedName");
 
                     b.HasIndex("OwnerUserId");
 
@@ -458,6 +471,12 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.Dog", b =>
                 {
+                    b.HasOne("ProgrammingProject.Models.Breed", "Breed")
+                        .WithMany("Dogs")
+                        .HasForeignKey("BreedName")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
                     b.HasOne("ProgrammingProject.Models.Owner", "Owner")
                         .WithMany("Dogs")
                         .HasForeignKey("OwnerUserId");
@@ -465,6 +484,8 @@ namespace ProgrammingProject.Migrations
                     b.HasOne("ProgrammingProject.Models.Vet", "Vet")
                         .WithMany("Dogs")
                         .HasForeignKey("VetId");
+
+                    b.Navigation("Breed");
 
                     b.Navigation("Owner");
 
@@ -577,6 +598,11 @@ namespace ProgrammingProject.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Suburb");
+                });
+
+            modelBuilder.Entity("ProgrammingProject.Models.Breed", b =>
+                {
+                    b.Navigation("Dogs");
                 });
 
             modelBuilder.Entity("ProgrammingProject.Models.Dog", b =>

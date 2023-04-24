@@ -30,8 +30,6 @@ namespace ProgrammingProject.Models
         public int Id { get; set; }
         [Required, StringLength(50)]
         public string Name { get; set; }
-        [Required]
-        public string Breed { get; set; }
         [StringLength(50)]
         public string MicrochipNumber { get; set; }
         [Required]
@@ -41,21 +39,13 @@ namespace ProgrammingProject.Models
         public TrainingLevel TrainingLevel { get; set; }
         public string DogImage { get; set; }
 
+        [Required]
+        public string BreedName { get; set; }
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }
         public virtual List<WalkingSession> WalkingSessions { get; set; }
         public virtual List<DogRating> DogRatings { get; set;}
-
-       //TODO
-        // I also think the enums need to be tweaked to make
-        // the matching algorithm easier.
-        // E.g. NonReactive = -1. Calm = 0 etc.DP
-        
-        //NOTES
-        // Added Training Level enum. Will we be using this
-        // in matching algorithms??? JC
-
-
+        public virtual Breed Breed { get; set; }
 
     }
 }
