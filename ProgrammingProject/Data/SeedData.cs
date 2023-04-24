@@ -206,6 +206,20 @@ namespace ProgrammingProject.Data
 
             context.Logins.Add(login7);
 
+            using (StreamReader r = new StreamReader("./Data/logins.json"))
+            {
+                string json = r.ReadToEnd();
+
+                List<Login> items = JsonConvert.DeserializeObject<List<Login>>(json);
+
+                foreach (var l in items)
+                {
+                    context.Logins.Add(l);
+                    context.SaveChanges();
+
+                }
+            }
+
 
             // Seed Users
             var owner1 = new Owner();
@@ -428,42 +442,71 @@ namespace ProgrammingProject.Data
 
                 context.SaveChanges();
 
-            //using (StreamReader r = new StreamReader("./Data/MOCK_DATA.json"))
-            //using (StreamReader r = new StreamReader("./Data/NSW_Walkers.json"))
-            //{
-            //    string json = r.ReadToEnd();
-            //    List<Walker> items = JsonConvert.DeserializeObject<List<Walker>>(json);
+            using (StreamReader r = new StreamReader("./Data/NSW_Walkers.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Walker> items = JsonConvert.DeserializeObject<List<Walker>>(json);
 
-            //    foreach (var w in items)
-            //    {
-            //        context.Walkers.Add(w);
-            //        context.SaveChangesAsync();
-            //    }
+                foreach (var w in items)
+                {
+                    context.Walkers.Add(w);
+                    context.SaveChanges();
+                }
 
-            //}
+            }
 
-            //using (var reader = new StreamReader("MOCK_WALKERS_NSW.csv"))
-            //using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            //{
-            //    var w = new Walker();
+            using (StreamReader r = new StreamReader("./Data/Vic_Walkers.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Walker> items = JsonConvert.DeserializeObject<List<Walker>>(json);
 
-            //    var records = csv.GetRecords<dynamic>();
+                foreach (var w in items)
+                {
+                    context.Walkers.Add(w);
+                    context.SaveChanges();
+                }
 
-            //    foreach (var record in records)
-            //    {
-            //        w.FirstName = record[0];
-            //        //w.LastName = record[1];
-            //        //w.Email = record[2];
-            //        //w.StreetAddress = record[3];
-            //        //w.Suburb = record[4];
-            //        //w.State = record[5];
-            //        //w.Country = record[6];
-            //        //w.PhNumber = record[7];
-            //        //w.IsInsured = record[9];
-            //        //w.ExperienceLevel = (ExperienceLevel) record[8];
-            //        context.Walkers.Add(w);
-            //    }
-            //    context.SaveChanges();
+            }
+
+            using (StreamReader r = new StreamReader("./Data/NSW_Owners.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
+
+                foreach (var w in items)
+                {
+                    context.Owners.Add(w);
+                    context.SaveChanges();
+                }
+
+            }
+
+            using (StreamReader r = new StreamReader("./Data/VIC_Owners.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
+
+                foreach (var w in items)
+                {
+                    context.Owners.Add(w);
+                    context.SaveChanges();
+                }
+
+            }
+
+            using (StreamReader r = new StreamReader("./Data/Qld_Owners.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
+
+                foreach (var w in items)
+                {
+                    context.Owners.Add(w);
+                    context.SaveChanges();
+                }
+
+            }
+
         }
 
     }
