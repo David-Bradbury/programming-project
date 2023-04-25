@@ -237,12 +237,58 @@ namespace ProgrammingProject.Controllers
             return fileName;
         }
 
-        public async Task<IEnumerable> EditDogProfile(int dogID)
+        public async Task<IActionResult> EditDogProfile(int dogID)
         {
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(dogID);
 
+            var vet = new Vet();
+            vet = await _context.Vets.FindAsync(dog.Vet);
+
             var viewModel = new EditDogProfileViewModel();
+
+            viewModel.DogSizeList = DropDownLists.GetDogSize();
+            viewModel.TemperamentList = DropDownLists.GetTemperament();
+            viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
+            viewModel.StatesList = DropDownLists.GetStates();
+            viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
+
+            viewModel.Name = dog.Name;
+            viewModel.Breed = dog.Breed;
+            viewModel.MicrochipNumber = dog.MicrochipNumber;
+            viewModel.SavedDogImage = dog.DogImage;
+            
+            if(dog.IsVaccinated == true)
+                viewModel.IsVaccinated = "true";
+
+            if (dog.Temperament == Temperament.NonReactive)
+                viewModel.Temperament.Equals("NonReactive");
+            if (dog.Temperament == Temperament.Calm)
+                viewModel.Temperament.Equals("Calm");
+            if (dog.Temperament == Temperament.Friendly)
+                viewModel.Temperament.Equals("Friendly");
+            if (dog.Temperament == Temperament.Reactive)
+                viewModel.Temperament.Equals("Reactive");             ;
+            if (dog.Temperament == Temperament.Aggressive)
+                viewModel.Temperament.Equals("Agressive");
+
+            if (dog.DogSize == DogSize.Small)
+                viewModel.DogSize.Equals("Small");
+            if (dog.DogSize == DogSize.Medium)
+                viewModel.DogSize.Equals("Medium");
+            if (dog.DogSize == DogSize.Large)
+                viewModel.DogSize.Equals("Large");
+            if (dog.DogSize == DogSize.ExtraLarge)
+                viewModel.DogSize.Equals("ExtraLarge");
+
+            if (dog.TrainingLevel == TrainingLevel.None)
+                viewModel.TrainingLevel.Equals("None");
+            if (dog.TrainingLevel == TrainingLevel.Basic)
+                viewModel.TrainingLevel.Equals("Basic");
+            if (dog.TrainingLevel == TrainingLevel.Fully)
+                viewModel.TrainingLevel.Equals("Fully");
+
+            return View(viewModel);
         }
 
 
