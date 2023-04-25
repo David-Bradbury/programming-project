@@ -6,10 +6,10 @@
     var accountType = Context.Session.GetString("AccountType");
 }
 
-<div class="container pt-md-5 min-vh-100">
+<div class="container pt-md-5">
     <div class="row">
         <div class="col-md-6 d-flex flex-column justify-content-center mt-5 mt-md-0" id="hero-img" role="img" alt="A large, blond dog laying in the grass.">
-            <img class="img-fluid" 
+            <img class="img-fluid rounded" 
                 src="~/img/angel-luciano-LATYeZyw88c-unsplash-lg.jpg"
                 srcset="/img/angel-luciano-LATYeZyw88c-unsplash-sm.jpg 400w, /img/angel-luciano-LATYeZyw88c-unsplash-md.jpg 680w, /img/angel-luciano-LATYeZyw88c-unsplash-lg.jpg 1000w"
                 sizes="(max-width: 575px) 90vw; (max-width: 767px) 500px, (max-width: 991px) 310px; 450px"
@@ -42,14 +42,86 @@
             </div>
         </div>
     </div>
-    <div class="row mt-5">
-        <div class="col d-flex flex-row justify-content-center">
+    </div>
+    <div class="container-fluid row px-3 py-5 mt-2 mx-auto bg-light">
+        <div class="card p-3 col-12 col-md-6 col-lg-4 border-0 bg-transparent mx-auto">
+            <img class="card-img-top p-2" src="~/img/dog-icon.svg" alt="Dog Icon" style="margin:auto; max-width:150px">
+            <div class="card-body text-center">
+            <h4 class="card-title" style="color:#4C4E52">Set Up</h4>
+                <p class="card-text">Upload your furry friend's information to find walkers that best match your dog.</p>
+            </div>
+        </div>
+    <div class="card p-3 col-12 col-md-6 col-lg-4 border-0 bg-transparent mx-auto">
+            <img class="card-img-top p-2" src="~/img/connect-icon.svg" alt="Icon of Person with Speech Bubble" style="margin:auto; max-width:150px">
+            <div class="card-body text-center">
+            <h4 class="card-title" style="color:#4C4E52">Connect</h4>
+                <p class="card-text">Connect with walkers near you who match best with your furry friend.</p>
+            </div>
+        </div>
+    <div class="card p-3 col-12 col-md-6 col-lg-4 border-0 bg-transparent mx-auto">
+            <img class="card-img-top p-2" src="~/img/walking-icon.svg" alt="Dog with leash icon" style="margin:auto; max-width:150px">
+            <div class="card-body text-center">
+            <h4 class="card-title" style="color:#4C4E52">Walk</h4>
+                <p class="card-text">Set up walking sessions with connected walkers and you're on your way.</p>
+            </div>
+        </div>
+        <div class="row">
+            <a class="btn btn-primary col-3 mx-auto mt-3 py-2">More About Us</a>
+        </div>
+    </div>
+    <div class="card row border-0">
+        <div class="col d-flex flex-row justify-content-center card-img-top">
             <img class="img-fluid w-100" 
                 src="~/img/pexels-bethany-ferr-5482860-lg.jpg"
                 srcset="/img/pexels-bethany-ferr-5482860-sm.jpg 400w, /img/pexels-bethany-ferr-5482860-md.jpg 680w, /img/pexels-bethany-ferr-5482860-lg.jpg 1000w"
                 sizes="80vw"
                 alt="A dalmation on a leash, going for a walk" />
         </div>
-    </div>
-</div>
+    <div id="faq-scrollbar" class="card-img-overlay card-inverse col-6 m-5 overflow-auto" style="background: rgba(255,255,255,0.8);">
+        <h4 class="text-stroke text-primary p-3">
+            FAQs
+        </h4>
+        <div class="accordion w-100 px-3 accordion-flush">
+                <div class="accordion-item ">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-parent="#accordion"
+                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Question #1
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                         data-bs-parent="#basicAccordion" style="">
+                        <div class="accordion-body">
+                            Text
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-parent="#accordion"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseOne">
+                                Question #2
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                             data-bs-parent="#basicAccordion" style="">
+                            <div class="accordion-body">
+                                Text
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-parent="#accordion"
+                                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseOne">
+                                    Question #3
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                 data-bs-parent="#basicAccordion" style="">
+                                <div class="accordion-body">
+                                    Text
+                                </div>
+                            </div>
+            </div>
+        </div>
+        </div>
 
