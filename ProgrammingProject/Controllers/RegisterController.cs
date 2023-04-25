@@ -198,7 +198,9 @@ namespace ProgrammingProject.Controllers
         public void SendEmailVerification(Login login, string firstName)
         {
             //get token for verification 
-            var token = ControllerHelper.GetToken();
+            Random random = new Random();
+
+            var token = ControllerHelper.HashPassword((random.Next().ToString()));
             login.EmailToken = token;
             _context.SaveChanges();
 
@@ -208,16 +210,16 @@ namespace ProgrammingProject.Controllers
             string subject = "Please verify your email address";
 
             //String for woring locally
-           // const string url = "https://localhost:7199/Verification/Verify";
+            //const string url = "https://localhost:7199/Verification/Verify";
 
            //String for deployed version
             const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify";
 
             var param = new Dictionary<string, string>() { { "emailToken", token } };
 
-            var newUrl = new Uri(QueryHelpers.AddQueryString(url, param)).ToString();
+            var newUrl = new Uri(QueryHelpers.AddQueryString(url, param));
 
-            string htmlContent = GetVerifyEmailContent(newUrl, firstName);
+            string htmlContent = GetVerifyEmailContent(newUrl.ToString(), firstName);
 
 
             //Calling the method to send email.

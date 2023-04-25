@@ -44,7 +44,8 @@ namespace ProgrammingProject.Controllers
         }
 
 
-        [Route("/Verification/ForgotPassword")]
+        [Route("/Verification/ForgotPassword",
+            Name = "forgotPassword")]
         public IActionResult ForgotPassword()
         {
             var login = new Login();
@@ -71,6 +72,7 @@ namespace ProgrammingProject.Controllers
                     emailExists = true;
                     l.EmailToken = ControllerHelper.GetToken();
                     login.EmailToken = l.EmailToken;
+                    _context.SaveChanges();
 
                 }
 
@@ -111,10 +113,10 @@ namespace ProgrammingProject.Controllers
             var subject = "EasyWalk Password Recovery";
 
             //String for woring locally
-            const string url = "https://localhost:7199/Verification/NewPassword";
+            //const string url = "https://localhost:7199/Verification/NewPassword";
 
             //String for deployed version
-            //   const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/NewPassword";
+               const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/NewPassword";
 
             var param = new Dictionary<string, string>() { { "emailToken", login.EmailToken } };
 
@@ -169,8 +171,8 @@ namespace ProgrammingProject.Controllers
         [HttpPost]
         public IActionResult NewPassword(string email, string password, string confirmPassword)
         {
-            var login = new Login();
-            login.Email = email;
+            var viewModel = new RegisterViewModel();
+            viewModel.Email = email;
 
             if (password == null)
                 ModelState.AddModelError(nameof(password), "Password is required.");
@@ -183,12 +185,16 @@ namespace ProgrammingProject.Controllers
                     "a special character, a number, and must be at least 8 characters in length");
 
             if (!ModelState.IsValid)
-                return View(login);
+                return View(viewModel);
 
             foreach (Login l in _context.Logins)
                 if (l.Email == email)
+                {
                     l.PasswordHash = ControllerHelper.HashPassword(password);
-
+                    l.EmailToken = null;
+                    _context.SaveChanges();
+                    return RedirectToAction("Login", "Login");
+                }
             return RedirectToAction("Index", "Home");
 
         }
