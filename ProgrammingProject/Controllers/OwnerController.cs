@@ -237,13 +237,15 @@ namespace ProgrammingProject.Controllers
             return fileName;
         }
 
-        public async Task<IActionResult> EditDogProfile(int dogID)
+		[Route("/Owner/EditDogProfile",
+   Name = "EditDogProfile")]
+		public async Task<IActionResult> EditDogProfile(int dogID)
         {
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(dogID);
 
             var vet = new Vet();
-            vet = await _context.Vets.FindAsync(dog.Vet);
+            vet = await _context.Vets.FindAsync(dog.Vet.Id);
 
             var viewModel = new EditDogProfileViewModel();
 
@@ -262,31 +264,31 @@ namespace ProgrammingProject.Controllers
                 viewModel.IsVaccinated = "true";
 
             if (dog.Temperament == Temperament.NonReactive)
-                viewModel.Temperament.Equals("NonReactive");
+                viewModel.Temperament = "NonReactive";
             if (dog.Temperament == Temperament.Calm)
-                viewModel.Temperament.Equals("Calm");
+                viewModel.Temperament = "Calm";
             if (dog.Temperament == Temperament.Friendly)
-                viewModel.Temperament.Equals("Friendly");
+                viewModel.Temperament = "Friendly";
             if (dog.Temperament == Temperament.Reactive)
-                viewModel.Temperament.Equals("Reactive");             ;
+                viewModel.Temperament = "Reactive";             ;
             if (dog.Temperament == Temperament.Aggressive)
-                viewModel.Temperament.Equals("Agressive");
+                viewModel.Temperament = "Agressive";
 
             if (dog.DogSize == DogSize.Small)
-                viewModel.DogSize.Equals("Small");
+                viewModel.DogSize = "Small";
             if (dog.DogSize == DogSize.Medium)
-                viewModel.DogSize.Equals("Medium");
+                viewModel.DogSize = "Medium";
             if (dog.DogSize == DogSize.Large)
-                viewModel.DogSize.Equals("Large");
+                viewModel.DogSize = "Large";
             if (dog.DogSize == DogSize.ExtraLarge)
-                viewModel.DogSize.Equals("ExtraLarge");
+                viewModel.DogSize = "ExtraLarge";
 
             if (dog.TrainingLevel == TrainingLevel.None)
-                viewModel.TrainingLevel.Equals("None");
+                viewModel.TrainingLevel = "None";
             if (dog.TrainingLevel == TrainingLevel.Basic)
-                viewModel.TrainingLevel.Equals("Basic");
+                viewModel.TrainingLevel = "Basic";
             if (dog.TrainingLevel == TrainingLevel.Fully)
-                viewModel.TrainingLevel.Equals("Fully");
+                viewModel.TrainingLevel = "Fully";
 
             var sub = new Suburb();
             vet.Suburb= sub;
