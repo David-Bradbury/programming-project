@@ -288,6 +288,18 @@ namespace ProgrammingProject.Controllers
             if (dog.TrainingLevel == TrainingLevel.Fully)
                 viewModel.TrainingLevel.Equals("Fully");
 
+            var sub = new Suburb();
+            vet.Suburb= sub;
+
+            viewModel.BusinessName = vet.BusinessName;
+            viewModel.PhNumber = vet.PhNumber;
+            viewModel.Email = vet.Email;
+            viewModel.StreetAddress = vet.StreetAddress;
+            viewModel.SuburbName = sub.SuburbName;
+            viewModel.Postcode = sub.Postcode;
+            viewModel.State = vet.State;
+            viewModel.Country = vet.Country;
+
             return View(viewModel);
         }
 
