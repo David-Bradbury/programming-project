@@ -37,7 +37,7 @@ namespace ProgrammingProject.Controllers
 
         //Add a dog to the owner
         [Route("/Owner/AddDog",
-     Name = "AddDog")]
+     Name = "AddDog"), AuthorizeUser]
         public async Task<IActionResult> AddDog()
         {
             viewModel.DogSizeList = DropDownLists.GetDogSize();
@@ -237,7 +237,13 @@ namespace ProgrammingProject.Controllers
             return fileName;
         }
 
+        public async Task<IEnumerable> EditDogProfile(int dogID)
+        {
+            var dog = new Dog();
+            dog = await _context.Dogs.FindAsync(dogID);
 
+            var viewModel = new EditDogProfileViewModel();
+        }
 
 
         //    owner.Dogs.Add(
