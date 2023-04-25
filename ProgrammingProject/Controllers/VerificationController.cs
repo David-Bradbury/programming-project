@@ -40,5 +40,10 @@ namespace ProgrammingProject.Controllers
         }
 
 
+        [Route("/Verification/ForgotPassword")]
+        public IActionResult ForgotPassword() => View();
+
+      
+
     }
 }
