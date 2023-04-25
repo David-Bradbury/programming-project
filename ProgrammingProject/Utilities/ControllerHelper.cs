@@ -10,5 +10,16 @@ namespace ProgrammingProject.Utilities
             var hashedPassword = PBKDF2.Hash(password);
             return hashedPassword;
         }
+
+        public static string GetToken()
+        {
+            //Generate tokens for email recovery and verify
+            Random random = new Random();
+
+            var token = HashPassword((random.Next().ToString()));
+            return token;
+        }
+
+
     }
 }

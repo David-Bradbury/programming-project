@@ -197,10 +197,8 @@ namespace ProgrammingProject.Controllers
         [Route("/Register/SendEmailVerification")]
         public void SendEmailVerification(Login login, string firstName)
         {
-            //generate token for verification 
-            Random random = new Random();
-
-            string token = ControllerHelper.HashPassword((random.Next().ToString()));
+            //get token for verification 
+            var token = ControllerHelper.GetToken();
             login.EmailToken = token;
             _context.SaveChanges();
 
@@ -217,9 +215,9 @@ namespace ProgrammingProject.Controllers
 
             var param = new Dictionary<string, string>() { { "emailToken", token } };
 
-            var newUrl = new Uri(QueryHelpers.AddQueryString(url, param));
+            var newUrl = new Uri(QueryHelpers.AddQueryString(url, param)).ToString();
 
-            string htmlContent = GetVerifyEmailContent(newUrl.ToString(), firstName);
+            string htmlContent = GetVerifyEmailContent(newUrl, firstName);
 
 
             //Calling the method to send email.

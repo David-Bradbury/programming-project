@@ -31,6 +31,9 @@
     <None Update="Helper\RegisterEmailContent.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Helper\PasswordRecoveryContent.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Helper\VerifyEmailContent.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
