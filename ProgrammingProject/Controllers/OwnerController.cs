@@ -29,6 +29,8 @@ namespace ProgrammingProject.Controllers
 
 
         [AuthorizeUser]
+        [Route("/Owner/Index",
+   Name = "Index")]
         public async Task<IActionResult> Index()
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
@@ -307,6 +309,7 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
+       
         [Route("/Owner/EditDogProfileVariable",
    Name = "EditDogProfileVariable")]
         public async Task<IActionResult> EditDogProfileVariable(int id, int DogID)
@@ -326,12 +329,7 @@ namespace ProgrammingProject.Controllers
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
 
             viewModel.DogId = dog.Id;
-            viewModel.DogSizeList = DropDownLists.GetDogSize();
-            viewModel.TemperamentList = DropDownLists.GetTemperament();
-            viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
-            viewModel.StatesList = DropDownLists.GetStates();
-            viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
-
+        
             viewModel.Name = dog.Name;
             viewModel.Breed = dog.Breed;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
@@ -413,7 +411,9 @@ namespace ProgrammingProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditDogProfileVariable(EditDogProfileViewModel viewModel)
+   //     [Route("/Owner/EditDogProfileVariable",
+   //Name = "EditDogProfileVariable")]
+        public async Task<IActionResult> EditDogProfileSave(EditDogProfileViewModel viewModel)
         {
 
             if (viewModel.Name == null)
@@ -453,7 +453,7 @@ namespace ProgrammingProject.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(viewModel);
+                return View("EditDogProfileVariable", viewModel);
             }
 
             var dog = new Dog();
