@@ -25,6 +25,14 @@ namespace ProgrammingProject.Data
 
             // Saving code as can be used to verify suburbs
 
+            /* 
+             * Breeds resourced from
+             * 
+             * Postcode API (no date) Australian Suburb and Postcode API | Home. 
+             * Available at: https://postcodeapi.com.au/ (Accessed: April 22, 2023). 
+             * 
+             */
+
             //const string Url = "http://v0.postcodeapi.com.au/suburbs/6026.json";
 
             //    using var client = new HttpClient();
@@ -35,6 +43,16 @@ namespace ProgrammingProject.Data
             //Suburb sub = new Suburb();
 
             // Seed Suburbs
+
+            /* 
+             * Suburbs resourced from
+             * 
+             * Schappim (2021) Schappim/Australian-Postcodes: List of australian post codes and suburbs, GitHub. 
+             * Available at: https://github.com/schappim/australian-postcodes (Accessed: April 22, 2023). 
+             * 
+             */
+
+
 
             //using (StreamReader r = new StreamReader("./Data/australian-postcodes.json"))
             //{
@@ -56,17 +74,11 @@ namespace ProgrammingProject.Data
             suburb1.SuburbName = "Bayswater";
             suburb1.State = "Victoria";
 
-            //context.Suburbs.Add(suburb1);
-
-
             var suburb2 = new Suburb();
 
             suburb2.Postcode = "3149";
             suburb2.SuburbName = "Mount Waverly";
             suburb2.State = "Victoria";
-
-            //context.Suburbs.Add(suburb2);
-
 
             var suburb3 = new Suburb();
 
@@ -74,17 +86,11 @@ namespace ProgrammingProject.Data
             suburb3.SuburbName = "Noble Park";
             suburb3.State = "Victoria";
 
-            //context.Suburbs.Add(suburb3);
-
-
             var suburb4 = new Suburb();
 
             suburb4.Postcode = "3148";
             suburb4.SuburbName = "Chadstone";
             suburb4.State = "Victoria";
-
-            //context.Suburbs.Add(suburb4);
-
 
             var suburb5 = new Suburb();
 
@@ -92,18 +98,11 @@ namespace ProgrammingProject.Data
             suburb5.SuburbName = "Hawthorn";
             suburb5.State = "Victoria";
 
-            //context.Suburbs.Add(suburb5);
-
-
             var suburb6 = new Suburb();
 
             suburb6.Postcode = "3145";
             suburb6.SuburbName = "Malvern East";
             suburb6.State = "Victoria";
-
-            //context.Suburbs.Add(suburb6);
-
-            //context.SaveChangesAsync();
 
             // Seed Vets
             var vet1 = new Vet();
@@ -340,6 +339,13 @@ namespace ProgrammingProject.Data
 
             context.Administrators.Add(admin);
 
+            /* Breeds resourced from
+             * 
+             * Paiv (no date) Paiv/FCI-Breeds: List of Dog Breeds recognized by the FCI, GitHub. 
+             * Available at: https://github.com/paiv/fci-breeds (Accessed: April 24, 2023). 
+             * 
+             */
+
             using (StreamReader r = new StreamReader("./Data/breeds.json"))
             {
                 string json = r.ReadToEnd();
@@ -353,83 +359,73 @@ namespace ProgrammingProject.Data
 
             }
 
-            var breed1 = context.Breeds.FirstOrDefault();
-            //breed1.BreedName = "BASENJI";
-            var breed2 = context.Breeds.FindAsync("BASENJI");
-            //var breed2 = new Breed();
-            //breed2.BreedName = "AUSTRALIAN TERRIER";
-            var breed3 = context.Breeds.FindAsync("ST. BERNARD");
-            //breed3.BreedName = "ST. BERNARD";
-            var breed4 = context.Breeds.FindAsync("AUSTRALIAN TERRIER");
-            //breed4.BreedName = "AUSTRIAN  PINSCHER";
+            //var breed1 = context.Breeds.FirstOrDefault();
+            //var breed2 = context.Breeds.Find("BASENJI");
+            //var breed3 = context.Breeds.Find("ST. BERNARD");
+            //var breed4 = context.Breeds.Find("AUSTRALIAN TERRIER");
 
-            await breed2;
-            await breed3;
-            await breed4;
+            //// Seed Dogs
 
-            // Seed Dogs
-            var dog1 = new Dog();
+            //var dog1 = new Dog();
 
-            dog1.Name = "Max";
-            
-            dog1.MicrochipNumber = "123456";
-            dog1.IsVaccinated = true;
-            dog1.Temperament = Temperament.Friendly;
-            dog1.DogSize = DogSize.Large;
-            dog1.TrainingLevel = TrainingLevel.Basic;
-            dog1.Owner = owner1;
-            dog1.Vet = vet1;
+            //dog1.Name = "Max";
+            //dog1.Breed = breed1;
+            //dog1.MicrochipNumber = "123456";
+            //dog1.IsVaccinated = true;
+            //dog1.Temperament = Temperament.Friendly;
+            //dog1.DogSize = DogSize.Large;
+            //dog1.TrainingLevel = TrainingLevel.Basic;
+            //dog1.Owner = owner1;
+            //dog1.Vet = vet1;
 
-            context.Dogs.Add(dog1);
+            //context.Dogs.Add(dog1);
 
+            //var dog2 = new Dog();
 
-            var dog2 = new Dog();
+            //dog2.Name = "Bella";
+            //dog2.Breed = breed2;
+            //dog2.MicrochipNumber = "152655";
+            //dog2.IsVaccinated = true;
+            //dog2.Temperament = Temperament.Calm;
+            //dog2.DogSize = DogSize.Large;
+            //dog2.TrainingLevel = TrainingLevel.Fully;
+            //dog2.Owner = owner2;
+            //dog2.Vet = vet2;
 
-            dog2.Name = "Bella";
-            dog2.Breed = breed2.Result;
-            dog2.MicrochipNumber = "152655";
-            dog2.IsVaccinated = true;
-            dog2.Temperament = Temperament.Calm;
-            dog2.DogSize = DogSize.Large;
-            dog2.TrainingLevel = TrainingLevel.Fully;
-            dog2.Owner = owner2;
-            dog2.Vet = vet2;
+            //context.Dogs.Add(dog2);
 
-            context.Dogs.Add(dog2);
+            //var dog3 = new Dog();
 
+            //dog3.Name = "Teddy";
+            //dog3.Breed = breed3;
+            //dog3.MicrochipNumber = "111111";
+            //dog3.IsVaccinated = true;
+            //dog3.Temperament = Temperament.Friendly;
+            //dog3.DogSize = DogSize.Small;
+            //dog3.TrainingLevel = TrainingLevel.None;
+            //dog3.Owner = owner3;
+            //dog3.Vet = vet3;
 
-            var dog3 = new Dog();
-
-            dog3.Name = "Teddy";
-            dog3.Breed = breed3.Result;
-            dog3.MicrochipNumber = "111111";
-            dog3.IsVaccinated = true;
-            dog3.Temperament = Temperament.Friendly;
-            dog3.DogSize = DogSize.Small;
-            dog3.TrainingLevel = TrainingLevel.None;
-            dog3.Owner = owner3;
-            dog3.Vet = vet3;
-
-            context.Dogs.Add(dog3);
+            //context.Dogs.Add(dog3);
 
 
-            var dog4 = new Dog();
+            //var dog4 = new Dog();
 
-            dog4.Name = "Ruby";
-            dog4.Breed = breed4.Result;
-            dog4.MicrochipNumber = "111112";
-            dog4.IsVaccinated = true;
-            dog4.Temperament = Temperament.Friendly;
-            dog4.DogSize = DogSize.Small;
-            dog4.TrainingLevel = TrainingLevel.Basic;
-            dog4.Owner = owner3;
-            dog4.Vet = vet3;
+            //dog4.Name = "Ruby";
+            //dog4.Breed = breed4;
+            //dog4.MicrochipNumber = "111112";
+            //dog4.IsVaccinated = true;
+            //dog4.Temperament = Temperament.Friendly;
+            //dog4.DogSize = DogSize.Small;
+            //dog4.TrainingLevel = TrainingLevel.Basic;
+            //dog4.Owner = owner3;
+            //dog4.Vet = vet3;
 
-            context.Dogs.Add(dog4);
+            //context.Dogs.Add(dog4);
 
             context.SaveChanges();
 
-            using (StreamReader r = new StreamReader("./Data/Dogs1.json"))
+            using (StreamReader r = new StreamReader("./Data/Dogs2.json"))
             {
                 string json = r.ReadToEnd();
 
@@ -447,8 +443,8 @@ namespace ProgrammingProject.Data
 
 
             var dogs = new List<Dog>();
-            dogs.Add(dog4);
-            dogs.Add(dog3);
+            //dogs.Add(dog4);
+            //dogs.Add(dog3);
 
             var walk = new WalkingSession();
             walk.ScheduledStartTime = DateTime.Now;
@@ -474,6 +470,13 @@ namespace ProgrammingProject.Data
                 MissingFieldFound = null,
             };
 
+            /*
+             * Raziak (2023) How to read CSV file from our computer using .NET Core web api, Stack Overflow. 
+             * Available at: https://stackoverflow.com/questions/75015482/how-to-read-csv-file-from-our-computer-using-net-core-web-api 
+             * (Accessed: April 22, 2023). 
+             * 
+             */
+
             using (var reader = new StreamReader("./Data/Walking_Sessions.csv"))
             using (var csv = new CsvReader(reader, config))
             {
@@ -481,7 +484,7 @@ namespace ProgrammingProject.Data
 
                 csv.Context.RegisterClassMap<WalkingSessionMap>();
                 var records = csv.GetRecords<WalkingSession>();
-                
+
                 foreach (var record in records)
                 {
                     w.Date = record.Date;
@@ -491,11 +494,11 @@ namespace ProgrammingProject.Data
                     w.SessionID = 0;
                     context.WalkingSessions.Add(w);
                     context.SaveChanges();
-                    
+
                 }
             }
 
-                context.SaveChanges();
+            context.SaveChanges();
 
             using (StreamReader r = new StreamReader("./Data/NSW_Walkers.json"))
             {

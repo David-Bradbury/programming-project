@@ -6,6 +6,11 @@ namespace ProgrammingProject.Models
 {
     public class Suburb
     {
+        /* Mattieeec3 and Marius (1966) Newtonsoft deserialize doesn't convert string to datetime, Stack Overflow. 
+         * Available at: https://stackoverflow.com/questions/59057738/newtonsoft-deserialize-doesnt-convert-string-to-datetime 
+         * (Accessed: April 23, 2023). 
+         */
+
         [JsonProperty("postcode")]
         [Required, Key]
         public string Postcode { get; set; }
