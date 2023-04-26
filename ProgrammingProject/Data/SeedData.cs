@@ -359,73 +359,116 @@ namespace ProgrammingProject.Data
 
             }
 
-            //var breed1 = context.Breeds.FirstOrDefault();
-            //var breed2 = context.Breeds.Find("BASENJI");
-            //var breed3 = context.Breeds.Find("ST. BERNARD");
-            //var breed4 = context.Breeds.Find("AUSTRALIAN TERRIER");
+            var breed1 = new Breed();
+            breed1 = context.Breeds.FirstOrDefault();
+            var breed2 = new Breed();
+            breed2 = context.Breeds.Find(5);
+            var breed3 = new Breed();
+            breed3 = context.Breeds.Find(30);
+            var breed4 = new Breed();
+            breed4 = context.Breeds.Find(90);
 
             //// Seed Dogs
 
-            //var dog1 = new Dog();
+            var dog1 = new Dog();
 
-            //dog1.Name = "Max";
-            //dog1.Breed = breed1;
-            //dog1.MicrochipNumber = "123456";
-            //dog1.IsVaccinated = true;
-            //dog1.Temperament = Temperament.Friendly;
-            //dog1.DogSize = DogSize.Large;
-            //dog1.TrainingLevel = TrainingLevel.Basic;
-            //dog1.Owner = owner1;
-            //dog1.Vet = vet1;
+            dog1.Name = "Max";
+            dog1.Breed = breed1;
+            dog1.MicrochipNumber = "123456";
+            dog1.IsVaccinated = true;
+            dog1.Temperament = Temperament.Friendly;
+            dog1.DogSize = DogSize.Large;
+            dog1.TrainingLevel = TrainingLevel.Basic;
+            dog1.Owner = owner1;
+            dog1.Vet = vet1;
 
-            //context.Dogs.Add(dog1);
+            context.Dogs.Add(dog1);
 
-            //var dog2 = new Dog();
+            var dog2 = new Dog();
 
-            //dog2.Name = "Bella";
-            //dog2.Breed = breed2;
-            //dog2.MicrochipNumber = "152655";
-            //dog2.IsVaccinated = true;
-            //dog2.Temperament = Temperament.Calm;
-            //dog2.DogSize = DogSize.Large;
-            //dog2.TrainingLevel = TrainingLevel.Fully;
-            //dog2.Owner = owner2;
-            //dog2.Vet = vet2;
+            dog2.Name = "Bella";
+            dog2.Breed = breed2;
+            dog2.MicrochipNumber = "152655";
+            dog2.IsVaccinated = true;
+            dog2.Temperament = Temperament.Calm;
+            dog2.DogSize = DogSize.Large;
+            dog2.TrainingLevel = TrainingLevel.Fully;
+            dog2.Owner = owner2;
+            dog2.Vet = vet2;
 
-            //context.Dogs.Add(dog2);
+            context.Dogs.Add(dog2);
 
-            //var dog3 = new Dog();
+            var dog3 = new Dog();
 
-            //dog3.Name = "Teddy";
-            //dog3.Breed = breed3;
-            //dog3.MicrochipNumber = "111111";
-            //dog3.IsVaccinated = true;
-            //dog3.Temperament = Temperament.Friendly;
-            //dog3.DogSize = DogSize.Small;
-            //dog3.TrainingLevel = TrainingLevel.None;
-            //dog3.Owner = owner3;
-            //dog3.Vet = vet3;
+            dog3.Name = "Teddy";
+            dog3.Breed = breed3;
+            dog3.MicrochipNumber = "111111";
+            dog3.IsVaccinated = true;
+            dog3.Temperament = Temperament.Friendly;
+            dog3.DogSize = DogSize.Small;
+            dog3.TrainingLevel = TrainingLevel.None;
+            dog3.Owner = owner3;
+            dog3.Vet = vet3;
 
-            //context.Dogs.Add(dog3);
+            context.Dogs.Add(dog3);
 
 
-            //var dog4 = new Dog();
+            var dog4 = new Dog();
 
-            //dog4.Name = "Ruby";
-            //dog4.Breed = breed4;
-            //dog4.MicrochipNumber = "111112";
-            //dog4.IsVaccinated = true;
-            //dog4.Temperament = Temperament.Friendly;
-            //dog4.DogSize = DogSize.Small;
-            //dog4.TrainingLevel = TrainingLevel.Basic;
-            //dog4.Owner = owner3;
-            //dog4.Vet = vet3;
+            dog4.Name = "Ruby";
+            dog4.Breed = breed4;
+            dog4.MicrochipNumber = "111112";
+            dog4.IsVaccinated = true;
+            dog4.Temperament = Temperament.Friendly;
+            dog4.DogSize = DogSize.Small;
+            dog4.TrainingLevel = TrainingLevel.Basic;
+            dog4.Owner = owner3;
+            dog4.Vet = vet3;
 
-            //context.Dogs.Add(dog4);
+            context.Dogs.Add(dog4);
 
             context.SaveChanges();
 
-            using (StreamReader r = new StreamReader("./Data/Dogs2.json"))
+            using (StreamReader r = new StreamReader("./Data/NSW_Owners.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
+
+                foreach (var w in items)
+                {
+                    context.Owners.Add(w);
+                    context.SaveChanges();
+                }
+
+            }
+
+            using (StreamReader r = new StreamReader("./Data/VIC_Owners.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
+
+                foreach (var w in items)
+                {
+                    context.Owners.Add(w);
+                    context.SaveChanges();
+                }
+
+            }
+
+            using (StreamReader r = new StreamReader("./Data/Qld_Owners.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
+
+                foreach (var w in items)
+                {
+                    context.Owners.Add(w);
+                    context.SaveChanges();
+                }
+
+            }
+
+            using (StreamReader r = new StreamReader("./Data/Dogs.json"))
             {
                 string json = r.ReadToEnd();
 
@@ -433,6 +476,21 @@ namespace ProgrammingProject.Data
 
                 foreach (var d in items)
                 {
+                    Random random = new Random();
+                    int id = random.Next(1, 300);                    
+                    var b = context.Breeds.Find(id);
+                    d.Breed = b;
+
+                    int vetID = random.Next(1, 1000);
+
+                    var v = context.Vets.Find(vetID);
+                    d.Vet = v;
+
+                    int ownerID = random.Next(8, 607);
+
+                    var o = context.Owners.Find(ownerID);
+                    d.Owner = o;
+
                     context.Dogs.Add(d);
                     context.SaveChanges();
 
@@ -443,8 +501,8 @@ namespace ProgrammingProject.Data
 
 
             var dogs = new List<Dog>();
-            //dogs.Add(dog4);
-            //dogs.Add(dog3);
+            dogs.Add(dog4);
+            dogs.Add(dog3);
 
             var walk = new WalkingSession();
             walk.ScheduledStartTime = DateTime.Now;
@@ -521,45 +579,6 @@ namespace ProgrammingProject.Data
                 foreach (var w in items)
                 {
                     context.Walkers.Add(w);
-                    context.SaveChanges();
-                }
-
-            }
-
-            using (StreamReader r = new StreamReader("./Data/NSW_Owners.json"))
-            {
-                string json = r.ReadToEnd();
-                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
-
-                foreach (var w in items)
-                {
-                    context.Owners.Add(w);
-                    context.SaveChanges();
-                }
-
-            }
-
-            using (StreamReader r = new StreamReader("./Data/VIC_Owners.json"))
-            {
-                string json = r.ReadToEnd();
-                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
-
-                foreach (var w in items)
-                {
-                    context.Owners.Add(w);
-                    context.SaveChanges();
-                }
-
-            }
-
-            using (StreamReader r = new StreamReader("./Data/Qld_Owners.json"))
-            {
-                string json = r.ReadToEnd();
-                List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
-
-                foreach (var w in items)
-                {
-                    context.Owners.Add(w);
                     context.SaveChanges();
                 }
 

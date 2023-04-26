@@ -106,7 +106,7 @@ namespace ProgrammingProject.Data
             modelBuilder.Entity<Dog>()
                 .HasOne(b => b.Breed)
                 .WithMany(d => d.Dogs)
-                .HasForeignKey(b => b.BreedName)
+                //.HasForeignKey(b => b.BreedId)
                 .OnDelete(DeleteBehavior.ClientCascade);
 
         }

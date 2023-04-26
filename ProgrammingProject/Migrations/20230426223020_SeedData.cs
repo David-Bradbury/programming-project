@@ -15,11 +15,13 @@ namespace ProgrammingProject.Migrations
                 name: "Breeds",
                 columns: table => new
                 {
+                    BreedId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     BreedName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Breeds", x => x.BreedName);
+                    table.PrimaryKey("PK_Breeds", x => x.BreedId);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,18 +211,18 @@ namespace ProgrammingProject.Migrations
                     DogSize = table.Column<int>(type: "int", nullable: false),
                     TrainingLevel = table.Column<int>(type: "int", nullable: false),
                     DogImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BreedName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     OwnerUserId = table.Column<int>(type: "int", nullable: true),
-                    VetId = table.Column<int>(type: "int", nullable: true)
+                    VetId = table.Column<int>(type: "int", nullable: true),
+                    BreedId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Dogs_Breeds_BreedName",
-                        column: x => x.BreedName,
+                        name: "FK_Dogs_Breeds_BreedId",
+                        column: x => x.BreedId,
                         principalTable: "Breeds",
-                        principalColumn: "BreedName");
+                        principalColumn: "BreedId");
                     table.ForeignKey(
                         name: "FK_Dogs_User_OwnerUserId",
                         column: x => x.OwnerUserId,
@@ -287,9 +289,9 @@ namespace ProgrammingProject.Migrations
                 column: "WalkerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dogs_BreedName",
+                name: "IX_Dogs_BreedId",
                 table: "Dogs",
-                column: "BreedName");
+                column: "BreedId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dogs_OwnerUserId",

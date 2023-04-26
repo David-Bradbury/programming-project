@@ -39,8 +39,8 @@ namespace ProgrammingProject.Models
         public TrainingLevel TrainingLevel { get; set; }
         public string DogImage { get; set; }
 
-        [Required]
-        public string BreedName { get; set; }
+        //[Required]
+        //public string BreedName { get; set; }
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }
         public virtual List<WalkingSession> WalkingSessions { get; set; }

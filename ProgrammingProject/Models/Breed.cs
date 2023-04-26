@@ -4,7 +4,10 @@ namespace ProgrammingProject.Models
 {
     public class Breed
     {
-        [Required, StringLength(50), Key]
+        [Required, Key]
+        public int BreedId { get; set; }
+
+        [Required, StringLength(50)]
         public string BreedName { get; set; }
 
         public virtual List<Dog> Dogs { get; set; }

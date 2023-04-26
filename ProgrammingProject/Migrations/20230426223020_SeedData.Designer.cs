@@ -12,7 +12,7 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230426094725_SeedData")]
+    [Migration("20230426223020_SeedData")]
     partial class SeedData
     {
         /// <inheritdoc />
@@ -45,11 +45,18 @@ namespace ProgrammingProject.Migrations
 
             modelBuilder.Entity("ProgrammingProject.Models.Breed", b =>
                 {
+                    b.Property<int>("BreedId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BreedId"));
+
                     b.Property<string>("BreedName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("BreedName");
+                    b.HasKey("BreedId");
 
                     b.ToTable("Breeds");
                 });
@@ -62,9 +69,8 @@ namespace ProgrammingProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BreedName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int?>("BreedId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DogImage")
                         .HasColumnType("nvarchar(max)");
@@ -98,7 +104,7 @@ namespace ProgrammingProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BreedName");
+                    b.HasIndex("BreedId");
 
                     b.HasIndex("OwnerUserId");
 
@@ -476,9 +482,8 @@ namespace ProgrammingProject.Migrations
                 {
                     b.HasOne("ProgrammingProject.Models.Breed", "Breed")
                         .WithMany("Dogs")
-                        .HasForeignKey("BreedName")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasForeignKey("BreedId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("ProgrammingProject.Models.Owner", "Owner")
                         .WithMany("Dogs")
