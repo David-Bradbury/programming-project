@@ -1,113 +1,118 @@
 ﻿@model EditDogProfileViewModel
 @{
-	ViewData["Title"] = "Dog Profile";
+    ViewData["Title"] = "Dog Profile";
 }
 
 <div>
-	<h1 class="display-4">@Model.Name's Profile</h1>
+    <h1 class="display-4">@Model.Name's Profile</h1>
+    <form method="post">
+        <input name="DogID" class="form-control"
+               type="hidden" value="@Model.DogId" />
+        <table class=" " table:>
 
-	<table class=" "table:>
-		@*Add Image At top*@
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.Name): </b> @Model.Name</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="1">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.Breed): </b> @Model.Breed</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="2">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.MicrochipNumber): </b> @Model.MicrochipNumber</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="3">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.IsVaccinated): </b> @Model.IsVaccinated</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="4">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.Temperament): </b> @Model.Temperament</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="5">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.DogSize): </b> @Model.DogSize</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="6">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.TrainingLevel): </b> @Model.TrainingLevel</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="7">Edit</a>
-			</td>
-		</tr>
-		</table>
-		<h2 class="display-4">@Model.Name's Vets Profile</h2> 
-		<table>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.BusinessName): </b> @Model.BusinessName</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="8">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.PhNumber): </b> @Model.PhNumber</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="9">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.Email): </b> @Model.Email</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="10">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.StreetAddress): </b> @Model.StreetAddress</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="11">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b> @Model.SuburbName</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="12">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b> @Model.Postcode</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="13">Edit</a>
-			</td>
-		</tr>
-		<tr>
-			<td><b>@Html.DisplayNameFor(Model => Model.State): </b> @Model.State</td>
-			<td>
-				<a class="btn btn-primary"
-				   asp-action="EditDogProfileVariable" asp-route-id="14">Edit</a>
-			</td>
-		</tr>
-	</table>
+            @*Add Image At top*@
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.Name): </b> @Model.Name</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="1" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.Breed): </b> @Model.Breed</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="2" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.MicrochipNumber): </b> @Model.MicrochipNumber</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="3" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.IsVaccinated): </b> @Model.IsVaccinated</td>
+              @*  <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="4" />
+                </td>*@
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.Temperament): </b> @Model.Temperament</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="5" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.DogSize): </b> @Model.DogSize</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="6" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.TrainingLevel): </b> @Model.TrainingLevel</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="7" />
+                </td>
+            </tr>
+        </table>
+        <h2 class="display-4">@Model.Name's Vets Profile</h2>
+        <table>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.BusinessName): </b> @Model.BusinessName</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="8" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.PhNumber): </b> @Model.PhNumber</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="9" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.Email): </b> @Model.Email</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="10" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.StreetAddress): </b> @Model.StreetAddress</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="11" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b> @Model.SuburbName</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="12" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b> @Model.Postcode</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="13" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.State): </b> @Model.State</td>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="14" />
+                </td>
+            </tr>
+
+        </table>
+    </form>
 </div>

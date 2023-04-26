@@ -10,7 +10,9 @@ namespace ProgrammingProject.Models
         public string SelectedField { get; set; }
         public string SavedDogImage { get; set; }
 
-        [Required, StringLength(50), Display(Name = "Dogs Name")]
+		public int DogId { get; set; }
+
+		[Required, StringLength(50), Display(Name = "Dogs Name")]
         public string Name { get; set; }
         [Required, StringLength(50), Display(Name = "Dogs Breed")]
         public string Breed { get; set; }
