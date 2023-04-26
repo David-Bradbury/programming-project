@@ -43,7 +43,7 @@ namespace ProgrammingProject.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
-                                                                string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword)
+                                                                string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
         {
             var viewModel = new RegisterViewModel();
             viewModel.AccountTypeSelection = accountTypeSelection;
@@ -52,27 +52,17 @@ namespace ProgrammingProject.Controllers
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
+            CheckModelState.CheckNull(firstName, "First Name is required.", ModelState);
+            CheckModelState.CheckNull(lastName, "Last Name is required.", ModelState);
+            CheckModelState.CheckNull(email, "Email is required.", ModelState);
+            CheckModelState.CheckNull(streetAddress, "The address is required.", ModelState);
+            CheckModelState.CheckNull(suburbName, "The suburb name is required.", ModelState);
+            CheckModelState.CheckNull(state, "The state is required.", ModelState);
+            CheckModelState.CheckNull(postcode, "The postcode is required.", ModelState);
+            CheckModelState.CheckNull(country, "The country is required.", ModelState);
+            CheckModelState.CheckNull(phNumber, "Phone number is required.", ModelState);
+            CheckModelState.CheckNull(password, "Password is required.", ModelState);
 
-            if (firstName == null)
-                ModelState.AddModelError(nameof(firstName), "First Name is required.");
-            if (lastName == null)
-                ModelState.AddModelError(nameof(lastName), "Last Name is required.");
-            if (email == null)
-                ModelState.AddModelError(nameof(email), "Email is required.");
-            if (streetAddress == null)
-                ModelState.AddModelError(nameof(streetAddress), "The address is required.");
-            if (suburbName == null)
-                ModelState.AddModelError(nameof(suburbName), "The suburb name is required.");
-            if (state == null)
-                ModelState.AddModelError(nameof(state), "The state is required.");
-            if (postcode == null)
-                ModelState.AddModelError(nameof(postcode), "The postcode is required.");
-            if (country == null)
-                ModelState.AddModelError(nameof(country), "The country is required.");
-            if (phNumber == null)
-                ModelState.AddModelError(nameof(phNumber), "Phone number is required.");
-            if (password == null)
-                ModelState.AddModelError(nameof(password), "Password is required.");
             if (password != confirmPassword)
                 ModelState.AddModelError(nameof(confirmPassword), "Passwords need to match.");
 
