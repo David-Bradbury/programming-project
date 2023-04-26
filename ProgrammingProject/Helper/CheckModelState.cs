@@ -25,7 +25,7 @@ namespace ProgrammingProject.Helper
         public static void CheckNull(string value, string message, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
         {
             if (value == null)
-                modelState.AddModelError(nameof(value), message);
+              modelState.AddModelError(nameof(value), message);
         }  
         
         public void CheckEmailMatch(string email,  Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
@@ -38,5 +38,7 @@ namespace ProgrammingProject.Helper
                 }
             }
         }
+
+        
     }
 }

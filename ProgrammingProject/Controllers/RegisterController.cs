@@ -43,7 +43,7 @@ namespace ProgrammingProject.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
-                                                                string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
+                                                                string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword /*, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState*/)
         {
             var viewModel = new RegisterViewModel();
             viewModel.AccountTypeSelection = accountTypeSelection;
@@ -52,16 +52,18 @@ namespace ProgrammingProject.Controllers
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
-            CheckModelState.CheckNull(firstName, "First Name is required.", ModelState);
-            CheckModelState.CheckNull(lastName, "Last Name is required.", ModelState);
-            CheckModelState.CheckNull(email, "Email is required.", ModelState);
-            CheckModelState.CheckNull(streetAddress, "The address is required.", ModelState);
-            CheckModelState.CheckNull(suburbName, "The suburb name is required.", ModelState);
-            CheckModelState.CheckNull(state, "The state is required.", ModelState);
-            CheckModelState.CheckNull(postcode, "The postcode is required.", ModelState);
-            CheckModelState.CheckNull(country, "The country is required.", ModelState);
-            CheckModelState.CheckNull(phNumber, "Phone number is required.", ModelState);
-            CheckModelState.CheckNull(password, "Password is required.", ModelState);
+            if (firstName == null)
+                ModelState.AddModelError(nameof(firstName), "Put the first name in idiot");
+           // CheckModelState.CheckNull(firstName, "First Name is required Dumbs Dumbs.", ModelState);
+            //CheckModelState.CheckNull(lastName, "Last Name is required.", ModelState);
+            //CheckModelState.CheckNull(email, "Email is required.", ModelState);
+            //CheckModelState.CheckNull(streetAddress, "The address is required.", ModelState);
+            //CheckModelState.CheckNull(suburbName, "The suburb name is required.", ModelState);
+            //CheckModelState.CheckNull(state, "The state is required.", ModelState);
+            //CheckModelState.CheckNull(postcode, "The postcode is required.", ModelState);
+            //CheckModelState.CheckNull(country, "The country is required.", ModelState);
+            //CheckModelState.CheckNull(phNumber, "Phone number is required.", ModelState);
+            //CheckModelState.CheckNull(password, "Password is required.", ModelState);
 
             if (password != confirmPassword)
                 ModelState.AddModelError(nameof(confirmPassword), "Passwords need to match.");
