@@ -1,0 +1,54 @@
+﻿@model ProgrammingProject.Models.Dog
+
+<div class="card owner-dog-card">
+    <div class="card-body d-flex flex-column">
+        <div class="d-flex">
+            <img src="~/img/@Model.DogImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true"/>
+            <div class="ms-4">
+                <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.Name)</p>
+                <p class="card-subtitle">@Html.DisplayFor(model => model.Breed)</p>
+                <p><i class="bi bi-star-fill"></i> 4.5 (14)</p>
+            </div>
+        </div>
+        <div class="container mb-auto">
+            <dl class="row">
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.Temperament)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.Temperament)
+                </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.DogSize)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.DogSize)
+                </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.TrainingLevel)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.TrainingLevel)
+                </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.IsVaccinated)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.IsVaccinated)
+                </dd>
+                <dt class="col-7">
+                    @Html.DisplayNameFor(model => model.Owner)
+                </dt>
+                <dd class="col-5">
+                    @Html.DisplayFor(model => model.Owner.FirstName)
+                </dd>
+            </dl>
+        </div>
+        <form method="post">
+            <input name="DogID" class="form-control"
+                type="hidden" value="@Model.Id" />
+            <input type="submit" class="btn btn-primary" asp-controller="Owner" asp-action="EditDogProfile"
+				   value="Edit Dog Profile" asp-route-id="EditDogProfile" />
+        </form>
+    </div>
+</div>
