@@ -1,0 +1,82 @@
+﻿@model ProgrammingProject.Models.WalkingSession
+@{
+    ViewData["Title"] = "Edit Walking Session";
+    var walk = (WalkingSession)ViewBag.WalkingSession;
+}
+
+@{
+    string displayTime(DateTime t, String format)
+    {
+        return t.ToString(format);
+    }
+}
+
+<div>
+    <h1>Edit Walking Session</h1>
+</div>
+
+<div>
+    <div class="card session-card">
+        <div class="card-body container">
+            <div class="d-flex justify-content-between">
+                <div class="row flex-grow-1">
+                    <form asp-action="EditWalkingSession">
+                        <div class="col-12 col-sm-3 col-md-2">
+                            <label for="Date" class="form-label">Date</label>
+                            <input asp-for="Date" type="date" id="Date" name="Date" class="form-control"
+                                   value="@displayTime(walk.Date.Date, "dd/MM/yy")"
+                                   data-val="true" data-val-date="The field Date must be a date."
+                                   data-val-required="The date field is required." />
+                        </div>
+                        <div class="col-3 col-sm-2 col-md-2">
+                            <label for="StartTime" class="form-label">Start Time</label>
+                            <input type="time" id="StartTime" name="StartTime" class="form-control"
+                                   value=@displayTime(walk.ScheduledStartTime, "HH:mm")
+                                   data-val="true" data-val-time="The field StartTime must be a time."
+                                   data-val-required="The StartTime field is required." />
+                        </div>
+                        <div class="col-9 col-sm-7 col-md-2">
+                            <label for="EndTime" class="form-label">End Time</label>
+                            <input type="time" id="EndTime" name="EndTime" class="form-control"
+                                   value=@displayTime(walk.ScheduledEndTime, "HH:mm")
+                                   data-val="true" data-val-time="The field EndTime must be a time."
+                                   data-val-required="The EndTime field is required." />
+                        </div>
+                        <div class="col-md-4">
+                            <p class="fw-bold mb-0">Dogs On Walk</p>
+                            @if (walk.DogList.Count() > 0)
+                            {
+                                <p class="mb-0">
+                                    @{
+                                        int count = 0;
+                                    }
+                                    @foreach (var d in walk.DogList)
+                                    {
+                                        if (count > 0)
+                                        {
+                                            @Html.Raw(", ")
+                                        }
+                                        @Html.DisplayFor(x => d.Name)
+                                        // Add logic to remove dog from session
+                                        count++;
+
+                                    }
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="mb-0">No Dogs</p>
+                            }
+                        </div>
+                        <input type="submit" class="btn btn-primary" asp-action="CancelChanges"
+                               value="Cancel" asp-route-id="CancelChanges" />
+                        <input type="submit" class="btn btn-primary" asp-action="UpdateWalkingSession"
+                               value="Make Changes" asp-route-id="UpdateWalkingSession" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

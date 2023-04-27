@@ -187,8 +187,9 @@ namespace ProgrammingProject.Controllers
                     walkingSession.Add(walker);
                 }
             }
+            List<WalkingSession> SortedList = walkerSessions.OrderBy(o => o.Date).ToList();
 
-            ViewBag.WalkingSession = walkingSession;
+            ViewBag.WalkingSession = SortedList;
             ViewBag.DogID = DogID;
 
             return View();
@@ -205,7 +206,7 @@ namespace ProgrammingProject.Controllers
             if (walkerSession.DogList.Count >= 6)
             {
                 ModelState.AddModelError(nameof(StartTime), "Too many dogs on this walk.");
-            } 
+            }
             else if (walkerSession.DogList.Contains(dog))
             {
                 ModelState.AddModelError(nameof(StartTime), "Dog is already on this walk.");
@@ -273,21 +274,70 @@ namespace ProgrammingProject.Controllers
 
             var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
+            ViewBag.WalkingSession = walkerSession;
+
+            return View();
+        }
+
+        public async Task<IActionResult> CancelChanges(int sessionID) => RedirectToAction("Index");
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateWalkingSession(
+            int sessionID, DateTime Date, DateTime StartTime, DateTime EndTime)
+        {
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
+
             var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
+
+            //var walk = walker.WalkingSessions.Find(walkerSession);
+
+            if (Date < DateTime.UtcNow || Date == null)
+                ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
+            //if (StartTime == null)
+            //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
+            if (EndTime < StartTime || StartTime == null || EndTime == null)
+                ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
+
+            DateTime start = new DateTime(Date.Year, Date.Month, Date.Day, StartTime.Hour,
+                                          StartTime.Minute, StartTime.Second);
+
+            DateTime end = new DateTime(Date.Year, Date.Month, Date.Day, EndTime.Hour,
+                                          EndTime.Minute, EndTime.Second);
+
+            if (walkerSession.Date.Year != Date.Year 
+                || walkerSession.Date.Month != Date.Month 
+                || walkerSession.Date.Day != Date.Day)
+            {
+                walkerSession.Date = Date;
+                
+            }
+
+            if (walkerSession.ScheduledStartTime != start)
+            {
+                walkerSession.ScheduledStartTime = start;
+            }
+
+            if (walkerSession.ScheduledEndTime != end)
+            {
+                walkerSession.ScheduledEndTime = end;
+            }
+
 
             foreach (var session in walker.WalkingSessions)
             {
                 if (session.SessionID == sessionID)
                 {
-                    //session.ActualStartTime = DateTime.Now;
+                    session.Date = walkerSession.Date;
+                    session.ScheduledStartTime = walkerSession.ScheduledStartTime;
+                    session.ScheduledEndTime = walkerSession.ScheduledEndTime;
                 }
             }
 
-            //walkerSession.ActualStartTime = DateTime.Now;
-
             await _context.SaveChangesAsync();
 
-            //ViewBag.WalkingSession = walkerSession;
+            //ViewBag.Walker = walker;
+            //ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
 
             return RedirectToAction(nameof(Index));
         }
@@ -303,7 +353,7 @@ namespace ProgrammingProject.Controllers
 
             walker.WalkingSessions.Remove(walkerSession);
             _context.WalkingSessions.Remove(walkerSession);
-            
+
 
             await _context.SaveChangesAsync();
 

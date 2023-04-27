@@ -3,6 +3,7 @@
     ViewData["Title"] = "Walker";
     var dogs = (List<Dog>)ViewBag.Dogs;
     var walker = (Walker)ViewBag.Walker;
+    List<WalkingSession> SortedList = walker.WalkingSessions.OrderBy(o => o.Date).ToList();
 }
 
 <div>
@@ -42,11 +43,14 @@
 <br />
 
 <div>
-    <h3>Sessions</h3>
+    <h3>Upcoming Sessions</h3>
     <div class="mb-5 d-flex flex-column gap-1">
-        @foreach (var walk in walker.WalkingSessions)
+        @foreach (var walk in SortedList)
         {
-            <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
+            if (walk.Date > DateTime.Now)
+            {
+                <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />    
+            }             
         }
     </div>
 </div>
