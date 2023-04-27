@@ -289,7 +289,7 @@ namespace ProgrammingProject.Controllers
 
             //ViewBag.WalkingSession = walkerSession;
 
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         // Delete walking session
@@ -301,23 +301,13 @@ namespace ProgrammingProject.Controllers
 
             var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
 
-            //foreach (var session in walker.WalkingSessions)
-            //{
-            //    if (session.SessionID == sessionID)
-            //    {
-            //        //session.
-            //    }
-            //}
-
             walker.WalkingSessions.Remove(walkerSession);
             _context.WalkingSessions.Remove(walkerSession);
             
 
             await _context.SaveChangesAsync();
 
-            //ViewBag.WalkingSession = walkerSession;
-
-            return View();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
