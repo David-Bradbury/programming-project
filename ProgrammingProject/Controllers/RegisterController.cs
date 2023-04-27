@@ -14,12 +14,14 @@ namespace ProgrammingProject.Controllers
     public class RegisterController : Controller
     {
         private readonly EasyWalkContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public RegisterViewModel viewModel = new RegisterViewModel();
 
 
-        public RegisterController(EasyWalkContext context)
+        public RegisterController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [Route("/Register/SelectAccountType",
@@ -93,6 +95,16 @@ namespace ProgrammingProject.Controllers
             if (!Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))
                 ModelState.AddModelError(nameof(password), "Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
 
+            // Checks the extension of the file to ensure a certain file format. Bring up Thurs meeting to see if extra verification needed. JC.
+            if (viewModel.ProfileImage != null)
+            {
+                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
+                string extension = Path.GetExtension(filename).ToLower();
+
+                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
+                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
+            }
+
             // Also add  stringlength regex checking here too.
 
             // Checking to see if the state of the model is valid before continuing.
@@ -100,7 +112,8 @@ namespace ProgrammingProject.Controllers
             {
                 return View(viewModel);
             }
-
+            var ImageHelper = new ImageHelper(_webHostEnvironment);
+            string imageFileName = ImageHelper.UploadFile(viewModel);
 
             // Creating suburb based on form details
             var suburb = new Suburb();
@@ -144,6 +157,10 @@ namespace ProgrammingProject.Controllers
                 owner.Country = country;
                 owner.PhNumber = phNumber;
 
+                if (viewModel.ProfileImage != null)
+                    owner.ProfileImage = imageFileName;
+                else
+                    owner.ProfileImage = "defaultProfile.png";
 
                 _context.Add(owner);
                 _context.SaveChanges();
@@ -172,6 +189,12 @@ namespace ProgrammingProject.Controllers
                     walker.ExperienceLevel = ExperienceLevel.Advanced;
                 else if (experienceLevel.Equals("Expert"))
                     walker.ExperienceLevel = ExperienceLevel.Expert;
+
+                if (viewModel.ProfileImage != null)
+                    walker.ProfileImage = imageFileName;
+                else
+                    walker.ProfileImage = "defaultProfile.png";
+
                 _context.Add(walker);
                 _context.SaveChanges();
 

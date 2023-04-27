@@ -12,7 +12,7 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230427032401_seedData")]
+    [Migration("20230427064040_seedData")]
     partial class seedData
     {
         /// <inheritdoc />
@@ -176,6 +176,9 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
