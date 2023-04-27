@@ -9,8 +9,13 @@
         <input name="DogID" class="form-control"
                type="hidden" value="@Model.DogId" />
         <table class=" " table:>
-
-            @*Add Image At top*@
+            <tr>
+                <td><b>@Html.DisplayNameFor(Model => Model.SavedDogImage): </b>
+                    <img src="~/img/@Model.SavedDogImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
+                    <input type="submit" class="btn btn-primary" value="Edit"
+                           asp-action="EditDogProfileVariable" asp-route-id="15" />
+                </td>         
+            </tr>
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.Name): </b> @Model.Name</td>
                 <td>

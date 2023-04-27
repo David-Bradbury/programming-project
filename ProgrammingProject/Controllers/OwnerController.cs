@@ -239,6 +239,22 @@ namespace ProgrammingProject.Controllers
             return fileName;
         }
 
+        private string UploadFile(EditDogProfileViewModel viewModel)
+        {
+            string fileName = null;
+            if (viewModel.DogImage != null)
+            {
+                string uploadDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+                fileName = Guid.NewGuid().ToString() + "-" + viewModel.DogImage.FileName;
+                string filePath = Path.Combine(uploadDirectory, fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    viewModel.DogImage.CopyTo(fileStream);
+                }
+            }
+            return fileName;
+        }
+
         [Route("/Owner/EditDogProfile",
    Name = "EditDogProfile")]
         public async Task<IActionResult> EditDogProfile(int dogID)
@@ -264,8 +280,8 @@ namespace ProgrammingProject.Controllers
             viewModel.MicrochipNumber = dog.MicrochipNumber;
             viewModel.SavedDogImage = dog.DogImage;
 
-            //if(dog.IsVaccinated == true)
-            //    viewModel.IsVaccinated = "true";
+            if (dog.IsVaccinated == true)
+                viewModel.IsVaccinated = "true";
 
             if (dog.Temperament == Temperament.NonReactive)
                 viewModel.Temperament = "NonReactive";
@@ -309,7 +325,7 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
-       
+
         [Route("/Owner/EditDogProfileVariable",
    Name = "EditDogProfileVariable")]
         public async Task<IActionResult> EditDogProfileVariable(int id, int DogID)
@@ -329,7 +345,7 @@ namespace ProgrammingProject.Controllers
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
 
             viewModel.DogId = dog.Id;
-        
+
             viewModel.Name = dog.Name;
             viewModel.Breed = dog.Breed;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
@@ -405,56 +421,67 @@ namespace ProgrammingProject.Controllers
                 viewModel.SelectedField = nameof(viewModel.Postcode);
             if (id == 14)
                 viewModel.SelectedField = nameof(viewModel.State);
+            if (id == 15)
+                viewModel.SelectedField = nameof(viewModel.SavedDogImage);
 
             return View(viewModel);
 
         }
 
         [HttpPost]
-   //     [Route("/Owner/EditDogProfileVariable",
-   //Name = "EditDogProfileVariable")]
         public async Task<IActionResult> EditDogProfileSave(EditDogProfileViewModel viewModel)
         {
 
-            if (viewModel.Name == null)
+            if (viewModel.SelectedField == nameof(viewModel.Name) && viewModel.Name == null)
                 ModelState.AddModelError(nameof(viewModel.Name), "Dogs Name is required.");
-            if (viewModel.Breed == null)
+            if (viewModel.SelectedField == nameof(viewModel.Breed) && viewModel.Breed == null)
                 ModelState.AddModelError(nameof(viewModel.Breed), "Dogs Breed is required.");
             //if (viewModel.IsVaccinated == null)
             //    ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Dogs Vaccination Status is required.");
-            if (viewModel.Temperament == null)
+            if (viewModel.SelectedField == nameof(viewModel.Temperament) && viewModel.Temperament == null)
                 ModelState.AddModelError(nameof(viewModel.Temperament), "Dogs Temperament is required.");
-            if (viewModel.DogSize == null)
+            if (viewModel.SelectedField == nameof(viewModel.DogSize) && viewModel.DogSize == null)
                 ModelState.AddModelError(nameof(viewModel.DogSize), "Dogs Size is required.");
-            if (viewModel.TrainingLevel == null)
+            if (viewModel.SelectedField == nameof(viewModel.TrainingLevel) && viewModel.TrainingLevel == null)
                 ModelState.AddModelError(nameof(viewModel.TrainingLevel), "Dogs Training Level is required.");
-            if (viewModel.BusinessName == null)
+            if (viewModel.SelectedField == nameof(viewModel.BusinessName) && viewModel.BusinessName == null)
                 ModelState.AddModelError(nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            if (viewModel.PhNumber == null)
+            if (viewModel.SelectedField == nameof(viewModel.PhNumber) && viewModel.PhNumber == null)
                 ModelState.AddModelError(nameof(viewModel.PhNumber), "Vets Phone Number is required.");
-            if (viewModel.Email == null)
+            if (viewModel.SelectedField == nameof(viewModel.Email) && viewModel.Email == null)
                 ModelState.AddModelError(nameof(viewModel.Email), "Vets Email is required.");
-            if (viewModel.StreetAddress == null)
+            if (viewModel.SelectedField == nameof(viewModel.StreetAddress) && viewModel.StreetAddress == null)
                 ModelState.AddModelError(nameof(viewModel.StreetAddress), "Vets Street Address is required.");
-            if (viewModel.SuburbName == null)
+            if (viewModel.SelectedField == nameof(viewModel.SuburbName) && viewModel.SuburbName == null)
                 ModelState.AddModelError(nameof(viewModel.SuburbName), "Vets Suburb is required.");
-            if (viewModel.Postcode == null)
+            if (viewModel.SelectedField == nameof(viewModel.Postcode) && viewModel.Postcode == null)
                 ModelState.AddModelError(nameof(viewModel.Postcode), "Vets Postcode is required.");
-            if (viewModel.State == null)
+            if (viewModel.SelectedField == nameof(viewModel.State) && viewModel.State == null)
                 ModelState.AddModelError(nameof(viewModel.State), "Vets State is required.");
 
-            if (!Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
+            if (viewModel.SelectedField == nameof(viewModel.Postcode) && !Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
                 ModelState.AddModelError(nameof(viewModel.Postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
             // Not perfect and needs updates for proper Australian phone numbers.
-            if (!Regex.IsMatch(viewModel.PhNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
+            if (viewModel.SelectedField == nameof(viewModel.PhNumber) && !Regex.IsMatch(viewModel.PhNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
                 ModelState.AddModelError(nameof(viewModel.PhNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
-            if (!Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
+            if (viewModel.SelectedField == nameof(viewModel.Email) && !Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
                 ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
+
+            if (viewModel.SelectedField == nameof(viewModel.SavedDogImage) && viewModel.DogImage != null)
+            {
+                string filename = Path.GetFileName(viewModel.DogImage.FileName);
+                string extension = Path.GetExtension(filename).ToLower();
+
+                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
+                    ModelState.AddModelError(nameof(viewModel.DogImage), "Image must be of the jpg/jpeg, or png format");
+            }
 
             if (!ModelState.IsValid)
             {
                 return View("EditDogProfileVariable", viewModel);
             }
+
+            string imageFileName = UploadFile(viewModel);
 
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(viewModel.DogId);
@@ -464,10 +491,31 @@ namespace ProgrammingProject.Controllers
 
             if (viewModel.SelectedField.Equals(nameof(viewModel.Name)))
                 dog.Name = viewModel.Name;
+            else
+                viewModel.Name = dog.Name;
             if (viewModel.SelectedField.Equals(nameof(viewModel.Breed)))
                 dog.Breed = viewModel.Breed;
+            else
+                viewModel.Breed = dog.Breed;
             if (viewModel.SelectedField.Equals(nameof(viewModel.MicrochipNumber)))
                 dog.MicrochipNumber = viewModel.MicrochipNumber;
+            else
+                viewModel.MicrochipNumber = dog.MicrochipNumber;
+
+            if (viewModel.SelectedField.Equals(nameof(viewModel.SavedDogImage)))
+            {
+                if (viewModel.DogImage != null)
+                    dog.DogImage = imageFileName;            
+                else
+                    dog.DogImage = "dog-avatar.jpg";
+
+                viewModel.SavedDogImage = dog.DogImage;
+            }
+            else
+            viewModel.SavedDogImage = dog.DogImage;
+
+            if (dog.IsVaccinated == true)
+                viewModel.IsVaccinated = "True";
 
             if (viewModel.SelectedField.Equals(nameof(viewModel.Temperament)))
             {
@@ -482,6 +530,19 @@ namespace ProgrammingProject.Controllers
                 if (viewModel.Temperament.Equals("Agressive"))
                     dog.Temperament = Temperament.Aggressive;
             }
+            else
+            {
+                if (dog.Temperament == Temperament.NonReactive)
+                    viewModel.Temperament ="NonReactive";
+                if (dog.Temperament == Temperament.Calm)
+                    viewModel.Temperament ="Calm";
+                if (dog.Temperament == Temperament.Friendly)
+                    viewModel.Temperament = "Friendly";
+                if (dog.Temperament == Temperament.Reactive)
+                    viewModel.Temperament = "Reactive";
+                if (dog.Temperament == Temperament.Aggressive)
+                    viewModel.Temperament = "Agressive";
+            }
 
             if (viewModel.SelectedField.Equals(nameof(viewModel.DogSize)))
             {
@@ -494,6 +555,17 @@ namespace ProgrammingProject.Controllers
                 if (viewModel.DogSize.Equals("ExtraLarge"))
                     dog.DogSize = DogSize.ExtraLarge;
             }
+            else
+            {
+                if (dog.DogSize == DogSize.Small)
+                    viewModel.DogSize = "Small";
+                else if (dog.DogSize == DogSize.Medium)
+                    viewModel.DogSize = "Medium";
+                else if (dog.DogSize == DogSize.Large)
+                    viewModel.DogSize = "Large";
+                else
+                    viewModel.DogSize = "ExtraLarge";
+            }
 
             if (viewModel.SelectedField.Equals(nameof(viewModel.TrainingLevel)))
             {
@@ -504,17 +576,38 @@ namespace ProgrammingProject.Controllers
                 if (viewModel.TrainingLevel.Equals("Fully"))
                     dog.TrainingLevel = TrainingLevel.Fully;
             }
+            else
+            {
+                if (dog.TrainingLevel == TrainingLevel.None)
+                    viewModel.TrainingLevel = "None";
+                else if (dog.TrainingLevel == TrainingLevel.Basic)
+                    viewModel.TrainingLevel = "Basic" ;
+                else
+                    viewModel.TrainingLevel = "Fully";
+
+
+            }
 
             if (viewModel.SelectedField.Equals(nameof(viewModel.BusinessName)))
                 vet.BusinessName = viewModel.BusinessName;
+            else
+                viewModel.BusinessName = vet.BusinessName;
             if (viewModel.SelectedField.Equals(nameof(viewModel.PhNumber)))
                 vet.PhNumber = viewModel.PhNumber;
+            else
+                viewModel.PhNumber = vet.PhNumber;
             if (viewModel.SelectedField.Equals(nameof(viewModel.Email)))
                 vet.Email = viewModel.Email;
+            else
+                viewModel.Email = vet.Email;
             if (viewModel.SelectedField.Equals(nameof(viewModel.StreetAddress)))
                 vet.StreetAddress = viewModel.StreetAddress;
+            else
+                viewModel.StreetAddress = vet.StreetAddress;
             if (viewModel.SelectedField.Equals(nameof(viewModel.State)))
                 vet.State = viewModel.State;
+            else
+                viewModel.State = vet.State;
 
             bool match = false;
             // Creating suburb based on form details
@@ -540,6 +633,11 @@ namespace ProgrammingProject.Controllers
                 vet.Suburb = suburb;
 
             }
+            else
+            {
+                viewModel.SuburbName = vet.Suburb.SuburbName;
+                viewModel.Postcode = vet.Suburb.Postcode;
+            }
 
             // Checking BusinessName for now but this is wrong as BusinessName is not key.
             match = false;
@@ -551,13 +649,13 @@ namespace ProgrammingProject.Controllers
                     vet = v;
                 }
             }
-            if (!match)
+            if (!match & viewModel.BusinessName != null)
                 _context.Vets.Add(vet);
 
             dog.Vet = vet;
 
             await _context.SaveChangesAsync();
-
+           
             return View("EditDogProfile", viewModel);
 
         }

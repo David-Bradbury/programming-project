@@ -7,40 +7,35 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditDogProfileSave">
+        <form asp-action="EditDogProfileSave" enctype="multipart/form-data">
 
-           @* <input asp-for="SelectedField" type="hidden" />
-            <input asp-for="SavedDogImage" type="hidden" />
-            <input asp-for="DogId" type="hidden" />
-            <input asp-for="Breed" type="hidden" />
-            <input asp-for="MicrochipNumber" type="hidden" />
-            <input asp-for="IsVaccinated" type="hidden" />
-            <input asp-for="Temperament" type="hidden" />
-            <input asp-for="DogSize" type="hidden" />
-            <input asp-for="TrainingLevel" type="hidden" />
-            <input asp-for="DogImage" type="hidden" />
-            <input asp-for="BusinessName" type="hidden" />
-            <input asp-for="PhNumber" type="hidden" />
-            <input asp-for="Email" type="hidden" />
-            <input asp-for="StreetAddress" type="hidden" />
-            <input asp-for="SuburbName" type="hidden" />
-            <input asp-for="Postcode" type="hidden" />
-            <input asp-for="State" type="hidden" />
-            <input asp-for="Country" type="hidden" />*@
-  
+            <input asp-for="SelectedField" type="hidden" value=@Model.SelectedField />
+            <input asp-for="DogId" type="hidden" value=@Model.DogId />
 
-            @*Add Dog Image Stuff here*@
+
+
+            @if (Model.SelectedField.Equals(nameof(Model.SavedDogImage)))
+            {
+                <div class="d-flex">
+                    <img src="~/img/@Model.SavedDogImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
+                </div>
+                <div class="form-control">
+                    <label asp-for="DogImage" class="control-label"></label>
+                    <input asp-for="DogImage" id="DogImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+                    <span asp-validation-for="DogImage" class="text-danger"></span>
+                </div>
+            }
 
             @if (Model.SelectedField.Equals(nameof(Model.Name)))
             {
-                 <div class="form-group">
+                <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control"/>
+                    <input asp-for="Name" class="form-control" />
                     <div class="form-group">
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
-               
+
                 </div>
             }
             @if (Model.SelectedField.Equals(nameof(Model.Breed)))
@@ -100,7 +95,7 @@
                     <select class="form-select" asp-items="Model.TrainingLevelList" asp-for="TrainingLevel">
                         <option value="" hidden>-- Please Select --</option>
                     </select>
-                    <span asp-validation-for="TrainingLevel"  class="text-danger"></span>
+                    <span asp-validation-for="TrainingLevel" class="text-danger"></span>
                 </div>
             }
             @if (Model.SelectedField.Equals(nameof(Model.BusinessName)))
@@ -113,9 +108,9 @@
                     </div>
                 </div>
             }
-              @if (Model.SelectedField.Equals(nameof(Model.PhNumber)))
+            @if (Model.SelectedField.Equals(nameof(Model.PhNumber)))
             {
-                 <div class="form-group">
+                <div class="form-group">
                     <label asp-for="PhNumber" class="control-label"></label>
                     <input asp-for="PhNumber" class="form-control" />
                     <div class="form-group">
@@ -143,13 +138,20 @@
                     </div>
                 </div>
             }
-              @if (Model.SelectedField.Equals(nameof(Model.SuburbName)))
+            @if (Model.SelectedField.Equals(nameof(Model.SuburbName)))
             {
-                 <div class="form-group">
+                <div class="form-group">
                     <label asp-for="SuburbName" class="control-label"></label>
                     <input asp-for="SuburbName" class="form-control" />
                     <div class="form-group">
                         <span asp-validation-for="SuburbName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Postcode" class="control-label"></label>
+                    <input asp-for="Postcode" class="form-control" />
+                    <div class="form-group">
+                        <span asp-validation-for="Postcode" class="text-danger"></span>
                     </div>
                 </div>
             }
@@ -172,22 +174,34 @@
                     </select>
                     <span asp-validation-for="State" class="text-danger"></span>
                 </div>
-            }
-            <input name="DogID" class="form-control"
-                   type="hidden" value="@Model.DogId" />
+            }            
             <div class="form-group" style="padding-top: 15px">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-        </form>        
+        </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="EditDogProfile" asp-route-DogID=@Model.DogId >Back to Profile</a>
+    <a asp-action="EditDogProfile" asp-route-DogID=@Model.DogId>Back to Profile</a>
 </div>
-@section Scripts {
+@section scripts{
+    <script type="text/javascript">
+
+        // The following code validates that an only jpeg, jpg, or png files are accepted.
+        function validateFileType() {
+            var dogImage = document.getElementById("DogImage").value;
+            var indexDot = dogImage.lastIndexOf(".") + 1;
+            var endFile = dogImage.substr(indexDot, dogImage.length).toLowerCase();
+            if (endFile != "jpg" && endFile != "jpeg" && endFile != "png") {
+                alert("Only jpg/jpeg and png files accepted.");
+                document.getElementById("DogImage").value = "";
+            }
+        }
+    </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    }
+}
 
