@@ -392,9 +392,10 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
 
         }
-       
-        public async Task<IActionResult> EditDogProfileSave(EditDogProfileViewModel viewModel, int id)
+
+        public async Task<IActionResult> EditDogProfileSave(EditDogProfileViewModel viewModel)
         {
+         
             // This code needs to be placed in helper method as repeated multiple times
             var owner = await _context.Owners.FindAsync(UserID);
 
@@ -415,9 +416,6 @@ namespace ProgrammingProject.Controllers
             ViewBag.EditProfileViewModel = vm;
 
             viewModel.StatesList = DropDownLists.GetStates();
-
-            if (id == 1)
-                return View("EditVet", viewModel);
 
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(viewModel.DogId);
@@ -509,7 +507,133 @@ namespace ProgrammingProject.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("ViewDogs");
+        }
 
+        public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
+        {
+            // This code needs to be placed in helper method as repeated multiple times
+            var owner = await _context.Owners.FindAsync(UserID);
+
+            EditProfileViewModel vm = new EditProfileViewModel();
+
+            vm.UserType = typeof(Owner).Name;
+            vm.FirstName = owner.FirstName;
+            vm.LastName = owner.LastName;
+            vm.Email = owner.Email;
+            vm.StreetAddress = owner.StreetAddress;
+            vm.SuburbName = owner.Suburb.SuburbName;
+            vm.Postcode = owner.Suburb.Postcode;
+            vm.State = owner.State;
+            vm.Country = owner.Country;
+            vm.PhNumber = owner.PhNumber;
+            vm.SavedProfileImage = owner.ProfileImage;
+
+            ViewBag.EditProfileViewModel = vm;
+
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> EditVetSave(EditDogProfileViewModel viewModel)
+        {
+         
+            var dog = new Dog();
+            dog = await _context.Dogs.FindAsync(viewModel.DogId);
+            var vet = new Vet();
+            vet = await _context.Vets.FindAsync(dog.Vet.Id);
+
+            if (viewModel.BusinessName == null)
+                ModelState.AddModelError(nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            if (viewModel.PhNumber == null)
+                ModelState.AddModelError(nameof(viewModel.PhNumber), "Vets Phone Number is required.");
+            if (viewModel.Email == null)
+                ModelState.AddModelError(nameof(viewModel.Email), "Vets Email is required.");
+            if (viewModel.StreetAddress == null)
+                ModelState.AddModelError(nameof(viewModel.StreetAddress), "Vets Street Address is required.");
+            if (viewModel.SuburbName == null)
+                ModelState.AddModelError(nameof(viewModel.SuburbName), "Vets Suburb is required.");
+            if (viewModel.Postcode == null)
+                ModelState.AddModelError(nameof(viewModel.Postcode), "Vets Postcode is required.");
+            if (viewModel.State == null)
+                ModelState.AddModelError(nameof(viewModel.State), "Vets State is required.");
+
+            if (viewModel.SelectedField == nameof(viewModel.Postcode) && !Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
+                ModelState.AddModelError(nameof(viewModel.Postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            // Not perfect and needs updates for proper Australian phone numbers.
+            if (viewModel.SelectedField == nameof(viewModel.PhNumber) && !Regex.IsMatch(viewModel.PhNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
+                ModelState.AddModelError(nameof(viewModel.PhNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+            if (viewModel.SelectedField == nameof(viewModel.Email) && !Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
+                ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
+
+            if (viewModel.SelectedField == nameof(viewModel.SavedProfileImage) && viewModel.ProfileImage != null)
+            {
+                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
+                string extension = Path.GetExtension(filename).ToLower();
+
+                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
+                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("EditVet", viewModel);
+            }
+
+            var ImageHelper = new ImageHelper(_webHostEnvironment);
+            string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
+
+            if (viewModel.ProfileImage != null)
+                dog.ProfileImage = imageFileName;
+            else if (viewModel.SavedProfileImage != imageFileName)
+                dog.ProfileImage = "dog-avatar.jpg";
+
+            viewModel.SavedProfileImage = dog.ProfileImage;
+
+
+            vet.BusinessName = viewModel.BusinessName;
+            vet.PhNumber = viewModel.PhNumber;
+            vet.Email = viewModel.Email;
+            vet.StreetAddress = viewModel.StreetAddress;
+            vet.State = viewModel.State;
+
+            var suburb = new Suburb();
+
+            suburb.SuburbName = viewModel.SuburbName;
+            suburb.Postcode = viewModel.Postcode;
+
+            // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
+            bool match = false;
+            foreach (var s in _context.Suburbs)
+            {
+                if (s.Postcode == suburb.Postcode && s.SuburbName == suburb.SuburbName)
+                {
+                    match = true;
+                    suburb = s;
+                }
+            }
+            if (!match)
+                _context.Suburbs.Add(suburb);
+      
+               vet.Suburb = suburb;
+          
+            // Checking BusinessName for now but this is wrong as BusinessName is not key.
+            match = false;
+            foreach (var v in _context.Vets)
+            {
+                if (v.BusinessName == viewModel.BusinessName)
+                {
+                    match = true;
+                    vet = v;
+                }
+            }
+            if (!match & viewModel.BusinessName != null)
+                _context.Vets.Add(vet);
+
+            dog.Vet = vet;
+
+            await _context.SaveChangesAsync();
+
+            return View("Index");
         }
     }
 }
