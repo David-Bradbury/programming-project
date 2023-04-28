@@ -220,6 +220,37 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Remove Dog from a walking session
+        [HttpPost]
+        public async Task<IActionResult> RemoveDogFromWalk(int DogID, int SessionID)
+        {
+            
+            var dog = await _context.Dogs.FindAsync(DogID);
+
+            var walkerSession = await _context.WalkingSessions.FindAsync(SessionID);
+
+            if (DogID == null || SessionID == null)
+            {
+                ModelState.AddModelError(nameof(SessionID), "Can't find Dog or Session");
+            } 
+            else if (!walkerSession.DogList.Contains(dog))
+            {
+                ModelState.AddModelError(nameof(SessionID), "Dog is not on this walk");
+            }
+            else if (walkerSession == null)
+            {
+                ModelState.AddModelError(nameof(SessionID), "Can't find walking Session");
+            }
+            else
+            {
+                walkerSession.DogList.Remove(dog);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
         // Start walking session
         [HttpPost]
         public async Task<IActionResult> StartWalkingSession(int sessionID)

@@ -52,14 +52,19 @@
                                     }
                                     @foreach (var d in walk.DogList)
                                     {
-                                        if (count > 0)
+@*                                        if (count > 0)
                                         {
                                             @Html.Raw(", ")
-                                        }
+                                        }*@
                                         @Html.DisplayFor(x => d.Name)
                                         // Add logic to remove dog from session
+                                        <input name="DogID" class="form-control"
+                                       type="hidden" value="@d.Id" />
+                                        <input name="SessionID" class="form-control"
+                                       type="hidden" value="@walk.SessionID" />
+                                        <input type="submit" class="btn btn-secondary" asp-action="RemoveDogFromWalk"
+                                       value="Remove Dog" asp-route-id="RemoveDogFromWalk" />
                                         count++;
-
                                     }
                                 </p>
                             }
@@ -68,6 +73,7 @@
                                 <p class="mb-0">No Dogs</p>
                             }
                         </div>
+                        <br />
                         <input type="submit" class="btn btn-primary" asp-action="CancelChanges"
                                value="Cancel" asp-route-id="CancelChanges" />
                         <input type="submit" class="btn btn-primary" asp-action="UpdateWalkingSession"
