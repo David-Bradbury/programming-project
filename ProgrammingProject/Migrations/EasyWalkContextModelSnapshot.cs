@@ -52,9 +52,6 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DogImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("DogSize")
                         .HasColumnType("int");
 
@@ -72,6 +69,9 @@ namespace ProgrammingProject.Migrations
 
                     b.Property<int?>("OwnerUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Temperament")
                         .HasColumnType("int");

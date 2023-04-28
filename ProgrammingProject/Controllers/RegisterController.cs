@@ -105,7 +105,7 @@ namespace ProgrammingProject.Controllers
                 return View(viewModel);
             }
             var ImageHelper = new ImageHelper(_webHostEnvironment);
-            string imageFileName = ImageHelper.UploadFile(viewModel);
+            string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
 
             // Creating suburb based on form details
             var suburb = new Suburb();

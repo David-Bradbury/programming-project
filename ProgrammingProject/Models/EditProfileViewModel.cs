@@ -8,8 +8,9 @@ namespace ProgrammingProject.Models
     {
         public string UserType { get; set; }
         public string Email { get; set; }
+        public string SavedProfileImage { get; set; }
+        public IFormFile ProfileImage { get; set; }
 
-        
         public string SelectedField { get; set; }
 
         [Required, StringLength(50), Display(Name = "First Name")]

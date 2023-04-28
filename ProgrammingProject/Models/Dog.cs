@@ -39,7 +39,7 @@ namespace ProgrammingProject.Models
         public Temperament Temperament { get; set; }
         public DogSize DogSize { get; set; }
         public TrainingLevel TrainingLevel { get; set; }
-        public string DogImage { get; set; }
+        public string ProfileImage { get; set; }
 
         public virtual Owner Owner { get; set; }
         public virtual Vet Vet { get; set; }

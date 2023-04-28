@@ -110,13 +110,13 @@ namespace ProgrammingProject.Controllers
                 ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Sorry, All dogs must be vaccinated before being registered with EasyWalk");
 
             // Checks the extension of the file to ensure a certain file format. Bring up Thurs meeting to see if extra verification needed. JC.
-            if (viewModel.DogImage != null)
+            if (viewModel.ProfileImage != null)
             {
-                string filename = Path.GetFileName(viewModel.DogImage.FileName);
+                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
                 string extension = Path.GetExtension(filename).ToLower();
 
                 if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
-                    ModelState.AddModelError(nameof(viewModel.DogImage), "Image must be of the jpg/jpeg, or png format");
+                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
             }
 
             // Checking to see if the state of the model is valid before continuing.
@@ -182,10 +182,10 @@ namespace ProgrammingProject.Controllers
             dog.Vet = vet;
             dog.IsVaccinated = true;
 
-            if (viewModel.DogImage != null)
-                dog.DogImage = imageFileName;
+            if (viewModel.ProfileImage != null)
+                dog.ProfileImage = imageFileName;
             else
-                dog.DogImage = "dog-avatar.jpg";
+                dog.ProfileImage = "dog-avatar.jpg";
 
             if (viewModel.Temperament.Equals("NonReactive"))
                 dog.Temperament = Temperament.NonReactive;
@@ -226,14 +226,14 @@ namespace ProgrammingProject.Controllers
         private string UploadFile(AddDogViewModel viewModel)
         {
             string fileName = null;
-            if (viewModel.DogImage != null)
+            if (viewModel.ProfileImage != null)
             {
                 string uploadDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "img");
-                fileName = Guid.NewGuid().ToString() + "-" + viewModel.DogImage.FileName;
+                fileName = Guid.NewGuid().ToString() + "-" + viewModel.ProfileImage.FileName;
                 string filePath = Path.Combine(uploadDirectory, fileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    viewModel.DogImage.CopyTo(fileStream);
+                    viewModel.ProfileImage.CopyTo(fileStream);
                 }
             }
             return fileName;
@@ -242,14 +242,14 @@ namespace ProgrammingProject.Controllers
         private string UploadFile(EditDogProfileViewModel viewModel)
         {
             string fileName = null;
-            if (viewModel.DogImage != null)
+            if (viewModel.ProfileImage != null)
             {
                 string uploadDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "img");
-                fileName = Guid.NewGuid().ToString() + "-" + viewModel.DogImage.FileName;
+                fileName = Guid.NewGuid().ToString() + "-" + viewModel.ProfileImage.FileName;
                 string filePath = Path.Combine(uploadDirectory, fileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    viewModel.DogImage.CopyTo(fileStream);
+                    viewModel.ProfileImage.CopyTo(fileStream);
                 }
             }
             return fileName;
@@ -278,7 +278,7 @@ namespace ProgrammingProject.Controllers
             viewModel.Name = dog.Name;
             viewModel.Breed = dog.Breed;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
-            viewModel.SavedDogImage = dog.DogImage;
+            viewModel.SavedDogImage = dog.ProfileImage;
 
             if (dog.IsVaccinated == true)
                 viewModel.IsVaccinated = "true";
@@ -349,7 +349,7 @@ namespace ProgrammingProject.Controllers
             viewModel.Name = dog.Name;
             viewModel.Breed = dog.Breed;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
-            viewModel.SavedDogImage = dog.DogImage;
+            viewModel.SavedDogImage = dog.ProfileImage;
 
             if (dog.IsVaccinated == true)
                 viewModel.IsVaccinated = "true";
@@ -467,13 +467,13 @@ namespace ProgrammingProject.Controllers
             if (viewModel.SelectedField == nameof(viewModel.Email) && !Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
                 ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
 
-            if (viewModel.SelectedField == nameof(viewModel.SavedDogImage) && viewModel.DogImage != null)
+            if (viewModel.SelectedField == nameof(viewModel.SavedDogImage) && viewModel.ProfileImage != null)
             {
-                string filename = Path.GetFileName(viewModel.DogImage.FileName);
+                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
                 string extension = Path.GetExtension(filename).ToLower();
 
                 if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
-                    ModelState.AddModelError(nameof(viewModel.DogImage), "Image must be of the jpg/jpeg, or png format");
+                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
             }
 
             if (!ModelState.IsValid)
@@ -504,15 +504,15 @@ namespace ProgrammingProject.Controllers
 
             if (viewModel.SelectedField.Equals(nameof(viewModel.SavedDogImage)))
             {
-                if (viewModel.DogImage != null)
-                    dog.DogImage = imageFileName;            
+                if (viewModel.ProfileImage != null)
+                    dog.ProfileImage = imageFileName;            
                 else
-                    dog.DogImage = "dog-avatar.jpg";
+                    dog.ProfileImage = "dog-avatar.jpg";
 
-                viewModel.SavedDogImage = dog.DogImage;
+                viewModel.SavedDogImage = dog.ProfileImage;
             }
             else
-            viewModel.SavedDogImage = dog.DogImage;
+            viewModel.SavedDogImage = dog.ProfileImage;
 
             if (dog.IsVaccinated == true)
                 viewModel.IsVaccinated = "True";

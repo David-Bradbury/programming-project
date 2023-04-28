@@ -27,7 +27,7 @@ namespace ProgrammingProject.Models
         [Display(Name = "Dogs Level of Training")]
         public string TrainingLevel { get; set; }
         [Display(Name = "Image of the Dog")]
-        public IFormFile DogImage { get; set; }
+        public IFormFile ProfileImage { get; set; }
         [StringLength(50), Display(Name = "Dogs Vet Business Name")]
         public string BusinessName { get; set; }
         [StringLength(50), Display(Name = "Vets Phone Number")]
