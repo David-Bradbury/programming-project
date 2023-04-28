@@ -25,7 +25,6 @@ namespace ProgrammingProject.Controllers
         {
             //lazy loading
             var walker = await _context.Walkers.FindAsync(WalkerID);
-            //return View(walker);
             ViewBag.Walker = walker;
             ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
             return View();
@@ -34,7 +33,6 @@ namespace ProgrammingProject.Controllers
         // Match suitable dogs to walkers
         [HttpPost]
         public async Task<List<Dog>> MatchDogsToWalker(int id)
-        //public async Task<IActionResult> MatchDogsToWalker(int id)
         {
 
             // Get full list of dogs
@@ -176,8 +174,6 @@ namespace ProgrammingProject.Controllers
 
             var walkerSessions = _context.WalkingSessions.AsEnumerable();
 
-            //var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
-
             var walkingSession = new List<WalkingSession>();
 
             foreach (var walker in walkerSessions)
@@ -224,7 +220,7 @@ namespace ProgrammingProject.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveDogFromWalk(int DogID, int SessionID)
         {
-            
+
             var dog = await _context.Dogs.FindAsync(DogID);
 
             var walkerSession = await _context.WalkingSessions.FindAsync(SessionID);
@@ -232,7 +228,7 @@ namespace ProgrammingProject.Controllers
             if (DogID == null || SessionID == null)
             {
                 ModelState.AddModelError(nameof(SessionID), "Can't find Dog or Session");
-            } 
+            }
             else if (!walkerSession.DogList.Contains(dog))
             {
                 ModelState.AddModelError(nameof(SessionID), "Dog is not on this walk");
@@ -336,12 +332,12 @@ namespace ProgrammingProject.Controllers
             DateTime end = new DateTime(Date.Year, Date.Month, Date.Day, EndTime.Hour,
                                           EndTime.Minute, EndTime.Second);
 
-            if (walkerSession.Date.Year != Date.Year 
-                || walkerSession.Date.Month != Date.Month 
+            if (walkerSession.Date.Year != Date.Year
+                || walkerSession.Date.Month != Date.Month
                 || walkerSession.Date.Day != Date.Day)
             {
                 walkerSession.Date = Date;
-                
+
             }
 
             if (walkerSession.ScheduledStartTime != start)
@@ -389,6 +385,22 @@ namespace ProgrammingProject.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        //Displays previous walking sessions
+        //Not working when marked as Post???.DP
+        //[HttpPost]
+        public async Task<IActionResult> PreviousWalkingSessions()
+        {
+
+            var walker = await _context.Walkers.FindAsync(WalkerID);
+            var walkerSessions = walker.WalkingSessions;
+
+            List<WalkingSession> SortedList = walkerSessions.OrderBy(o => o.Date).ToList();
+
+            ViewBag.WalkingSession = SortedList;
+
+            return View();
         }
     }
 }
