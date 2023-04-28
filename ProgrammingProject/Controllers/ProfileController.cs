@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ProgrammingProject.Helper;
 using Microsoft.AspNetCore.Hosting;
 using System.Web.Helpers;
-
+using System.Dynamic;
 
 namespace ProgrammingProject.Controllers
 {
@@ -96,7 +96,7 @@ namespace ProgrammingProject.Controllers
 
 
         public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel, int id)
-        {          
+        {
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
 
@@ -198,8 +198,12 @@ namespace ProgrammingProject.Controllers
                 w.Country = viewModel.Country;
                 w.PhNumber = viewModel.PhNumber;
 
-                if (viewModel.SavedProfileImage != w.ProfileImage)
+                if (viewModel.ProfileImage != null)
                     w.ProfileImage = imageFileName;
+                else if (viewModel.SavedProfileImage != imageFileName)
+                    w.ProfileImage = "defaultProfile.png";
+
+                viewModel.SavedProfileImage = w.ProfileImage;
 
 
                 if (viewModel.IsInsured == "true")
@@ -238,8 +242,11 @@ namespace ProgrammingProject.Controllers
             }
 
             await _context.SaveChangesAsync();
-        
-            return RedirectToAction("Index", "Owner");
+
+            if (w == null)
+                return RedirectToAction("Index", "Owner");
+
+            return RedirectToAction("Index", "Walker");
         }
 
 
@@ -270,10 +277,240 @@ namespace ProgrammingProject.Controllers
                 w.Login.PasswordHash = ControllerHelper.HashPassword(password);
 
             await _context.SaveChangesAsync();
-         
+
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> ViewDogs()
+        {
+            // This code needs to be placed in helper method as repeated multiple times
+            var owner = await _context.Owners.FindAsync(UserID);
+
+            EditProfileViewModel viewModel = new EditProfileViewModel();
+
+            viewModel.UserType = typeof(Owner).Name;
+            viewModel.FirstName = owner.FirstName;
+            viewModel.LastName = owner.LastName;
+            viewModel.Email = owner.Email;
+            viewModel.StreetAddress = owner.StreetAddress;
+            viewModel.SuburbName = owner.Suburb.SuburbName;
+            viewModel.Postcode = owner.Suburb.Postcode;
+            viewModel.State = owner.State;
+            viewModel.Country = owner.Country;
+            viewModel.PhNumber = owner.PhNumber;
+            viewModel.SavedProfileImage = owner.ProfileImage;
+
+            ViewBag.EditProfileViewModel = viewModel;
+
+            return View(owner);
+        }
+        public async Task<IActionResult> EditDogProfile(int dogId)
+        {
+            // This code needs to be placed in helper method as repeated multiple times
+            var owner = await _context.Owners.FindAsync(UserID);
+
+            EditProfileViewModel vm = new EditProfileViewModel();
+
+            vm.UserType = typeof(Owner).Name;
+            vm.FirstName = owner.FirstName;
+            vm.LastName = owner.LastName;
+            vm.Email = owner.Email;
+            vm.StreetAddress = owner.StreetAddress;
+            vm.SuburbName = owner.Suburb.SuburbName;
+            vm.Postcode = owner.Suburb.Postcode;
+            vm.State = owner.State;
+            vm.Country = owner.Country;
+            vm.PhNumber = owner.PhNumber;
+            vm.SavedProfileImage = owner.ProfileImage;
+
+            ViewBag.EditProfileViewModel = vm;
+
+            var dog = new Dog();
+            dog = await _context.Dogs.FindAsync(dogId);
+
+            var vet = new Vet();
+            vet = await _context.Vets.FindAsync(dog.Vet.Id);
+
+            var viewModel = new EditDogProfileViewModel();
+
+
+            viewModel.DogSizeList = DropDownLists.GetDogSize();
+            viewModel.TemperamentList = DropDownLists.GetTemperament();
+            viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
+            viewModel.StatesList = DropDownLists.GetStates();
+            viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
+
+            viewModel.DogId = dog.Id;
+            viewModel.Name = dog.Name;
+            viewModel.Breed = dog.Breed;
+            viewModel.MicrochipNumber = dog.MicrochipNumber;
+            viewModel.SavedProfileImage = dog.ProfileImage;
+
+            if (dog.IsVaccinated == true)
+                viewModel.IsVaccinated = "true";
+
+            if (dog.Temperament == Temperament.NonReactive)
+                viewModel.Temperament = "NonReactive";
+            if (dog.Temperament == Temperament.Calm)
+                viewModel.Temperament = "Calm";
+            if (dog.Temperament == Temperament.Friendly)
+                viewModel.Temperament = "Friendly";
+            if (dog.Temperament == Temperament.Reactive)
+                viewModel.Temperament = "Reactive"; ;
+            if (dog.Temperament == Temperament.Aggressive)
+                viewModel.Temperament = "Agressive";
+
+            if (dog.DogSize == DogSize.Small)
+                viewModel.DogSize = "Small";
+            if (dog.DogSize == DogSize.Medium)
+                viewModel.DogSize = "Medium";
+            if (dog.DogSize == DogSize.Large)
+                viewModel.DogSize = "Large";
+            if (dog.DogSize == DogSize.ExtraLarge)
+                viewModel.DogSize = "ExtraLarge";
+
+            if (dog.TrainingLevel == TrainingLevel.None)
+                viewModel.TrainingLevel = "None";
+            if (dog.TrainingLevel == TrainingLevel.Basic)
+                viewModel.TrainingLevel = "Basic";
+            if (dog.TrainingLevel == TrainingLevel.Fully)
+                viewModel.TrainingLevel = "Fully";
+
+            var sub = new Suburb();
+            sub.SuburbName = viewModel.SuburbName;
+            sub.Postcode = viewModel.Postcode;
+
+            vet.Suburb = sub;
+
+            viewModel.BusinessName = vet.BusinessName;
+            viewModel.PhNumber = vet.PhNumber;
+            viewModel.Email = vet.Email;
+            viewModel.StreetAddress = vet.StreetAddress;
+            viewModel.State = vet.State;
+            viewModel.Country = vet.Country;
+
+            return View(viewModel);
+
+        }
+       
+        public async Task<IActionResult> EditDogProfileSave(EditDogProfileViewModel viewModel, int id)
+        {
+            // This code needs to be placed in helper method as repeated multiple times
+            var owner = await _context.Owners.FindAsync(UserID);
+
+            EditProfileViewModel vm = new EditProfileViewModel();
+
+            vm.UserType = typeof(Owner).Name;
+            vm.FirstName = owner.FirstName;
+            vm.LastName = owner.LastName;
+            vm.Email = owner.Email;
+            vm.StreetAddress = owner.StreetAddress;
+            vm.SuburbName = owner.Suburb.SuburbName;
+            vm.Postcode = owner.Suburb.Postcode;
+            vm.State = owner.State;
+            vm.Country = owner.Country;
+            vm.PhNumber = owner.PhNumber;
+            vm.SavedProfileImage = owner.ProfileImage;
+
+            ViewBag.EditProfileViewModel = vm;
+
+            viewModel.StatesList = DropDownLists.GetStates();
+
+            if (id == 1)
+                return View("EditVet", viewModel);
+
+            var dog = new Dog();
+            dog = await _context.Dogs.FindAsync(viewModel.DogId);
+
+            viewModel.TemperamentList = DropDownLists.GetTemperament();
+            viewModel.DogSizeList = DropDownLists.GetDogSize();
+            viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
+
+            if (viewModel.Name == null)
+                ModelState.AddModelError(nameof(viewModel.Name), "Dogs Name is required.");
+            if (viewModel.Breed == null)
+                ModelState.AddModelError(nameof(viewModel.Breed), "Dogs Breed is required.");
+            //if (viewModel.IsVaccinated == null)
+            //    ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Dogs Vaccination Status is required.");
+            if (viewModel.Temperament == null)
+                ModelState.AddModelError(nameof(viewModel.Temperament), "Dogs Temperament is required.");
+            if (viewModel.DogSize == null)
+                ModelState.AddModelError(nameof(viewModel.DogSize), "Dogs Size is required.");
+            if (viewModel.TrainingLevel == null)
+                ModelState.AddModelError(nameof(viewModel.TrainingLevel), "Dogs Training Level is required.");
+
+
+
+            if (viewModel.ProfileImage != null)
+            {
+                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
+                string extension = Path.GetExtension(filename).ToLower();
+
+                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
+                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("EditDogProfile", viewModel);
+            }
+
+            var ImageHelper = new ImageHelper(_webHostEnvironment);
+            string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
+
+
+            dog.Name = viewModel.Name;
+            dog.Breed = viewModel.Breed;
+            dog.MicrochipNumber = viewModel.MicrochipNumber;
+
+
+            if (viewModel.ProfileImage != null)
+                dog.ProfileImage = imageFileName;
+            else if (viewModel.SavedProfileImage != imageFileName)
+                dog.ProfileImage = "dog-avatar.jpg";
+
+            viewModel.SavedProfileImage = dog.ProfileImage;
+
+
+            if (dog.IsVaccinated == true)
+                viewModel.IsVaccinated = "True";
+
+
+            if (viewModel.Temperament.Equals("NonReactive"))
+                dog.Temperament = Temperament.NonReactive;
+            else if (viewModel.Temperament.Equals("Calm"))
+                dog.Temperament = Temperament.Calm;
+            else if (viewModel.Temperament.Equals("Friendly"))
+                dog.Temperament = Temperament.Friendly;
+            else if (viewModel.Temperament.Equals("Reactive"))
+                dog.Temperament = Temperament.Reactive;
+            else
+                dog.Temperament = Temperament.Aggressive;
+
+
+            if (viewModel.DogSize.Equals("Small"))
+                dog.DogSize = DogSize.Small;
+            else if (viewModel.DogSize.Equals("Medium"))
+                dog.DogSize = DogSize.Medium;
+            else if (viewModel.DogSize.Equals("Large"))
+                dog.DogSize = DogSize.Large;
+            else
+                dog.DogSize = DogSize.ExtraLarge;
+
+
+            if (viewModel.TrainingLevel.Equals("None"))
+                dog.TrainingLevel = TrainingLevel.None;
+            else if (viewModel.TrainingLevel.Equals("Basic"))
+                dog.TrainingLevel = TrainingLevel.Basic;
+            else
+                dog.TrainingLevel = TrainingLevel.Fully;
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ViewDogs");
+
+        }
     }
 }
 

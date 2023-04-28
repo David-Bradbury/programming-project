@@ -14,10 +14,10 @@
 
 
 
-            @if (Model.SelectedField.Equals(nameof(Model.SavedDogImage)))
+            @if (Model.SelectedField.Equals(nameof(Model.SavedProfileImage)))
             {
                 <div class="d-flex">
-                    <img src="~/img/@Model.SavedDogImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
+                    <img src="~/img/@Model.SavedProfileImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
                 </div>
                 <div class="form-control">
                     <label asp-for="ProfileImage" class="control-label"></label>

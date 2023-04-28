@@ -278,7 +278,7 @@ namespace ProgrammingProject.Controllers
             viewModel.Name = dog.Name;
             viewModel.Breed = dog.Breed;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
-            viewModel.SavedDogImage = dog.ProfileImage;
+            viewModel.SavedProfileImage = dog.ProfileImage;
 
             if (dog.IsVaccinated == true)
                 viewModel.IsVaccinated = "true";
@@ -349,7 +349,7 @@ namespace ProgrammingProject.Controllers
             viewModel.Name = dog.Name;
             viewModel.Breed = dog.Breed;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
-            viewModel.SavedDogImage = dog.ProfileImage;
+            viewModel.SavedProfileImage = dog.ProfileImage;
 
             if (dog.IsVaccinated == true)
                 viewModel.IsVaccinated = "true";
@@ -422,7 +422,7 @@ namespace ProgrammingProject.Controllers
             if (id == 14)
                 viewModel.SelectedField = nameof(viewModel.State);
             if (id == 15)
-                viewModel.SelectedField = nameof(viewModel.SavedDogImage);
+                viewModel.SelectedField = nameof(viewModel.SavedProfileImage);
 
             return View(viewModel);
 
@@ -467,7 +467,7 @@ namespace ProgrammingProject.Controllers
             if (viewModel.SelectedField == nameof(viewModel.Email) && !Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
                 ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
 
-            if (viewModel.SelectedField == nameof(viewModel.SavedDogImage) && viewModel.ProfileImage != null)
+            if (viewModel.SelectedField == nameof(viewModel.SavedProfileImage) && viewModel.ProfileImage != null)
             {
                 string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
                 string extension = Path.GetExtension(filename).ToLower();
@@ -502,17 +502,17 @@ namespace ProgrammingProject.Controllers
             else
                 viewModel.MicrochipNumber = dog.MicrochipNumber;
 
-            if (viewModel.SelectedField.Equals(nameof(viewModel.SavedDogImage)))
+            if (viewModel.SelectedField.Equals(nameof(viewModel.SavedProfileImage)))
             {
                 if (viewModel.ProfileImage != null)
                     dog.ProfileImage = imageFileName;            
                 else
                     dog.ProfileImage = "dog-avatar.jpg";
 
-                viewModel.SavedDogImage = dog.ProfileImage;
+                viewModel.SavedProfileImage = dog.ProfileImage;
             }
             else
-            viewModel.SavedDogImage = dog.ProfileImage;
+            viewModel.SavedProfileImage = dog.ProfileImage;
 
             if (dog.IsVaccinated == true)
                 viewModel.IsVaccinated = "True";

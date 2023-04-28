@@ -1,0 +1,28 @@
+﻿@model EditProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+
+}
+<div class="d-flex">
+    <div>
+        <img src="~/img/@Model.SavedProfileImage" width="200" height="200" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
+    </div>
+    <div class="form-control">
+        <label asp-for="ProfileImage" class="control-label">Update Profile Image</label>
+        <input asp-for="ProfileImage" value=@Model.SavedProfileImage id="ProfileImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+        <span asp-validation-for="ProfileImage" class="text-danger"></span>
+    </div>
+    <div class="ms-4">
+        <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.FirstName)</p>
+    </div>
+    <div>
+        <a class="btn btn-primary"
+           asp-action="Index">Personal Information</a>
+        @if (Model.UserType.Equals("Owner"))
+        {
+            <a class="btn btn-primary"
+           asp-action="ViewDogs">Dogs</a>
+        }
+
+    </div>
+</div>

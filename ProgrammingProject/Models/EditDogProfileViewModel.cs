@@ -8,7 +8,7 @@ namespace ProgrammingProject.Models
     {
    
         public string SelectedField { get; set; }
-        public string SavedDogImage { get; set; }
+        public string SavedProfileImage { get; set; }
 
 		public int DogId { get; set; }
 

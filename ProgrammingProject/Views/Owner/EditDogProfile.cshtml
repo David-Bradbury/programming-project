@@ -10,8 +10,8 @@
                type="hidden" value="@Model.DogId" />
         <table class=" " table:>
             <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.SavedDogImage): </b>
-                    <img src="~/img/@Model.SavedDogImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
+                <td><b>@Html.DisplayNameFor(Model => Model.SavedProfileImage): </b>
+                    <img src="~/img/@Model.SavedProfileImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
                     <input type="submit" class="btn btn-primary" value="Edit"
                            asp-action="EditDogProfileVariable" asp-route-id="15" />
                 </td>         
