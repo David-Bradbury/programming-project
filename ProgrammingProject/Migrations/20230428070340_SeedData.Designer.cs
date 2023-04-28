@@ -12,7 +12,7 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230426223020_SeedData")]
+    [Migration("20230428070340_SeedData")]
     partial class SeedData
     {
         /// <inheritdoc />

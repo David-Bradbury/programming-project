@@ -54,19 +54,19 @@ namespace ProgrammingProject.Data
 
 
 
-            //using (StreamReader r = new StreamReader("./Data/australian-postcodes.json"))
-            //{
-            //    string json = r.ReadToEnd();
+            using (StreamReader r = new StreamReader("./Data/australian-postcodes.json"))
+            {
+                string json = r.ReadToEnd();
 
-            //    List<Suburb> items = JsonConvert.DeserializeObject<List<Suburb>>(json);
+                List<Suburb> items = JsonConvert.DeserializeObject<List<Suburb>>(json);
 
-            //    foreach (var s in items)
-            //    {
-            //        context.Suburbs.Add(s);
-            //        context.SaveChangesAsync();
+                foreach (var s in items)
+                {
+                    context.Suburbs.Add(s);
+                    context.SaveChanges();
 
-            //    }
-            //}
+                }
+            }
 
             var suburb1 = new Suburb();
 
