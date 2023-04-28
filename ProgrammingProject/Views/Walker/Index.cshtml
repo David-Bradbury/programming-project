@@ -47,13 +47,7 @@
     <div class="mb-5 d-flex flex-column gap-1">
         @foreach (var walk in SortedList)
         {
-@*            var localTime = DateTimeKind.Local;
-            var now = DateTime.Now;
-            var today = DateTime.Parse(now);
-            var today = now.ToLocalTime();*@
-
-            var pastSessionCheck = DateTime.Compare(walk.Date, DateTime.Now);
-            if (pastSessionCheck >= 0)
+            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
             {
                 <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />    
             }             
