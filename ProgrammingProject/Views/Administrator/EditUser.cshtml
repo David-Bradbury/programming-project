@@ -1,0 +1,57 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@using ProgrammingProject.Utilities;
+@model UserAdminViewModel
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+<div>
+    <h1 class="display-4">List of Current Users</h1>
+
+    <table class="table">
+        <tr>
+            <th>User Type</th>
+            <th>@Html.DisplayNameFor(x => x.PagedList[0].Email)</th>
+            <th>@Html.DisplayNameFor(x => x.PagedList[0].FirstName)</th>
+            <th>@Html.DisplayNameFor(x => x.PagedList[0].LastName)</th>
+            <th></th>
+        </tr>
+        @{
+            var userType = "";
+        }
+        @foreach (var user in Model.PagedList)
+        {
+            if (user.GetType() == typeof(Owner))
+            {
+                userType = "Owner";
+            }
+            else
+            {
+                userType = "Walker";
+            }
+
+            <tr>
+                <td>@user.GetType().Name</td>
+                <td>@Html.DisplayFor(x => user.Email)</td>
+                <td>@Html.DisplayFor(x => user.FirstName)</td>
+                <td>@Html.DisplayFor(x => user.LastName)</td>
+                <td>
+                    <a class="btn btn-primary"
+                   asp-action="DeleteUser" asp-route-id=@user.UserId>Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+
+    @Html.PagedListPager(Model.PagedList, page => Url.Action("EditUser", new { page }),
+    new PagedListRenderOptions {
+    LiElementClasses = new[] { "page-item"},
+    PageClasses = new[] {"page-link"}
+    })
+    <div>
+        <a asp-action="Index">Back to Dashboard</a>
+    </div>
+</div>

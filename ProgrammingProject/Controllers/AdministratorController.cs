@@ -1,6 +1,7 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using ProgrammingProject.Utilities;
 
 namespace ProgrammingProject.Controllers
 {
@@ -24,31 +25,53 @@ namespace ProgrammingProject.Controllers
             return View(admin);
         }
 
-        public async Task<IActionResult> DeleteUser()
+        [Route("/Administrator/EditUser")]
+        public async Task<IActionResult> EditUser(int page = 1)
         {
-            var userList = new List<DeleteUserViewModel>();
-            var tempUser = new DeleteUserViewModel();
+            var viewModel = await ControllerHelper.BuildUserAdminViewModel(_context, page);
+            return View(viewModel);
 
-            foreach(var o in _context.Owners)
-            {
-                tempUser.Email = o.Email;
-                tempUser.FirstName = o.FirstName;
-                tempUser.LastName = o.LastName;
-                tempUser.UserType = "Owner";
-                userList.Add(tempUser);
-
-            }
-            foreach (var w in _context.Walkers)
-            {
-                tempUser.Email = w.Email;
-                tempUser.FirstName = w.FirstName;
-                tempUser.LastName = w.LastName;
-                tempUser.UserType = "Walker";
-                userList.Add(tempUser);
-
-
-            }
-            return View(userList);
         }
+
+        [Route("/Administrator/DeleteUser")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var isOwner = true;
+            var owner = await _context.Owners.FindAsync(id);
+            if (owner == null)
+            {
+                var walker = await _context.Walkers.FindAsync(id);
+                isOwner = false;
+                if(walker != null)
+                {
+                    foreach (Login l in _context.Logins)
+                    {
+                        if (walker.Email == l.Email)
+                            _context.Logins.Remove(l);
+
+                    }
+                }
+            }
+
+            if (isOwner)
+            {
+                foreach (Login l in _context.Logins)
+                {
+                    if (owner.Email == l.Email)
+                        _context.Logins.Remove(l);
+
+                }
+
+                foreach (Dog d in owner.Dogs)
+                    owner.Dogs.Remove(d);
+
+                _context.Owners.Remove(owner);
+
+            }
+            _context.SaveChanges(); 
+
+            return RedirectToAction("EditUser");
+        }
+
     }
 }
