@@ -212,10 +212,10 @@ namespace ProgrammingProject.Controllers
         [Route("/Register/SendEmailVerification")]
         public void SendEmailVerification(Login login, string firstName)
         {
-            //generate token for verification 
+            //get token for verification 
             Random random = new Random();
 
-            string token = ControllerHelper.HashPassword((random.Next().ToString()));
+            var token = ControllerHelper.HashPassword((random.Next().ToString()));
             login.EmailToken = token;
             _context.SaveChanges();
 
@@ -225,7 +225,7 @@ namespace ProgrammingProject.Controllers
             string subject = "Please verify your email address";
 
             //String for woring locally
-           // const string url = "https://localhost:7199/Verification/Verify";
+            //const string url = "https://localhost:7199/Verification/Verify";
 
            //String for deployed version
             const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify";

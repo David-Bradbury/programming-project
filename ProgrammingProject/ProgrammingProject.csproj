@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
     <PackageReference Include="SimpleHashing" Version="2.0.0.1" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
     
   </ItemGroup>
 
@@ -31,6 +32,9 @@
 
   <ItemGroup>
     <None Update="Helper\RegisterEmailContent.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Helper\PasswordRecoveryContent.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Helper\VerifyEmailContent.html">
