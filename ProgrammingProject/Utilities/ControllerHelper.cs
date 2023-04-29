@@ -1,4 +1,7 @@
-﻿using SimpleHashing;
+﻿using ProgrammingProject.Data;
+using ProgrammingProject.Models;
+using SimpleHashing;
+using X.PagedList;
 
 namespace ProgrammingProject.Utilities
 {
@@ -11,14 +14,30 @@ namespace ProgrammingProject.Utilities
             return hashedPassword;
         }
 
-        public static string GetToken()
+        public async static Task<UserAdminViewModel> BuildUserAdminViewModel(EasyWalkContext context, int page)
         {
-            //Generate tokens for email recovery and verify
-            Random random = new Random();
+            var viewModel = new UserAdminViewModel();
 
-            var token = HashPassword((random.Next().ToString()));
-            return token;
+            var userList = new List<User>();
+            const int pageSize = 3;
+
+            foreach (Owner o in context.Owners)
+            {
+                userList.Add(o);
+            }
+            foreach(Walker w in context.Walkers)
+            {
+                userList.Add(w);
+            }
+            viewModel.PagedList= userList.ToPagedList(page, pageSize);
+
+            return viewModel;
+
+
         }
+
+
+
 
 
     }
