@@ -20,9 +20,15 @@ namespace ProgrammingProject.Controllers
         public async Task<IActionResult> Index()
         {
             var admin = await _context.Administrators.FindAsync(AdminID);
+            var viewModel = new AdminIndexViewModel();
+            viewModel.OwnerCount = _context.Owners.Count();
+            viewModel.WalkerCount = _context.Walkers.Count();
+            foreach(var o in _context.Owners)
+            {
+                viewModel.DogCount = viewModel.DogCount + o.Dogs.Count();
+            }
 
-
-            return View(admin);
+            return View(viewModel);
         }
 
         [Route("/Administrator/EditUser")]

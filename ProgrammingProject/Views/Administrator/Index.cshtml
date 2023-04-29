@@ -1,9 +1,37 @@
-﻿@model Administrator
+﻿@model AdminIndexViewModel
 @{
     ViewData["Title"] = "Administrator";
+    var totalUsers =  Model.OwnerCount + Model.WalkerCount;
 }
 
 <div>
-    <h1 class="display-4">This is, @Model.FirstName @Model.LastName</h1>
-    <h6 class="display-4">@Model.FirstName is an Administrator</h6>
+    <h1>Dashboard</h1>
+</div>
+<div>
+
+    <table class="table">
+        <tr>
+            <th>Entity Type</th>
+            <th>Total Count</th>
+        </tr>
+
+        <tr>
+            <td>Users</td>
+            <td>@totalUsers</td>
+        </tr>
+
+        <tr>
+            <td>Owners</td>
+            <td>@Model.OwnerCount</td>
+        </tr>
+        <tr>
+            <td>Walkers</td>
+            <td>@Model.WalkerCount</td>
+        </tr>
+        <tr>
+            <td>Dogs</td>
+            <td>@Model.DogCount</td>
+        </tr>
+
+    </table>
 </div>

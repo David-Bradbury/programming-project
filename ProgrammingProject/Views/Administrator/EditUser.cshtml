@@ -23,17 +23,10 @@
         }
         @foreach (var user in Model.PagedList)
         {
-            if (user.GetType() == typeof(Owner))
-            {
-                userType = "Owner";
-            }
-            else
-            {
-                userType = "Walker";
-            }
-
+            char[] unwantedChars = {'P','r','o','x','y' };
+           
             <tr>
-                <td>@user.GetType().Name</td>
+                <td>@user.GetType().Name.Trim(unwantedChars)r</td>
                 <td>@Html.DisplayFor(x => user.Email)</td>
                 <td>@Html.DisplayFor(x => user.FirstName)</td>
                 <td>@Html.DisplayFor(x => user.LastName)</td>

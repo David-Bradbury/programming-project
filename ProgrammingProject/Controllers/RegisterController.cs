@@ -210,10 +210,10 @@ namespace ProgrammingProject.Controllers
             string subject = "Please verify your email address";
 
             //String for woring locally
-           // const string url = "https://localhost:7199/Verification/Verify";
+            const string url = "https://localhost:7199/Verification/Verify";
 
            //String for deployed version
-            const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify";
+           //  const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/Verify";
 
             var param = new Dictionary<string, string>() { { "emailToken", token } };
 
