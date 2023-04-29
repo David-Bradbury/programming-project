@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class seedData : Migration
+    public partial class seedata : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
