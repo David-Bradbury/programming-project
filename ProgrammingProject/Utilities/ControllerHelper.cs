@@ -13,6 +13,13 @@ namespace ProgrammingProject.Utilities
             var hashedPassword = PBKDF2.Hash(password);
             return hashedPassword;
         }
+        public static string GetToken()
+        {
+            Random random = new Random();
+
+            string token = ControllerHelper.HashPassword((random.Next().ToString()));
+            return token;
+        }
 
         public async static Task<UserAdminViewModel> BuildUserAdminViewModel(EasyWalkContext context, int page)
         {
