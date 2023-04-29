@@ -45,10 +45,10 @@ namespace ProgrammingProject.Helper
         {
             List<SelectListItem> DogSizeList = new List<SelectListItem>();
 
-            DogSizeList.Add(new SelectListItem { Text = "Small", Value = "Small" });
-            DogSizeList.Add(new SelectListItem { Text = "Medium", Value = "Medium" });
-            DogSizeList.Add(new SelectListItem { Text = "Large", Value = "Large" });
-            DogSizeList.Add(new SelectListItem { Text = "ExtraLarge", Value = "ExtraLarge" });
+            DogSizeList.Add(new SelectListItem { Text = "Small - 2-9 Kg", Value = "Small" });
+            DogSizeList.Add(new SelectListItem { Text = "Medium - 9-18 Kg", Value = "Medium" });
+            DogSizeList.Add(new SelectListItem { Text = "Large - 18-30 Kg", Value = "Large" });
+            DogSizeList.Add(new SelectListItem { Text = "ExtraLarge - 30+ Kg", Value = "ExtraLarge" });
 
             return DogSizeList;
         }

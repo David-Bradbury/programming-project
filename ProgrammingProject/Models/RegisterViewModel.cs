@@ -8,12 +8,14 @@ namespace ProgrammingProject.Models
     public class RegisterViewModel
     {
         public int AccountTypeSelection { get; set; }
-        [Required, StringLength(50), Display(Name = "First Name")]
+       // [Required, StringLength(50), Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required, StringLength(50), Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Required, EmailAddress(ErrorMessage = "An email address is required")]
         public string Email { get; set; }
+        [Display(Name = "Profile Image")]
+        public IFormFile ProfileImage { get; set; }
         [Required, StringLength(200), Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
         [Required, StringLength(100), Display(Name = "Suburb")]
@@ -32,10 +34,8 @@ namespace ProgrammingProject.Models
     ErrorMessage = "Must be an Australian phone number starting (Example 04XX XXX XXX")]
         [Display(Name = "Phone Number")]
         public string PhNumber { get; set; }
-
         [Display(Name = "Are you insured?")]
         public string IsInsured { get; set; }
-
         [Display(Name = "Dog walking experience level")]
         public string ExperienceLevel { get; set; }
         [Required]

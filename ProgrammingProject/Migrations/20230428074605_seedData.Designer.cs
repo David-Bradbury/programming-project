@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230421022940_LoginChanges")]
-    partial class LoginChanges
+    [Migration("20230428074605_seedData")]
+    partial class seedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,9 +55,6 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DogImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("DogSize")
                         .HasColumnType("int");
 
@@ -75,6 +72,9 @@ namespace ProgrammingProject.Migrations
 
                     b.Property<int?>("OwnerUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Temperament")
                         .HasColumnType("int");
@@ -176,6 +176,9 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
