@@ -11,11 +11,10 @@
     <form asp-action="ViewDogs" enctype="multipart/form-data">
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@viewModel; />
         <div>
-            <table>
-                <tr>
+            <table>         
                     @foreach (var dog in Model.Dogs)
                     {
-                      
+                    <tr>
 
                         <td><img src="~/img/@dog.ProfileImage" width="40" height="40" style="border-radius: 20px;" class="ms-1" asp-append-version="true" /></td>
                         <td>@dog.Name</td>
@@ -26,12 +25,11 @@
                         <td><input type="submit" class="btn btn-primary" value="Edit"
                                asp-action="EditDogProfile" asp-route-dogID=@dog.Id />
                         </td>
-                    }
-                </tr>
+                    </tr>
+                    }         
             </table>
-            <div>
-                <a class="btn btn-primary"
-                   asp-action="AddDog">Add Dog</a>
+            <div>   
+                <a class="btn btn-primary" style="padding-top: 15px" asp-controller="Owner" asp-action="AddDog">Add Dog</a>
             </div>
 
 

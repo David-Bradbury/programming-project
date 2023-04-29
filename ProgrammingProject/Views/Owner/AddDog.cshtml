@@ -125,13 +125,13 @@
         // The following code validates that an only jpeg, jpg, or png files are accepted.
         function validateFileType()
         {
-            var dogImage = document.getElementById("DogImage").value;
-            var indexDot = dogImage.lastIndexOf(".") + 1;
-            var endFile = dogImage.substr(indexDot, dogImage.length).toLowerCase();
+            var ProfileImage = document.getElementById("ProfileImage").value;
+            var indexDot = ProfileImage.lastIndexOf(".") + 1;
+            var endFile = ProfileImage.substr(indexDot, ProfileImage.length).toLowerCase();
             if (endFile != "jpg" && endFile != "jpeg" && endFile != "png") 
             {
                 alert("Only jpg/jpeg and png files accepted.");
-                document.getElementById("DogImage").value = "";
+                document.getElementById("ProfileImage").value = "";
             }
         }
     </script>

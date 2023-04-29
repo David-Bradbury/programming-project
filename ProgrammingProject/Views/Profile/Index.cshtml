@@ -116,3 +116,22 @@
         </div>
     </form>  
 </div>
+@section scripts{
+    <script type="text/javascript">
+
+        // The following code validates that an only jpeg, jpg, or png files are accepted.
+        function validateFileType() {
+            var ProfileImage = document.getElementById("ProfileImage").value;
+            var indexDot = ProfileImage.lastIndexOf(".") + 1;
+            var endFile = ProfileImage.substr(indexDot, ProfileImage.length).toLowerCase();
+            if (endFile != "jpg" && endFile != "jpeg" && endFile != "png") {
+                alert("Only jpg/jpeg and png files accepted.");
+                document.getElementById("ProfileImage").value = "";
+            }
+        }
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}  

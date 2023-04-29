@@ -376,12 +376,8 @@ namespace ProgrammingProject.Controllers
             if (dog.TrainingLevel == TrainingLevel.Fully)
                 viewModel.TrainingLevel = "Fully";
 
-            var sub = new Suburb();
-            sub.SuburbName = viewModel.SuburbName;
-            sub.Postcode = viewModel.Postcode;
-
-            vet.Suburb = sub;
-
+            viewModel.SuburbName = vet.Suburb.SuburbName;
+            viewModel.Postcode = vet.Suburb.Postcode;
             viewModel.BusinessName = vet.BusinessName;
             viewModel.PhNumber = vet.PhNumber;
             viewModel.Email = vet.Email;
@@ -511,6 +507,7 @@ namespace ProgrammingProject.Controllers
 
         public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
         {
+            viewModel.StatesList = DropDownLists.GetStates();
             // This code needs to be placed in helper method as repeated multiple times
             var owner = await _context.Owners.FindAsync(UserID);
 
@@ -632,8 +629,8 @@ namespace ProgrammingProject.Controllers
             dog.Vet = vet;
 
             await _context.SaveChangesAsync();
-
-            return View("Index");
+       
+            return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
     }
 }
