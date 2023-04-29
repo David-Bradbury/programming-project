@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230429002154_seedata")]
-    partial class seedata
+    [Migration("20230429084103_seeddata")]
+    partial class seeddata
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

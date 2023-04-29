@@ -632,6 +632,18 @@ namespace ProgrammingProject.Controllers
        
             return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
+
+        public async Task<IActionResult> DeleteDog(int id)
+        {
+          
+            var dog = await _context.Dogs.FindAsync(id);
+
+            _context.Dogs.Remove(dog);
+        
+            _context.SaveChanges();
+
+            return RedirectToAction("ViewDogs");
+        }
     }
 }
 
