@@ -1,7 +1,7 @@
 ﻿@model EditProfileViewModel
 @{
     ViewData["Title"] = "Profile";
-
+    var suburbs = (List<Suburb>)ViewBag.SuburbsList;
 }
 
 <div>
@@ -46,8 +46,17 @@
                 <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>
                 <td>
                      <div class="form-group">
-                        <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" />
+                        <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" onkeyup="filterSuburbs()" />
                         <span asp-validation-for="SuburbName" class="text-danger"></span>
+                    </div>
+                    <div id="filter">
+                        <ul id="suburbsList">
+                            @foreach (var suburb in suburbs) {
+                                <li>
+                                    <button data-postcode="@suburb.Postcode" data-name="@suburb.SuburbName">@suburb.SuburbName, @suburb.Postcode</button>
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </td>
             </tr>
@@ -116,3 +125,12 @@
         </div>
     </form>  
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript" src="js/site.js"></script>
+    <script type="text/javascript">
+        
+    </script>
+}

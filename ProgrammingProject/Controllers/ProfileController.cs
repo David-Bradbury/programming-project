@@ -40,7 +40,6 @@ namespace ProgrammingProject.Controllers
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             viewModel.StatesList = DropDownLists.GetStates();
 
-
             //Check usertype and create viewModel
             if (o == null)
             {
@@ -89,6 +88,8 @@ namespace ProgrammingProject.Controllers
                 viewModel.PhNumber = o.PhNumber;
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
+
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
             return View(viewModel);
 
