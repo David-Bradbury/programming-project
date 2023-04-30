@@ -26,7 +26,7 @@ namespace ProgrammingProject.Utilities
             var viewModel = new UserAdminViewModel();
 
             var userList = new List<User>();
-            const int pageSize = 3;
+            const int pageSize = 20;
 
             foreach (Owner o in context.Owners)
             {
