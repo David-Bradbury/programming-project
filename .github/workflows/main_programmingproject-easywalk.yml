@@ -35,7 +35,7 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
-          working-directory: ./ProgrammingProject
+         
 
   deploy:
     runs-on: windows-latest
