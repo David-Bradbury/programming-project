@@ -260,6 +260,7 @@ namespace ProgrammingProject.Data
             owner2.State = "Victoria";
             owner2.Country = "Australia";
             owner2.PhNumber = "0411 672 900";
+            owner2.ProfileImage = "defaultProfile.png";
             login2.User = owner2;
 
             context.Owners.Add(owner2);
@@ -275,6 +276,7 @@ namespace ProgrammingProject.Data
             owner3.State = "Victoria";
             owner3.Country = "Australia";
             owner3.PhNumber = "0456 853 345";
+            owner3.ProfileImage = "defaultProfile.png";
             login3.User = owner3;
 
             context.Owners.Add(owner3);
@@ -292,6 +294,7 @@ namespace ProgrammingProject.Data
             walker1.PhNumber = "0488 044 222";
             walker1.IsInsured = true;
             walker1.ExperienceLevel = ExperienceLevel.Advanced;
+            walker1.ProfileImage = "defaultProfile.png";
             login4.User = walker1;
 
             context.Walkers.Add(walker1);
@@ -309,6 +312,7 @@ namespace ProgrammingProject.Data
             walker2.PhNumber = "0432 142 732";
             walker2.IsInsured = true;
             walker2.ExperienceLevel = ExperienceLevel.Intermediate;
+            walker2.ProfileImage = "defaultProfile.png";
             login5.User = walker2;
 
             context.Walkers.Add(walker2);
@@ -326,6 +330,7 @@ namespace ProgrammingProject.Data
             walker3.PhNumber = "0455 332 897";
             walker3.IsInsured = false;
             walker3.ExperienceLevel = ExperienceLevel.Beginner;
+            walker3.ProfileImage = "defaultProfile.png";
             login6.User = walker3;
 
             context.Walkers.Add(walker3);
@@ -441,6 +446,7 @@ namespace ProgrammingProject.Data
 
                 foreach (var w in items)
                 {
+                    w.ProfileImage = "defaultProfile.png";
                     context.Owners.Add(w);
                     context.SaveChanges();
                 }
@@ -454,6 +460,7 @@ namespace ProgrammingProject.Data
 
                 foreach (var w in items)
                 {
+                    w.ProfileImage = "defaultProfile.png";
                     context.Owners.Add(w);
                     context.SaveChanges();
                 }
@@ -467,6 +474,7 @@ namespace ProgrammingProject.Data
 
                 foreach (var w in items)
                 {
+                    w.ProfileImage = "defaultProfile.png";
                     context.Owners.Add(w);
                     context.SaveChanges();
                 }
@@ -495,7 +503,7 @@ namespace ProgrammingProject.Data
 
                     var o = context.Owners.Find(ownerID);
                     d.Owner = o;
-
+                    d.ProfileImage = "dog-avatar.jpg";
                     context.Dogs.Add(d);
                     context.SaveChanges();
 
@@ -570,6 +578,7 @@ namespace ProgrammingProject.Data
 
                 foreach (var w in items)
                 {
+                    w.ProfileImage = "defaultProfile.png";
                     context.Walkers.Add(w);
                     context.SaveChanges();
                 }
@@ -583,6 +592,7 @@ namespace ProgrammingProject.Data
 
                 foreach (var w in items)
                 {
+                    w.ProfileImage = "defaultProfile.png";
                     context.Walkers.Add(w);
                     context.SaveChanges();
                 }
