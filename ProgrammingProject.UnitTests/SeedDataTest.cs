@@ -336,7 +336,7 @@ namespace ProgrammingProject.UnitTests
             //dog4.Owner = owner3;
             //dog4.Vet = vet3;
 
-            context.Dogs.Add(dog4);
+            //context.Dogs.Add(dog4);
 
             context.SaveChanges();
          
