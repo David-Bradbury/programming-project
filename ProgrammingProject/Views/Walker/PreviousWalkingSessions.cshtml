@@ -1,0 +1,52 @@
+﻿@model WalkingSession
+@{
+    ViewData["Title"] = "Past Sessions";
+    var walks = (List<WalkingSession>)ViewBag.WalkingSession;
+}
+
+<div>
+    <h1 class="display-4">Walking Sessions</h1>
+</div>
+
+<div>
+    <h3>Suitable Sessions</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.SessionID)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledStartTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledEndTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.DogList)</th>
+            </tr>
+
+            @foreach (var sessions in walks)
+            {            
+                if (DateTime.Compare(sessions.Date, DateTime.Now) < 0)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => sessions.SessionID)</td>
+                        <td>@Html.DisplayFor(x => sessions.ScheduledStartTime)</td>
+                        <td>@Html.DisplayFor(x => sessions.ScheduledEndTime)</td>
+                        @if (sessions.DogList != null)
+                        {
+                            <td>
+                                @foreach (var d in sessions.DogList)
+                                {
+                                    @Html.DisplayFor(x => d.Name)
+
+                                    <br />
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td>No Dogs</td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+</div>

@@ -3,6 +3,7 @@
     ViewData["Title"] = "Walker";
     var dogs = (List<Dog>)ViewBag.Dogs;
     var walker = (Walker)ViewBag.Walker;
+    List<WalkingSession> SortedList = walker.WalkingSessions.OrderBy(o => o.Date).ToList();
 }
 
 <div>
@@ -10,7 +11,8 @@
 </div>
 
 <div>
-    
+
+
     <div class="modal fade" id="sessionModal" tabindex="-1" aria-labelledby="sessionModalLabel" aria-hidden="true">
         <div id="sessionModal" class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -25,7 +27,7 @@
                                 <label for="Date" class="form-label">Date</label>
                                 <input type="date" id="Date" name="Date" class="form-control"
                                        data-val="true" data-val-date="The field Date must be a date."
-                                       data-val-required="The date field is required." required/>
+                                       data-val-required="The date field is required." required />
                             </div>
                             <div class="d-flex gap-4 flex-wrap flex-grow-1">
                                 <div class="flex-grow-1">
@@ -38,37 +40,45 @@
                                     <label for="EndTime" class="form-label">End Time</label>
                                     <input type="time" id="EndTime" name="EndTime" class="form-control"
                                            data-val="true" data-val-time="The field EndTime must be a time."
-                                           data-val-required="The EndTime field is required." required/>
+                                           data-val-required="The EndTime field is required." required />
                                 </div>
                             </div>
                             <div>
                                 <span id="sessionFormMessage" class="text-danger w-100"></span>
                             </div>
                             <div class="flex-grow-1 d-flex flex-column justify-content-end">
-                                <input type="button" class="btn btn-primary"
-                                       value="Add Session" onclick="walkingSessionSubmit()"/>
+                                <input type="submit" class="btn btn-primary" asp-action="CreateWalkingSessions"
+                                       value="Add Session" asp-route-id="CreateWalkingSessions" onclick="walkingSessionSubmit()" />
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
-    
+
 </div>
 <br />
 
 <div>
-    <div class="d-flex justify-content-between flex-wrap mb-2">
+ 
+   @* Josh Commented out this from head in merge request with controlle-UnitTests, Need To Ask Group which way to go*@
+@*    <div class="d-flex justify-content-between flex-wrap mb-2">
         <h3>Sessions</h3>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sessionModal">
             <i class="bi bi-plus"></i>Add a walking session
         </button>
-    </div>
+    </div>*@
+
+    <h3>Upcoming Sessions</h3>
     <div class="mb-5 d-flex flex-column gap-1">
-        @foreach (var walk in walker.WalkingSessions)
+        @foreach (var walk in SortedList)
         {
-            <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk"/>
+            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
+            {
+                <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
+            }
         }
     </div>
 </div>
@@ -76,11 +86,12 @@
 <div>
     <h3>Suitable Dogs</h3>
     <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
-        @foreach (var dog in dogs) 
+        @foreach (var dog in dogs)
         {
             <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
         }
-        @for (int i=0; i<2; i++) {
+        @for (int i = 0; i < 2; i++)
+        {
             <div class="card dog-card" style="height: 0; border: none;"></div>
         }
     </div>
@@ -92,7 +103,7 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script type="text/javascript">
-    
+
         function walkingSessionSubmit() {
             var $sessionForm = $("#CreateWalkingSession");
             var $date = $("#Date");
@@ -140,7 +151,8 @@
 
             $sessionForm.submit();
         }
-   
+
 
     </script>
 }
+

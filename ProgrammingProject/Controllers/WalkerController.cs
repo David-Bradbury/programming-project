@@ -25,66 +25,14 @@ namespace ProgrammingProject.Controllers
         {
             //lazy loading
             var walker = await _context.Walkers.FindAsync(WalkerID);
-            //return View(walker);
             ViewBag.Walker = walker;
             ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
             return View();
         }
 
-        //public async Task<IActionResult> Walker(int id)
-        //{
-        //    var walker = await _context.Walker.FindAsync(id);
-        //    return View(walker);
-        //}
-
-        //// Add a new walker
-        //public async Task<IActionResult> AddWalker(int id) => View(await _context.Walker.FindAsync(id));
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddWalker(int walkerID, string firstName, string lastName, string address,
-        //                         string phNumber, string email, bool IsInsured, ExperienceLevel experience)
-        //{
-        //    var walker = await _context.Walker.FindAsync(walkerID);
-
-        //    if (firstName == null)
-        //        ModelState.AddModelError(nameof(firstName), "We need your name.");
-        //    if (lastName == null)
-        //        ModelState.AddModelError(nameof(lastName), "We need your surname.");
-        //    if (address == null)
-        //        ModelState.AddModelError(nameof(address), "We need your address.");
-        //    if (phNumber == null)
-        //        ModelState.AddModelError(nameof(phNumber), "We need to know how to contact you.");
-        //    if (email == null)
-        //        ModelState.AddModelError(nameof(email), "we need your email.");
-        //    if (IsInsured == null)
-        //        ModelState.AddModelError(nameof(IsInsured), "We need to know your insurance status.");
-        //    if (experience == null)
-        //        ModelState.AddModelError(nameof(experience), "We need to know how experienced you are.");
-
-        //    Walker.Add(
-        //    new Walker
-        //    {
-        //        FirstName = firstName,
-        //        LastName = lastName,
-        //        Address = address,
-        //        PhNumber = phNumber,
-        //        Email = email,
-        //        IsInsured = IsInsured,
-        //        ExperienceLevel = experience
-        //    });
-
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //// Match suitable dogs to walkers
-
-        //public async Task<IActionResult> MatchDogsToWalker(int id) => View(await _context.Dogs.FindAsync(id));
-
+        // Match suitable dogs to walkers
         [HttpPost]
         public async Task<List<Dog>> MatchDogsToWalker(int id)
-        //public async Task<IActionResult> MatchDogsToWalker(int id)
         {
 
             // Get full list of dogs
@@ -92,7 +40,8 @@ namespace ProgrammingProject.Controllers
             //var dogs = _context.Dogs.AsEnumerable();
 
             // Get specific walker
-            var walker = await _context.Walkers.FindAsync(id);
+            var walker = await _context.Walkers.Where(x => x.UserId == id).SingleOrDefaultAsync();
+            //var walker = await _context.Walkers.FindAsync(id);
 
             // Get list of dogs suited for the walker
             var tempList = await GetListOfSuitableDogsToWalkers(walker, (IEnumerable<Dog>)dogs);
@@ -130,6 +79,7 @@ namespace ProgrammingProject.Controllers
             // E.g.Location or dates/times. Some filter work started below...
         }
 
+        // Returns a list of dogs which match the experience level of the passed walker.
         public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IEnumerable<Dog> dogs)
         {
 
@@ -180,11 +130,6 @@ namespace ProgrammingProject.Controllers
             return await Task.FromResult(score);
         }
 
-        public static implicit operator WalkerController(string v)
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateWalkingSessions(DateTime Date, DateTime StartTime, DateTime EndTime)
         {
@@ -223,15 +168,11 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //public async Task<IActionResult> SelectWalkingSession(int DogID) => View(await _context.Dogs.FindAsync(DogID));
-
         [HttpPost]
         public async Task<IActionResult> WalkingSessions(int DogID)
         {
 
             var walkerSessions = _context.WalkingSessions.AsEnumerable();
-
-            //var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
 
             var walkingSession = new List<WalkingSession>();
 
@@ -242,31 +183,26 @@ namespace ProgrammingProject.Controllers
                     walkingSession.Add(walker);
                 }
             }
+            List<WalkingSession> SortedList = walkerSessions.OrderBy(o => o.Date).ToList();
 
-            ViewBag.WalkingSession = walkingSession;
+            ViewBag.WalkingSession = SortedList;
             ViewBag.DogID = DogID;
 
             return View();
         }
 
         // Add dog to walking session
-
-        //public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID) => View(await _context.Dogs.FindAsync(DogID));
-
         [HttpPost]
         public async Task<IActionResult> AddDogToWalkingSession(int DogID, int SessionID, DateTime StartTime, DateTime EndTime)
         {
-            // logic to add dog to walking session.
             var dog = await _context.Dogs.FindAsync(DogID);
-
-            //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
 
             var walkerSession = await _context.WalkingSessions.FindAsync(SessionID);
 
             if (walkerSession.DogList.Count >= 6)
             {
                 ModelState.AddModelError(nameof(StartTime), "Too many dogs on this walk.");
-            } 
+            }
             else if (walkerSession.DogList.Contains(dog))
             {
                 ModelState.AddModelError(nameof(StartTime), "Dog is already on this walk.");
@@ -280,60 +216,191 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddDogToWalkingSession(int DogID, int sessionID)
-        //{
-        //    // logic to add dog to walking session.
-        //    var dog = await _context.Dogs.FindAsync(DogID);
+        // Remove Dog from a walking session
+        [HttpPost]
+        public async Task<IActionResult> RemoveDogFromWalk(int DogID, int SessionID)
+        {
 
-        //    //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+            var dog = await _context.Dogs.FindAsync(DogID);
 
-        //    var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
+            var walkerSession = await _context.WalkingSessions.FindAsync(SessionID);
 
-        //    if (walkerSession.DogList.count >= 6)
-        //    {
-        //        ModelState.AddModelError(nameof(walkerSession), "Too many dogs on this walk.");
-        //    }
+            if (DogID == null || SessionID == null)
+            {
+                ModelState.AddModelError(nameof(SessionID), "Can't find Dog or Session");
+            }
+            else if (!walkerSession.DogList.Contains(dog))
+            {
+                ModelState.AddModelError(nameof(SessionID), "Dog is not on this walk");
+            }
+            else if (walkerSession == null)
+            {
+                ModelState.AddModelError(nameof(SessionID), "Can't find walking Session");
+            }
+            else
+            {
+                walkerSession.DogList.Remove(dog);
+                await _context.SaveChangesAsync();
+            }
 
-        //    return View();
-        //}
+            return RedirectToAction(nameof(Index));
+
+        }
 
         // Start walking session
+        [HttpPost]
+        public async Task<IActionResult> StartWalkingSession(int sessionID)
+        {
 
-        //public async Task<IActionResult> StartWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
+            var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
+
+            foreach (var session in walker.WalkingSessions)
+            {
+                if (session.SessionID == sessionID)
+                {
+                    session.ActualStartTime = DateTime.Now;
+                }
+            }
+
+            walkerSession.ActualStartTime = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            ViewBag.WalkingSession = walkerSession;
+
+            return View();
+        }
+
+        // End walking session
+        [HttpPost]
+        public async Task<IActionResult> EndWalkingSession(int sessionID)
+        {
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
+
+            foreach (var session in walker.WalkingSessions)
+            {
+                if (session.SessionID == sessionID)
+                {
+                    session.ActualEndTime = DateTime.Now;
+                }
+            }
+
+            walkerSession.ActualEndTime = DateTime.Now;
+
+            return RedirectToAction("Index");
+        }
+
+        // Edit walking session
+        [HttpPost]
+        public async Task<IActionResult> EditWalkingSession(int sessionID)
+        {
+
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            ViewBag.WalkingSession = walkerSession;
+
+            return View();
+        }
+
+        public async Task<IActionResult> CancelChanges(int sessionID) => RedirectToAction("Index");
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateWalkingSession(
+            int sessionID, DateTime Date, DateTime StartTime, DateTime EndTime)
+        {
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
+
+            //var walk = walker.WalkingSessions.Find(walkerSession);
+
+            if (Date < DateTime.UtcNow || Date == null)
+                ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
+            //if (StartTime == null)
+            //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
+            if (EndTime < StartTime || StartTime == null || EndTime == null)
+                ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
+
+            DateTime start = new DateTime(Date.Year, Date.Month, Date.Day, StartTime.Hour,
+                                          StartTime.Minute, StartTime.Second);
+
+            DateTime end = new DateTime(Date.Year, Date.Month, Date.Day, EndTime.Hour,
+                                          EndTime.Minute, EndTime.Second);
+
+            if (walkerSession.Date.Year != Date.Year
+                || walkerSession.Date.Month != Date.Month
+                || walkerSession.Date.Day != Date.Day)
+            {
+                walkerSession.Date = Date;
+
+            }
+
+            if (walkerSession.ScheduledStartTime != start)
+            {
+                walkerSession.ScheduledStartTime = start;
+            }
+
+            if (walkerSession.ScheduledEndTime != end)
+            {
+                walkerSession.ScheduledEndTime = end;
+            }
+
+
+            foreach (var session in walker.WalkingSessions)
+            {
+                if (session.SessionID == sessionID)
+                {
+                    session.Date = walkerSession.Date;
+                    session.ScheduledStartTime = walkerSession.ScheduledStartTime;
+                    session.ScheduledEndTime = walkerSession.ScheduledEndTime;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            //ViewBag.Walker = walker;
+            //ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Delete walking session
+        [HttpPost]
+        public async Task<IActionResult> DeleteWalkingSession(int sessionID)
+        {
+
+            var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
+
+            walker.WalkingSessions.Remove(walkerSession);
+            _context.WalkingSessions.Remove(walkerSession);
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        //Displays previous walking sessions
+        //Not working when marked as Post???.DP
         //[HttpPost]
-        //public async Task<IActionResult> StartWalkingSession(DateTime? time, int sessionID)
-        //{
-        //    if (time == null)
-        //        time = DateTime.UtcNow;
+        public async Task<IActionResult> PreviousWalkingSessions()
+        {
 
-        //    //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
+            var walker = await _context.Walkers.FindAsync(WalkerID);
+            var walkerSessions = walker.WalkingSessions;
 
-        //    var walkerSession = await _context.WalkingSession.FindAsync(sessionID);
+            List<WalkingSession> SortedList = walkerSessions.OrderBy(o => o.Date).ToList();
 
-        //    walkerSession.StartTime = time;
-        //
-        //    return View();
-        // }
-        //// End walking session
-        //public async Task<IActionResult> EndWalkingSession(DateTime? time, int sessionID) => View(await _context.WalkingSession.FindAsync(sessionID));
+            ViewBag.WalkingSession = SortedList;
 
-        //[HttpPost]
-        //public async Task<IActionResult> EndWalkingSession(DateTime? time, int sessionID)
-        //{
-        //    if (time == null)
-        //        time = DateTime.UtcNow;
-
-        //    //var walkerSession = await _context.Walker.WalkingSessions.FindAsync(sessionID);
-
-        //    var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
-
-        //    walkerSession.EndTime = time;
-
-        //    return RedirectToAction("Index");
-        //}
-
-
+            return View();
+        }
     }
 }

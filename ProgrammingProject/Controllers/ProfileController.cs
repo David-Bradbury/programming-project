@@ -339,10 +339,10 @@ namespace ProgrammingProject.Controllers
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
-
+         
             viewModel.DogId = dog.Id;
             viewModel.Name = dog.Name;
-            viewModel.Breed = dog.Breed;
+            viewModel.Breed = dog.Breed.BreedName;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
             viewModel.SavedProfileImage = dog.ProfileImage;
 
@@ -452,9 +452,11 @@ namespace ProgrammingProject.Controllers
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
 
+            var breed = new Breed();
+            breed.BreedName = viewModel.Breed;
 
             dog.Name = viewModel.Name;
-            dog.Breed = viewModel.Breed;
+            dog.Breed = breed;
             dog.MicrochipNumber = viewModel.MicrochipNumber;
 
 

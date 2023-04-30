@@ -1,0 +1,51 @@
+﻿@model WalkingSession
+@{
+    ViewData["Title"] = "Walking Session";
+    var walk = (WalkingSession)ViewBag.WalkingSession;
+}
+
+<div>
+    <h1>Walking Session Started</h1>
+</div>
+
+<div>
+    <p>Session ID = @walk.SessionID</p>
+    <p>Scheduled Start time = @walk.ScheduledStartTime</p>
+    <p>Actual Start time = @walk.ActualStartTime</p>
+    <p>Scheduled End Time = @walk.ScheduledEndTime</p>
+</div>
+<p class="fw-bold mb-0">Dogs On Walk</p>
+ @if (@walk.DogList.Count() > 0)
+                    {
+                        <p class="mb-0">
+                            @{
+                                int count = 0;
+                            }
+                            @foreach (var d in @walk.DogList)
+                            {
+                                if (count > 0)
+                                {
+                                    @Html.Raw(", ")
+                                }
+                                @Html.DisplayFor(x => d.Name)
+                                count++;
+
+                            }
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="mb-0">No Dogs</p>
+                    }
+
+<div>
+    <form asp-action="EndWalkingSession">
+        <input type="hidden" id="SessionID" name="SessionID" class="form-control"
+               data-val="true" value=@walk.SessionID
+        <div class="flex-grow-1">
+            <input type="submit" class="btn btn-primary" asp-action="EndWalkingSession"
+                   value="End Session" asp-route-id="EndWalkingSession" />
+        </div>
+
+    </form>
+</div>

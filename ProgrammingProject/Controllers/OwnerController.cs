@@ -174,9 +174,12 @@ namespace ProgrammingProject.Controllers
 
             // Create a new dog from form submission.
             var dog = new Dog();
+            
+            var breed = new Breed();
+            breed.BreedName = viewModel.Breed;
 
             dog.Name = viewModel.Name;
-            dog.Breed = viewModel.Breed;
+            dog.Breed = breed;
             dog.MicrochipNumber = viewModel.MicrochipNumber;
             dog.Owner = owner;
             dog.Vet = vet;
