@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ProgrammingProject.Filters;
-
+using GeoCoordinatePortable;
 
 namespace ProgrammingProject.Controllers
 {
@@ -69,7 +69,9 @@ namespace ProgrammingProject.Controllers
                     filteredDogs.Add(d);
             }
 
-            return filteredDogs;
+            var locationFilteredDogs = FilterLocationByRadius(filteredDogs);
+
+            return locationFilteredDogs.Result;
 
             // Notes to discuss: AllowUnvaccinated as a question
             // when adding walker (saved to model). Allows user to set requirements and
@@ -77,6 +79,44 @@ namespace ProgrammingProject.Controllers
 
             // TODO: Could add logic here to filter list down based on user preferences.
             // E.g.Location or dates/times. Some filter work started below...
+        }
+
+        /*  Nigel Sampson and Tomas Kubes (2011)
+         *  Calculating distance between two latitude and longitude geocoordinates,
+         *  Stack Overflow. Available at:
+         *  https://stackoverflow.com/questions/6366408/calculating-distance-between-two-latitude-and-longitude-geocoordinates
+         *  (Accessed: April 30, 2023). 
+         */
+
+        // Filters dogs to within 10km of the walker's Suburb
+        public async Task<List<Dog>> FilterLocationByRadius(List<Dog> dogs)
+        {
+            var walker = await _context.Walkers.FindAsync(WalkerID);
+            var suburb = walker.Suburb;
+            var filteredDogs = new List<Dog>();
+            var userLocation = new GeoCoordinate(double.Parse(suburb.Lat), double.Parse(suburb.Lon));
+
+            var location = new GeoCoordinate();
+            var owner = new Owner();
+
+            foreach (var dog in dogs)
+            {
+                owner = dog.Owner;
+                if (owner.Suburb != null)
+                {
+                    location.Latitude = double.Parse(owner.Suburb.Lat);
+                    location.Longitude = double.Parse(owner.Suburb.Lon);
+
+                    var distanceInMeters = 10000;
+
+                    if (userLocation.GetDistanceTo(location) < distanceInMeters)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }
+            }
+
+            return filteredDogs;
         }
 
         // Returns a list of dogs which match the experience level of the passed walker.
@@ -392,7 +432,10 @@ namespace ProgrammingProject.Controllers
         //[HttpPost]
         public async Task<IActionResult> PreviousWalkingSessions()
         {
-
+            if (HttpContext.Session.GetInt32(nameof(Walker.UserId)).Value == 0)
+            {
+                return RedirectToAction(nameof(Index), new { area = "Home" });
+            }
             var walker = await _context.Walkers.FindAsync(WalkerID);
             var walkerSessions = walker.WalkingSessions;
 
