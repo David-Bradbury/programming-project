@@ -16,7 +16,6 @@ function filterSuburbs() {
     var i;
     for (i = 0; i < $li.length; i++) {
         var $button = $($li[i].getElementsByTagName("button")[0]);
-        var $buttonPostcode = $button.attr("data-postcode");
         var $buttonName = $button.attr("data-name");
 
         if ($buttonName.toUpperCase().indexOf($filter) > -1) {

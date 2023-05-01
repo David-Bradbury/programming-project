@@ -53,7 +53,7 @@
                         <ul id="suburbsList">
                             @foreach (var suburb in suburbs) {
                                 <li>
-                                    <button data-postcode="@suburb.Postcode" data-name="@suburb.SuburbName">@suburb.SuburbName, @suburb.Postcode</button>
+                                    <button data-postcode="@suburb.Postcode" data-name="@suburb.SuburbName" onclick="suburbClick(event, this)">@suburb.SuburbName, @suburb.Postcode</button>
                                 </li>
                             }
                         </ul>
@@ -131,6 +131,10 @@
     }
     <script type="text/javascript" src="js/site.js"></script>
     <script type="text/javascript">
-        
+        function suburbClick(event, element) {
+            event.preventDefault(); // this should be tested on IE / Firefox
+            $("#SuburbName").val($(element).attr("data-name"));
+            $("#Postcode").val($(element).attr("data-postcode"));
+        }
     </script>
 }
