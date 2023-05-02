@@ -36,6 +36,7 @@ namespace ProgrammingProject.Utilities
             {
                 userList.Add(w);
             }
+            userList = userList.OrderBy(x => x.UserId).ToList();
             viewModel.PagedList= userList.ToPagedList(page, pageSize);
 
             return viewModel;

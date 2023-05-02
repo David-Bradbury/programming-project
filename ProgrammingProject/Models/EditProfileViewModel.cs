@@ -6,6 +6,8 @@ namespace ProgrammingProject.Models
 {
     public class EditProfileViewModel
     {
+        public int UserID { get; set; }
+        public bool IsAdmin { get; set; }
         public string UserType { get; set; }
         public string Email { get; set; }
         public string SavedProfileImage { get; set; }
