@@ -12,26 +12,28 @@
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@viewModel; />
         <div>
             <table>
-                <tr>
-                    @foreach (var dog in Model.Dogs)
-                    {
-                      
+                @foreach (var dog in Model.Dogs)
+                {
+                    <tr>
 
                         <td><img src="~/img/@dog.ProfileImage" width="40" height="40" style="border-radius: 20px;" class="ms-1" asp-append-version="true" /></td>
                         <td>@dog.Name</td>
                         <td>@dog.Breed</td>
                         <td>@dog.Vet.BusinessName</td>
-            
-                        @*Don't know how to make whole fied a button, for you my front end friends*@
-                        <td><input type="submit" class="btn btn-primary" value="Edit"
+                        <td>
+                            <input type="submit" class="btn btn-primary" value="Edit"
                                asp-action="EditDogProfile" asp-route-dogID=@dog.Id />
                         </td>
-                    }
-                </tr>
+                        <td>
+                            <a class="btn btn-primary"
+                           asp-action="DeleteDog" asp-route-id=@dog.Id>Delete</a>
+                        </td>
+
+                    </tr>
+                }
             </table>
             <div>
-                <a class="btn btn-primary"
-                   asp-action="AddDog">Add Dog</a>
+                <a class="btn btn-primary" style="padding-top: 15px" asp-controller="Owner" asp-action="AddDog">Add Dog</a>
             </div>
 
 

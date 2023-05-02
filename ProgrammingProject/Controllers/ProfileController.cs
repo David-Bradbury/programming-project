@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
@@ -26,16 +26,48 @@ namespace ProgrammingProject.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+
         [AuthorizeUser]
         public async Task<IActionResult> Index()
         {
+            var isAdmin = false;
+
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
 
             var w = new Walker();
             w = await _context.Walkers.FindAsync(UserID);
 
+            var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
+            viewModel.UserID = UserID;
+
+            return View(viewModel);
+
+        }
+
+        [AuthorizeUser]
+        public async Task<IActionResult> AdminIndex(int id)
+        {
+            var isAdmin = true;
+            var o = new Owner();
+            o = await _context.Owners.FindAsync(id);
+
+            var w = new Walker();
+            w = await _context.Walkers.FindAsync(id);
+            var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
+            viewModel.UserType = "Administrator";
+            viewModel.UserID = id;
+
+            return View("Index", viewModel);
+
+        }
+
+        public EditProfileViewModel CreateEditProfileViewModel(Walker w, Owner o, bool isAdmin)
+        {
             var viewModel = new EditProfileViewModel();
+            viewModel.IsAdmin = isAdmin;
+            if (isAdmin)
+                viewModel.UserType = "Administrator";
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             viewModel.StatesList = DropDownLists.GetStates();
@@ -44,7 +76,9 @@ namespace ProgrammingProject.Controllers
             if (o == null)
             {
                 //User is Walker
-                viewModel.UserType = typeof(Walker).Name;
+                if (!isAdmin)
+                    viewModel.UserType = typeof(Walker).Name;
+
                 viewModel.FirstName = w.FirstName;
                 viewModel.LastName = w.LastName;
                 viewModel.Email = w.Email;
@@ -76,7 +110,9 @@ namespace ProgrammingProject.Controllers
             else
             {
                 //User is Owner
-                viewModel.UserType = typeof(Owner).Name;
+                if(!isAdmin)
+                    viewModel.UserType = typeof(Owner).Name;
+
                 viewModel.FirstName = o.FirstName;
                 viewModel.LastName = o.LastName;
                 viewModel.Email = o.Email;
@@ -89,20 +125,26 @@ namespace ProgrammingProject.Controllers
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
 
+
             ViewBag.SuburbsList = _context.Suburbs.ToList();
 
             return View(viewModel);
 
+
+           // return viewModel;
+
         }
 
 
+
+        [Route("/Profile/EditProfile")]
         public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel, int id)
         {
             var o = new Owner();
-            o = await _context.Owners.FindAsync(UserID);
+            o = await _context.Owners.FindAsync(viewModel.UserID);
 
             var w = new Walker();
-            w = await _context.Walkers.FindAsync(UserID);
+            w = await _context.Walkers.FindAsync(viewModel.UserID);
 
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
@@ -191,6 +233,7 @@ namespace ProgrammingProject.Controllers
                 //User is Walker
                 viewModel.UserType = typeof(Walker).Name;
                 w.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
                 w.LastName = viewModel.LastName;
                 w.Email = viewModel.Email;
                 w.StreetAddress = viewModel.StreetAddress;
@@ -226,6 +269,7 @@ namespace ProgrammingProject.Controllers
                 //User is Owner
                 viewModel.UserType = typeof(Owner).Name;
                 o.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
                 o.LastName = viewModel.LastName;
                 o.Email = viewModel.Email;
                 o.StreetAddress = viewModel.StreetAddress;
@@ -244,10 +288,14 @@ namespace ProgrammingProject.Controllers
 
             await _context.SaveChangesAsync();
 
-            if (w == null)
+            if (viewModel.IsAdmin)
+                return RedirectToAction("EditUser", "Administrator");
+
+           else if (w == null)
                 return RedirectToAction("Index", "Owner");
 
-            return RedirectToAction("Index", "Walker");
+            else
+                return RedirectToAction("Index", "Walker");
         }
 
 
@@ -340,10 +388,10 @@ namespace ProgrammingProject.Controllers
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
-
+         
             viewModel.DogId = dog.Id;
             viewModel.Name = dog.Name;
-            viewModel.Breed = dog.Breed;
+            viewModel.Breed = dog.Breed.BreedName;
             viewModel.MicrochipNumber = dog.MicrochipNumber;
             viewModel.SavedProfileImage = dog.ProfileImage;
 
@@ -377,12 +425,8 @@ namespace ProgrammingProject.Controllers
             if (dog.TrainingLevel == TrainingLevel.Fully)
                 viewModel.TrainingLevel = "Fully";
 
-            var sub = new Suburb();
-            sub.SuburbName = viewModel.SuburbName;
-            sub.Postcode = viewModel.Postcode;
-
-            vet.Suburb = sub;
-
+            viewModel.SuburbName = vet.Suburb.SuburbName;
+            viewModel.Postcode = vet.Suburb.Postcode;
             viewModel.BusinessName = vet.BusinessName;
             viewModel.PhNumber = vet.PhNumber;
             viewModel.Email = vet.Email;
@@ -457,9 +501,11 @@ namespace ProgrammingProject.Controllers
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
 
+            var breed = new Breed();
+            breed.BreedName = viewModel.Breed;
 
             dog.Name = viewModel.Name;
-            dog.Breed = viewModel.Breed;
+            dog.Breed = breed;
             dog.MicrochipNumber = viewModel.MicrochipNumber;
 
 
@@ -512,6 +558,7 @@ namespace ProgrammingProject.Controllers
 
         public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
         {
+            viewModel.StatesList = DropDownLists.GetStates();
             // This code needs to be placed in helper method as repeated multiple times
             var owner = await _context.Owners.FindAsync(UserID);
 
@@ -633,8 +680,20 @@ namespace ProgrammingProject.Controllers
             dog.Vet = vet;
 
             await _context.SaveChangesAsync();
+       
+            return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
+        }
 
-            return View("Index");
+        public async Task<IActionResult> DeleteDog(int id)
+        {
+          
+            var dog = await _context.Dogs.FindAsync(id);
+
+            _context.Dogs.Remove(dog);
+        
+            _context.SaveChanges();
+
+            return RedirectToAction("ViewDogs");
         }
     }
 }

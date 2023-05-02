@@ -60,7 +60,7 @@ namespace ProgrammingProject.Data
             .WithOne(u => u.User)
             .HasForeignKey<User>(u => u.Email)
             .OnDelete(DeleteBehavior.ClientCascade);
-            
+
             modelBuilder.Entity<Walks>()
            .HasOne(w => w.Walker)
            .WithMany(wa => wa.Walks)
@@ -73,8 +73,9 @@ namespace ProgrammingProject.Data
            .HasForeignKey(wa => new
            {
                wa.Postcode,
-               wa.SuburbName
-           }) 
+               wa.SuburbName,
+               wa.State
+           })
            .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Walks>()
@@ -98,12 +99,21 @@ namespace ProgrammingProject.Data
                 .HasKey(s => new
                 {
                     s.Postcode,
-                    s.SuburbName
+                    s.SuburbName,
+                    s.State
                 });
+
+            modelBuilder.Entity<Dog>()
+                .HasOne(b => b.Breed)
+                .WithMany(d => d.Dogs)
+                //.HasForeignKey(b => b.BreedId)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
         }
 
 
         public DbSet<Dog> Dogs { get; set; }
+        public DbSet<Breed> Breeds { get; set; }
         public DbSet<Login> Logins { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Walker> Walkers { get; set; }

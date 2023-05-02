@@ -26,7 +26,7 @@ namespace ProgrammingProject.Utilities
             var viewModel = new UserAdminViewModel();
 
             var userList = new List<User>();
-            const int pageSize = 3;
+            const int pageSize = 20;
 
             foreach (Owner o in context.Owners)
             {
@@ -36,6 +36,7 @@ namespace ProgrammingProject.Utilities
             {
                 userList.Add(w);
             }
+            userList = userList.OrderBy(x => x.UserId).ToList();
             viewModel.PagedList= userList.ToPagedList(page, pageSize);
 
             return viewModel;
