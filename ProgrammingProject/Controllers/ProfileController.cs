@@ -128,10 +128,10 @@ namespace ProgrammingProject.Controllers
 
             ViewBag.SuburbsList = _context.Suburbs.ToList();
 
-            return View(viewModel);
+           // return View(viewModel);
 
 
-           // return viewModel;
+            return viewModel;
 
         }
 
