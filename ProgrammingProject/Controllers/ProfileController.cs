@@ -45,7 +45,7 @@ namespace ProgrammingProject.Controllers
             if (o == null)
             {
                 //User is Walker
-                viewModel.UserType = typeof(Walker).Name;
+                viewModel.UserType = typeof(Walker).Name;               
                 viewModel.FirstName = w.FirstName;
                 viewModel.LastName = w.LastName;
                 viewModel.Email = w.Email;
@@ -137,6 +137,10 @@ namespace ProgrammingProject.Controllers
                     ModelState.AddModelError(nameof(viewModel.ExperienceLevel), "Experience Level is required");
             }
 
+            //foreach(var s in _context.Suburbs)
+            //{
+            //    if (s.Postcode == )
+            //}    
             // ALL NEEDS TESTING. JC        
             if (!Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
                 ModelState.AddModelError(nameof(viewModel.Postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");

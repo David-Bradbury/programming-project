@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ProgrammingProject.Helper;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Web.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProgrammingProject.Helper
 {
@@ -38,7 +39,11 @@ namespace ProgrammingProject.Helper
                 }
             }
         }
+        //public bool IsSuburbDataUnique<T>(Func<T, bool> checkFunction)
+        //{
+        //    var exists = DbSet<T>.Any(checkFunction);
 
+        //}
         
     }
 }
