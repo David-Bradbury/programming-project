@@ -44,18 +44,15 @@ namespace ProgrammingProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(int accountTypeSelection, string firstName, string lastName, string email, string streetAddress, string state,
-                                                                string suburbName, string postcode, string country, string phNumber, string isInsured, string experienceLevel, string password, string confirmPassword /*, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState*/)
+        public async Task<IActionResult> Register(RegisterViewModel viewModel)
         {
-            var viewModel = new RegisterViewModel();
-            viewModel.AccountTypeSelection = accountTypeSelection;
-        
+      
             viewModel.StatesList = DropDownLists.GetStates();        
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
-            if (firstName == null)
-                ModelState.AddModelError(nameof(firstName), "Put the first name in idiot");
+            if (viewModel.FirstName == null)
+                ModelState.AddModelError(nameof(viewModel.FirstName), "Put the first name in idiot");
            // CheckModelState.CheckNull(firstName, "First Name is required Dumbs Dumbs.", ModelState);
             //CheckModelState.CheckNull(lastName, "Last Name is required.", ModelState);
             //CheckModelState.CheckNull(email, "Email is required.", ModelState);
@@ -67,25 +64,25 @@ namespace ProgrammingProject.Controllers
             //CheckModelState.CheckNull(phNumber, "Phone number is required.", ModelState);
             //CheckModelState.CheckNull(password, "Password is required.", ModelState);
 
-            if (password != confirmPassword)
-                ModelState.AddModelError(nameof(confirmPassword), "Passwords need to match.");
+            if (viewModel.Password != viewModel.ConfirmPassword)
+                ModelState.AddModelError(nameof(viewModel.ConfirmPassword), "Passwords need to match.");
 
             // Checking to see if email is already is the system.
             foreach (var l in _context.Logins)
-                if (l.Email == email)
-                    ModelState.AddModelError(nameof(email), "This email is already registered in the system. Please try with a different email address.");
+                if (l.Email == viewModel.Email)
+                    ModelState.AddModelError(nameof(viewModel.Email), "This email is already registered in the system. Please try with a different email address.");
 
 
             // ALL NEEDS TESTING. JC        
-            if (!Regex.IsMatch(postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
-                ModelState.AddModelError(nameof(postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            if (!Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
+                ModelState.AddModelError(nameof(viewModel.Postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
             // Not perfect and needs updates for proper Australian phone numbers.
-            if (!Regex.IsMatch(phNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
-                ModelState.AddModelError(nameof(phNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
-            if (!Regex.IsMatch(email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
-                ModelState.AddModelError(nameof(email), "This is not a valid email address. Please enter a valid email address");
-            if (!Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))
-                ModelState.AddModelError(nameof(password), "Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
+            if (!Regex.IsMatch(viewModel.PhNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
+                ModelState.AddModelError(nameof(viewModel.PhNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+            if (!Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
+                ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
+            if (!Regex.IsMatch(viewModel.Password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))
+                ModelState.AddModelError(nameof(viewModel.Password), "Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
 
             // Checks the extension of the file to ensure a certain file format. Bring up Thurs meeting to see if extra verification needed. JC.
             if (viewModel.ProfileImage != null)
@@ -109,14 +106,14 @@ namespace ProgrammingProject.Controllers
 
             // Creating suburb based on form details
             var suburb = new Suburb();
-            suburb.SuburbName = suburbName;
-            suburb.Postcode = postcode;
+            suburb.SuburbName = viewModel.SuburbName;
+            suburb.Postcode = viewModel.Postcode;
 
             // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
             bool match = false;
             foreach (var s in _context.Suburbs)
             {
-                if (s.Postcode == postcode && s.SuburbName == suburbName)
+                if (s.Postcode == viewModel.Postcode && s.SuburbName == viewModel.SuburbName)
                 {
                     match = true;
                     suburb = s;
@@ -129,25 +126,25 @@ namespace ProgrammingProject.Controllers
             // Create a new login from form submission
             var login = new Login();
 
-            login.Email = email;
-            login.PasswordHash = ControllerHelper.HashPassword(password);
+            login.Email = viewModel.Email;
+            login.PasswordHash = ControllerHelper.HashPassword(viewModel.Password);
             login.Locked = Locked.locked;
 
             _context.Logins.Add(login);
 
-            SendEmailVerification(login, firstName);
+            SendEmailVerification(login, viewModel.FirstName);
 
-            if (accountTypeSelection == 1)
+            if (viewModel.AccountTypeSelection == 1)
             {
                 var owner = new Owner();
-                owner.FirstName = firstName;
-                owner.LastName = lastName;
-                owner.Email = email;
-                owner.State = state;
-                owner.StreetAddress = streetAddress;
+                owner.FirstName = viewModel.FirstName;
+                owner.LastName = viewModel.LastName;
+                owner.Email = viewModel.Email;
+                owner.State = viewModel.State;
+                owner.StreetAddress = viewModel.StreetAddress;
                 owner.Suburb = suburb;
-                owner.Country = country;
-                owner.PhNumber = phNumber;
+                owner.Country = viewModel.Country;
+                owner.PhNumber = viewModel.PhNumber;
 
                 if (viewModel.ProfileImage != null)
                     owner.ProfileImage = imageFileName;
@@ -157,29 +154,29 @@ namespace ProgrammingProject.Controllers
                 _context.Add(owner);
                 _context.SaveChanges();
             }
-            else if (accountTypeSelection == 2)
+            else if (viewModel.AccountTypeSelection == 2)
             {
                 var walker = new Walker();
-                walker.FirstName = firstName;
-                walker.LastName = lastName;
-                walker.Email = email;
-                walker.StreetAddress = streetAddress;
-                walker.State = state;
+                walker.FirstName = viewModel.FirstName;
+                walker.LastName = viewModel.LastName;
+                walker.Email = viewModel.Email;
+                walker.StreetAddress = viewModel.StreetAddress;
+                walker.State = viewModel.State;
                 walker.Suburb = suburb;
-                walker.Country = country;
-                walker.PhNumber = phNumber;
-                if (isInsured.Equals("Insured"))
+                walker.Country = viewModel.Country;
+                walker.PhNumber = viewModel.PhNumber;
+                if (viewModel.IsInsured.Equals("Insured"))
                     walker.IsInsured = true;
-                else if (isInsured.Equals("Uninsured"))
+                else if (viewModel.IsInsured.Equals("Uninsured"))
                     walker.IsInsured = false;
 
-                if (experienceLevel.Equals("Beginner"))
+                if (viewModel.ExperienceLevel.Equals("Beginner"))
                     walker.ExperienceLevel = ExperienceLevel.Beginner;
-                else if (experienceLevel.Equals("Intermediate"))
+                else if (viewModel.ExperienceLevel.Equals("Intermediate"))
                     walker.ExperienceLevel = ExperienceLevel.Intermediate;
-                else if (experienceLevel.Equals("Advanced"))
+                else if (viewModel.ExperienceLevel.Equals("Advanced"))
                     walker.ExperienceLevel = ExperienceLevel.Advanced;
-                else if (experienceLevel.Equals("Expert"))
+                else if (viewModel.ExperienceLevel.Equals("Expert"))
                     walker.ExperienceLevel = ExperienceLevel.Expert;
 
                 if (viewModel.ProfileImage != null)

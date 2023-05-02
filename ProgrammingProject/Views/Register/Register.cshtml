@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-md-6 g-5 mx-auto">
-            <form action="" id="form-1">
+            <form action="" id="form-1" enctype="multipart/form-data">
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input id="FirstName1" asp-for="FirstName" class="form-control" data-val="true"
@@ -30,12 +30,7 @@
                            data-val-required="The Email field is required." placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                     <span id="form-1-message-email" class="text-danger"></span>
-                </div>
-                <div class="form-control">
-                    <label asp-for="ProfileImage" class="control-label"></label>
-                    <input asp-for="ProfileImage" id="DogImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
-                    <span asp-validation-for="ProfileImage" class="text-danger"></span>
-                </div>
+                </div>           
                 <div class="form-group mt-3">
                     <label for="Password" class="control-label">Password</label>
                     <input id="Password" name="Password" type="password"
@@ -56,14 +51,19 @@
                 </div>
 
             </form>
-            <form asp-action="Register" id="form-2" class="d-none">
+            <form asp-action="Register" id="form-2" class="d-none" enctype="multipart/form-data">
                 <input asp-for=AccountTypeSelection type="hidden" value="@Model.AccountTypeSelection"/>
                 <input id="FirstName2" type="hidden" asp-for="FirstName" />
                 <input id="LastName2" type="hidden" asp-for="LastName" />
                 <input id="Email2" type="hidden" asp-for="Email" />
                 <input id="Password2" type="hidden" asp-for="Password" />
                 <input id="ConfirmPassword2" type="hidden" asp-for="ConfirmPassword" />
- 
+
+                <div class="form-control">
+                    <label asp-for="ProfileImage" class="control-label"></label>
+                    <input asp-for="ProfileImage" id="DogImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+                    <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                </div>
                 <div class="form-group mt-3">
                     <label asp-for="StreetAddress" class="control-label"></label>
                     <input asp-for="StreetAddress" class="form-control" data-val="true"
