@@ -6,7 +6,7 @@
             <img src="~/img/@Model.ProfileImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true"/>
             <div class="ms-4">
                 <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.Name)</p>
-                <p class="card-subtitle">@Html.DisplayFor(model => model.Breed)</p>
+                <p class="card-subtitle">@Html.DisplayFor(model => model.Breed.BreedName)</p>
                 <p><i class="bi bi-star-fill"></i> 4.5 (14)</p>
             </div>
         </div>
