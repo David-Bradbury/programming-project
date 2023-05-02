@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
@@ -72,7 +72,6 @@ namespace ProgrammingProject.Controllers
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             viewModel.StatesList = DropDownLists.GetStates();
 
-
             //Check usertype and create viewModel
             if (o == null)
             {
@@ -126,7 +125,14 @@ namespace ProgrammingProject.Controllers
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
 
-            return viewModel;
+
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
+
+            return View(viewModel);
+
+
+           // return viewModel;
+
         }
 
 

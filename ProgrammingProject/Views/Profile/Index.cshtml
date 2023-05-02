@@ -1,7 +1,7 @@
-﻿@model EditProfileViewModel
+@model EditProfileViewModel
 @{
     ViewData["Title"] = "Profile";
-
+    var suburbs = (List<Suburb>)ViewBag.SuburbsList;
 }
 
 <div>
@@ -47,10 +47,37 @@
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>
                 <td>
-                    <div class="form-group">
-                        <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" />
+
+                     <div class="form-group" style="position: relative;">
+                        <input 
+                            id="SuburbName" 
+                            asp-for="SuburbName" 
+                            value=@Model.SuburbName 
+                            class="form-control" 
+                            data-val="true" 
+                            onkeyup="filterSuburbs('SuburbName', 'suburbsList')" 
+                            onfocusout="filterFocusOut()" />
+                        <div id="filter">
+                            <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
+                                @foreach (var suburb in suburbs) {
+                                    <li style="display: none;">
+                                        <button data-postcode="@suburb.Postcode"
+                                                data-name="@suburb.SuburbName"
+                                                onmousedown="suburbClick(event, this)"
+                                                class="m-0">
+                                            @suburb.SuburbName, @suburb.Postcode
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+               //     <div class="form-group">
+                     //   <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" />
+
                         <span asp-validation-for="SuburbName" class="text-danger"></span>
                     </div>
+                    
                 </td>
             </tr>
             <tr>
@@ -119,24 +146,9 @@
         <div class="form-group" style="padding-top: 15px">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
-    </form>
+    </form>  
 </div>
-@section scripts{
-    <script type="text/javascript">
+@section Scripts {
+    <script type="text/javascript" src="js/site.js"></script>
+}
 
-        // The following code validates that an only jpeg, jpg, or png files are accepted.
-        function validateFileType() {
-            var ProfileImage = document.getElementById("ProfileImage").value;
-            var indexDot = ProfileImage.lastIndexOf(".") + 1;
-            var endFile = ProfileImage.substr(indexDot, ProfileImage.length).toLowerCase();
-            if (endFile != "jpg" && endFile != "jpeg" && endFile != "png") {
-                alert("Only jpg/jpeg and png files accepted.");
-                document.getElementById("ProfileImage").value = "";
-            }
-        }
-    </script>
-
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }  

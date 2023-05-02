@@ -39,6 +39,7 @@ namespace ProgrammingProject.Controllers
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
             return View(viewModel);
         }
