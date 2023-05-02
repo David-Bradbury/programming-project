@@ -17,14 +17,15 @@
             <th>@Html.DisplayNameFor(x => x.PagedList[0].FirstName)</th>
             <th>@Html.DisplayNameFor(x => x.PagedList[0].LastName)</th>
             <th></th>
+            <th></th>
         </tr>
         @{
             var userType = "";
         }
         @foreach (var user in Model.PagedList)
         {
-            char[] unwantedChars = {'P','r','o','x','y' };
-           
+            char[] unwantedChars = { 'P', 'r', 'o', 'x', 'y' };
+
             <tr>
                 <td>@user.GetType().Name.Trim(unwantedChars)r</td>
                 <td>@Html.DisplayFor(x => user.Email)</td>
@@ -33,6 +34,10 @@
                 <td>
                     <a class="btn btn-primary"
                    asp-action="DeleteUser" asp-route-id=@user.UserId>Delete</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                   asp-action="UpdateUserProfile" asp-route-id=@user.UserId>Edit</a>
                 </td>
             </tr>
         }
