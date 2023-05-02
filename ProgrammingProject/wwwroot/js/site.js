@@ -35,3 +35,10 @@ function filterSuburbs() {
 function filterFocusOut() {
     $("#suburbsList")[0].style.display = "none";
 }
+
+function suburbClick(event, element) {
+    event.preventDefault(); // this should be tested on IE / Firefox
+    $("#SuburbName").val($(element).attr("data-name"));
+    $("#Postcode").val($(element).attr("data-postcode"));
+    $("#suburbsList")[0].style.display = "none";
+}
