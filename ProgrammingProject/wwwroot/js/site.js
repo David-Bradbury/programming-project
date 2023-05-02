@@ -10,8 +10,9 @@ function filterSuburbs() {
      */
     var $input = $("#SuburbName");
     var $filter = $input.val().toString().toUpperCase();
-    var $ul = $("#suburbsList");
+    var $ul = $("#suburbsList")[0];
     var $li = $("#suburbsList>li")
+    var visibleCount = 0;
 
     var i;
     for (i = 0; i < $li.length; i++) {
@@ -20,8 +21,17 @@ function filterSuburbs() {
 
         if ($buttonName.toUpperCase().indexOf($filter) > -1) {
             $li[i].style.display = "";
+            visibleCount++;
         } else {
             $li[i].style.display = "none";
         }
     }
+
+    if (visibleCount > 0) {
+        $ul.style.display = "";
+    }
+}
+
+function filterFocusOut() {
+    $("#suburbsList")[0].style.display = "none";
 }

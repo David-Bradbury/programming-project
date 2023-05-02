@@ -45,19 +45,32 @@
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>
                 <td>
-                     <div class="form-group">
-                        <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" onkeyup="filterSuburbs()" />
+                     <div class="form-group" style="position: relative;">
+                        <input 
+                            id="SuburbName" 
+                            asp-for="SuburbName" 
+                            value=@Model.SuburbName 
+                            class="form-control" 
+                            data-val="true" 
+                            onkeyup="filterSuburbs()" 
+                            onfocusout="filterFocusOut()" />
+                        <div id="filter">
+                            <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
+                                @foreach (var suburb in suburbs) {
+                                    <li style="display: none;">
+                                        <button data-postcode="@suburb.Postcode"
+                                                data-name="@suburb.SuburbName"
+                                                onmousedown="suburbClick(event, this)"
+                                                class="m-0">
+                                            @suburb.SuburbName, @suburb.Postcode
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
                         <span asp-validation-for="SuburbName" class="text-danger"></span>
                     </div>
-                    <div id="filter">
-                        <ul id="suburbsList">
-                            @foreach (var suburb in suburbs) {
-                                <li>
-                                    <button data-postcode="@suburb.Postcode" data-name="@suburb.SuburbName" onclick="suburbClick(event, this)">@suburb.SuburbName, @suburb.Postcode</button>
-                                </li>
-                            }
-                        </ul>
-                    </div>
+                    
                 </td>
             </tr>
             <tr>
@@ -135,6 +148,8 @@
             event.preventDefault(); // this should be tested on IE / Firefox
             $("#SuburbName").val($(element).attr("data-name"));
             $("#Postcode").val($(element).attr("data-postcode"));
+            $("#suburbsList")[0].style.display = "none";
         }
+
     </script>
 }
