@@ -26,16 +26,48 @@ namespace ProgrammingProject.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+
         [AuthorizeUser]
         public async Task<IActionResult> Index()
         {
+            var isAdmin = false;
+
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
 
             var w = new Walker();
             w = await _context.Walkers.FindAsync(UserID);
 
+            var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
+            viewModel.UserID = UserID;
+
+            return View(viewModel);
+
+        }
+
+        [AuthorizeUser]
+        public async Task<IActionResult> AdminIndex(int id)
+        {
+            var isAdmin = true;
+            var o = new Owner();
+            o = await _context.Owners.FindAsync(id);
+
+            var w = new Walker();
+            w = await _context.Walkers.FindAsync(id);
+            var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
+            viewModel.UserType = "Administrator";
+            viewModel.UserID = id;
+
+            return View("Index", viewModel);
+
+        }
+
+        public EditProfileViewModel CreateEditProfileViewModel(Walker w, Owner o, bool isAdmin)
+        {
             var viewModel = new EditProfileViewModel();
+            viewModel.IsAdmin = isAdmin;
+            if (isAdmin)
+                viewModel.UserType = "Administrator";
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             viewModel.StatesList = DropDownLists.GetStates();
@@ -45,7 +77,9 @@ namespace ProgrammingProject.Controllers
             if (o == null)
             {
                 //User is Walker
-                viewModel.UserType = typeof(Walker).Name;
+                if (!isAdmin)
+                    viewModel.UserType = typeof(Walker).Name;
+
                 viewModel.FirstName = w.FirstName;
                 viewModel.LastName = w.LastName;
                 viewModel.Email = w.Email;
@@ -77,7 +111,9 @@ namespace ProgrammingProject.Controllers
             else
             {
                 //User is Owner
-                viewModel.UserType = typeof(Owner).Name;
+                if(!isAdmin)
+                    viewModel.UserType = typeof(Owner).Name;
+
                 viewModel.FirstName = o.FirstName;
                 viewModel.LastName = o.LastName;
                 viewModel.Email = o.Email;
@@ -90,18 +126,19 @@ namespace ProgrammingProject.Controllers
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
 
-            return View(viewModel);
-
+            return viewModel;
         }
 
 
+
+        [Route("/Profile/EditProfile")]
         public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel, int id)
         {
             var o = new Owner();
-            o = await _context.Owners.FindAsync(UserID);
+            o = await _context.Owners.FindAsync(viewModel.UserID);
 
             var w = new Walker();
-            w = await _context.Walkers.FindAsync(UserID);
+            w = await _context.Walkers.FindAsync(viewModel.UserID);
 
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
@@ -190,6 +227,7 @@ namespace ProgrammingProject.Controllers
                 //User is Walker
                 viewModel.UserType = typeof(Walker).Name;
                 w.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
                 w.LastName = viewModel.LastName;
                 w.Email = viewModel.Email;
                 w.StreetAddress = viewModel.StreetAddress;
@@ -225,6 +263,7 @@ namespace ProgrammingProject.Controllers
                 //User is Owner
                 viewModel.UserType = typeof(Owner).Name;
                 o.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
                 o.LastName = viewModel.LastName;
                 o.Email = viewModel.Email;
                 o.StreetAddress = viewModel.StreetAddress;
@@ -243,10 +282,14 @@ namespace ProgrammingProject.Controllers
 
             await _context.SaveChangesAsync();
 
-            if (w == null)
+            if (viewModel.IsAdmin)
+                return RedirectToAction("EditUser", "Administrator");
+
+           else if (w == null)
                 return RedirectToAction("Index", "Owner");
 
-            return RedirectToAction("Index", "Walker");
+            else
+                return RedirectToAction("Index", "Walker");
         }
 
 

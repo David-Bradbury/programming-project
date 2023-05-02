@@ -7,13 +7,15 @@
 <div>
     <h1 class="display-4">Personal Information</h1>
 
-    <form asp-action="EditProfile" enctype="multipart/form-data">
+    <form asp-controller="Profile" asp-action="EditProfile" enctype="multipart/form-data">
         <input asp-for=Country type="hidden" value=@Model.Country />
-        <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@Model; />    
+        <input asp-for=IsAdmin type="hidden" value=@Model.IsAdmin />
+        <input asp-for=UserID type="hidden" value=@Model.UserID />
+        <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@Model; />
         <table class="table">
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.Email): </b> @Model.Email</td>
-                <input asp-for=Email type="hidden" value=@Model.Email/>
+                <input asp-for=Email type="hidden" value=@Model.Email />
             </tr>
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.FirstName): </b></td>
@@ -36,7 +38,7 @@
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.StreetAddress):</b></td>
                 <td>
-                     <div class="form-group">
+                    <div class="form-group">
                         <input id="StreetAddress" asp-for="StreetAddress" value=@Model.StreetAddress class="form-control" data-val="true" />
                         <span asp-validation-for="StreetAddress" class="text-danger"></span>
                     </div>
@@ -45,7 +47,7 @@
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>
                 <td>
-                     <div class="form-group">
+                    <div class="form-group">
                         <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" />
                         <span asp-validation-for="SuburbName" class="text-danger"></span>
                     </div>
@@ -54,7 +56,7 @@
             <tr>
                 <td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b></td>
                 <td>
-                     <div class="form-group">
+                    <div class="form-group">
                         <input id="Postcode" asp-for="Postcode" value=@Model.Postcode class="form-control" data-val="true" />
                         <span asp-validation-for="Postcode" class="text-danger"></span>
                     </div>
@@ -86,12 +88,12 @@
                 <tr>
                     <td><b>@Html.DisplayNameFor(Model => Model.IsInsured): </b></td>
                     <td>
-                       <div class="form-group">
+                        <div class="form-group">
                             <select id="insurance" class="form-select" asp-items="Model.IsInsuredList" asp-for="IsInsured">
                                 <option value="" hidden>@Model.IsInsured></option>
                             </select>
                             <span asp-validation-for="IsInsured" class="text-danger"></span>
-                    </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -102,19 +104,22 @@
                                 <option value="" hidden>@Model.ExperienceLevel</option>
                             </select>
                             <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
-                    </div>
+                        </div>
                     </td>
-                </tr>        
+                </tr>
             }
         </table>
-        <div>
-            <a class="btn btn-primary" style="padding-top: 15px"
+        @if (!Model.UserType.Equals("Administrator"))
+        {
+            <div>
+                <a class="btn btn-primary" style="padding-top: 15px"
                asp-action="EditProfile" asp-route-id="1">Change Password</a>
-        </div>
+            </div>
+        }
         <div class="form-group" style="padding-top: 15px">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
-    </form>  
+    </form>
 </div>
 @section scripts{
     <script type="text/javascript">
@@ -134,4 +139,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}  
+    }  
