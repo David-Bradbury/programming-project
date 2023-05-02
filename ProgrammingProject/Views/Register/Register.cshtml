@@ -75,7 +75,7 @@
                     <label asp-for="SuburbName" class="control-label"></label>
                     <input asp-for="SuburbName" class="form-control" data-val="true"
                            data-val-required="The Suburb field is required." placeholder="Suburb" 
-                           onkeyup="filterSuburbs()" onfocusout="filterFocusOut()" />
+                           onkeyup="filterSuburbs('SuburbName', 'suburbsList')" onfocusout="filterFocusOut()" />
                     <div id="filter">
                         <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
                             @foreach (var suburb in suburbs) {

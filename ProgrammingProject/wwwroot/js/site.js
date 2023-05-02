@@ -2,16 +2,16 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-function filterSuburbs() {
+function filterSuburbs(inputFieldID, listID) {
     /* Filtering adapted from W3 Schools tutorial:
      * How to - filter/search list (no date) How To Create a Filter/Search List. Refsnes Data. 
      * Available at: https://www.w3schools.com/howto/howto_js_filter_lists.asp 
      * (Accessed: April 30, 2023). 
      */
-    var $input = $("#SuburbName");
+    var $input = $("#".concat(inputFieldID));
     var $filter = $input.val().toString().toUpperCase();
-    var $ul = $("#suburbsList")[0];
-    var $li = $("#suburbsList>li")
+    var $ul = $("#".concat(listID))[0];
+    var $li = $("#".concat(listID).concat(">li"));
     var visibleCount = 0;
 
     var i;
