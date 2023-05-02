@@ -12,6 +12,7 @@
 
     <table class="table">
         <tr>
+            <th>ID</th>
             <th>User Type</th>
             <th>@Html.DisplayNameFor(x => x.PagedList[0].Email)</th>
             <th>@Html.DisplayNameFor(x => x.PagedList[0].FirstName)</th>
@@ -27,6 +28,7 @@
             char[] unwantedChars = { 'P', 'r', 'o', 'x', 'y' };
 
             <tr>
+                <td>@Html.DisplayFor( x=> user.UserId) </td>
                 <td>@user.GetType().Name.Trim(unwantedChars)r</td>
                 <td>@Html.DisplayFor(x => user.Email)</td>
                 <td>@Html.DisplayFor(x => user.FirstName)</td>
