@@ -227,6 +227,7 @@ namespace ProgrammingProject.Controllers
                 //User is Walker
                 viewModel.UserType = typeof(Walker).Name;
                 w.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
                 w.LastName = viewModel.LastName;
                 w.Email = viewModel.Email;
                 w.StreetAddress = viewModel.StreetAddress;
@@ -262,6 +263,7 @@ namespace ProgrammingProject.Controllers
                 //User is Owner
                 viewModel.UserType = typeof(Owner).Name;
                 o.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
                 o.LastName = viewModel.LastName;
                 o.Email = viewModel.Email;
                 o.StreetAddress = viewModel.StreetAddress;
