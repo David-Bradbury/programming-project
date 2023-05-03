@@ -8,47 +8,42 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Web.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ProgrammingProject.Helper
 {
     public class CheckModelState
     {
         private readonly EasyWalkContext _context;
-        public CheckModelState()
+        public CheckModelState(EasyWalkContext context)
         {
-         
-        }
-        public static void CheckRegex(string value, string regex, string message, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
-        {
-            if (!Regex.IsMatch(value, regex))
-                modelState.AddModelError(nameof(value), message);
+            _context = context;
         }
 
-        public static void CheckNull(string value, string message, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
+        //Testing to see if this is required.
+        public string IsSuburbDataUnique(string SuburbName, string Postcode, string State)
         {
-            if (value == null)
-                modelState.AddModelError(nameof(value), message);
-        }
 
-        public void CheckEmailMatch(string email, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
-        {
-            foreach (var i in _context.Logins)
-            {
-                if (i.Email == email)
-                {
-                    modelState.AddModelError(nameof(email), "This email is already registered in the system. Please try with a different email address.");
-                }
-            }
-        }
-        public bool IsSuburbDataUnique(string SuburbName, string Postcode, string State)
-        {
+            var sName = _context.Suburbs.Where(s => s.SuburbName == SuburbName);
+            if (sName.IsNullOrEmpty())
+                return "SuburbNameFail";
+
+            var sPostcode = _context.Suburbs.Where(s => s.Postcode == Postcode);
+            if (sPostcode.IsNullOrEmpty())
+                return "PostcodeFail";
+
+            var sNamePostcodeMatch = _context.Suburbs.Where(s => s.SuburbName == SuburbName)
+                                                     .Where(s => s.Postcode == Postcode);
+            if (sNamePostcodeMatch.IsNullOrEmpty())
+                return "SuburbNamePostcodeFail";
+
             var Suburb = _context.Suburbs.Where(s => s.SuburbName == SuburbName)
-                                         .Where(s => s.Postcode == Postcode)
-                                         .Where(s => s.State == State);
-            if (Suburb == null)
-                return false;
-            else
-                return true;
+                                       .Where(s => s.Postcode == Postcode)
+                                       .Where(s => s.State == State);
+            if (Suburb.IsNullOrEmpty())
+                return "Fail";
+
+            return "Pass";
 
         }
 

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using ProgrammingProject.Models;
 using System.Globalization;
 using System.Text.Json;
+using System.Linq;
 
 namespace ProgrammingProject.Data
 {
@@ -68,41 +69,57 @@ namespace ProgrammingProject.Data
                 }
             }
 
-            var suburb1 = new Suburb();
+            var suburb1 = context.Suburbs.Where(x => x.Postcode == "3153").FirstOrDefault();
+            //var suburb1 = context.Suburbs.Find("3153", "Bayswater", "VIC");
+            //var suburb1 = new Suburb();
 
-            suburb1.Postcode = "3153";
-            suburb1.SuburbName = "Bayswater";
-            suburb1.State = "Victoria";
+            //suburb1.Postcode = "3153";
+            //suburb1.SuburbName = "Bayswater";
+            //suburb1.State = "Victoria";
+            //suburb1.Lat = "-37.840";
+            //suburb1.Lon = "145.270";
 
-            var suburb2 = new Suburb();
+            //var suburb2 = new Suburb();
+            var suburb2 = context.Suburbs.Where(x => x.Postcode == "3149").FirstOrDefault();
+            //var suburb2 = context.Suburbs.Find("3149", "Mount Waverly", "VIC");
 
-            suburb2.Postcode = "3149";
-            suburb2.SuburbName = "Mount Waverly";
-            suburb2.State = "Victoria";
+            //suburb2.Postcode = "3149";
+            //suburb2.SuburbName = "Mount Waverly";
+            //suburb2.State = "Victoria";
 
-            var suburb3 = new Suburb();
+            var suburb3 = context.Suburbs.Where(x => x.Postcode == "3174").FirstOrDefault();
+            //var suburb3 = context.Suburbs.Find("3174", "Noble Park", "VIC");
+            //var suburb3 = new Suburb();
 
-            suburb3.Postcode = "3174";
-            suburb3.SuburbName = "Noble Park";
-            suburb3.State = "Victoria";
+            //suburb3.Postcode = "3174";
+            //suburb3.SuburbName = "Noble Park";
+            //suburb3.State = "Victoria";
 
-            var suburb4 = new Suburb();
+            var suburb4 = context.Suburbs.Where(x => x.Postcode == "3148").FirstOrDefault();
+            //var suburb4 = context.Suburbs.Find("3148", "Chadstone", "VIC");
+            //var suburb4 = new Suburb();
 
-            suburb4.Postcode = "3148";
-            suburb4.SuburbName = "Chadstone";
-            suburb4.State = "Victoria";
+            //suburb4.Postcode = "3148";
+            //suburb4.SuburbName = "Chadstone";
+            //suburb4.State = "Victoria";
+            //suburb1.Lat = "-37.890";
+            //suburb1.Lon = "145.080";
 
-            var suburb5 = new Suburb();
+            var suburb5 = context.Suburbs.Where(x => x.Postcode == "3122").FirstOrDefault();
+            //var suburb5 = context.Suburbs.Find("3122", "Hawthorn", "VIC");
+            //var suburb5 = new Suburb();
 
-            suburb5.Postcode = "3122";
-            suburb5.SuburbName = "Hawthorn";
-            suburb5.State = "Victoria";
+            //suburb5.Postcode = "3122";
+            //suburb5.SuburbName = "Hawthorn";
+            //suburb5.State = "Victoria";
 
-            var suburb6 = new Suburb();
+            var suburb6 = context.Suburbs.Where(x => x.Postcode == "3145").FirstOrDefault();
+            //var suburb6 = context.Suburbs.Find("3145", "Malvern East", "VIC");
+            //var suburb6 = new Suburb();
 
-            suburb6.Postcode = "3145";
-            suburb6.SuburbName = "Malvern East";
-            suburb6.State = "Victoria";
+            //suburb6.Postcode = "3145";
+            //suburb6.SuburbName = "Malvern East";
+            //suburb6.State = "Victoria";
 
             // Seed Vets
             var vet1 = new Vet();
@@ -110,8 +127,7 @@ namespace ProgrammingProject.Data
             vet1.BusinessName = "Bays Vets";
             vet1.PhNumber = "0402 201 201";
             vet1.StreetAddress = "3 Baywater Road";
-            vet1.Suburb = suburb1;
-            vet1.State = "Victoria";
+            vet1.Suburb = suburb1;          
             vet1.Country = "Australia";
             vet1.Email = "baysvets@gmail.com";
 
@@ -123,7 +139,6 @@ namespace ProgrammingProject.Data
             vet2.PhNumber = "0440 404 040";
             vet2.StreetAddress = "21 Mountain Street";
             vet2.Suburb = suburb2;
-            vet2.State = "Victoria";
             vet2.Country = "Australia";
             vet2.Email = "petsofthemount@hotmail.com";
 
@@ -135,7 +150,6 @@ namespace ProgrammingProject.Data
             vet3.PhNumber = "1300 000 000";
             vet3.StreetAddress = "31 Schmackos Place";
             vet3.Suburb = suburb3;
-            vet3.State = "Victoria";
             vet3.Country = "Australia";
             vet3.Email = "drschmackos@optus.net";
 
@@ -241,7 +255,6 @@ namespace ProgrammingProject.Data
             owner1.Email = login1.Email;
             owner1.StreetAddress = "12 Pine Rd";
             owner1.Suburb = suburb1;
-            owner1.State = "Victoria";
             owner1.Country = "Australia";
             owner1.PhNumber = "0424 225 877";
             owner1.ProfileImage = "defaultProfile.png";
@@ -257,7 +270,6 @@ namespace ProgrammingProject.Data
             owner2.Email = login2.Email;
             owner2.StreetAddress = "26 Wills Ave";
             owner2.Suburb = suburb2;
-            owner2.State = "Victoria";
             owner2.Country = "Australia";
             owner2.PhNumber = "0411 672 900";
             owner2.ProfileImage = "defaultProfile.png";
@@ -273,7 +285,6 @@ namespace ProgrammingProject.Data
             owner3.Email = login3.Email;
             owner3.StreetAddress = "42 Buckley St";
             owner3.Suburb = suburb3;
-            owner3.State = "Victoria";
             owner3.Country = "Australia";
             owner3.PhNumber = "0456 853 345";
             owner3.ProfileImage = "defaultProfile.png";
@@ -289,7 +300,6 @@ namespace ProgrammingProject.Data
             walker1.Email = login4.Email;
             walker1.StreetAddress = "2 Jacana St";
             walker1.Suburb = suburb4;
-            walker1.State = "Victoria";
             walker1.Country = "Australia";
             walker1.PhNumber = "0488 044 222";
             walker1.IsInsured = true;
@@ -307,7 +317,6 @@ namespace ProgrammingProject.Data
             walker2.Email = login5.Email;
             walker2.StreetAddress = "10 Camden Rd";
             walker2.Suburb = suburb5;
-            walker2.State = "Victoria";
             walker2.Country = "Australia";
             walker2.PhNumber = "0432 142 732";
             walker2.IsInsured = true;
@@ -325,7 +334,6 @@ namespace ProgrammingProject.Data
             walker3.Email = login6.Email;
             walker3.StreetAddress = "14 Nirvana Ave";
             walker3.Suburb = suburb6;
-            walker3.State = "Victoria";
             walker3.Country = "Australia";
             walker3.PhNumber = "0455 332 897";
             walker3.IsInsured = false;
@@ -444,8 +452,15 @@ namespace ProgrammingProject.Data
                 string json = r.ReadToEnd();
                 List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
 
+                var suburb = new Suburb();
+
                 foreach (var w in items)
                 {
+                    Random random = new Random();
+                    int post = random.Next(2000, 2914);
+                    var pc = "" + post;
+                    var b = context.Suburbs.Where(x => x.Postcode == pc).FirstOrDefault();
+                    w.Suburb = b;
                     w.ProfileImage = "defaultProfile.png";
                     context.Owners.Add(w);
                     context.SaveChanges();
@@ -457,9 +472,16 @@ namespace ProgrammingProject.Data
             {
                 string json = r.ReadToEnd();
                 List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
+                var suburb = new Suburb();
 
                 foreach (var w in items)
                 {
+                    Random random = new Random();
+                    int post = random.Next(3000, 3996);
+                    var pc = "" + post;
+                    var b = context.Suburbs.Where(x => x.Postcode == pc).FirstOrDefault();
+                    w.Suburb = b;
+
                     w.ProfileImage = "defaultProfile.png";
                     context.Owners.Add(w);
                     context.SaveChanges();
@@ -472,8 +494,15 @@ namespace ProgrammingProject.Data
                 string json = r.ReadToEnd();
                 List<Owner> items = JsonConvert.DeserializeObject<List<Owner>>(json);
 
+                var suburb = new Suburb();
+
                 foreach (var w in items)
                 {
+                    Random random = new Random();
+                    int post = random.Next(4000, 4895);
+                    var pc = "" + post;
+                    var b = context.Suburbs.Where(x => x.Postcode == pc).FirstOrDefault();
+                    w.Suburb = b;
                     w.ProfileImage = "defaultProfile.png";
                     context.Owners.Add(w);
                     context.SaveChanges();
@@ -490,7 +519,7 @@ namespace ProgrammingProject.Data
                 foreach (var d in items)
                 {
                     Random random = new Random();
-                    int id = random.Next(1, 300);                    
+                    int id = random.Next(1, 300);
                     var b = context.Breeds.Find(id);
                     d.Breed = b;
 
@@ -575,9 +604,15 @@ namespace ProgrammingProject.Data
             {
                 string json = r.ReadToEnd();
                 List<Walker> items = JsonConvert.DeserializeObject<List<Walker>>(json);
+                var suburb = new Suburb();
 
                 foreach (var w in items)
                 {
+                    Random random = new Random();
+                    int post = random.Next(2000, 2914);
+                    var pc = "" + post;
+                    var b = context.Suburbs.Where(x => x.Postcode == pc).FirstOrDefault();
+                    w.Suburb = b;
                     w.ProfileImage = "defaultProfile.png";
                     context.Walkers.Add(w);
                     context.SaveChanges();
@@ -589,9 +624,16 @@ namespace ProgrammingProject.Data
             {
                 string json = r.ReadToEnd();
                 List<Walker> items = JsonConvert.DeserializeObject<List<Walker>>(json);
+                var suburb = new Suburb();
 
                 foreach (var w in items)
                 {
+                    // Try adding suburb after it is added to context.
+                    Random random = new Random();
+                    int post = random.Next(3000, 3996);
+                    var pc = "" + post;
+                    var b = context.Suburbs.Where(x => x.Postcode == pc).FirstOrDefault();
+                    w.Suburb = b;
                     w.ProfileImage = "defaultProfile.png";
                     context.Walkers.Add(w);
                     context.SaveChanges();

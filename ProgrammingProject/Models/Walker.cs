@@ -15,9 +15,7 @@ namespace ProgrammingProject.Models
     {
 
         [Required, StringLength(200), Display(Name = "Address")]
-        public string StreetAddress { get; set; }
-        [Required, StringLength(100)]
-        public string State { get; set; }
+        public string StreetAddress { get; set; }   
         [Required, StringLength(100)]
         public string Country { get; set; }
         [Required]

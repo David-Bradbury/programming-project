@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
@@ -10,9 +10,10 @@ using Microsoft.AspNetCore.Hosting;
 using System.Web.Helpers;
 using System.Dynamic;
 
+
 namespace ProgrammingProject.Controllers
 {
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
         private readonly EasyWalkContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -20,50 +21,85 @@ namespace ProgrammingProject.Controllers
 
 
         [AuthorizeUser]
-        public ProfileController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment)
+        public ProfileController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment) : base(context) 
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
+        // Method for users to view/edit their profile information.
         [AuthorizeUser]
         public async Task<IActionResult> Index()
         {
+            var isAdmin = false;
+
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
 
             var w = new Walker();
             w = await _context.Walkers.FindAsync(UserID);
 
+            var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
+            viewModel.UserID = UserID;
+
+            return View(viewModel);
+
+        }
+
+        // Method for Admins to view a users profile.
+        [AuthorizeUser]
+        public async Task<IActionResult> AdminIndex(int id)
+        {
+            var isAdmin = true;
+            var o = new Owner();
+            o = await _context.Owners.FindAsync(id);
+
+            var w = new Walker();
+            w = await _context.Walkers.FindAsync(id);
+            var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
+            viewModel.UserType = "Administrator";
+            viewModel.UserID = id;
+
+            return View("Index", viewModel);
+
+        }
+
+        public EditProfileViewModel CreateEditProfileViewModel(Walker w, Owner o, bool isAdmin)
+        {
             var viewModel = new EditProfileViewModel();
+
+            viewModel.IsAdmin = isAdmin;
+            if (isAdmin)
+                viewModel.UserType = "Administrator";
+
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             viewModel.StatesList = DropDownLists.GetStates();
-
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
             //Check usertype and create viewModel
             if (o == null)
             {
                 //User is Walker
-                viewModel.UserType = typeof(Walker).Name;               
+                if (!isAdmin)
+                    viewModel.UserType = typeof(Walker).Name;
+
                 viewModel.FirstName = w.FirstName;
                 viewModel.LastName = w.LastName;
                 viewModel.Email = w.Email;
                 viewModel.StreetAddress = w.StreetAddress;
                 viewModel.SuburbName = w.Suburb.SuburbName;
                 viewModel.Postcode = w.Suburb.Postcode;
-                viewModel.State = w.State;
+                viewModel.State = w.Suburb.State;
                 viewModel.Country = w.Country;
                 viewModel.PhNumber = w.PhNumber;
                 viewModel.SavedProfileImage = w.ProfileImage;
-                if (w.IsInsured == true)
-                {
-                    viewModel.IsInsured = "Insured";
-                }
-                else
-                {
+                
+                if (w.IsInsured == true)               
+                    viewModel.IsInsured = "Insured";               
+                else             
                     viewModel.IsInsured = "Uninsured";
-                }
+                
                 if (w.ExperienceLevel == ExperienceLevel.Beginner)
                     viewModel.ExperienceLevel = "Beginner";
                 else if (w.ExperienceLevel == ExperienceLevel.Intermediate)
@@ -72,92 +108,80 @@ namespace ProgrammingProject.Controllers
                     viewModel.ExperienceLevel = "Advanced";
                 else
                     viewModel.ExperienceLevel = "Expert";
-
             }
             else
             {
                 //User is Owner
-                viewModel.UserType = typeof(Owner).Name;
+                if (!isAdmin)
+                    viewModel.UserType = typeof(Owner).Name;
+
                 viewModel.FirstName = o.FirstName;
                 viewModel.LastName = o.LastName;
                 viewModel.Email = o.Email;
                 viewModel.StreetAddress = o.StreetAddress;
                 viewModel.SuburbName = o.Suburb.SuburbName;
                 viewModel.Postcode = o.Suburb.Postcode;
-                viewModel.State = o.State;
+                viewModel.State = o.Suburb.State;
                 viewModel.Country = o.Country;
                 viewModel.PhNumber = o.PhNumber;
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
 
-            return View(viewModel);
-
+            return viewModel;
         }
 
-
+        // Here the changes made in the profile index view are checked and changes saved to the db.
+        [Route("/Profile/EditProfile")]
         public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel, int id)
         {
+            // Finds the profile holder from db.
             var o = new Owner();
-            o = await _context.Owners.FindAsync(UserID);
+            o = await _context.Owners.FindAsync(viewModel.UserID);
 
             var w = new Walker();
-            w = await _context.Walkers.FindAsync(UserID);
+            w = await _context.Walkers.FindAsync(viewModel.UserID);
 
+            // Sets up lists in case of model state failure.
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             viewModel.StatesList = DropDownLists.GetStates();
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
             viewModel.Password = "";
             viewModel.ConfirmPassword = "";
 
+            // return user to edit password view if Edit Password button pressed.
             if (id == 1)
                 return View("EditPassword", viewModel);
 
-            if (viewModel.FirstName == null)
-                ModelState.AddModelError(nameof(viewModel.FirstName), "First Name is required");
-            if (viewModel.LastName == null)
-                ModelState.AddModelError(nameof(viewModel.LastName), "Last Name is required");
-            if (viewModel.StreetAddress == null)
-                ModelState.AddModelError(nameof(viewModel.StreetAddress), "Street Address is required");
-            if (viewModel.State == null)
-                ModelState.AddModelError(nameof(viewModel.State), "State is required");
-            if (viewModel.Postcode == null)
-                ModelState.AddModelError(nameof(viewModel.Postcode), "Postcode is required");
-            if (viewModel.PhNumber == null)
-                ModelState.AddModelError(nameof(viewModel.PhNumber), "Phone Number is required");
-            if (viewModel.SuburbName == null)
-                ModelState.AddModelError(nameof(viewModel.SuburbName), "Suburb Name is required");
+            // Check if key values are null.
+            CheckNull(viewModel.FirstName, nameof(viewModel.FirstName), "First Name is Required");
+            CheckNull(viewModel.LastName, nameof(viewModel.LastName), "Last Name is Required");
+            CheckNull(viewModel.StreetAddress, nameof(viewModel.StreetAddress), "Street Address is Required");
+            CheckNull(viewModel.SuburbName, nameof(viewModel.SuburbName), "Suburb Name is Required");
+            CheckNull(viewModel.State, nameof(viewModel.State), "State is Required");
+            CheckNull(viewModel.Postcode, nameof(viewModel.Postcode), "Postcode is Required");
+            CheckNull(viewModel.PhNumber, nameof(viewModel.PhNumber), "Phone Number is Required");
 
             if (o == null)
             {
-                if (viewModel.IsInsured == null)
-                    ModelState.AddModelError(nameof(viewModel.IsInsured), "Insured Status is required");
-                if (viewModel.ExperienceLevel == null)
-                    ModelState.AddModelError(nameof(viewModel.ExperienceLevel), "Experience Level is required");
+                CheckNull(viewModel.ExperienceLevel, nameof(viewModel.ExperienceLevel), "Experience Level is Required");
+                CheckNull(viewModel.IsInsured, nameof(viewModel.IsInsured), "Insurance Status is Required");
             }
 
-            //foreach(var s in _context.Suburbs)
-            //{
-            //    if (s.Postcode == )
-            //}    
-            // ALL NEEDS TESTING. JC        
-            if (!Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
-                ModelState.AddModelError(nameof(viewModel.Postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            // Checking regex values
+            string regex = @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)";
+            CheckRegex(viewModel.Postcode, nameof(viewModel.Postcode), regex, "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
             // Not perfect and needs updates for proper Australian phone numbers.
-            if (!Regex.IsMatch(viewModel.PhNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
-                ModelState.AddModelError(nameof(viewModel.PhNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
+            regex = @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$";
+            CheckRegex(viewModel.PhNumber, nameof(viewModel.PhNumber), regex, "This is not a valid Australian mobile phone number.Please enter a valid Australian mobile phone number");
+           
+            // Checks Suburb is a valid Australian Suburb.
+            CheckSuburbModelState(viewModel.SuburbName, viewModel.Postcode, viewModel.State);
 
-            // Checks the extension of the file to ensure a certain file format. Bring up Thurs meeting to see if extra verification needed. JC.
-            if (viewModel.ProfileImage != null)
-            {
-                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
-                string extension = Path.GetExtension(filename).ToLower();
-
-                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
-                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
-            }
-
+            // Checks the extension of the file to ensure a certain file format.
+            CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
 
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
@@ -165,28 +189,15 @@ namespace ProgrammingProject.Controllers
                 return View(viewModel);
             }
 
-
+            // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
 
+            // Creating suburb based on form details
             var suburb = new Suburb();
-
             suburb.SuburbName = viewModel.SuburbName;
             suburb.Postcode = viewModel.Postcode;
-
-            // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
-            bool match = false;
-            foreach (var s in _context.Suburbs)
-            {
-                if (s.Postcode == suburb.Postcode && s.SuburbName == suburb.SuburbName)
-                {
-                    match = true;
-                    suburb = s;
-                }
-            }
-            if (!match)
-                _context.Suburbs.Add(suburb);
-
+            suburb.State = viewModel.State;
 
             // Check usertype and create viewModel
             if (o == null)
@@ -194,11 +205,11 @@ namespace ProgrammingProject.Controllers
                 //User is Walker
                 viewModel.UserType = typeof(Walker).Name;
                 w.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
                 w.LastName = viewModel.LastName;
                 w.Email = viewModel.Email;
                 w.StreetAddress = viewModel.StreetAddress;
                 w.Suburb = suburb;
-                w.State = viewModel.State;
                 w.Country = viewModel.Country;
                 w.PhNumber = viewModel.PhNumber;
 
@@ -208,7 +219,6 @@ namespace ProgrammingProject.Controllers
                     w.ProfileImage = "defaultProfile.png";
 
                 viewModel.SavedProfileImage = w.ProfileImage;
-
 
                 if (viewModel.IsInsured == "true")
                     w.IsInsured = true;
@@ -229,11 +239,11 @@ namespace ProgrammingProject.Controllers
                 //User is Owner
                 viewModel.UserType = typeof(Owner).Name;
                 o.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
                 o.LastName = viewModel.LastName;
                 o.Email = viewModel.Email;
                 o.StreetAddress = viewModel.StreetAddress;
                 o.Suburb = suburb;
-                o.State = viewModel.State;
                 o.Country = viewModel.Country;
                 o.PhNumber = viewModel.PhNumber;
 
@@ -247,34 +257,39 @@ namespace ProgrammingProject.Controllers
 
             await _context.SaveChangesAsync();
 
-            if (w == null)
+            if (viewModel.IsAdmin)
+                return RedirectToAction("EditUser", "Administrator");
+
+            else if (w == null)
                 return RedirectToAction("Index", "Owner");
 
-            return RedirectToAction("Index", "Walker");
+            else
+                return RedirectToAction("Index", "Walker");
         }
 
 
+        // Here password checks are completed and changes made to the db.
         public async Task<IActionResult> EditPassword(string password, string confirmPassword)
         {
+            // Finds profile holder.
             var o = new Owner();
             o = await _context.Owners.FindAsync(UserID);
 
             var w = new Walker();
             w = await _context.Walkers.FindAsync(UserID);
 
-            if (password == null)
-                ModelState.AddModelError(nameof(password), "Password is required.");
-            if (!Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))
-                ModelState.AddModelError(nameof(password), "Password is Invalid. Password must contain at least one upper case letter, a lower case letter, a special character, a number, and must be at least 8 characters in length");
-            if (password != confirmPassword)
-                ModelState.AddModelError(nameof(confirmPassword), "Passwords need to match.");
+            // Checks if password is Null.
+            CheckNull(password, nameof(password), "Password is Required");
+            // Checks password is valid.
+            CheckValidPassword(password, confirmPassword);
 
+            // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            //Check if walker or Owner and update fields accordingly
+            //Check if walker or Owner and update fields accordingly.
             if (w == null)
                 o.Login.PasswordHash = ControllerHelper.HashPassword(password);
             else
@@ -285,65 +300,43 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
+        // Returns the view that shows a list of an owners dogs.
         public async Task<IActionResult> ViewDogs()
         {
-            // This code needs to be placed in helper method as repeated multiple times
             var owner = await _context.Owners.FindAsync(UserID);
 
-            EditProfileViewModel viewModel = new EditProfileViewModel();
-
-            viewModel.UserType = typeof(Owner).Name;
-            viewModel.FirstName = owner.FirstName;
-            viewModel.LastName = owner.LastName;
-            viewModel.Email = owner.Email;
-            viewModel.StreetAddress = owner.StreetAddress;
-            viewModel.SuburbName = owner.Suburb.SuburbName;
-            viewModel.Postcode = owner.Suburb.Postcode;
-            viewModel.State = owner.State;
-            viewModel.Country = owner.Country;
-            viewModel.PhNumber = owner.PhNumber;
-            viewModel.SavedProfileImage = owner.ProfileImage;
-
+            //creates the owners profile view model.
+            EditProfileViewModel viewModel = SetViewModel();
             ViewBag.EditProfileViewModel = viewModel;
 
             return View(owner);
         }
+
+        // Shows dog information to be viewed/edited.
         public async Task<IActionResult> EditDogProfile(int dogId)
         {
-            // This code needs to be placed in helper method as repeated multiple times
-            var owner = await _context.Owners.FindAsync(UserID);
-
-            EditProfileViewModel vm = new EditProfileViewModel();
-
-            vm.UserType = typeof(Owner).Name;
-            vm.FirstName = owner.FirstName;
-            vm.LastName = owner.LastName;
-            vm.Email = owner.Email;
-            vm.StreetAddress = owner.StreetAddress;
-            vm.SuburbName = owner.Suburb.SuburbName;
-            vm.Postcode = owner.Suburb.Postcode;
-            vm.State = owner.State;
-            vm.Country = owner.Country;
-            vm.PhNumber = owner.PhNumber;
-            vm.SavedProfileImage = owner.ProfileImage;
-
+            //creates the owners profile view model.
+            EditProfileViewModel vm = SetViewModel();
             ViewBag.EditProfileViewModel = vm;
 
+            // Finds dog and vat information.
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(dogId);
 
             var vet = new Vet();
             vet = await _context.Vets.FindAsync(dog.Vet.Id);
 
+            // creates the view model for editing a dogs information.
             var viewModel = new EditDogProfileViewModel();
 
-
+            // Sets the lists needed in the form.
             viewModel.DogSizeList = DropDownLists.GetDogSize();
             viewModel.TemperamentList = DropDownLists.GetTemperament();
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
-         
+
+            // Sets the forms variable based on the dog. 
             viewModel.DogId = dog.Id;
             viewModel.Name = dog.Name;
             viewModel.Breed = dog.Breed.BreedName;
@@ -380,6 +373,7 @@ namespace ProgrammingProject.Controllers
             if (dog.TrainingLevel == TrainingLevel.Fully)
                 viewModel.TrainingLevel = "Fully";
 
+            // Sets the forms data based on the dogs vet.
             viewModel.SuburbName = vet.Suburb.SuburbName;
             viewModel.Postcode = vet.Suburb.Postcode;
             viewModel.BusinessName = vet.BusinessName;
@@ -390,79 +384,53 @@ namespace ProgrammingProject.Controllers
             viewModel.Country = vet.Country;
 
             return View(viewModel);
-
         }
 
+        // This is called when the data of a dog is changed in the view EditDogProfile.
         public async Task<IActionResult> EditDogProfileSave(EditDogProfileViewModel viewModel)
         {
-         
-            // This code needs to be placed in helper method as repeated multiple times
-            var owner = await _context.Owners.FindAsync(UserID);
-
-            EditProfileViewModel vm = new EditProfileViewModel();
-
-            vm.UserType = typeof(Owner).Name;
-            vm.FirstName = owner.FirstName;
-            vm.LastName = owner.LastName;
-            vm.Email = owner.Email;
-            vm.StreetAddress = owner.StreetAddress;
-            vm.SuburbName = owner.Suburb.SuburbName;
-            vm.Postcode = owner.Suburb.Postcode;
-            vm.State = owner.State;
-            vm.Country = owner.Country;
-            vm.PhNumber = owner.PhNumber;
-            vm.SavedProfileImage = owner.ProfileImage;
-
+            // creates the owners profile view model.
+            EditProfileViewModel vm = SetViewModel();
             ViewBag.EditProfileViewModel = vm;
 
-            viewModel.StatesList = DropDownLists.GetStates();
-
+            // retrievs the dog from the db.
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(viewModel.DogId);
 
+            // Sets the list needed in case of model state error.
+            viewModel.StatesList = DropDownLists.GetStates();
             viewModel.TemperamentList = DropDownLists.GetTemperament();
             viewModel.DogSizeList = DropDownLists.GetDogSize();
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
 
-            if (viewModel.Name == null)
-                ModelState.AddModelError(nameof(viewModel.Name), "Dogs Name is required.");
-            if (viewModel.Breed == null)
-                ModelState.AddModelError(nameof(viewModel.Breed), "Dogs Breed is required.");
-            //if (viewModel.IsVaccinated == null)
-            //    ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Dogs Vaccination Status is required.");
-            if (viewModel.Temperament == null)
-                ModelState.AddModelError(nameof(viewModel.Temperament), "Dogs Temperament is required.");
-            if (viewModel.DogSize == null)
-                ModelState.AddModelError(nameof(viewModel.DogSize), "Dogs Size is required.");
-            if (viewModel.TrainingLevel == null)
-                ModelState.AddModelError(nameof(viewModel.TrainingLevel), "Dogs Training Level is required.");
+            // Check if key values are null.
+            CheckNull(viewModel.Name, nameof(viewModel.Name), "Dogs Name is required.");
+            CheckNull(viewModel.Breed, nameof(viewModel.Breed), "Dogs Breed is required.");
+            CheckNull(viewModel.Temperament, nameof(viewModel.Temperament), "Dogs Temperament is required.");
+            CheckNull(viewModel.DogSize, nameof(viewModel.DogSize), "Dogs Size is required.");
+            CheckNull(viewModel.TrainingLevel, nameof(viewModel.TrainingLevel), "Dogs Training Level is required.");
 
+            // Check if Image extension acceptable
+            CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
 
-
-            if (viewModel.ProfileImage != null)
-            {
-                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
-                string extension = Path.GetExtension(filename).ToLower();
-
-                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
-                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
-            }
-
+            // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
                 return View("EditDogProfile", viewModel);
             }
 
+            // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
 
+            // Creating breed.
             var breed = new Breed();
             breed.BreedName = viewModel.Breed;
 
+            // Setting the dogs variables to be saved to the db.
             dog.Name = viewModel.Name;
             dog.Breed = breed;
             dog.MicrochipNumber = viewModel.MicrochipNumber;
-
 
             if (viewModel.ProfileImage != null)
                 dog.ProfileImage = imageFileName;
@@ -471,11 +439,11 @@ namespace ProgrammingProject.Controllers
 
             viewModel.SavedProfileImage = dog.ProfileImage;
 
-
+            // Set dogs vaccinations status.
             if (dog.IsVaccinated == true)
                 viewModel.IsVaccinated = "True";
 
-
+            // Set dog temperament level enum.
             if (viewModel.Temperament.Equals("NonReactive"))
                 dog.Temperament = Temperament.NonReactive;
             else if (viewModel.Temperament.Equals("Calm"))
@@ -487,7 +455,7 @@ namespace ProgrammingProject.Controllers
             else
                 dog.Temperament = Temperament.Aggressive;
 
-
+            // Set dog size enum.
             if (viewModel.DogSize.Equals("Small"))
                 dog.DogSize = DogSize.Small;
             else if (viewModel.DogSize.Equals("Medium"))
@@ -497,7 +465,7 @@ namespace ProgrammingProject.Controllers
             else
                 dog.DogSize = DogSize.ExtraLarge;
 
-
+            // Set dog training level enum.
             if (viewModel.TrainingLevel.Equals("None"))
                 dog.TrainingLevel = TrainingLevel.None;
             else if (viewModel.TrainingLevel.Equals("Basic"))
@@ -505,45 +473,42 @@ namespace ProgrammingProject.Controllers
             else
                 dog.TrainingLevel = TrainingLevel.Fully;
 
-
             await _context.SaveChangesAsync();
 
             return RedirectToAction("ViewDogs");
         }
 
+        // Sets up the view EditVet.
         public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
         {
+            // Sets the list needed in the next view.
             viewModel.StatesList = DropDownLists.GetStates();
-            // This code needs to be placed in helper method as repeated multiple times
-            var owner = await _context.Owners.FindAsync(UserID);
 
-            EditProfileViewModel vm = new EditProfileViewModel();
-
-            vm.UserType = typeof(Owner).Name;
-            vm.FirstName = owner.FirstName;
-            vm.LastName = owner.LastName;
-            vm.Email = owner.Email;
-            vm.StreetAddress = owner.StreetAddress;
-            vm.SuburbName = owner.Suburb.SuburbName;
-            vm.Postcode = owner.Suburb.Postcode;
-            vm.State = owner.State;
-            vm.Country = owner.Country;
-            vm.PhNumber = owner.PhNumber;
-            vm.SavedProfileImage = owner.ProfileImage;
-
+            // creates the owners profile view model.
+            EditProfileViewModel vm = SetViewModel();
             ViewBag.EditProfileViewModel = vm;
-
 
             return View(viewModel);
         }
 
+        // The changes made to a vet in EditVet view are validated and saved to the db.
         public async Task<IActionResult> EditVetSave(EditDogProfileViewModel viewModel)
         {
-         
+
+            // Retrieving dog and vet info in db.
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(viewModel.DogId);
             var vet = new Vet();
             vet = await _context.Vets.FindAsync(dog.Vet.Id);
+
+            // Checking if key fields are Null.
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
 
             if (viewModel.BusinessName == null)
                 ModelState.AddModelError(nameof(viewModel.BusinessName), "Vets Business Name is required.");
@@ -567,6 +532,8 @@ namespace ProgrammingProject.Controllers
                 ModelState.AddModelError(nameof(viewModel.PhNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
             if (viewModel.SelectedField == nameof(viewModel.Email) && !Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
                 ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
+
+            CheckSuburbModelState(viewModel.SuburbName, viewModel.Postcode, viewModel.State);
 
             if (viewModel.SelectedField == nameof(viewModel.SavedProfileImage) && viewModel.ProfileImage != null)
             {
@@ -603,24 +570,13 @@ namespace ProgrammingProject.Controllers
 
             suburb.SuburbName = viewModel.SuburbName;
             suburb.Postcode = viewModel.Postcode;
+            suburb.State = viewModel.State;
 
-            // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
-            bool match = false;
-            foreach (var s in _context.Suburbs)
-            {
-                if (s.Postcode == suburb.Postcode && s.SuburbName == suburb.SuburbName)
-                {
-                    match = true;
-                    suburb = s;
-                }
-            }
-            if (!match)
-                _context.Suburbs.Add(suburb);
-      
-               vet.Suburb = suburb;
-          
+
+            vet.Suburb = suburb;
+
             // Checking BusinessName for now but this is wrong as BusinessName is not key.
-            match = false;
+            bool match = false;
             foreach (var v in _context.Vets)
             {
                 if (v.BusinessName == viewModel.BusinessName)
@@ -635,20 +591,41 @@ namespace ProgrammingProject.Controllers
             dog.Vet = vet;
 
             await _context.SaveChangesAsync();
-       
+
             return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
 
         public async Task<IActionResult> DeleteDog(int id)
         {
-          
+
             var dog = await _context.Dogs.FindAsync(id);
 
             _context.Dogs.Remove(dog);
-        
-            _context.SaveChanges();
 
+            _context.SaveChanges();
+            ;
             return RedirectToAction("ViewDogs");
+        }
+
+        public EditProfileViewModel SetViewModel()
+        {
+            var owner = _context.Owners.Find(UserID);
+
+            EditProfileViewModel vm = new EditProfileViewModel();
+
+            vm.UserType = typeof(Owner).Name;
+            vm.FirstName = owner.FirstName;
+            vm.LastName = owner.LastName;
+            vm.Email = owner.Email;
+            vm.StreetAddress = owner.StreetAddress;
+            vm.SuburbName = owner.Suburb.SuburbName;
+            vm.Postcode = owner.Suburb.Postcode;
+            vm.State = owner.Suburb.State;
+            vm.Country = owner.Country;
+            vm.PhNumber = owner.PhNumber;
+            vm.SavedProfileImage = owner.ProfileImage;
+
+            return vm;
         }
     }
 }

@@ -8,14 +8,14 @@ namespace ProgrammingProject.Helper
         {
             List<SelectListItem> statesList = new List<SelectListItem>();
 
-                statesList.Add(new SelectListItem { Text = "South Australia", Value = "South Australia" });
-                statesList.Add(new SelectListItem { Text = "Victoria", Value = "Victoria" });
-                statesList.Add(new SelectListItem { Text = "Western Australia", Value = "Western Australia" });
-                statesList.Add(new SelectListItem { Text = "Northern Territory", Value = "Northern Territory" });
-                statesList.Add(new SelectListItem { Text = "New South Wales", Value = "New South Wales" });
-                statesList.Add(new SelectListItem { Text = "Australian Capital Territory", Value = "Australian Capital Territory" });
-                statesList.Add(new SelectListItem { Text = "Queensland", Value = "Queensland" });
-                statesList.Add(new SelectListItem { Text = "Tasmania", Value = "Tasmania" });
+                statesList.Add(new SelectListItem { Text = "South Australia", Value = "SA" });
+                statesList.Add(new SelectListItem { Text = "Victoria", Value = "VIC" });
+                statesList.Add(new SelectListItem { Text = "Western Australia", Value = "WA" });
+                statesList.Add(new SelectListItem { Text = "Northern Territory", Value = "NT" });
+                statesList.Add(new SelectListItem { Text = "New South Wales", Value = "NSW" });
+                statesList.Add(new SelectListItem { Text = "Australian Capital Territory", Value = "ACT" });
+                statesList.Add(new SelectListItem { Text = "Queensland", Value = "QLD" });
+                statesList.Add(new SelectListItem { Text = "Tasmania", Value = "TAS" });
                       
             return statesList;
         }

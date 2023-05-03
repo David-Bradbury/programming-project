@@ -23,7 +23,7 @@ namespace ProgrammingProject.Controllers
             var viewModel = new AdminIndexViewModel();
             viewModel.OwnerCount = _context.Owners.Count();
             viewModel.WalkerCount = _context.Walkers.Count();
-            foreach(var o in _context.Owners)
+            foreach (var o in _context.Owners)
             {
                 viewModel.DogCount = viewModel.DogCount + o.Dogs.Count();
             }
@@ -42,42 +42,39 @@ namespace ProgrammingProject.Controllers
         [Route("/Administrator/DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var isOwner = true;
+           
             var owner = await _context.Owners.FindAsync(id);
-            if (owner == null)
+            if(owner != null)
             {
-                var walker = await _context.Walkers.FindAsync(id);
-                isOwner = false;
-                if(walker != null)
-                {
-                    foreach (Login l in _context.Logins)
-                    {
-                        if (walker.Email == l.Email)
-                            _context.Logins.Remove(l);
+                _context.Logins.Remove(owner.Login);
+                var dogList = owner.Dogs.ToList();
 
-                    }
-                }
-            }
-
-            if (isOwner)
-            {
-                foreach (Login l in _context.Logins)
-                {
-                    if (owner.Email == l.Email)
-                        _context.Logins.Remove(l);
-
-                }
-
-                foreach (Dog d in owner.Dogs)
-                    owner.Dogs.Remove(d);
+                foreach( Dog d in dogList)
+                    _context.Dogs.Remove(d);
 
                 _context.Owners.Remove(owner);
 
             }
-            _context.SaveChanges(); 
+ 
+            if (owner == null)
+            {
+                var walker = await _context.Walkers.FindAsync(id);
+
+                if (walker != null)
+                {
+                    _context.Logins.Remove(walker.Login);
+                    _context.Walkers.Remove(walker);
+                }
+            }
+
+         
+            _context.SaveChanges();
 
             return RedirectToAction("EditUser");
         }
+
+        [Route("/Administrator/UpdateUserProfile")]
+        public async Task<IActionResult> UpdateUserProfile(int id) => RedirectToAction("AdminIndex", "Profile", new { id = id });
 
     }
 }

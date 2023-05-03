@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Register";
+    var suburbs = (List<Suburb>)ViewBag.SuburbsList;
 }
 
 <div class="p-5">
@@ -30,7 +31,9 @@
                            data-val-required="The Email field is required." placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                     <span id="form-1-message-email" class="text-danger"></span>
+
                 </div>        
+
                 <div class="form-group mt-3">
                     <label for="Password" class="control-label">Password</label>
                     <input id="Password" name="Password" type="password"
@@ -61,7 +64,9 @@
 
                 <div class="form-control">
                     <label asp-for="ProfileImage" class="control-label"></label>
+
                     <input asp-for="ProfileImage" id="ProfileImage1" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+
                     <span asp-validation-for="ProfileImage" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
@@ -70,10 +75,25 @@
                            data-val-required="The Address field is required." placeholder="Address Line 1" />
                     <span asp-validation-for="StreetAddress" class="text-danger"></span>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group mt-3" style="position: relative;">
                     <label asp-for="SuburbName" class="control-label"></label>
                     <input asp-for="SuburbName" class="form-control" data-val="true"
-                           data-val-required="The Suburb field is required." placeholder="Suburb" />
+                           data-val-required="The Suburb field is required." placeholder="Suburb" 
+                           onkeyup="filterSuburbs('SuburbName', 'suburbsList')" onfocusout="filterFocusOut()" />
+                    <div id="filter">
+                        <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
+                            @foreach (var suburb in suburbs) {
+                                <li style="display: none;">
+                                    <button data-postcode="@suburb.Postcode"
+                                            data-name="@suburb.SuburbName"
+                                            onmousedown="suburbClick(event, this)"
+                                            class="m-0">
+                                        @suburb.SuburbName, @suburb.Postcode
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                     <span asp-validation-for="SuburbName" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
@@ -152,6 +172,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script type="text/javascript" src="js/site.js"></script>
     <script type="text/javascript">
         function toggleForm() {
             var $form1 = $("#form-1");
