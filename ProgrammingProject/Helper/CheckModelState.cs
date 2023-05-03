@@ -14,9 +14,9 @@ namespace ProgrammingProject.Helper
     public class CheckModelState
     {
         private readonly EasyWalkContext _context;
-        public CheckModelState(EasyWalkContext context)
+        public CheckModelState()
         {
-            _context = context;
+         
         }
         public static void CheckRegex(string value, string regex, string message, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
         {

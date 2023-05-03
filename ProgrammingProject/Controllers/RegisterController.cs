@@ -53,6 +53,12 @@ namespace ProgrammingProject.Controllers
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
 
+            var checkModelState = new CheckModelState();
+
+           bool match = checkModelState.IsSuburbDataUnique(viewModel.SuburbName, viewModel.Postcode, viewModel.State);
+            if (!match)
+               // ModelState.AddModelError()
+
             if (viewModel.FirstName == null)
                 ModelState.AddModelError(nameof(viewModel.FirstName), "Put the first name in idiot");
            // CheckModelState.CheckNull(firstName, "First Name is required Dumbs Dumbs.", ModelState);
