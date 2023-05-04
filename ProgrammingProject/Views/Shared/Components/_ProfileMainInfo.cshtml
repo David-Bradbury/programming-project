@@ -16,16 +16,16 @@
         <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</p>
     </div>
     <div class="d-flex flex-column align-items-center gap-2">
-        <a class="btn @(ViewBag.ActiveView == "Index" ? "btn-primary" : "btn-outline-primary") btn-profile"
+        <a class="btn @(ViewBag.ActiveView == "Index" ? "btn-primary" : "btn-outline-primary") btn-profile text-md-start"
            asp-action="Index">Personal Information</a>
         @if (Model.UserType.Equals("Owner"))
         {
-            <a class="btn @(ViewBag.ActiveView == "ViewDogs" ? "btn-primary" : "btn-outline-primary") btn-profile"
+            <a class="btn @(ViewBag.ActiveView == "ViewDogs" ? "btn-primary" : "btn-outline-primary") btn-profile text-md-start"
            asp-action="ViewDogs" >Dogs</a>
         }
         @if (!Model.UserType.Equals("Administrator")) {
             <div>
-                <a class="btn @(ViewBag.ActiveView == "EditPassword" ? "btn-primary" : "btn-outline-primary") btn-profile"
+                <a class="btn @(ViewBag.ActiveView == "EditPassword" ? "btn-primary" : "btn-outline-primary") btn-profile text-md-start"
                asp-action="EditProfile" asp-route-id="1">Change Password</a>
             </div>
         }
