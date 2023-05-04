@@ -6,9 +6,9 @@
 }
 
 <div>
-    <h1 class="display-4">Personal Information</h1>
+    <h1 class="display-4">Profile</h1>
 
-    <form asp-action="ViewDogs" enctype="multipart/form-data">
+    <form asp-action="ViewDogs" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@viewModel; />
         <div>
             <table>
@@ -16,9 +16,9 @@
                 {
                     <tr>
 
-                        <td><img src="~/img/@dog.ProfileImage" width="40" height="40" style="border-radius: 20px;" class="ms-1" asp-append-version="true" /></td>
+                        <td><img src="~/img/@dog.ProfileImage" width="40" height="40" class="rounded-circle" asp-append-version="true" /></td>
                         <td>@dog.Name</td>
-                        <td>@dog.Breed</td>
+                        <td>@dog.Breed.BreedName</td>
                         <td>@dog.Vet.BusinessName</td>
                         <td>
                             <input type="submit" class="btn btn-primary" value="Edit"
@@ -33,7 +33,7 @@
                 }
             </table>
             <div>
-                <a class="btn btn-primary" style="padding-top: 15px" asp-controller="Owner" asp-action="AddDog">Add Dog</a>
+                <a class="btn btn-primary" asp-controller="Owner" asp-action="AddDog">Add Dog</a>
             </div>
 
 

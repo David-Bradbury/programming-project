@@ -5,7 +5,7 @@
 }
 
 <div>
-    <form asp-action="EditDogProfileSave" enctype="multipart/form-data">
+    <form asp-action="EditDogProfileSave" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@vm; />
         <input asp-for=DogId type="hidden" value="@Model.DogId" />
         <input asp-for=BusinessName type="hidden" value="@Model.BusinessName" />

@@ -5,14 +5,14 @@
 }
 
 <div>
-    <h1 class="display-4">Personal Information</h1>
+    <h1 class="display-4">Profile</h1>
 
-    <form asp-controller="Profile" asp-action="EditProfile" enctype="multipart/form-data" class="d-flex flex-column flex-md-row">
+    <form asp-controller="Profile" asp-action="EditProfile" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
         <input asp-for=Country type="hidden" value=@Model.Country />
         <input asp-for=IsAdmin type="hidden" value=@Model.IsAdmin />
         <input asp-for=UserID type="hidden" value=@Model.UserID />
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@Model; />
-        <div>
+        <div class="bg-light p-4 rounded">
             <table class="table">
                 <tr>
                     <td><b>@Html.DisplayNameFor(Model => Model.Email): </b> @*@Model.Email*@</td>
@@ -137,14 +137,11 @@
                     </tr>
                 }
             </table>
-            @if (!Model.UserType.Equals("Administrator")) {
-                <div>
-                    <a class="btn btn-primary"
-                   asp-action="EditProfile" asp-route-id="1">Change Password</a>
+            <div class="d-flex justify-content-between flex-row-reverse">
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
-            }
-            <div class="form-group" style="padding-top: 15px">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                
             </div>
         </div>
     </form>  
