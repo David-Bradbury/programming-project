@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "AddDog";
+    var breeds = (List<Breed>)ViewBag.BreedsList;
 }
 
 <h1 class="display-4">Add Dog To Profile</h1>
@@ -15,10 +16,28 @@
                        data-val-required="Dogs name field is required." placeholder="Dogs Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group mt-3">
+            <div class="form-group mt-3" style="position: relative;">
                 <label asp-for="Breed" class="control-label"></label>
-                <input asp-for="Breed" class="form-control" data-val="true"
-                       data-val-required="Dogs breed field is required." placeholder="Dogs Breed" />
+                <input asp-for="Breed" 
+                    class="form-control" 
+                    data-val="true"
+                    data-val-required="Dogs breed field is required." 
+                    placeholder="Dogs Breed"
+                    onkeyup="filterInput('Breed', 'breedsList')" 
+                    onfocusout="filterFocusOut('breedsList')"/>
+                <div id="filter">
+                    <ul id="breedsList" class="mb-0 filter-list" style="display: none;">
+                        @foreach (var breed in breeds) {
+                            <li style="display: none;">
+                                <button data-name="@breed.BreedName"
+                                        onmousedown="breedClick(event, this)"
+                                        class="m-0">
+                                    @breed.BreedName
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
                 <span asp-validation-for="Breed" class="text-danger"></span>
             </div>
             <div class="form-group mt-3">
@@ -120,7 +139,8 @@
     </div>
 </div>
 @section scripts{
-      <script type="text/javascript">
+    <script type="text/javascript" src="../js/site.js"></script>
+    <script type="text/javascript">
 
         // The following code validates that an only jpeg, jpg, or png files are accepted.
         function validateFileType()

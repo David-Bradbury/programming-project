@@ -55,8 +55,8 @@
                             value=@Model.SuburbName 
                             class="form-control" 
                             data-val="true" 
-                            onkeyup="filterSuburbs('SuburbName', 'suburbsList')" 
-                            onfocusout="filterFocusOut()" />
+                            onkeyup="filterInput('SuburbName', 'suburbsList')" 
+                            onfocusout="filterFocusOut('suburbsList')" />
                         <div id="filter">
                             <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
                                 @foreach (var suburb in suburbs) {
