@@ -89,7 +89,7 @@ namespace ProgrammingProject.Controllers
          */
 
         // Filters dogs to within 10km of the walker's Suburb
-        public async Task<List<Dog>> FilterLocationByRadius(List<Dog> dogs)
+        public async Task<List<Dog>> FilterLocationByRadius(List<Dog> dogs, int? range = 10000)
         {
             var walker = await _context.Walkers.FindAsync(WalkerID);
             var suburb = walker.Suburb;
@@ -107,9 +107,7 @@ namespace ProgrammingProject.Controllers
                     location.Latitude = double.Parse(owner.Suburb.Lat);
                     location.Longitude = double.Parse(owner.Suburb.Lon);
 
-                    var distanceInMeters = 10000;
-
-                    if (userLocation.GetDistanceTo(location) < distanceInMeters)
+                    if (userLocation.GetDistanceTo(location) < range)
                     {
                         filteredDogs.Add(dog);
                     }
