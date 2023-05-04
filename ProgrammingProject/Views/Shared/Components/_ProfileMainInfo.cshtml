@@ -3,7 +3,7 @@
     ViewData["Title"] = "Profile";
 
 }
-<div class="d-flex">
+<div class="d-flex flex-column">
     <div>
         <img src="~/img/@Model.SavedProfileImage" width="200" height="200" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
     </div>
@@ -13,7 +13,7 @@
         <span asp-validation-for="ProfileImage" class="text-danger"></span>
     </div>
     <div class="ms-4">
-        <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.FirstName)</p>
+        <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</p>
     </div>
     <div>
         <a class="btn btn-primary"
