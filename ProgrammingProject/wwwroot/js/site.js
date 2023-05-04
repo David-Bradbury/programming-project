@@ -2,7 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-function filterSuburbs(inputFieldID, listID) {
+function filterInput(inputFieldID, listID) {
     /* Filtering adapted from W3 Schools tutorial:
      * How to - filter/search list (no date) How To Create a Filter/Search List. Refsnes Data. 
      * Available at: https://www.w3schools.com/howto/howto_js_filter_lists.asp 
@@ -32,8 +32,8 @@ function filterSuburbs(inputFieldID, listID) {
     }
 }
 
-function filterFocusOut() {
-    $("#suburbsList")[0].style.display = "none";
+function filterFocusOut(listID) {
+    $("#".concat(listID))[0].style.display = "none";
 }
 
 function suburbClick(event, element) {
@@ -41,4 +41,10 @@ function suburbClick(event, element) {
     $("#SuburbName").val($(element).attr("data-name"));
     $("#Postcode").val($(element).attr("data-postcode"));
     $("#suburbsList")[0].style.display = "none";
+}
+
+function breedClick(event, element) {
+    event.preventDefault(); // again, test on IE / Firefox
+    $("#Breed").val($(element).attr("data-name"));
+    $("#breedsList")[0].style.display = "none";
 }
