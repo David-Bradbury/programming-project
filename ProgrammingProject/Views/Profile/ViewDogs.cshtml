@@ -10,7 +10,7 @@
 
     <form asp-action="ViewDogs" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@viewModel; />
-        <div>
+        <div class="bg-light rounded mt-4 mt-md-0 flex-grow-1">
             <table>
                 @foreach (var dog in Model.Dogs)
                 {

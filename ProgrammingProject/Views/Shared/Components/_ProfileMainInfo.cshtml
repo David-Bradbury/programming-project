@@ -3,11 +3,11 @@
     ViewData["Title"] = "Profile";
 
 }
-<div class="d-flex flex-column align-items-center mt-md-5">
+<div class="d-flex flex-column align-items-center mt-md-5" style="min-width: 21rem;">
     <div>
         <img src="~/img/@Model.SavedProfileImage" width="200" height="200" class="rounded-circle" asp-append-version="true" />
     </div>
-    <div>
+    <div style="@(ViewBag.ActiveView != "Index" ? "display: none" : "")">
         <label asp-for="ProfileImage" class="form-label text-center w-100">Update Profile Image</label>
         <input asp-for="ProfileImage" value=@Model.SavedProfileImage id="ProfileImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" class="form-control form-control-sm" />
         <span asp-validation-for="ProfileImage" class="text-danger"></span>
@@ -16,16 +16,16 @@
         <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</p>
     </div>
     <div class="d-flex flex-column align-items-center gap-2">
-        <a class="btn @(ViewBag.ActiveView == "Index" ? "btn-primary" : "btn-outline-secondary") btn-profile"
+        <a class="btn @(ViewBag.ActiveView == "Index" ? "btn-primary" : "btn-outline-primary") btn-profile"
            asp-action="Index">Personal Information</a>
         @if (Model.UserType.Equals("Owner"))
         {
-            <a class="btn @(ViewBag.ActiveView == "ViewDogs" ? "btn-primary" : "btn-outline-secondary") btn-profile"
+            <a class="btn @(ViewBag.ActiveView == "ViewDogs" ? "btn-primary" : "btn-outline-primary") btn-profile"
            asp-action="ViewDogs" >Dogs</a>
         }
         @if (!Model.UserType.Equals("Administrator")) {
             <div>
-                <a class="btn @(ViewBag.ActiveView == "EditPassword" ? "btn-primary" : "btn-outline-secondary") btn-profile"
+                <a class="btn @(ViewBag.ActiveView == "EditPassword" ? "btn-primary" : "btn-outline-primary") btn-profile"
                asp-action="EditProfile" asp-route-id="1">Change Password</a>
             </div>
         }

@@ -12,7 +12,7 @@
         <input asp-for=IsAdmin type="hidden" value=@Model.IsAdmin />
         <input asp-for=UserID type="hidden" value=@Model.UserID />
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@Model; />
-        <div class="bg-light p-4 rounded">
+        <div class="bg-light p-4 rounded flex-grow-1 mt-4 mt-md-0">
             <table class="table">
                 <tr>
                     <td><b>@Html.DisplayNameFor(Model => Model.Email): </b> @*@Model.Email*@</td>

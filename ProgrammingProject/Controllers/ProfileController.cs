@@ -325,8 +325,13 @@ namespace ProgrammingProject.Controllers
 
             if (!ModelState.IsValid)
             {
+                EditProfileViewModel vm = new EditProfileViewModel();
+                vm.UserType = w == null ? typeof(Owner).Name : typeof(Walker).Name;
+                vm.FirstName = w == null ? o.FirstName : w.FirstName;
+                vm.LastName = w == null ? o.LastName : w.LastName;
+                vm.SavedProfileImage = w == null ? o.ProfileImage : w.ProfileImage;
                 ViewBag.ActiveView = "EditPassword";
-                return View();
+                return View(vm);
             }
 
             //Check if walker or Owner and update fields accordingly
