@@ -7,6 +7,29 @@
 
 <div>
     <h1 class="display-4">Profile</h1>
+    
+    <div class="modal" id="deleteModal" tabindex="-1" aria-hidden="true" aria-labelledby="deleteModalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="fs-5 modal-title" id="deleteModalLabel">Confirm Delete</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete your dog from EasyWalk? All related data will be removed. 
+                        This action cannot be undone.</p>
+                    <div class="d-flex justify-content-end gap-3">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cancel">Cancel</button>
+                        <a class="btn btn-primary" id="ConfirmDelete"
+                           asp-action="DeleteDog" asp-route-id="">
+                            @*<i class="bi bi-trash"></i>*@
+                            Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <form asp-action="ViewDogs" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@viewModel; />
@@ -28,14 +51,11 @@
                         <div class="d-flex gap-2 justify-content-end align-items-center">
                             <button type="submit" class="btn btn-primary"
                                 asp-action="EditDogProfile" asp-route-dogID=@dog.Id>
-                                @*<i class="bi bi-pencil"></i>*@
                                 Edit
                             </button>
-                            <a class="btn btn-primary"
-                                asp-action="DeleteDog" asp-route-id=@dog.Id>
-                                @*<i class="bi bi-trash"></i>*@
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="setRouteID(@dog.Id)">
                                 Delete
-                            </a>
+                            </button>
                         </div>
                     </div>
                 }
@@ -52,3 +72,11 @@
 
     </form>
 </div>
+@section Scripts {
+    <script type="text/javascript">
+        function setRouteID(dogID) {
+            var href = $("#ConfirmDelete").attr("href");
+            $("#ConfirmDelete").attr("href", "/Profile/DeleteDog/" + dogID);
+        }
+    </script>
+}
