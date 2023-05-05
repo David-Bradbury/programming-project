@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Edit Dog Profile Save";
     var vm = (EditProfileViewModel)ViewBag.EditProfileViewModel;
+    var  breeds = (List<Breed>)ViewBag.BreedsList;
 }
 
 <div>
@@ -50,7 +51,22 @@
                         <td><b>Breed:</b></td>
                         <td>
                             <div class="form-group">
-                                <input id="Breed" asp-for="Breed" value=@Model.Breed class="form-control" data-val="true" />
+                                <input id="Breed" asp-for="Breed" value=@Model.Breed class="form-control" data-val="true"
+                                   onkeyup="filterInput('Breed', 'breedsList')"
+                                   onfocusout="filterFocusOut('breedsList')" />
+                            <div id="filter">
+                                <ul id="breedsList" class="mb-0 filter-list" style="display: none;">
+                                    @foreach (var breed in breeds) {
+                                        <li style="display: none;">
+                                            <button data-name="@breed.BreedName"
+                                                    onmousedown="breedClick(event, this)"
+                                                    class="m-0">
+                                                @breed.BreedName
+                                            </button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                                 <span asp-validation-for="Breed" class="text-danger"></span>
                             </div>
                         </td>

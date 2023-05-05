@@ -450,6 +450,8 @@ namespace ProgrammingProject.Controllers
             viewModel.State = vet.State;
             viewModel.Country = vet.Country;
 
+            ViewBag.BreedsList = _context.Breeds.ToList();
+
             return View(viewModel);
 
         }
@@ -511,6 +513,7 @@ namespace ProgrammingProject.Controllers
 
             if (!ModelState.IsValid)
             {
+                ViewBag.BreedsList = _context.Breeds.ToList();
                 return View("EditDogProfile", viewModel);
             }
 
