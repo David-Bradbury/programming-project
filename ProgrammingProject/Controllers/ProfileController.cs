@@ -40,6 +40,7 @@ namespace ProgrammingProject.Controllers
 
             var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
             viewModel.UserID = UserID;
+            ViewBag.ActiveView = "Index";
 
             return View(viewModel);
 
@@ -154,8 +155,16 @@ namespace ProgrammingProject.Controllers
             viewModel.Password = "";
             viewModel.ConfirmPassword = "";
 
-            if (id == 1)
+            if (id == 1) {
+                var userO = await _context.Owners.FindAsync(UserID);
+                var userW = await _context.Walkers.FindAsync(UserID);
+                viewModel.UserType = userW == null ? typeof(Owner).Name : typeof(Walker).Name;
+                viewModel.FirstName = userW == null ? userO.FirstName : userW.FirstName;
+                viewModel.LastName = userW == null ? userO.LastName : userW.LastName;
+                viewModel.SavedProfileImage = userW == null ? userO.ProfileImage : userW.ProfileImage;
+                ViewBag.ActiveView = "EditPassword";
                 return View("EditPassword", viewModel);
+            }
 
             if (viewModel.FirstName == null)
                 ModelState.AddModelError(nameof(viewModel.FirstName), "First Name is required");
@@ -316,7 +325,13 @@ namespace ProgrammingProject.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                EditProfileViewModel vm = new EditProfileViewModel();
+                vm.UserType = w == null ? typeof(Owner).Name : typeof(Walker).Name;
+                vm.FirstName = w == null ? o.FirstName : w.FirstName;
+                vm.LastName = w == null ? o.LastName : w.LastName;
+                vm.SavedProfileImage = w == null ? o.ProfileImage : w.ProfileImage;
+                ViewBag.ActiveView = "EditPassword";
+                return View(vm);
             }
 
             //Check if walker or Owner and update fields accordingly
@@ -350,6 +365,7 @@ namespace ProgrammingProject.Controllers
             viewModel.SavedProfileImage = owner.ProfileImage;
 
             ViewBag.EditProfileViewModel = viewModel;
+            ViewBag.ActiveView = "ViewDogs";
 
             return View(owner);
         }
@@ -577,6 +593,7 @@ namespace ProgrammingProject.Controllers
             vm.SavedProfileImage = owner.ProfileImage;
 
             ViewBag.EditProfileViewModel = vm;
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
 
             return View(viewModel);
@@ -624,6 +641,7 @@ namespace ProgrammingProject.Controllers
 
             if (!ModelState.IsValid)
             {
+                ViewBag.SuburbsList = _context.Suburbs.ToList();
                 return View("EditVet", viewModel);
             }
 
