@@ -36,11 +36,11 @@ namespace ProgrammingProject.Controllers
             }
 
             //attempt verified email
-            if (login.Locked == Locked.locked)
-            {
-                ModelState.AddModelError("LoginFailure", "Email has not been validated. Please check inbox or junk folder to validate");
-                return View(new Login { Email = Email }); ;
-            }
+            //if (login.Locked == Locked.locked)
+            //{
+            //    ModelState.AddModelError("LoginFailure", "Email has not been validated. Please check inbox or junk folder to validate");
+            //    return View(new Login { Email = Email }); ;
+            //}
 
             Owner o = new Owner();
             Walker w = new Walker();

@@ -10,7 +10,11 @@
     <form asp-action="EditVetSave" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
         @*<partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@vm; />*@
         <input asp-for=DogId type="hidden" value="@Model.DogId" />
+
         <div class="d-flex flex-column align-items-center mt-md-5" style="min-width: 21rem;">
+
+        <input asp-for=Country type="hidden" value="@Model.Country" />
+
             <div>
                 <img src="~/img/@Model.SavedProfileImage" width="200" height="200" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
             </div>

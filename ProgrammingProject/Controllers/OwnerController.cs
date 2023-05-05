@@ -13,21 +13,22 @@ namespace ProgrammingProject.Controllers
     [Route("/Owner")]
 
 
-    public class OwnerController : Controller
-    {
+    public class OwnerController : BaseController
+    {    
         private readonly EasyWalkContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AddDogViewModel viewModel = new AddDogViewModel();
         private int OwnerID => HttpContext.Session.GetInt32(nameof(Owner.UserId)).Value;
 
-        public OwnerController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment)
+        public OwnerController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment) : base(context, webHostEnvironment)
+
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
-
+        // Owner Landing Page.
         [AuthorizeUser]
         [Route("/Owner/Index",
    Name = "Index")]
@@ -42,6 +43,7 @@ namespace ProgrammingProject.Controllers
      Name = "AddDog"), AuthorizeUser]
         public async Task<IActionResult> AddDog()
         {
+            // Sets list needed in form.
             viewModel.DogSizeList = DropDownLists.GetDogSize();
             viewModel.TemperamentList = DropDownLists.GetTemperament();
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
@@ -53,115 +55,76 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
 
+        // Post method for adding dogs to the system. Validates entries.
         [Route("/Owner/AddDog",
     Name = "AddDog")]
         [HttpPost]
         public async Task<IActionResult> AddDog(AddDogViewModel viewModel)
         {
-            //var viewModel = new AddDogViewModel();
-
+            // Creates lists in the case of model state failure.
             viewModel.DogSizeList = DropDownLists.GetDogSize();
             viewModel.TemperamentList = DropDownLists.GetTemperament();
             viewModel.TrainingLevelList = DropDownLists.GetTrainingLevel();
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
 
-            var owner = new Owner();
-            foreach (var o in _context.Owners)
-                if (o.UserId == OwnerID)
-                    owner = o;
+            var owner = await _context.Owners.FindAsync(OwnerID);
 
-            if (viewModel.Name == null)
-                ModelState.AddModelError(nameof(viewModel.Name), "Dogs Name is required.");
-            if (viewModel.Breed == null)
-                ModelState.AddModelError(nameof(viewModel.Breed), "Dogs Breed is required.");
-            if (viewModel.IsVaccinated == null)
-                ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Dogs Vaccination Status is required.");
-            if (viewModel.Temperament == null)
-                ModelState.AddModelError(nameof(viewModel.Temperament), "Dogs Temperament is required.");
-            if (viewModel.DogSize == null)
-                ModelState.AddModelError(nameof(viewModel.DogSize), "Dogs Size is required.");
-            if (viewModel.TrainingLevel == null)
-                ModelState.AddModelError(nameof(viewModel.TrainingLevel), "Dogs Training Level is required.");
-            if (viewModel.BusinessName == null)
-                ModelState.AddModelError(nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            if (viewModel.PhNumber == null)
-                ModelState.AddModelError(nameof(viewModel.PhNumber), "Vets Phone Number is required.");
-            if (viewModel.Email == null)
-                ModelState.AddModelError(nameof(viewModel.Email), "Vets Email is required.");
-            if (viewModel.StreetAddress == null)
-                ModelState.AddModelError(nameof(viewModel.StreetAddress), "Vets Street Address is required.");
-            if (viewModel.SuburbName == null)
-                ModelState.AddModelError(nameof(viewModel.SuburbName), "Vets Suburb is required.");
-            if (viewModel.Postcode == null)
-                ModelState.AddModelError(nameof(viewModel.Postcode), "Vets Postcode is required.");
-            if (viewModel.State == null)
-                ModelState.AddModelError(nameof(viewModel.State), "Vets State is required.");
-            if (viewModel.Country == null)
-                ModelState.AddModelError(nameof(viewModel.Country), "Vets Country is required.");
+            // Checking if key values are Null.
+            CheckNull(viewModel.Name, nameof(viewModel.Name), "Dogs Name is required.");
+            CheckNull(viewModel.Breed, nameof(viewModel.Breed), "Dogs Breed is required.");
+            CheckNull(viewModel.IsVaccinated, nameof(viewModel.IsVaccinated), "Dogs vaccinated status is required.");
+            CheckNull(viewModel.Temperament, nameof(viewModel.Temperament), "Dogs Temperament is required.");
+            CheckNull(viewModel.DogSize, nameof(viewModel.DogSize), "Dogs Size is required.");
+            CheckNull(viewModel.TrainingLevel, nameof(viewModel.TrainingLevel), "Dogs Training Level is required.");
+            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.PhNumber, nameof(viewModel.PhNumber), "Vets Phone Number is required.");
+            CheckNull(viewModel.Email, nameof(viewModel.Email), "Vets Email is required.");
+            CheckNull(viewModel.StreetAddress, nameof(viewModel.StreetAddress), "Vets Street Address is required.");
+            CheckNull(viewModel.SuburbName, nameof(viewModel.SuburbName), "Vets Suburb Name is required.");
+            CheckNull(viewModel.Postcode, nameof(viewModel.Postcode), "Vets Postcode is required.");
+            CheckNull(viewModel.State, nameof(viewModel.State), "Vets State is required.");
 
-            if (!Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
-                ModelState.AddModelError(nameof(viewModel.Postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            // Checking regex values
+            string regex = @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)";
+            CheckRegex(viewModel.Postcode, nameof(viewModel.Postcode), regex, "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            regex = @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$";
+            CheckRegex(viewModel.Email, nameof(viewModel.Email), regex, "This is not a valid email address. Please enter a valid email address");
             // Not perfect and needs updates for proper Australian phone numbers.
-            if (!Regex.IsMatch(viewModel.PhNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
-                ModelState.AddModelError(nameof(viewModel.PhNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
-            if (!Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
-                ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
-            // Maybe This Error Message IS Not Enough, maybe a pop up or something needs to occur. Discuss at nextr meeting. JC
+            regex = @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$";
+            CheckRegex(viewModel.PhNumber, nameof(viewModel.PhNumber), regex, "This is not a valid Australian mobile phone number.Please enter a valid Australian mobile phone number");
+   
             if (viewModel.IsVaccinated.Equals("Unvaccinated"))
                 ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Sorry, All dogs must be vaccinated before being registered with EasyWalk");
 
-            // Checks the extension of the file to ensure a certain file format. Bring up Thurs meeting to see if extra verification needed. JC.
-            if (viewModel.ProfileImage != null)
-            {
-                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
-                string extension = Path.GetExtension(filename).ToLower();
+            // Check Suburb is valid.
+            CheckSuburbModelState(viewModel.SuburbName, viewModel.Postcode, viewModel.State);
 
-                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
-                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
-            }
+            // Checks the extension of the file to ensure a certain file format.
+            if (viewModel.ProfileImage != null)
+                CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
 
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
             }
-
-            var ImageHelper = new ImageHelper(_webHostEnvironment);
-            string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
-
-            // Creating suburb based on form details
+ 
             var suburb = new Suburb();
             suburb.SuburbName = viewModel.SuburbName;
             suburb.Postcode = viewModel.Postcode;
+            suburb.State = viewModel.State;
 
-            // Check is Suburb is already known to Easy Walk DB, and rejects entry if known.
-            bool match = false;
-            foreach (var s in _context.Suburbs)
-            {
-                if (s.Postcode == viewModel.Postcode && s.SuburbName == viewModel.SuburbName)
-                {
-                    match = true;
-                    suburb = s;
-                }
-            }
-            if (!match)
-                _context.Suburbs.Add(suburb);
 
+            var CreateHelper = new Create(_context, _webHostEnvironment);
 
             // Create a new Vet from form submission.
-            var vet = new Vet();
+            int vetId = 0;
 
-            vet.BusinessName = viewModel.BusinessName;
-            vet.PhNumber = viewModel.PhNumber;
-            vet.Email = viewModel.Email;
-            vet.StreetAddress = viewModel.StreetAddress;
-            vet.Suburb = suburb;
-            vet.State = viewModel.State;
-            vet.Country = viewModel.Country;
+            var vet = CreateHelper.CreateVet(viewModel.BusinessName,viewModel.PhNumber,viewModel.Email,viewModel.StreetAddress, viewModel.Country, suburb, vetId);        
 
-            // Checking BusinessName for now but this is wrong as BusinessName is not key.
-            match = false;
+            // Checking BusinessName for now but this is wrong as BusinessName is not key. NEED TO RETHINK THIS!
+            bool match = false;
             foreach (var v in _context.Vets)
             {
                 if (v.BusinessName == viewModel.BusinessName)
@@ -173,147 +136,18 @@ namespace ProgrammingProject.Controllers
             if (!match)
                 _context.Vets.Add(vet);
 
-
             // Create a new dog from form submission.
-            var dog = new Dog();
-            
-            var breed = new Breed();
-            breed.BreedName = viewModel.Breed;
+            int DogId = 0;
 
-            dog.Name = viewModel.Name;
-            dog.Breed = breed;
-            dog.MicrochipNumber = viewModel.MicrochipNumber;
-            dog.Owner = owner;
-            dog.Vet = vet;
-            dog.IsVaccinated = true;
-
-            if (viewModel.ProfileImage != null)
-                dog.ProfileImage = imageFileName;
-            else
-                dog.ProfileImage = "dog-avatar.jpg";
-
-            if (viewModel.Temperament.Equals("NonReactive"))
-                dog.Temperament = Temperament.NonReactive;
-            if (viewModel.Temperament.Equals("Calm"))
-                dog.Temperament = Temperament.Calm;
-            if (viewModel.Temperament.Equals("Friendly"))
-                dog.Temperament = Temperament.Friendly;
-            if (viewModel.Temperament.Equals("Reactive"))
-                dog.Temperament = Temperament.Reactive;
-            if (viewModel.Temperament.Equals("Agressive"))
-                dog.Temperament = Temperament.Aggressive;
-
-            if (viewModel.DogSize.Equals("Small"))
-                dog.DogSize = DogSize.Small;
-            if (viewModel.DogSize.Equals("Medium"))
-                dog.DogSize = DogSize.Medium;
-            if (viewModel.DogSize.Equals("Large"))
-                dog.DogSize = DogSize.Large;
-            if (viewModel.DogSize.Equals("ExtraLarge"))
-                dog.DogSize = DogSize.ExtraLarge;
-
-            if (viewModel.TrainingLevel.Equals("None"))
-                dog.TrainingLevel = TrainingLevel.None;
-            if (viewModel.TrainingLevel.Equals("Basic"))
-                dog.TrainingLevel = TrainingLevel.Basic;
-            if (viewModel.TrainingLevel.Equals("Fully"))
-                dog.TrainingLevel = TrainingLevel.Fully;
-
-            _context.Add(dog);
+            CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament, 
+                viewModel.DogSize, viewModel.TrainingLevel, viewModel.ProfileImage, vet, owner, DogId);
+       
 
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
-
-        //    owner.Dogs.Add(
-        //    new Dog
-        //    {
-        //        DogSize = size,
-        //        Temperament = temperament,
-        //        ID = id,
-        //        Name = name,
-        //        MicrochipNumber = microchip,
-        //        IsVaccinated = IsVaccinated,
-        //        Owner = owner,
-        //        Vet = vet
-        //    });
-
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //// Match suitable walkers to the dog
-
-        //public async Task<IActionResult> MatchWalkersToDog(int id) => View(await _context.Dogs.FindAsync(id));
-
-        //[HttpPost]
-        //public async Task MatchWalkersToDog(int id)
-        //{
-        //    var dog = await _context.Dogs.FindAsync(id);
-
-
-        //    var walkers = await _context.Walker.FindAsync();
-
-
-        //    var tempList = new List<Walker>();
-
-        //    var score = 0;
-
-        //    // Sets a difficulty score to the dog
-        //    if (dog != null)
-        //    {
-        //        score += (int)dog.DogSize;
-        //        score += (int)dog.Temperament;
-        //    }
-        //    foreach (var walker in walkers)
-        //    {
-        //        // Below matches dog to suitable Walkers
-        //        if ((int)walker.ExperienceLevel == 4)
-        //        {
-        //            tempList.Add(walker);
-        //        }
-        //        else if ((int)walker.ExperienceLevel == 3 && score < 7)
-        //        {
-        //            tempList.Add(walker);
-        //        }
-        //        else if ((int)walker.ExperienceLevel == 2 && score < 5)
-        //        {
-        //            tempList.Add(walker);
-        //        }
-        //        else if ((int)walker.ExperienceLevel == 1 && score < 3)
-        //        {
-        //            tempList.Add(walker);
-        //        }
-        //    }
-
-        //    // Could add logic here to filter list down based on user preferences.
-        //    // E.g.Location or dates/times. Some filter work started below...
-
-        //    // Notes to discuss: AllowUninsured + min experiencelevel as a question
-        //    // when adding dog (saved to model). Allows user to set requirements and
-        //    // makes filtering easy (as per below).
-
-        //    foreach (var temp in tempList)
-        //    {
-        //        if (temp.IsInsured == false /*&& dog.Owner.AllowUninsured == false */)
-        //            tempList.Remove(temp);
-        //        //if (temp.ExperienceLevel > dog.MinimumAllowedExperienceLevel)
-        //        //    tempList.Remove(temp);
-        //    }
-
-
-        //    // Return tempList to View. View to list suitable walkers
-        //    // with contact details/button for the owner to select.
-        //    // Might be worth returning an IPagedList .DP
-        //    ViewBag.Walker = tempList;
-
-        //}
-
-
     }
-
 }
 
 

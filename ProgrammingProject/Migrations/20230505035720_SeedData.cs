@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class seeddata : Migration
+    public partial class SeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,14 +65,12 @@ namespace ProgrammingProject.Migrations
                     ProfileImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StreetAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     PhNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     SuburbPostcode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SuburbState = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Walker_StreetAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Walker_State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Walker_Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Walker_PhNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsInsured = table.Column<bool>(type: "bit", nullable: true),
@@ -111,7 +109,6 @@ namespace ProgrammingProject.Migrations
                     PhNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
                     StreetAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     SuburbPostcode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SuburbName = table.Column<string>(type: "nvarchar(450)", nullable: true),

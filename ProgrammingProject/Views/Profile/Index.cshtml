@@ -17,7 +17,7 @@
                 <tr>
                     <td><b>@Html.DisplayNameFor(Model => Model.Email): </b> @*@Model.Email*@</td>
                     <td>
-                        <input asp-for=Email type="text" value=@Model.Email disabled readonly class="form-control"/>
+                        <input asp-for=Email type="text" value=@Model.Email disabled readonly class="form-control" />
                     </td>
                 </tr>
                 <tr>
@@ -51,18 +51,18 @@
                     <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>
                     <td>
 
-                         <div class="form-group" style="position: relative;">
-                            <input 
-                                id="SuburbName" 
-                                asp-for="SuburbName" 
-                                value=@Model.SuburbName 
-                                class="form-control" 
-                                data-val="true" 
-                                onkeyup="filterInput('SuburbName', 'suburbsList')" 
-                                onfocusout="filterFocusOut('suburbsList')" />
+                        <div class="form-group" style="position: relative;">
+                            <input id="SuburbName"
+                                   asp-for="SuburbName"
+                                   value=@Model.SuburbName
+                                   class="form-control"
+                                   data-val="true"
+                                   onkeyup="filterInput('SuburbName', 'suburbsList')"
+                                   onfocusout="filterFocusOut('suburbsList')" />
                             <div id="filter">
                                 <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
-                                    @foreach (var suburb in suburbs) {
+                                    @foreach (var suburb in suburbs)
+                                    {
                                         <li style="display: none;">
                                             <button data-postcode="@suburb.Postcode"
                                                     data-name="@suburb.SuburbName"
@@ -73,74 +73,74 @@
                                         </li>
                                     }
                                 </ul>
-                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b></td>
-                        <td>
-                            <div class="form-group">
-                                <input id="Postcode" asp-for="Postcode" value=@Model.Postcode class="form-control" data-val="true" />
-                                <span asp-validation-for="Postcode" class="text-danger"></span>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>@Html.DisplayNameFor(Model => Model.State): </b></td>
-                        <td>
-                            <div class="form-group">
-                                <select id="State" class="form-select" asp-items="Model.StatesList" asp-for="State">
-                                    <option value="" hidden>@Model.State></option>
-                                </select>
-                                <span asp-validation-for="State" class="text-danger"></span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>@Html.DisplayNameFor(Model => Model.PhNumber): </b></td>
-                        <td>
-                            <div class="form-group">
-                                <input id="PhNumber" asp-for="PhNumber" value=@Model.PhNumber class="form-control" data-val="true" />
-                                <span asp-validation-for="PhNumber" class="text-danger"></span>
-                            </div>
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="Postcode" asp-for="Postcode" value=@Model.Postcode class="form-control" data-val="true" />
+                            <span asp-validation-for="Postcode" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(Model => Model.State): </b></td>
+                    <td>
+                        <div class="form-group">
+                            <select id="State" class="form-select" asp-items="Model.StatesList" asp-for="State">
+                                <option value="" hidden>@Model.State></option>
+                            </select>
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(Model => Model.PhNumber): </b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="PhNumber" asp-for="PhNumber" value=@Model.PhNumber class="form-control" data-val="true" />
+                            <span asp-validation-for="PhNumber" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
 
-                    @if (Model.UserType.Equals("Walker")) {
-                        <tr>
-                            <td><b>@Html.DisplayNameFor(Model => Model.IsInsured): </b></td>
-                            <td>
-                                <div class="form-group">
-                                    <select id="insurance" class="form-select" asp-items="Model.IsInsuredList" asp-for="IsInsured">
-                                        <option value="" hidden>@Model.IsInsured></option>
-                                    </select>
-                                    <span asp-validation-for="IsInsured" class="text-danger"></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b>@Html.DisplayNameFor(Model => Model.ExperienceLevel): </b></td>
-                            <td>
-                                <div class="form-group">
-                                    <select id="experience" class="form-select" asp-items="Model.ExperienceList" asp-for="ExperienceLevel">
-                                        <option value="" hidden>@Model.ExperienceLevel</option>
-                                    </select>
-                                    <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
-                                </div>
-                            </td>
-                        </tr>
+                @if (Model.UserType.Equals("Walker"))
+                {
+                    <tr>
+                        <td><b>@Html.DisplayNameFor(Model => Model.IsInsured): </b></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="insurance" class="form-select" asp-items="Model.IsInsuredList" asp-for="IsInsured">
+                                    <option value="" hidden>@Model.IsInsured></option>
+                                </select>
+                                <span asp-validation-for="IsInsured" class="text-danger"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>@Html.DisplayNameFor(Model => Model.ExperienceLevel): </b></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="experience" class="form-select" asp-items="Model.ExperienceList" asp-for="ExperienceLevel">
+                                    <option value="" hidden>@Model.ExperienceLevel</option>
+                                </select>
+                                <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+                            </div>
+                        </td>
+                    </tr>
                 }
             </table>
             <div class="d-flex justify-content-between flex-row-reverse">
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
-                
+
             </div>
         </div>
-    </form>  
+    </form>
 </div>
 @section Scripts {
     <script type="text/javascript" src="js/site.js"></script>
 }
-

@@ -127,8 +127,7 @@ namespace ProgrammingProject.Data
             vet1.BusinessName = "Bays Vets";
             vet1.PhNumber = "0402 201 201";
             vet1.StreetAddress = "3 Baywater Road";
-            vet1.Suburb = suburb1;
-            vet1.State = "Victoria";
+            vet1.Suburb = suburb1;          
             vet1.Country = "Australia";
             vet1.Email = "baysvets@gmail.com";
 
@@ -140,7 +139,6 @@ namespace ProgrammingProject.Data
             vet2.PhNumber = "0440 404 040";
             vet2.StreetAddress = "21 Mountain Street";
             vet2.Suburb = suburb2;
-            vet2.State = "Victoria";
             vet2.Country = "Australia";
             vet2.Email = "petsofthemount@hotmail.com";
 
@@ -152,7 +150,6 @@ namespace ProgrammingProject.Data
             vet3.PhNumber = "1300 000 000";
             vet3.StreetAddress = "31 Schmackos Place";
             vet3.Suburb = suburb3;
-            vet3.State = "Victoria";
             vet3.Country = "Australia";
             vet3.Email = "drschmackos@optus.net";
 
@@ -258,7 +255,6 @@ namespace ProgrammingProject.Data
             owner1.Email = login1.Email;
             owner1.StreetAddress = "12 Pine Rd";
             owner1.Suburb = suburb1;
-            owner1.State = "Victoria";
             owner1.Country = "Australia";
             owner1.PhNumber = "0424 225 877";
             owner1.ProfileImage = "defaultProfile.png";
@@ -274,7 +270,6 @@ namespace ProgrammingProject.Data
             owner2.Email = login2.Email;
             owner2.StreetAddress = "26 Wills Ave";
             owner2.Suburb = suburb2;
-            owner2.State = "Victoria";
             owner2.Country = "Australia";
             owner2.PhNumber = "0411 672 900";
             owner2.ProfileImage = "defaultProfile.png";
@@ -290,7 +285,6 @@ namespace ProgrammingProject.Data
             owner3.Email = login3.Email;
             owner3.StreetAddress = "42 Buckley St";
             owner3.Suburb = suburb3;
-            owner3.State = "Victoria";
             owner3.Country = "Australia";
             owner3.PhNumber = "0456 853 345";
             owner3.ProfileImage = "defaultProfile.png";
@@ -306,7 +300,6 @@ namespace ProgrammingProject.Data
             walker1.Email = login4.Email;
             walker1.StreetAddress = "2 Jacana St";
             walker1.Suburb = suburb4;
-            walker1.State = "Victoria";
             walker1.Country = "Australia";
             walker1.PhNumber = "0488 044 222";
             walker1.IsInsured = true;
@@ -324,7 +317,6 @@ namespace ProgrammingProject.Data
             walker2.Email = login5.Email;
             walker2.StreetAddress = "10 Camden Rd";
             walker2.Suburb = suburb5;
-            walker2.State = "Victoria";
             walker2.Country = "Australia";
             walker2.PhNumber = "0432 142 732";
             walker2.IsInsured = true;
@@ -342,7 +334,6 @@ namespace ProgrammingProject.Data
             walker3.Email = login6.Email;
             walker3.StreetAddress = "14 Nirvana Ave";
             walker3.Suburb = suburb6;
-            walker3.State = "Victoria";
             walker3.Country = "Australia";
             walker3.PhNumber = "0455 332 897";
             walker3.IsInsured = false;

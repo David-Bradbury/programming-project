@@ -31,7 +31,9 @@
                            data-val-required="The Email field is required." placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                     <span id="form-1-message-email" class="text-danger"></span>
-                </div>           
+
+                </div>        
+
                 <div class="form-group mt-3">
                     <label for="Password" class="control-label">Password</label>
                     <input id="Password" name="Password" type="password"
@@ -62,7 +64,9 @@
 
                 <div class="form-control">
                     <label asp-for="ProfileImage" class="control-label"></label>
-                    <input asp-for="ProfileImage" id="DogImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+
+                    <input asp-for="ProfileImage" id="ProfileImage1" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+
                     <span asp-validation-for="ProfileImage" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
@@ -218,6 +222,7 @@
             $("#Email2").val($("#Email1").val());
             $("#Password2").val($("#Password").val());
             $("#ConfirmPassword2").val($("#ConfirmPassword").val());
+            
         }
 
         function submitForm2() {

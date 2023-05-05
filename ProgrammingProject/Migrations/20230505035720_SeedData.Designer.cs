@@ -12,8 +12,8 @@ using ProgrammingProject.Data;
 namespace ProgrammingProject.Migrations
 {
     [DbContext(typeof(EasyWalkContext))]
-    [Migration("20230502085440_seeddata")]
-    partial class seeddata
+    [Migration("20230505035720_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,11 +248,6 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -375,11 +370,6 @@ namespace ProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -418,11 +408,6 @@ namespace ProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -446,9 +431,6 @@ namespace ProgrammingProject.Migrations
 
                             t.Property("PhNumber")
                                 .HasColumnName("Walker_PhNumber");
-
-                            t.Property("State")
-                                .HasColumnName("Walker_State");
 
                             t.Property("StreetAddress")
                                 .HasColumnName("Walker_StreetAddress");
