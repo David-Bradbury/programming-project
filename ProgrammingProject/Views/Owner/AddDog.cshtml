@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "AddDog";
     var breeds = (List<Breed>)ViewBag.BreedsList;
+    var suburbs = (List<Suburb>)ViewBag.SuburbsList;
 }
 
 <h1 class="display-4">Add Dog</h1>
@@ -111,10 +112,25 @@
                            data-val-required="The Address field is required." placeholder="Address Line 1" />
                     <span asp-validation-for="StreetAddress" class="text-danger"></span>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group mt-3" style="position: relative">
                     <label asp-for="SuburbName" class="control-label"></label>
                     <input asp-for="SuburbName" class="form-control" data-val="true"
-                           data-val-required="The Suburb field is required." placeholder="Suburb" />
+                           data-val-required="The Suburb field is required." placeholder="Suburb" 
+                           onkeyup="filterInput('SuburbName', 'suburbsList')" onfocusout="filterFocusOut('suburbsList')" />
+                    <div id="filter">
+                        <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
+                            @foreach (var suburb in suburbs) {
+                                <li style="display: none;">
+                                    <button data-postcode="@suburb.Postcode"
+                                            data-name="@suburb.SuburbName"
+                                            onmousedown="suburbClick(event, this)"
+                                            class="m-0">
+                                        @suburb.SuburbName, @suburb.Postcode
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                     <span asp-validation-for="SuburbName" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
