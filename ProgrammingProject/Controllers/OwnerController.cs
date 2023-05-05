@@ -48,6 +48,8 @@ namespace ProgrammingProject.Controllers
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
 
+            ViewBag.BreedsList = _context.Breeds.ToList();
+
             return View(viewModel);
         }
 
