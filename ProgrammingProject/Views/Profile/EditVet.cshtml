@@ -8,6 +8,7 @@
     <form asp-action="EditVetSave" enctype="multipart/form-data">
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@vm; />
         <input asp-for=DogId type="hidden" value="@Model.DogId" />
+        <input asp-for=Country type="hidden" value="@Model.Country" />
         <table class=" " table:>
             <h3 class="display-4">@Model.Name's Profile</h3>
             <div>

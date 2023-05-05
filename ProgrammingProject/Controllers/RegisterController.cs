@@ -21,7 +21,7 @@ namespace ProgrammingProject.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         public RegisterViewModel viewModel = new RegisterViewModel();
 
-        public RegisterController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment) : base(context)
+        public RegisterController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment) : base(context, webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
@@ -62,14 +62,14 @@ namespace ProgrammingProject.Controllers
 
 
             // Checks if the viewmodel fields are null.
-            CheckNull(viewModel.FirstName, nameof(viewModel.FirstName),  "First Name is Required");
-            CheckNull(viewModel.LastName, nameof(viewModel.LastName),  "Last Name is Required");
-            CheckNull(viewModel.Email, nameof(viewModel.Email),  "Email is Required");
-            CheckNull(viewModel.StreetAddress, nameof(viewModel.StreetAddress),  "Street Address is Required");
-            CheckNull(viewModel.SuburbName, nameof(viewModel.SuburbName),  "Suburb Name is Required");
+            CheckNull(viewModel.FirstName, nameof(viewModel.FirstName), "First Name is Required");
+            CheckNull(viewModel.LastName, nameof(viewModel.LastName), "Last Name is Required");
+            CheckNull(viewModel.Email, nameof(viewModel.Email), "Email is Required");
+            CheckNull(viewModel.StreetAddress, nameof(viewModel.StreetAddress), "Street Address is Required");
+            CheckNull(viewModel.SuburbName, nameof(viewModel.SuburbName), "Suburb Name is Required");
             CheckNull(viewModel.State, nameof(viewModel.State), "State is Required");
-            CheckNull(viewModel.Postcode, nameof(viewModel.Postcode),  "Postcode is Required");
-            CheckNull(viewModel.PhNumber, nameof(viewModel.PhNumber),  "Phone Number is Required");
+            CheckNull(viewModel.Postcode, nameof(viewModel.Postcode), "Postcode is Required");
+            CheckNull(viewModel.PhNumber, nameof(viewModel.PhNumber), "Phone Number is Required");
             CheckNull(viewModel.Password, nameof(viewModel.Password), "Password is Required");
 
             if (viewModel.AccountTypeSelection == 2)
@@ -80,7 +80,7 @@ namespace ProgrammingProject.Controllers
 
             // Checking to see if email is already is the system.
             var checkEmail = _context.Logins.Where(l => l.Email == viewModel.Email);
-            if  (!checkEmail.IsNullOrEmpty())
+            if (!checkEmail.IsNullOrEmpty())
                 ModelState.AddModelError(nameof(viewModel.Email), "This email is already registered in the system. Please try with a different email address.");
 
             // Checking regex values
@@ -93,24 +93,21 @@ namespace ProgrammingProject.Controllers
             CheckRegex(viewModel.PhNumber, nameof(viewModel.PhNumber), regex, "This is not a valid Australian mobile phone number.Please enter a valid Australian mobile phone number");
 
             // Checks the extension of the file to ensure a certain file format.
-            CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
+            if (viewModel.ProfileImage != null)
+                CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
 
             // Checks password is valid.
             CheckValidPassword(viewModel.Password, viewModel.ConfirmPassword);
 
             // Checks Suburb is Valid.
-            CheckSuburbModelState(viewModel.SuburbName, viewModel.Postcode, viewModel.State);     
-            
+            CheckSuburbModelState(viewModel.SuburbName, viewModel.Postcode, viewModel.State);
+
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
             }
-
-            // Converting IFormFile to string.
-            var ImageHelper = new ImageHelper(_webHostEnvironment);
-            string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
-
+        
             // Creating suburb based on form details
             var suburb = new Suburb();
             suburb.SuburbName = viewModel.SuburbName;
@@ -129,59 +126,20 @@ namespace ProgrammingProject.Controllers
             // Sends email out to new users for verification.
             SendEmailVerification(login, viewModel.FirstName);
 
+            var CreateHelper = new Create(_context, _webHostEnvironment);
+            int UserID = 0;
+            string savedProfileImage = null;
+            // Creates an Owner.
             if (viewModel.AccountTypeSelection == 1)
-            {
-                var owner = new Owner();
-                owner.FirstName = viewModel.FirstName;
-                owner.LastName = viewModel.LastName;
-                owner.Email = viewModel.Email;
-                owner.StreetAddress = viewModel.StreetAddress;
-                owner.Suburb = suburb;
-                owner.Country = viewModel.Country;
-                owner.PhNumber = viewModel.PhNumber;
+                CreateHelper.CreateOwner(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
+                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, UserID, savedProfileImage);
 
-                if (viewModel.ProfileImage != null)
-                    owner.ProfileImage = imageFileName;
-                else
-                    owner.ProfileImage = "defaultProfile.png";
-
-                _context.Add(owner);
-                _context.SaveChanges();
-            }
+            // Creates a Walker.
             else if (viewModel.AccountTypeSelection == 2)
             {
-                var walker = new Walker();
-                walker.FirstName = viewModel.FirstName;
-                walker.LastName = viewModel.LastName;
-                walker.Email = viewModel.Email;
-                walker.StreetAddress = viewModel.StreetAddress;    
-                walker.Suburb = suburb;
-                walker.Country = viewModel.Country;
-                walker.PhNumber = viewModel.PhNumber;
-                if (viewModel.IsInsured.Equals("Insured"))
-                    walker.IsInsured = true;
-                else if (viewModel.IsInsured.Equals("Uninsured"))
-                    walker.IsInsured = false;
-
-                if (viewModel.ExperienceLevel.Equals("Beginner"))
-                    walker.ExperienceLevel = ExperienceLevel.Beginner;
-                else if (viewModel.ExperienceLevel.Equals("Intermediate"))
-                    walker.ExperienceLevel = ExperienceLevel.Intermediate;
-                else if (viewModel.ExperienceLevel.Equals("Advanced"))
-                    walker.ExperienceLevel = ExperienceLevel.Advanced;
-                else if (viewModel.ExperienceLevel.Equals("Expert"))
-                    walker.ExperienceLevel = ExperienceLevel.Expert;
-
-                if (viewModel.ProfileImage != null)
-                    walker.ProfileImage = imageFileName;
-                else
-                    walker.ProfileImage = "defaultProfile.png";
-
-                _context.Add(walker);
-                _context.SaveChanges();
-
+                var walker = CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
+                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb);
             }
-
             _context.SaveChanges();
 
             return RedirectToAction("Login", "Login");
@@ -260,6 +218,6 @@ namespace ProgrammingProject.Controllers
             }
 
             return content;
-        }    
+        }
     }
 }

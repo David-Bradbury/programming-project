@@ -21,7 +21,7 @@ namespace ProgrammingProject.Controllers
 
 
         [AuthorizeUser]
-        public ProfileController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment) : base(context) 
+        public ProfileController(EasyWalkContext context, IWebHostEnvironment webHostEnvironment) : base(context, webHostEnvironment) 
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
@@ -181,7 +181,8 @@ namespace ProgrammingProject.Controllers
             CheckSuburbModelState(viewModel.SuburbName, viewModel.Postcode, viewModel.State);
 
             // Checks the extension of the file to ensure a certain file format.
-            CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
+            if (viewModel.ProfileImage != null)
+                CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
 
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
@@ -190,8 +191,8 @@ namespace ProgrammingProject.Controllers
             }
 
             // Converting IFormFile to string.
-            var ImageHelper = new ImageHelper(_webHostEnvironment);
-            string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
+            //var ImageHelper = new ImageHelper(_webHostEnvironment);
+            //string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
 
             // Creating suburb based on form details
             var suburb = new Suburb();
@@ -199,58 +200,55 @@ namespace ProgrammingProject.Controllers
             suburb.Postcode = viewModel.Postcode;
             suburb.State = viewModel.State;
 
+            var CreateHelper = new Create(_context, _webHostEnvironment);
+
             // Check usertype and create viewModel
             if (o == null)
             {
+                var walker = CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
+                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb);
                 //User is Walker
                 viewModel.UserType = typeof(Walker).Name;
-                w.FirstName = viewModel.FirstName;
-                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
-                w.LastName = viewModel.LastName;
-                w.Email = viewModel.Email;
-                w.StreetAddress = viewModel.StreetAddress;
-                w.Suburb = suburb;
-                w.Country = viewModel.Country;
-                w.PhNumber = viewModel.PhNumber;
+                //w.FirstName = viewModel.FirstName;
+                HttpContext.Session.SetString(nameof(walker.FirstName), walker.FirstName);
+                //w.LastName = viewModel.LastName;
+                //w.Email = viewModel.Email;
+                //w.StreetAddress = viewModel.StreetAddress;
+                //w.Suburb = suburb;
+                //w.Country = viewModel.Country;
+                //w.PhNumber = viewModel.PhNumber;
 
-                if (viewModel.ProfileImage != null)
-                    w.ProfileImage = imageFileName;
-                else if (viewModel.SavedProfileImage != imageFileName)
-                    w.ProfileImage = "defaultProfile.png";
+                //if (viewModel.ProfileImage != null)
+                //    w.ProfileImage = imageFileName;
+                //else if (viewModel.SavedProfileImage != imageFileName)
+                //    w.ProfileImage = "defaultProfile.png";
 
-                viewModel.SavedProfileImage = w.ProfileImage;
+                viewModel.SavedProfileImage = walker.ProfileImage;
 
-                if (viewModel.IsInsured == "true")
-                    w.IsInsured = true;
-                else
-                    w.IsInsured = false;
+                //if (viewModel.IsInsured == "true")
+                //    w.IsInsured = true;
+                //else
+                //    w.IsInsured = false;
 
-                if (viewModel.ExperienceLevel == "Beginner")
-                    w.ExperienceLevel = ExperienceLevel.Beginner;
-                else if (viewModel.ExperienceLevel == "Intermediate")
-                    w.ExperienceLevel = ExperienceLevel.Intermediate;
-                else if (viewModel.ExperienceLevel == "Advanced")
-                    w.ExperienceLevel = ExperienceLevel.Advanced;
-                else
-                    w.ExperienceLevel = ExperienceLevel.Expert;
+                //if (viewModel.ExperienceLevel == "Beginner")
+                //    w.ExperienceLevel = ExperienceLevel.Beginner;
+                //else if (viewModel.ExperienceLevel == "Intermediate")
+                //    w.ExperienceLevel = ExperienceLevel.Intermediate;
+                //else if (viewModel.ExperienceLevel == "Advanced")
+                //    w.ExperienceLevel = ExperienceLevel.Advanced;
+                //else
+                //    w.ExperienceLevel = ExperienceLevel.Expert;
             }
             else
             {
                 //User is Owner
-                viewModel.UserType = typeof(Owner).Name;
-                o.FirstName = viewModel.FirstName;
-                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
-                o.LastName = viewModel.LastName;
-                o.Email = viewModel.Email;
-                o.StreetAddress = viewModel.StreetAddress;
-                o.Suburb = suburb;
-                o.Country = viewModel.Country;
-                o.PhNumber = viewModel.PhNumber;
 
-                if (viewModel.ProfileImage != null)
-                    o.ProfileImage = imageFileName;
-                else if (viewModel.SavedProfileImage != imageFileName)
-                    o.ProfileImage = "defaultProfile.png";
+                CreateHelper.CreateOwner(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
+                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, UserID, viewModel.SavedProfileImage);
+
+                viewModel.UserType = typeof(Owner).Name;          
+                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
+          
 
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
@@ -380,7 +378,7 @@ namespace ProgrammingProject.Controllers
             viewModel.PhNumber = vet.PhNumber;
             viewModel.Email = vet.Email;
             viewModel.StreetAddress = vet.StreetAddress;
-            viewModel.State = vet.State;
+            viewModel.State = vet.Suburb.State;
             viewModel.Country = vet.Country;
 
             return View(viewModel);
@@ -503,52 +501,37 @@ namespace ProgrammingProject.Controllers
 
             // Checking if key fields are Null.
             CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            CheckNull(viewModel.BusinessName, nameof(viewModel.BusinessName), "Vets Business Name is required.");
+            CheckNull(viewModel.PhNumber, nameof(viewModel.PhNumber), "Vets Phone Number is required.");
+            CheckNull(viewModel.Email, nameof(viewModel.Email), "Vets Email is required.");
+            CheckNull(viewModel.StreetAddress, nameof(viewModel.StreetAddress), "Vets Street Address is required.");
+            CheckNull(viewModel.SuburbName, nameof(viewModel.SuburbName), "Vets Suburb Name is required.");
+            CheckNull(viewModel.Postcode, nameof(viewModel.Postcode), "Vets Postcode is required.");
+            CheckNull(viewModel.State, nameof(viewModel.State), "Vets State is required.");
+   
 
-            if (viewModel.BusinessName == null)
-                ModelState.AddModelError(nameof(viewModel.BusinessName), "Vets Business Name is required.");
-            if (viewModel.PhNumber == null)
-                ModelState.AddModelError(nameof(viewModel.PhNumber), "Vets Phone Number is required.");
-            if (viewModel.Email == null)
-                ModelState.AddModelError(nameof(viewModel.Email), "Vets Email is required.");
-            if (viewModel.StreetAddress == null)
-                ModelState.AddModelError(nameof(viewModel.StreetAddress), "Vets Street Address is required.");
-            if (viewModel.SuburbName == null)
-                ModelState.AddModelError(nameof(viewModel.SuburbName), "Vets Suburb is required.");
-            if (viewModel.Postcode == null)
-                ModelState.AddModelError(nameof(viewModel.Postcode), "Vets Postcode is required.");
-            if (viewModel.State == null)
-                ModelState.AddModelError(nameof(viewModel.State), "Vets State is required.");
-
-            if (viewModel.SelectedField == nameof(viewModel.Postcode) && !Regex.IsMatch(viewModel.Postcode, @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)"))
-                ModelState.AddModelError(nameof(viewModel.Postcode), "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            // Checking regex values
+            string regex = @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)";
+            CheckRegex(viewModel.Postcode, nameof(viewModel.Postcode), regex, "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
+            regex = @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$";
+            CheckRegex(viewModel.Email, nameof(viewModel.Email), regex, "This is not a valid email address. Please enter a valid email address");
             // Not perfect and needs updates for proper Australian phone numbers.
-            if (viewModel.SelectedField == nameof(viewModel.PhNumber) && !Regex.IsMatch(viewModel.PhNumber, @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$"))
-                ModelState.AddModelError(nameof(viewModel.PhNumber), "This is not a valid Australian mobile phone number. Please enter a valid Australian mobile phone number");
-            if (viewModel.SelectedField == nameof(viewModel.Email) && !Regex.IsMatch(viewModel.Email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s?$"))
-                ModelState.AddModelError(nameof(viewModel.Email), "This is not a valid email address. Please enter a valid email address");
+            regex = @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$";
+            CheckRegex(viewModel.PhNumber, nameof(viewModel.PhNumber), regex, "This is not a valid Australian mobile phone number.Please enter a valid Australian mobile phone number");
 
+            // Check Suburb is valid.
             CheckSuburbModelState(viewModel.SuburbName, viewModel.Postcode, viewModel.State);
 
-            if (viewModel.SelectedField == nameof(viewModel.SavedProfileImage) && viewModel.ProfileImage != null)
-            {
-                string filename = Path.GetFileName(viewModel.ProfileImage.FileName);
-                string extension = Path.GetExtension(filename).ToLower();
+            // Checks the extension of the file to ensure a certain file format.
+            if (viewModel.ProfileImage != null)
+                CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
 
-                if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
-                    ModelState.AddModelError(nameof(viewModel.ProfileImage), "Image must be of the jpg/jpeg, or png format");
-            }
-
+            // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
                 return View("EditVet", viewModel);
             }
 
+            // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
 
@@ -559,21 +542,19 @@ namespace ProgrammingProject.Controllers
 
             viewModel.SavedProfileImage = dog.ProfileImage;
 
-
-            vet.BusinessName = viewModel.BusinessName;
-            vet.PhNumber = viewModel.PhNumber;
-            vet.Email = viewModel.Email;
-            vet.StreetAddress = viewModel.StreetAddress;
-            vet.State = viewModel.State;
-
+            // Create suburb to assign to
             var suburb = new Suburb();
-
             suburb.SuburbName = viewModel.SuburbName;
             suburb.Postcode = viewModel.Postcode;
             suburb.State = viewModel.State;
 
-
+            // Set vet variables to db.
+            vet.BusinessName = viewModel.BusinessName;
+            vet.PhNumber = viewModel.PhNumber;
+            vet.Email = viewModel.Email;
+            vet.StreetAddress = viewModel.StreetAddress;
             vet.Suburb = suburb;
+            vet.Country = viewModel.Country;
 
             // Checking BusinessName for now but this is wrong as BusinessName is not key.
             bool match = false;
@@ -595,6 +576,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
 
+        // Deletes a dog from the db.
         public async Task<IActionResult> DeleteDog(int id)
         {
 
@@ -607,6 +589,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("ViewDogs");
         }
 
+        // Helper method only required in profile controller.
         public EditProfileViewModel SetViewModel()
         {
             var owner = _context.Owners.Find(UserID);
