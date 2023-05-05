@@ -128,18 +128,17 @@ namespace ProgrammingProject.Controllers
 
             var CreateHelper = new Create(_context, _webHostEnvironment);
             int UserID = 0;
-            string savedProfileImage = null;
+    
             // Creates an Owner.
             if (viewModel.AccountTypeSelection == 1)
                 CreateHelper.CreateOwner(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
-                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, UserID, savedProfileImage);
+                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, UserID);
 
             // Creates a Walker.
             else if (viewModel.AccountTypeSelection == 2)
-            {
-                var walker = CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
-                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb);
-            }
+                CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
+                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb, UserID);
+            
             _context.SaveChanges();
 
             return RedirectToAction("Login", "Login");

@@ -190,10 +190,6 @@ namespace ProgrammingProject.Controllers
                 return View(viewModel);
             }
 
-            // Converting IFormFile to string.
-            //var ImageHelper = new ImageHelper(_webHostEnvironment);
-            //string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
-
             // Creating suburb based on form details
             var suburb = new Suburb();
             suburb.SuburbName = viewModel.SuburbName;
@@ -205,51 +201,22 @@ namespace ProgrammingProject.Controllers
             // Check usertype and create viewModel
             if (o == null)
             {
-                var walker = CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
-                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb);
                 //User is Walker
+                CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
+                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb, UserID);
+                
                 viewModel.UserType = typeof(Walker).Name;
-                //w.FirstName = viewModel.FirstName;
-                HttpContext.Session.SetString(nameof(walker.FirstName), walker.FirstName);
-                //w.LastName = viewModel.LastName;
-                //w.Email = viewModel.Email;
-                //w.StreetAddress = viewModel.StreetAddress;
-                //w.Suburb = suburb;
-                //w.Country = viewModel.Country;
-                //w.PhNumber = viewModel.PhNumber;
-
-                //if (viewModel.ProfileImage != null)
-                //    w.ProfileImage = imageFileName;
-                //else if (viewModel.SavedProfileImage != imageFileName)
-                //    w.ProfileImage = "defaultProfile.png";
-
-                viewModel.SavedProfileImage = walker.ProfileImage;
-
-                //if (viewModel.IsInsured == "true")
-                //    w.IsInsured = true;
-                //else
-                //    w.IsInsured = false;
-
-                //if (viewModel.ExperienceLevel == "Beginner")
-                //    w.ExperienceLevel = ExperienceLevel.Beginner;
-                //else if (viewModel.ExperienceLevel == "Intermediate")
-                //    w.ExperienceLevel = ExperienceLevel.Intermediate;
-                //else if (viewModel.ExperienceLevel == "Advanced")
-                //    w.ExperienceLevel = ExperienceLevel.Advanced;
-                //else
-                //    w.ExperienceLevel = ExperienceLevel.Expert;
+                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
+                viewModel.SavedProfileImage = w.ProfileImage;
             }
             else
             {
                 //User is Owner
-
                 CreateHelper.CreateOwner(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
-                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, UserID, viewModel.SavedProfileImage);
+                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, UserID);
 
                 viewModel.UserType = typeof(Owner).Name;          
                 HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
-          
-
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
 
@@ -394,6 +361,11 @@ namespace ProgrammingProject.Controllers
             // retrievs the dog from the db.
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(viewModel.DogId);
+            var vet = new Vet();
+            vet = await _context.Vets.FindAsync(dog.Vet.Id);
+            var owner = new Owner();
+            owner = await _context.Owners.FindAsync(UserID);
+
 
             // Sets the list needed in case of model state error.
             viewModel.StatesList = DropDownLists.GetStates();
@@ -409,7 +381,8 @@ namespace ProgrammingProject.Controllers
             CheckNull(viewModel.TrainingLevel, nameof(viewModel.TrainingLevel), "Dogs Training Level is required.");
 
             // Check if Image extension acceptable
-            CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
+            if (viewModel.ProfileImage != null)
+                CheckImageExtension(viewModel.ProfileImage, nameof(viewModel.ProfileImage));
 
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
@@ -417,64 +390,19 @@ namespace ProgrammingProject.Controllers
                 return View("EditDogProfile", viewModel);
             }
 
-            // Converting IFormFile to string.
-            var ImageHelper = new ImageHelper(_webHostEnvironment);
-            string imageFileName = ImageHelper.UploadFile(viewModel.ProfileImage);
-
-            // Creating breed.
-            var breed = new Breed();
-            breed.BreedName = viewModel.Breed;
-
-            // Setting the dogs variables to be saved to the db.
-            dog.Name = viewModel.Name;
-            dog.Breed = breed;
-            dog.MicrochipNumber = viewModel.MicrochipNumber;
-
-            if (viewModel.ProfileImage != null)
-                dog.ProfileImage = imageFileName;
-            else if (viewModel.SavedProfileImage != imageFileName)
-                dog.ProfileImage = "dog-avatar.jpg";
+            var CreateHelper = new Create(_context, _webHostEnvironment);
 
             viewModel.SavedProfileImage = dog.ProfileImage;
 
-            // Set dogs vaccinations status.
-            if (dog.IsVaccinated == true)
-                viewModel.IsVaccinated = "True";
-
-            // Set dog temperament level enum.
-            if (viewModel.Temperament.Equals("NonReactive"))
-                dog.Temperament = Temperament.NonReactive;
-            else if (viewModel.Temperament.Equals("Calm"))
-                dog.Temperament = Temperament.Calm;
-            else if (viewModel.Temperament.Equals("Friendly"))
-                dog.Temperament = Temperament.Friendly;
-            else if (viewModel.Temperament.Equals("Reactive"))
-                dog.Temperament = Temperament.Reactive;
-            else
-                dog.Temperament = Temperament.Aggressive;
-
-            // Set dog size enum.
-            if (viewModel.DogSize.Equals("Small"))
-                dog.DogSize = DogSize.Small;
-            else if (viewModel.DogSize.Equals("Medium"))
-                dog.DogSize = DogSize.Medium;
-            else if (viewModel.DogSize.Equals("Large"))
-                dog.DogSize = DogSize.Large;
-            else
-                dog.DogSize = DogSize.ExtraLarge;
-
-            // Set dog training level enum.
-            if (viewModel.TrainingLevel.Equals("None"))
-                dog.TrainingLevel = TrainingLevel.None;
-            else if (viewModel.TrainingLevel.Equals("Basic"))
-                dog.TrainingLevel = TrainingLevel.Basic;
-            else
-                dog.TrainingLevel = TrainingLevel.Fully;
-
+            // creating the dog.
+            CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament,
+                viewModel.DogSize, viewModel.TrainingLevel, viewModel.ProfileImage, vet, owner, viewModel.DogId);
+       
             await _context.SaveChangesAsync();
 
             return RedirectToAction("ViewDogs");
         }
+
 
         // Sets up the view EditVet.
         public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
@@ -488,6 +416,7 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
+
 
         // The changes made to a vet in EditVet view are validated and saved to the db.
         public async Task<IActionResult> EditVetSave(EditDogProfileViewModel viewModel)
@@ -508,7 +437,6 @@ namespace ProgrammingProject.Controllers
             CheckNull(viewModel.Postcode, nameof(viewModel.Postcode), "Vets Postcode is required.");
             CheckNull(viewModel.State, nameof(viewModel.State), "Vets State is required.");
    
-
             // Checking regex values
             string regex = @"(^0[289][0-9]{2}\s*$)|(^[1-9][0-9]{3}\s*$)";
             CheckRegex(viewModel.Postcode, nameof(viewModel.Postcode), regex, "This postcode does not match any Australian postcode. Please enter an Australian 4 digit postcode");
@@ -537,25 +465,21 @@ namespace ProgrammingProject.Controllers
 
             if (viewModel.ProfileImage != null)
                 dog.ProfileImage = imageFileName;
-            else if (viewModel.SavedProfileImage != imageFileName)
-                dog.ProfileImage = "dog-avatar.jpg";
-
+        
             viewModel.SavedProfileImage = dog.ProfileImage;
 
-            // Create suburb to assign to
+            var CreateHelper = new Create(_context, _webHostEnvironment);
+
             var suburb = new Suburb();
             suburb.SuburbName = viewModel.SuburbName;
             suburb.Postcode = viewModel.Postcode;
             suburb.State = viewModel.State;
 
-            // Set vet variables to db.
-            vet.BusinessName = viewModel.BusinessName;
-            vet.PhNumber = viewModel.PhNumber;
-            vet.Email = viewModel.Email;
-            vet.StreetAddress = viewModel.StreetAddress;
-            vet.Suburb = suburb;
-            vet.Country = viewModel.Country;
+            int vetId = vet.Id;
+            viewModel.Country = vet.Country;
 
+           vet = CreateHelper.CreateVet(viewModel.BusinessName, viewModel.PhNumber, viewModel.Email, viewModel.StreetAddress, viewModel.Country, suburb, vetId);
+       
             // Checking BusinessName for now but this is wrong as BusinessName is not key.
             bool match = false;
             foreach (var v in _context.Vets)

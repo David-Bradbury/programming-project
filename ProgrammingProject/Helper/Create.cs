@@ -4,31 +4,32 @@ using Microsoft.Extensions.DependencyInjection;
 using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using System;
+using System.Security.Cryptography;
 
 
 namespace ProgrammingProject.Helper
 {
     public class Create
     {
-       // private readonly IServiceProvider _serviceProvider;
         private readonly EasyWalkContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public Create(EasyWalkContext context, IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
-           // _serviceProvider = serviceProvider;
             _context = context;
         
         }
 
-        public Vet CreateVet(string BusinessName, string PhNumber, string Email, string StreetAddress, string Country, Suburb Suburb)
+        // Creates a vet, and the editing of a vet. THIS MAY NEED WORK AS IT DOESN't DO ALL FUNCTIONS NEEDED.
+        public Vet CreateVet(string BusinessName, string PhNumber, string Email, string StreetAddress, string Country, Suburb Suburb, int VetId)
         {
-       
-            //using var context = new EasyWalkContext(
-            //_serviceProvider.GetRequiredService<DbContextOptions<EasyWalkContext>>());
+                 
             Vet vet = new Vet();
-          
+
+            if (VetId != 0)
+                vet = _context.Vets.Find(VetId);
+
             vet.BusinessName = BusinessName;
             vet.PhNumber = PhNumber;
             vet.Email = Email;
@@ -41,15 +42,19 @@ namespace ProgrammingProject.Helper
             return vet;
         }
 
-        public Dog CreateDog(string Name, string Breed, string MicrochipNumber, string StringTemperament,
-            string StringDogSize, string StringTrainingLevel, IFormFile ProfileImage, Vet vet, Owner owner)
+        // Creates a dog, or allows the editing of a dog.
+        public void CreateDog(string Name, string Breed, string MicrochipNumber, string StringTemperament,
+            string StringDogSize, string StringTrainingLevel, IFormFile ProfileImage, Vet vet, Owner owner, int DogId)
         {
+
+            var dog = new Dog();
+
+            if (DogId != 0)
+                dog = _context.Dogs.Find(DogId);
 
             // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(ProfileImage);
-
-            var dog = new Dog();
 
             var breed = new Breed();
             breed.BreedName = Breed;
@@ -60,11 +65,6 @@ namespace ProgrammingProject.Helper
             dog.Owner = owner;
             dog.Vet = vet;
             dog.IsVaccinated = true;
-
-            if (ProfileImage != null)
-                dog.ProfileImage = imageFileName;
-            else
-                dog.ProfileImage = "dog-avatar.jpg";
 
             if (StringTemperament.Equals("NonReactive"))
                 dog.Temperament = Temperament.NonReactive;
@@ -93,11 +93,26 @@ namespace ProgrammingProject.Helper
             if (StringTrainingLevel.Equals("Fully"))
                 dog.TrainingLevel = TrainingLevel.Fully;
 
-            return dog;
+            if (DogId != 0)
+            {
+                if (ProfileImage != null)
+                    dog.ProfileImage = imageFileName;                
+            }
+            else
+            {
+                if (ProfileImage != null)
+                    dog.ProfileImage = imageFileName;
+                else
+                    dog.ProfileImage = "dog-avatar.jpg";
+
+                _context.Add(dog);
+                _context.SaveChanges();
+            }     
         }
 
+        // Creates a owner, or allows the editing of a owner.
         public async void CreateOwner(string firstName, string lastName, string email, string streetAddress, 
-            string country, string phNumber,IFormFile profileImage, Suburb suburb, int UserID, string savedProfileImage)
+            string country, string phNumber,IFormFile profileImage, Suburb suburb, int UserID)
         {
             var owner = new Owner();
           
@@ -107,8 +122,7 @@ namespace ProgrammingProject.Helper
             // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(profileImage);
-
-           
+        
             owner.FirstName = firstName;
             owner.LastName = lastName;
             owner.Email = email;
@@ -123,10 +137,6 @@ namespace ProgrammingProject.Helper
             {
                 if (profileImage != null)
                     owner.ProfileImage = imageFileName;
-                else if (savedProfileImage != imageFileName)
-                    owner.ProfileImage = "defaultProfile.png";
-
-                //await _context.SaveChangesAsync();
             }
             else
             {
@@ -138,22 +148,21 @@ namespace ProgrammingProject.Helper
                 _context.Add(owner);
                 _context.SaveChanges();
             }
-           
-
-
-
         }
 
-        public Walker CreateWalker(string firstName, string lastName, string email, string streetAddress,
-           string country, string phNumber, string insured, string experienceLevel, IFormFile profileImage, Suburb suburb)
+        // Creates a walker, or allows the editing of a walker.
+        public void CreateWalker(string firstName, string lastName, string email, string streetAddress, string country, string phNumber,
+            string insured, string experienceLevel, IFormFile profileImage, Suburb suburb, int UserID)
         {
-           
+            var walker = new Walker();
+
+            if (UserID != 0)
+                walker = _context.Walkers.Find(UserID);
+
             // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(profileImage);
-
-            var walker = new Walker();
-
+          
             walker.FirstName = firstName;
             walker.LastName = lastName;
             walker.Email = email;
@@ -178,18 +187,21 @@ namespace ProgrammingProject.Helper
             else if (experienceLevel.Equals("Expert"))
                 walker.ExperienceLevel = ExperienceLevel.Expert;
 
-            if (profileImage != null)
-                walker.ProfileImage = imageFileName;
+            if (UserID != 0)
+            {
+                if (profileImage != null)
+                    walker.ProfileImage = imageFileName;
+            }
             else
-                walker.ProfileImage = "defaultProfile.png";
+            {
+                if (profileImage != null)
+                    walker.ProfileImage = imageFileName;
+                else
+                    walker.ProfileImage = "defaultProfile.png";
 
-
-            //if (viewModel.ProfileImage != null)
-            //    w.ProfileImage = imageFileName;
-            //else if (viewModel.SavedProfileImage != imageFileName)
-            //    w.ProfileImage = "defaultProfile.png";
-
-            return walker;
+                _context.Add(walker);
+                _context.SaveChanges();
+            }       
         }
     }
 }

@@ -117,7 +117,9 @@ namespace ProgrammingProject.Controllers
             var CreateHelper = new Create(_context, _webHostEnvironment);
 
             // Create a new Vet from form submission.
-             var vet = CreateHelper.CreateVet(viewModel.BusinessName,viewModel.PhNumber,viewModel.Email,viewModel.StreetAddress, viewModel.Country, suburb);        
+            int vetId = 0;
+
+            var vet = CreateHelper.CreateVet(viewModel.BusinessName,viewModel.PhNumber,viewModel.Email,viewModel.StreetAddress, viewModel.Country, suburb, vetId);        
 
             // Checking BusinessName for now but this is wrong as BusinessName is not key. NEED TO RETHINK THIS!
             bool match = false;
@@ -133,18 +135,17 @@ namespace ProgrammingProject.Controllers
                 _context.Vets.Add(vet);
 
             // Create a new dog from form submission.
-            var dog = CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament, 
-                viewModel.DogSize, viewModel.TrainingLevel, viewModel.ProfileImage, vet, owner);
+            int DogId = 0;
+
+            CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament, 
+                viewModel.DogSize, viewModel.TrainingLevel, viewModel.ProfileImage, vet, owner, DogId);
        
-            _context.Add(dog);
 
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
- 
     }
-
 }
 
 

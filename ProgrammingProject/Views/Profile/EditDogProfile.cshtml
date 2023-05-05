@@ -23,7 +23,7 @@
             </div>
             <div class="form-control">
                 <label asp-for=ProfileImage class="control-label">Update Profile Image</label>
-                <input asp-for=ProfileImage id="ProfileImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+                <input asp-for=ProfileImage value=@Model.SavedProfileImage id ="ProfileImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
                 <span asp-validation-for=ProfileImage class="text-danger"></span>
             </div>
             <tr>
