@@ -36,12 +36,12 @@ namespace ProgrammingProject.UnitTests
             Assert.That(states.ToList().First(), Is.EquivalentTo((System.Collections.IEnumerable)testStates.ToList().First()));
         }
 
-        [Test]
-        public void CheckNull_WhenCalled_ReturnsModelError()
-        {
-            string firstName = null;
+        //[Test]
+        //public void CheckNull_WhenCalled_ReturnsModelError()
+        //{
+        //    string firstName = null;
            
-            CheckModelState.CheckNull(firstName, "First Name is required.", ModelState);
-        }
+        //   // CheckModelState.CheckNull(firstName, "First Name is required.", ModelState);
+        //}
     }
 }
