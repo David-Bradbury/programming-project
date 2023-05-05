@@ -593,6 +593,7 @@ namespace ProgrammingProject.Controllers
             vm.SavedProfileImage = owner.ProfileImage;
 
             ViewBag.EditProfileViewModel = vm;
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
 
             return View(viewModel);
@@ -640,6 +641,7 @@ namespace ProgrammingProject.Controllers
 
             if (!ModelState.IsValid)
             {
+                ViewBag.SuburbsList = _context.Suburbs.ToList();
                 return View("EditVet", viewModel);
             }
 

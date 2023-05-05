@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Edit Vet Profile";
     var vm = (EditProfileViewModel)ViewBag.EditProfileViewModel;
+    var suburbs = (List<Suburb>)ViewBag.SuburbsList;
 }
 
 <div>
@@ -71,8 +72,23 @@
                     @*<td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>*@
                     <td><b>Suburb Name:</b></td>
                     <td>
-                        <div class="form-group">
-                            <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" />
+                        <div class="form-group" style="position: relative;">
+                            <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true"
+                                   onkeyup="filterSuburbs('SuburbName', 'suburbsList')" onfocusout="filterFocusOut()" />
+                            <div id="filter">
+                                <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
+                                    @foreach (var suburb in suburbs) {
+                                        <li style="display: none;">
+                                            <button data-postcode="@suburb.Postcode"
+                                                    data-name="@suburb.SuburbName"
+                                                    onmousedown="suburbClick(event, this)"
+                                                    class="m-0">
+                                                @suburb.SuburbName, @suburb.Postcode
+                                            </button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                             <span asp-validation-for="SuburbName" class="text-danger"></span>
                         </div>
                     </td>
@@ -109,3 +125,6 @@
         </div>*@
     </form>
 </div>
+@section Scripts {
+    <script type="text/javascript" src="../../js/site.js"></script>
+}
