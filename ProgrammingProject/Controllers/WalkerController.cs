@@ -288,7 +288,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Start walking session
-        [HttpPost]
+       
         public async Task<IActionResult> StartWalkingSession(int sessionID)
         {
 
@@ -335,7 +335,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Edit walking session
-        [HttpPost]
+
         public async Task<IActionResult> EditWalkingSession(int sessionID)
         {
 
@@ -410,7 +410,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Delete walking session
-        [HttpPost]
+        
         public async Task<IActionResult> DeleteWalkingSession(int sessionID)
         {
 

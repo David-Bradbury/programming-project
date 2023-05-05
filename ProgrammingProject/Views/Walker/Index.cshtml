@@ -73,12 +73,17 @@
 
     <h3>Upcoming Sessions</h3>
     <div class="mb-5 d-flex flex-column gap-1">
-        @foreach (var walk in SortedList)
+        @{
+
+        var userType = "Walker";
+
+        foreach (var walk in SortedList)
         {
             if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
-            {
-                <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
+            { @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
+                //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
             }
+        }
         }
     </div>
 </div>

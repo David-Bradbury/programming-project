@@ -1,6 +1,7 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using ProgrammingProject.Helper;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace ProgrammingProject.Controllers
 {
     //Mask URL
-    [Route("/Owner")]
+    [Route("/Owner/[action]")]
 
 
     public class OwnerController : BaseController
@@ -30,13 +31,22 @@ namespace ProgrammingProject.Controllers
 
         // Owner Landing Page.
         [AuthorizeUser]
-        [Route("/Owner/Index",
-   Name = "Index")]
+
         public async Task<IActionResult> Index()
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
+            ViewBag.WalkingSessions = await GetSuitableWalkingSessions();
+            //  ViewBag.Walkers = await GetLocalWalkers();
             return View(owner);
         }
+
+
+        public async Task<List<WalkingSession>> GetSuitableWalkingSessions()
+        {
+            var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
+            return walkingSessions;
+        }
+
 
         //Add a dog to the owner
         [Route("/Owner/AddDog",

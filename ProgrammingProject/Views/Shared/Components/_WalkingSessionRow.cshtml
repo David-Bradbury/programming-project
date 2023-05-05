@@ -5,10 +5,12 @@
         return t.ToString(format);
     }
 
-    string duration(DateTime start, DateTime end ) {
+    string duration(DateTime start, DateTime end)
+    {
         TimeSpan d = end - start;
         return String.Format("{0}h {1}m", d.Hours, d.Minutes);
     }
+    var userType = this.ViewData["userType"];
 }
 <div class="card session-card">
     <div class="card-body container">
@@ -22,6 +24,13 @@
                     <p class="fw-bold mb-0">Duration</p>
                     <p class="mb-0">@duration(Model.ScheduledStartTime, Model.ScheduledEndTime)</p>
                 </div>
+                @if (userType.Equals("Owner"))
+                {
+                    <div class="col-9 col-sm-3 col-md-2">
+                        <p class="fw-bold mb-0">Walker</p>
+                        <p class="mb-0">@Model.Walker.FirstName @Model.Walker.LastName</p>
+                    </div>
+                }
                 <div class="col-3 col-sm-2 col-md-2">
                     <p class="fw-bold mb-0">Start</p>
                     <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
@@ -58,44 +67,58 @@
 
             </div>
             <div class="d-flex flex-column flex-lg-row justify-content-lg-end gap-1" style="height: min-content">
-@*                                <a type="button" class="btn btn-secondary" asp-action="EditWalkingSession"
-                                asp-route-id="@Model.SessionID">
-                    <i class="bi bi-pencil-square"></i>
-                    </a>*@
-
-                <form asp-action="EditWalkingSession">
-                    <input type="hidden" id="SessionID" name="SessionID" class="form-control"
-                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)
+                @*                                <a type="button" class="btn btn-secondary" asp-action="EditWalkingSession"
+                asp-route-id="@Model.SessionID">
+                <i class="bi bi-pencil-square"></i>
+                </a>*@
+                @if (userType.Equals("Walker"))
+                {
+                    @*<form asp-action="EditWalkingSession">
+                        <input type="hidden" id="SessionID" name="SessionID" class="form-control"
+                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)/>
                     <div class="flex-grow-1">
-                        <input type="submit" class="btn btn-secondary" asp-action="EditWalkingSession"
+                            <input type="submit" class="btn btn-secondary" asp-action="EditWalkingSession"
                                value="Edit" asp-route-id="EditWalkingSession" />
-                    </div>
+                        </div>
 
-                </form>
+                    </form>*@
 
-                <form asp-action="DeleteWalkingSession">
-                    <input type="hidden" id="SessionID" name="SessionID" class="form-control"
-                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)
+                    <a class="btn btn-primary"
+                   asp-action="EditWalkingSession" asp-route-sessionID=@Model.SessionID>Delete</a>
+
+@*                    <form asp-action="DeleteWalkingSession">
+                        <input type="hidden" id="SessionID" name="SessionID" class="form-control"
+                           data-val="true" value=@Model.SessionID/>
                     <div class="flex-grow-1">
-                        <input type="submit" class="btn btn-secondary" asp-action="DeleteWalkingSession"
+                            <input type="submit" class="btn btn-secondary" asp-action="DeleteWalkingSession"
                                value="Delete" asp-route-id="DeleteWalkingSession" />
-                    </div>
+                        </div>
 
-                </form>
+                    </form>*@
 
+                    <a class="btn btn-primary"
+                   asp-action="DeleteWalkingSession" asp-route-sessionID=@Model.SessionID>Delete</a>
 
-                @*                <button type="button" class="btn btn-secondary" disabled>
-                    <i class="bi bi-trash"></i>
-                    </button>*@
-                <form asp-action="StartWalkingSession">
-                    <input type="hidden" id="SessionID" name="SessionID" class="form-control"
-                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)
+                    @*                <button type="button" class="btn btn-secondary" disabled>
+                <i class="bi bi-trash"></i>
+                </button>*@
+                    @*<form asp-action="StartWalkingSession">
+                        <input type="hidden" id="SessionID" name="SessionID" class="form-control"
+                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)/>
                     <div class="flex-grow-1">
-                        <input type="submit" class="btn btn-primary" asp-action="StartWalkingSession"
+                            <input type="submit" class="btn btn-primary" asp-action="StartWalkingSession"
                                value="Start Session" asp-route-id="StartWalkingSession" />
-                    </div>
+                        </div>
 
-                </form>
+                    </form>*@
+                    <a class="btn btn-primary"
+                   asp-action="StartWalkingSession" asp-route-sessionID=@Model.SessionID>Delete</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary"
+                   asp-action="AddDogToSession" asp-route-id=@Html.DisplayFor(x => Model.SessionID)>Add Dog</a>
+                }
             </div>
         </div>
     </div>
