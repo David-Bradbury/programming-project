@@ -5,90 +5,107 @@
 }
 
 <div>
-    <form asp-action="EditVetSave" enctype="multipart/form-data">
-        <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@vm; />
+    <h3 class="display-4">@Model.Name's Profile</h3>
+    <form asp-action="EditVetSave" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
+        @*<partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@vm; />*@
         <input asp-for=DogId type="hidden" value="@Model.DogId" />
-        <table class=" " table:>
-            <h3 class="display-4">@Model.Name's Profile</h3>
+        <div class="d-flex flex-column align-items-center mt-md-5" style="min-width: 21rem;">
             <div>
                 <img src="~/img/@Model.SavedProfileImage" width="200" height="200" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
             </div>
-            <div class="form-control">
-                <label asp-for="ProfileImage" class="control-label">Update Profile Image</label>
-                <input asp-for="ProfileImage" value=@Model.SavedProfileImage id="ProfileImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+            @*<div class="form-group">
+                <label asp-for="ProfileImage" class="form-label text-center w-100">Update Profile Image</label>
+                <input asp-for="ProfileImage" value=@Model.SavedProfileImage id="ProfileImage" accept=".jpg, .jpeg, .png" onchange="validateFileType()" type="file" class="form-control form-control-sm" />
                 <span asp-validation-for="ProfileImage" class="text-danger"></span>
+            </div>*@
+            <div class="d-flex flex-column align-items-center gap-2 mt-2 mt-md-3">
+                <input type="submit" class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditDogProfile"
+                       value="Dog Profile" asp-route-id="@Model.DogId" />
+                <input type="submit" class="btn btn-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditVet"
+                       value="Edit Vet Information" asp-route-id="EditVet" />
             </div>
-            <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.BusinessName): </b></td>
-                <td>
-                    <div class="form-group">
-                        <input id="BusinessName" asp-for="BusinessName" value=@Model.BusinessName class="form-control" data-val="true" />
-                        <span asp-validation-for="BusinessName" class="text-danger"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.PhNumber): </b></td>
-                <td>
-                    <div class="form-group">
-                        <input id="PhNumber" asp-for="PhNumber" value=@Model.PhNumber class="form-control" data-val="true" />
-                        <span asp-validation-for="PhNumber" class="text-danger"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.Email): </b></td>
-                <td>
-                    <div class="form-group">
-                        <input id="Email" asp-for="Email" value=@Model.Email class="form-control" data-val="true" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.StreetAddress): </b></td>
-                <td>
-                    <div class="form-group">
-                        <input id="StreetAddress" asp-for="StreetAddress" value=@Model.StreetAddress class="form-control" data-val="true" />
-                        <span asp-validation-for="StreetAddress" class="text-danger"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>
-                <td>
-                    <div class="form-group">
-                        <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" />
-                        <span asp-validation-for="SuburbName" class="text-danger"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b></td>
-                <td>
-                    <div class="form-group">
-                        <input id="Postcode" asp-for="Postcode" value=@Model.Postcode class="form-control" data-val="true" />
-                        <span asp-validation-for="Postcode" class="text-danger"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><b>@Html.DisplayNameFor(Model => Model.State): </b></td>
-                <td>
-                    <div class="form-group">
-                        <select id="State" class="form-select" asp-items="Model.StatesList" asp-for="State">
-                            <option value="" hidden>@Model.State></option>
-                        </select>
-                        <span asp-validation-for="State" class="text-danger"></span>
-                    </div>
-                </td>
-            </tr>
-        </table>
+        </div>
+        <div class="bg-light p-4 rounded flex-grow-1 mt-4 mt-md-0">
+            <table class="table">
+                <tr>
+                    @*<td><b>@Html.DisplayNameFor(Model => Model.BusinessName): </b></td>*@
+                    <td><b>Vet's Business Name:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="BusinessName" asp-for="BusinessName" value=@Model.BusinessName class="form-control" data-val="true" />
+                            <span asp-validation-for="BusinessName" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    @*<td><b>@Html.DisplayNameFor(Model => Model.PhNumber): </b></td>*@
+                    <td><b>Phone Number:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="PhNumber" asp-for="PhNumber" value=@Model.PhNumber class="form-control" data-val="true" />
+                            <span asp-validation-for="PhNumber" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    @*<td><b>@Html.DisplayNameFor(Model => Model.Email): </b></td>*@
+                    <td><b>Email:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="Email" asp-for="Email" value=@Model.Email class="form-control" data-val="true" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    @*<td><b>@Html.DisplayNameFor(Model => Model.StreetAddress): </b></td>*@
+                    <td><b>Street Address:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="StreetAddress" asp-for="StreetAddress" value=@Model.StreetAddress class="form-control" data-val="true" />
+                            <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    @*<td><b>@Html.DisplayNameFor(Model => Model.SuburbName): </b></td>*@
+                    <td><b>Suburb Name:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true" />
+                            <span asp-validation-for="SuburbName" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    @*<td><b>@Html.DisplayNameFor(Model => Model.Postcode): </b></td>*@
+                    <td><b>Postcode:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="Postcode" asp-for="Postcode" value=@Model.Postcode class="form-control" data-val="true" />
+                            <span asp-validation-for="Postcode" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    @*<td><b>@Html.DisplayNameFor(Model => Model.State): </b></td>*@
+                    <td><b>State:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <select id="State" class="form-select" asp-items="Model.StatesList" asp-for="State">
+                                <option value="" hidden>@Model.State></option>
+                            </select>
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form-group d-flex flex-column justify-content-between flex-row-reverse">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
     @*    <div>
             <a asp-action="EditDogProfile">Back to Profile</a>
         </div>*@
-        <div class="form-group" style="padding-top: 15px">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
     </form>
 </div>
