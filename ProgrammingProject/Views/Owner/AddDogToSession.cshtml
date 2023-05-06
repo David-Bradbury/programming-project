@@ -16,14 +16,16 @@
                     <div class="d-flex justify-content-between">
                         <div class="row flex-grow-1">
                             <div class="col-3 col-sm-3 col-md-2">
-                                <p class="fw-bold mb-0">Date</p>
-                                <p class="mb-0">@dog.Name</p>
+                                <p class="fw-bold mb-0">@dog.Name</p>
+                                
                             </div>
-
+                             <div class="col-3 col-sm-3 col-md-2">
+                            <img src="~/img/@dog.ProfileImage" width="40" height="40" style="border-radius: 80px;" class="ms-1" asp-append-version="true"/>
+                            </div>
                             <div class="d-flex flex-column flex-lg-row justify-content-lg-end gap-1" style="height: min-content">
 
                                 <a class="btn btn-primary"
-                           asp-action="AddDog" asp-route-sessionID=@dog.Id>Add</a>
+                           asp-action="UpdateNewDogInSession" asp-route-sessionID=@dog.Id>Add</a>
 
 
                             </div>
