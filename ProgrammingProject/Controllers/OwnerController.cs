@@ -47,6 +47,15 @@ namespace ProgrammingProject.Controllers
             return walkingSessions;
         }
 
+        public async Task<IActionResult>  AddDogToSession(int sessionID)
+        {
+            var owner = await _context.Owners.FindAsync(OwnerID);
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            ViewBag.WalkingSession = walkingSession;
+            return View(owner);
+        }
+
 
         //Add a dog to the owner
         [Route("/Owner/AddDog",
