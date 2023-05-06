@@ -180,3 +180,19 @@ footer {
 }
 /********************************************************************/
 /* end profile */
+
+/* verification */
+/********************************************************************/
+@include media-breakpoint-down(md) {
+    #verificationBkg {
+        /*overflow: hidden;*/
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #verificationWrapper {
+        min-height: 70vh;
+    }
+}
+/********************************************************************/
+/* end verification */

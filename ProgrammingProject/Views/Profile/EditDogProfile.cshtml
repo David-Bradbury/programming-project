@@ -20,7 +20,7 @@
         <input asp-for=SavedProfileImage type="hidden" value="@Model.SavedProfileImage" />
             <div class="d-flex flex-column align-items-center mt-md-5" style="min-width: 21rem;">
                 <div>
-                    <img src="~/img/@Model.SavedProfileImage" width="200" height="200" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
+                    <img src="~/img/@Model.SavedProfileImage" width="200" height="200" class="rounded-circle" asp-append-version="true" />
                 </div>
                 <div class="form-group">
                     <label asp-for=ProfileImage class="form-label text-center w-100">Update Profile Image</label>
@@ -31,10 +31,14 @@
                     <input type="submit" class="btn btn-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditDogProfile"
                        value="Dog Profile" asp-route-id="@Model.DogId" />
                     <input type="submit" class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditVet"
-                       value="Edit Vet Information" asp-route-id="EditVet" />
+                       value="Edit Vet Information" />
+                    @*asp-route-id="EditVet" *@
+                    <button class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="Index">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        My Profile
+                    </button>
                 </div>
             </div>
-
             <div class="bg-light p-4 rounded flex-grow-1 mt-4 mt-md-0">
                 <table class="table">
                     <tr>
