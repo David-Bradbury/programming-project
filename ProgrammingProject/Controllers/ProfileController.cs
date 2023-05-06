@@ -359,6 +359,8 @@ namespace ProgrammingProject.Controllers
             viewModel.State = vet.Suburb.State;
             viewModel.Country = vet.Country;
 
+            ViewBag.BreedsList = _context.Breeds.ToList();
+
             return View(viewModel);
         }
 
@@ -398,6 +400,7 @@ namespace ProgrammingProject.Controllers
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
+                ViewBag.BreedsList = _context.Breeds.ToList();
                 return View("EditDogProfile", viewModel);
             }
 
@@ -424,6 +427,7 @@ namespace ProgrammingProject.Controllers
             // creates the owners profile view model.
             EditProfileViewModel vm = SetViewModel();
             ViewBag.EditProfileViewModel = vm;
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
             return View(viewModel);
         }
@@ -467,6 +471,8 @@ namespace ProgrammingProject.Controllers
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
+                viewModel.StatesList = DropDownLists.GetStates();
+                ViewBag.SuburbsList = _context.Suburbs.ToList();
                 return View("EditVet", viewModel);
             }
 

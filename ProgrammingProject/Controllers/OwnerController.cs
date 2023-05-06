@@ -51,6 +51,7 @@ namespace ProgrammingProject.Controllers
             viewModel.IsVaccinatedList = DropDownLists.GetVaccinatedList();
 
             ViewBag.BreedsList = _context.Breeds.ToList();
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
 
             return View(viewModel);
         }
@@ -107,6 +108,9 @@ namespace ProgrammingProject.Controllers
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
+                ViewBag.BreedsList = _context.Breeds.ToList();
+                ViewBag.SuburbsList = _context.Suburbs.ToList();
+
                 return View(viewModel);
             }
  
