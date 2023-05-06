@@ -37,7 +37,7 @@ namespace ProgrammingProject.Helper
             vet.Country = Country;
             vet.Suburb = _context.Suburbs.Where(s => s.SuburbName == Suburb.SuburbName)
                                           .Where(s => s.Postcode == Suburb.Postcode)
-                                          .Where(s => s.State == Suburb.State).FirstOrDefault(); ;
+                                          .Where(s => s.State == Suburb.State).FirstOrDefault(); 
      
             return vet;
         }
@@ -138,7 +138,7 @@ namespace ProgrammingProject.Helper
                 if (profileImage != null)
                     owner.ProfileImage = imageFileName;
 
-                owner.UserId = UserID;
+              
                 //_context.SaveChanges();
 
             }
