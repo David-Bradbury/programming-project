@@ -117,6 +117,71 @@ namespace ProgrammingProject.Controllers
             return filteredDogs;
         }
 
+        // Filter dogs by training level
+        public async Task<List<Dog>> FilterDogsByTrainingLevel(List<Dog> dogs, TrainingLevel level)
+        {
+            List<Dog> filteredDogs = new List<Dog>();
+
+            if (level == TrainingLevel.None)
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.None)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }
+            }
+            else if (level == TrainingLevel.Basic)
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.Basic)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }
+            }
+            else
+            {
+                filteredDogs = FilterDogsByMinimumTrainingLevel(dogs, level).Result;
+            }
+            return filteredDogs;
+        }
+
+        // Filter dogs by minimum training level
+        public async Task<List<Dog>> FilterDogsByMinimumTrainingLevel(List<Dog> dogs, TrainingLevel minimumLevel)
+        {
+            List<Dog> filteredDogs = new List<Dog>();
+
+            if (minimumLevel == TrainingLevel.None)
+            {
+                return dogs;
+            } 
+            else if (minimumLevel == TrainingLevel.Basic)
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.Basic || dog.TrainingLevel == TrainingLevel.Fully)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }                
+            }
+            else
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.Fully)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }
+            }
+
+            return filteredDogs;
+        }
+
         // Returns a list of dogs which match the experience level of the passed walker.
         public async Task<List<Dog>> GetListOfSuitableDogsToWalkers(Walker walker, IEnumerable<Dog> dogs)
         {

@@ -65,7 +65,7 @@
 
                 <form asp-action="EditWalkingSession">
                     <input type="hidden" id="SessionID" name="SessionID" class="form-control"
-                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)
+                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID) />
                     <div class="flex-grow-1">
                         <input type="submit" class="btn btn-secondary" asp-action="EditWalkingSession"
                                value="Edit" asp-route-id="EditWalkingSession" />
@@ -75,7 +75,7 @@
 
                 <form asp-action="DeleteWalkingSession">
                     <input type="hidden" id="SessionID" name="SessionID" class="form-control"
-                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)
+                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID) />
                     <div class="flex-grow-1">
                         <input type="submit" class="btn btn-secondary" asp-action="DeleteWalkingSession"
                                value="Delete" asp-route-id="DeleteWalkingSession" />
@@ -89,7 +89,7 @@
                     </button>*@
                 <form asp-action="StartWalkingSession">
                     <input type="hidden" id="SessionID" name="SessionID" class="form-control"
-                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID)
+                           data-val="true" value=@Html.DisplayFor(x => Model.SessionID) />
                     <div class="flex-grow-1">
                         <input type="submit" class="btn btn-primary" asp-action="StartWalkingSession"
                                value="Start Session" asp-route-id="StartWalkingSession" />
