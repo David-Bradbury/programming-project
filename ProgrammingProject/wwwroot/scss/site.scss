@@ -35,6 +35,16 @@ body {
     }
 }
 
+.bg-highlight {
+    background-color: $gray-200;
+}
+
+@include color-mode(dark) {
+    .bg-highlight {
+        background-color: $gray-800;
+    }
+}
+
 /* navbar */
 /********************************************************************/
 .nav-link:not(.dropdown-toggle) {
@@ -158,8 +168,8 @@ footer {
     overflow-y: scroll;
     overflow-x: hidden;
     position: absolute;
-    background-color: #fff;
     position: relative;
+    /*background-color: $body-bg;*/
 }
 
 #filter {

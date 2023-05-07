@@ -35,7 +35,7 @@
                 </button>
             </div>
         </div>
-        <div class="bg-light p-4 rounded flex-grow-1 mt-4 mt-md-0">
+        <div class="bg-highlight p-4 rounded flex-grow-1 mt-4 mt-md-0">
             <table class="table">
                 <tr>
                     @*<td><b>@Html.DisplayNameFor(Model => Model.BusinessName): </b></td>*@
@@ -83,8 +83,8 @@
                     <td>
                         <div class="form-group" style="position: relative;">
                             <input id="SuburbName" asp-for="SuburbName" value=@Model.SuburbName class="form-control" data-val="true"
-                                   onkeyup="filterSuburbs('SuburbName', 'suburbsList')" onfocusout="filterFocusOut()" />
-                            <div id="filter">
+                                   onkeyup="filterInput('SuburbName', 'suburbsList')" onfocusout="filterFocusOut('suburbsList')" />
+                            <div id="filter" class="bg-body">
                                 <ul id="suburbsList" class="mb-0 filter-list" style="display: none;">
                                     @foreach (var suburb in suburbs) {
                                         <li style="display: none;">
@@ -135,5 +135,5 @@
     </form>
 </div>
 @section Scripts {
-    <script type="text/javascript" src="../../js/site.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
 }

@@ -39,7 +39,7 @@
                     </button>
                 </div>
             </div>
-            <div class="bg-light p-4 rounded flex-grow-1 mt-4 mt-md-0">
+            <div class="bg-highlight p-4 rounded flex-grow-1 mt-4 mt-md-0">
                 <table class="table">
                     <tr>
                             @*<td><b>@Html.DisplayNameFor(Model => Model.Name): </b></td>*@
@@ -55,23 +55,23 @@
                             @*<td><b>@Html.DisplayNameFor(Model => Model.Breed): </b></td>*@
                         <td><b>Breed:</b></td>
                         <td>
-                            <div class="form-group">
+                            <div class="form-group" style="position: relative">
                                 <input id="Breed" asp-for="Breed" value=@Model.Breed class="form-control" data-val="true"
                                    onkeyup="filterInput('Breed', 'breedsList')"
                                    onfocusout="filterFocusOut('breedsList')" />
-                            <div id="filter">
-                                <ul id="breedsList" class="mb-0 filter-list" style="display: none;">
-                                    @foreach (var breed in breeds) {
-                                        <li style="display: none;">
-                                            <button data-name="@breed.BreedName"
-                                                    onmousedown="breedClick(event, this)"
-                                                    class="m-0">
-                                                @breed.BreedName
-                                            </button>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
+                                <div id="filter" class="bg-body">
+                                    <ul id="breedsList" class="mb-0 filter-list" style="display: none;">
+                                        @foreach (var breed in breeds) {
+                                            <li style="display: none;">
+                                                <button data-name="@breed.BreedName"
+                                                        onmousedown="breedClick(event, this)"
+                                                        class="m-0">
+                                                    @breed.BreedName
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                                 <span asp-validation-for="Breed" class="text-danger"></span>
                             </div>
                         </td>
@@ -141,8 +141,9 @@
             </div>
     </form>
 </div>
-@*@section scripts{
-    <script type="text/javascript">
+@section scripts{
+    <script type="text/javascript" src="~/js/site.js"></script>
+    @*<script type="text/javascript">
 
         // The following code validates that an only jpeg, jpg, or png files are accepted.
         function validateFileType() {
@@ -159,5 +160,5 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
-    }
-}*@
+    }*@
+}
