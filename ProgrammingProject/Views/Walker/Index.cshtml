@@ -75,6 +75,16 @@
     <div class="mb-5 d-flex flex-column gap-1">
         @foreach (var walk in SortedList)
         {
+            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.Date.Month == DateTime.UtcNow.Month)
+            {
+                <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
+            }
+        }
+    </div>
+        <h3>Scheduled Sessions</h3>
+    <div class="mb-5 d-flex flex-column gap-1">
+        @foreach (var walk in SortedList)
+        {
             if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
             {
                 <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />

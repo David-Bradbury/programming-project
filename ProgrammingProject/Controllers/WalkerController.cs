@@ -89,7 +89,7 @@ namespace ProgrammingProject.Controllers
          */
 
         // Filters dogs to within 10km of the walker's Suburb
-        public async Task<List<Dog>> FilterLocationByRadius(List<Dog> dogs)
+        public async Task<List<Dog>> FilterLocationByRadius(List<Dog> dogs, int? range = 10000)
         {
             var walker = await _context.Walkers.FindAsync(WalkerID);
             var suburb = walker.Suburb;
@@ -107,9 +107,72 @@ namespace ProgrammingProject.Controllers
                     location.Latitude = double.Parse(owner.Suburb.Lat);
                     location.Longitude = double.Parse(owner.Suburb.Lon);
 
-                    var distanceInMeters = 10000;
+                    if (userLocation.GetDistanceTo(location) < range)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }
+            }
 
-                    if (userLocation.GetDistanceTo(location) < distanceInMeters)
+            return filteredDogs;
+        }
+
+        // Filter dogs by training level
+        public async Task<List<Dog>> FilterDogsByTrainingLevel(List<Dog> dogs, TrainingLevel level)
+        {
+            List<Dog> filteredDogs = new List<Dog>();
+
+            if (level == TrainingLevel.None)
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.None)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }
+            }
+            else if (level == TrainingLevel.Basic)
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.Basic)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }
+            }
+            else
+            {
+                filteredDogs = FilterDogsByMinimumTrainingLevel(dogs, level).Result;
+            }
+            return filteredDogs;
+        }
+
+        // Filter dogs by minimum training level
+        public async Task<List<Dog>> FilterDogsByMinimumTrainingLevel(List<Dog> dogs, TrainingLevel minimumLevel)
+        {
+            List<Dog> filteredDogs = new List<Dog>();
+
+            if (minimumLevel == TrainingLevel.None)
+            {
+                return dogs;
+            } 
+            else if (minimumLevel == TrainingLevel.Basic)
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.Basic || dog.TrainingLevel == TrainingLevel.Fully)
+                    {
+                        filteredDogs.Add(dog);
+                    }
+                }                
+            }
+            else
+            {
+                foreach (Dog dog in dogs)
+                {
+                    if (dog.TrainingLevel == TrainingLevel.Fully)
                     {
                         filteredDogs.Add(dog);
                     }
