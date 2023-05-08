@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ProgrammingProject.Filters;
 using GeoCoordinatePortable;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ProgrammingProject.Controllers
 {
@@ -525,11 +526,11 @@ namespace ProgrammingProject.Controllers
         // Add Dog Rating
         public async Task<IActionResult> AddDogRating(int WalkerID, int DogID, double Rating)
         {
-            //var rating = _context.DogRatings.Where(x => x.WalkerID == WalkerID)
-            //                                .Where(x => x.DogID == DogID);
+            var rating = _context.DogRatings.Where(x => x.WalkerID == WalkerID)
+                                            .Where(x => x.DogID == DogID);
 
-            //if (rating == null)
-            //{
+            if (rating.IsNullOrEmpty())
+            {
                 var dog = await _context.Dogs.FindAsync(DogID);
 
                 var walker = await _context.Walkers.FindAsync(WalkerID);
@@ -548,7 +549,7 @@ namespace ProgrammingProject.Controllers
                 //dog.DogRatings.Add(dr);
 
                 await _context.SaveChangesAsync();
-            //}
+            }
             return RedirectToAction(nameof(Index));
         }
 
