@@ -1,16 +1,18 @@
 ﻿using ProgrammingProject.Data;
 using ProgrammingProject.Models;
 using ProgrammingProject.Filters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using ProgrammingProject.Helper;
 using System.Text.RegularExpressions;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace ProgrammingProject.Controllers
 {
     //Mask URL
-    [Route("/Owner")]
+    [Route("/Owner/[action]")]
 
 
     public class OwnerController : BaseController
@@ -30,13 +32,43 @@ namespace ProgrammingProject.Controllers
 
         // Owner Landing Page.
         [AuthorizeUser]
-        [Route("/Owner/Index",
-   Name = "Index")]
+
         public async Task<IActionResult> Index()
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
+            ViewBag.WalkingSessions = await GetSuitableWalkingSessions();
+       
+            //  ViewBag.Walkers = await GetLocalWalkers();
             return View(owner);
         }
+
+
+        public async Task<List<WalkingSession>> GetSuitableWalkingSessions()
+        {
+            var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
+            return walkingSessions;
+        }
+
+        public async Task<IActionResult>  AddDogToSession(int sessionID)
+        {
+            var owner = await _context.Owners.FindAsync(OwnerID);
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            ViewBag.WalkingSession = walkingSession;
+            return View(owner);
+        }
+
+        public async Task<IActionResult> UpdateNewDogInSession(int sessionID, int dogID)
+        {
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+            var dog = await _context.Dogs.FindAsync(dogID);
+            walkingSession.DogList.Add(dog);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
 
         //Add a dog to the owner
         [Route("/Owner/AddDog",

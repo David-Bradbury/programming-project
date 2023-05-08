@@ -1,15 +1,42 @@
 ﻿@model Owner
 @{
     ViewData["Title"] = "Owner";
+    var walkingSessions = (List<WalkingSession>)ViewBag.WalkingSessions;
+
 
 }
 
 <div>
-    <h1 Dashboard</h1>
-    <h6 class="display-4">@Model.FirstName</h6>
+    <h1> Dashboard</h1>
+</div>
 
+<br/>
+
+<div>
+    <h3>Dogs</h3>
     @foreach (var dog in @Model.Dogs)
     {
         <partial name="../Shared/Components/_OwnerDogCard.cshtml" model="dog" />
     }
+</div>
+
+<br />
+
+<div>
+    <h3>Upcoming Sessions</h3>
+    <div class="mb-5 d-flex flex-column gap-1">
+        @{
+            var userType = "Owner";
+
+            foreach (var walk in walkingSessions)
+            {
+                if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
+                {
+                    @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
+                ;
+                //   <partial name="../Shared/Components/_WalkingSessionRow.cshtml", model="walk", UserType = "userType" />
+            }
+        }
+        }
+    </div>
 </div>
