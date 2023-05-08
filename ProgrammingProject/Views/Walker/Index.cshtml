@@ -4,6 +4,7 @@
     var dogs = (List<Dog>)ViewBag.Dogs;
     var walker = (Walker)ViewBag.Walker;
     List<WalkingSession> SortedList = walker.WalkingSessions.OrderBy(o => o.Date).ToList();
+     var userType = "Walker";
 }
 
 <div>
@@ -74,23 +75,27 @@
     <h3>Upcoming Sessions</h3>
     <div class="mb-5 d-flex flex-column gap-1">
         @{
+           
 
-        var userType = "Walker";
-
-        foreach (var walk in SortedList)
+            foreach (var walk in SortedList)
         {
             if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.Date.Month == DateTime.UtcNow.Month)
             {
-                <partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
+                        @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
+                //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
             }
+        }
         }
     </div>
         <h3>Scheduled Sessions</h3>
     <div class="mb-5 d-flex flex-column gap-1">
-        @foreach (var walk in SortedList)
+        @{
+           
+        foreach (var walk in SortedList)
         {
             if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
-            { @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
+            {
+                    @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
                 //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
             }
         }
