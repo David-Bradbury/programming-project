@@ -11,6 +11,7 @@
         return String.Format("{0}h {1}m", d.Hours, d.Minutes);
     }
     var userType = this.ViewData["userType"];
+    var selectDogList = this.ViewData["selectDogList"];
 }
 <div class="card session-card">
     <div class="card-body container">
@@ -84,7 +85,7 @@
                     </form>*@
 
                     <a class="btn btn-primary"
-                   asp-action="EditWalkingSession" asp-route-sessionID=@Model.SessionID>Delete</a>
+                   asp-action="EditWalkingSession" asp-route-sessionID=@Model.SessionID>Edit</a>
 
 @*                    <form asp-action="DeleteWalkingSession">
                         <input type="hidden" id="SessionID" name="SessionID" class="form-control"
@@ -112,12 +113,12 @@
 
                     </form>*@
                     <a class="btn btn-primary"
-                   asp-action="StartWalkingSession" asp-route-sessionID=@Model.SessionID>Delete</a>
+                   asp-action="StartWalkingSession" asp-route-sessionID=@Model.SessionID>Start Session</a>
                 }
-                else
+                else if(userType.Equals("Owner"))
                 {
                     <a class="btn btn-primary"
-                   asp-action="AddDogToSession" asp-route-id=@Html.DisplayFor(x => Model.SessionID)>Add Dog</a>
+                   asp-action="AddDogToSession" asp-route-sessionID=@Model.SessionID>Add Dog</a>
                 }
             </div>
         </div>

@@ -1,8 +1,16 @@
 ﻿@model Owner
 
 @{
+    string displayTime(DateTime t, String format)
+    {
+        return t.ToString(format);
+    }
+
+
     ViewData["Title"] = "AddDogToSession";
-    var breeds = (List<Breed>)ViewBag.BreedsList;
+    var walkingSession = (WalkingSession)ViewBag.WalkingSession;
+
+
 }
 
 <h1>Add Dog To Session</h1>
@@ -15,17 +23,40 @@
                 <div class="card-body container">
                     <div class="d-flex justify-content-between">
                         <div class="row flex-grow-1">
+
                             <div class="col-3 col-sm-3 col-md-2">
-                                <p class="fw-bold mb-0">@dog.Name</p>
-                                
+                                <img src="~/img/@dog.ProfileImage" width="40" height="40" style="border-radius: 80px;" class="ms-1" asp-append-version="true" />
                             </div>
-                             <div class="col-3 col-sm-3 col-md-2">
-                            <img src="~/img/@dog.ProfileImage" width="40" height="40" style="border-radius: 80px;" class="ms-1" asp-append-version="true"/>
+
+                            <div class="col-3 col-sm-3 col-md-2">
+                                <p class="fw-bold mb-0">Dog</p>
+                                <p class="mb-0">@Html.DisplayFor(x=>dog.Name)</p>
                             </div>
+
+
+                            <div class="col-9 col-sm-3 col-md-2">
+                                <p class="fw-bold mb-0">Date</p>
+                                <p class="mb-0">@displayTime(walkingSession.ScheduledStartTime, "dd/MM/yy")</p>
+                            </div>
+
+                            <div class="col-3 col-sm-2 col-md-2">
+                                <p class="fw-bold mb-0">Start</p>
+                                <p class="mb-0">@displayTime(walkingSession.ScheduledStartTime, "HH:mm")</p>
+                            </div>
+                            <div class="col-9 col-sm-4 col-md-2">
+                                <p class="fw-bold mb-0">End</p>
+                                <p class="mb-0">@displayTime(walkingSession.ScheduledEndTime, "HH:mm")</p>
+                            </div>
+
+                            <div class="col-md-4">
+                                <p class="fw-bold mb-0">Walker</p>
+                                <p class="mb-0">@walkingSession.Walker.FirstName @walkingSession.Walker.LastName</p>
+                            </div>
+
                             <div class="d-flex flex-column flex-lg-row justify-content-lg-end gap-1" style="height: min-content">
 
                                 <a class="btn btn-primary"
-                           asp-action="UpdateNewDogInSession" asp-route-sessionID=@dog.Id>Add</a>
+                           asp-action="UpdateNewDogInSession" asp-route-sessionID=@walkingSession.SessionID asp-route-dogID=@dog.Id>Add</a>
 
 
                             </div>

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace ProgrammingProject.Controllers
 {
     //Mask URL
@@ -36,6 +37,7 @@ namespace ProgrammingProject.Controllers
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
             ViewBag.WalkingSessions = await GetSuitableWalkingSessions();
+       
             //  ViewBag.Walkers = await GetLocalWalkers();
             return View(owner);
         }
@@ -55,6 +57,17 @@ namespace ProgrammingProject.Controllers
             ViewBag.WalkingSession = walkingSession;
             return View(owner);
         }
+
+        public async Task<IActionResult> UpdateNewDogInSession(int sessionID, int dogID)
+        {
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+            var dog = await _context.Dogs.FindAsync(dogID);
+            walkingSession.DogList.Add(dog);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
 
 
         //Add a dog to the owner
