@@ -21,6 +21,8 @@
             <div class="d-flex justify-content-between">
                 <div class="row flex-grow-1">
                     <form asp-action="EditWalkingSession">
+                        <input name="SessionID" class="form-control"
+                               type="hidden" value="@walk.SessionID" />
                         <div class="col-12 col-sm-3 col-md-2">
                             <label for="Date" class="form-label">Date</label>
                             <input asp-for="Date" type="date" id="Date" name="Date" class="form-control"
@@ -52,15 +54,14 @@
                                     }
                                     @foreach (var d in walk.DogList)
                                     {
-@*                                        if (count > 0)
-                                        {
-                                            @Html.Raw(", ")
-                                        }*@
+                                        @*                                        if (count > 0)
+                                {
+                                @Html.Raw(", ")
+                                }*@
                                         @Html.DisplayFor(x => d.Name)
                                         <input name="DogID" class="form-control"
                                        type="hidden" value="@d.Id" />
-                                        <input name="SessionID" class="form-control"
-                                       type="hidden" value="@walk.SessionID" />
+
                                         <input type="submit" class="btn btn-secondary" asp-action="RemoveDogFromWalk"
                                        value="Remove Dog" asp-route-id="RemoveDogFromWalk" />
                                         count++;
