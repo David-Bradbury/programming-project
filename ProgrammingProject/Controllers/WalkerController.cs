@@ -422,7 +422,7 @@ namespace ProgrammingProject.Controllers
 
             //var walk = walker.WalkingSessions.Find(walkerSession);
 
-            if (Date < DateTime.UtcNow || Date == null)
+            if (Date.DayOfWeek < DateTime.UtcNow.DayOfWeek || Date == null)
                 ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
             //if (StartTime == null)
             //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
