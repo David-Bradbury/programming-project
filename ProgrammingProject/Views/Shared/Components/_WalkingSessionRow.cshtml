@@ -16,31 +16,31 @@
 <div class="card session-card">
     <div class="card-body container">
         <div class="d-flex justify-content-between">
-            <div class="row flex-grow-1">
-                <div class="col-3 col-sm-3 col-md-2">
+            <div class="row flex-grow-1 mx-1">
+                <div class="col-9 col-md-4">
                     <p class="fw-bold mb-0">Date</p>
                     <p class="mb-0">@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
                 </div>
-                <div class="col-9 col-sm-3 col-md-2">
+                <div class="col-5 col-md-3">
+                    <p class="fw-bold mb-0">Start</p>
+                    <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
+                </div>
+                <div class="col-5 col-md-3">
+                    <p class="fw-bold mb-0">End</p>
+                    <p class="mb-0">@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
+                </div>
+                <div class="col-9 col-md-4">
                     <p class="fw-bold mb-0">Duration</p>
                     <p class="mb-0">@duration(Model.ScheduledStartTime, Model.ScheduledEndTime)</p>
                 </div>
                 @if (userType.Equals("Owner"))
                 {
-                    <div class="col-9 col-sm-3 col-md-2">
+                    <div class="col-9 col-md-3">
                         <p class="fw-bold mb-0">Walker</p>
                         <p class="mb-0">@Model.Walker.FirstName @Model.Walker.LastName</p>
                     </div>
                 }
-                <div class="col-3 col-sm-2 col-md-2">
-                    <p class="fw-bold mb-0">Start</p>
-                    <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
-                </div>
-                <div class="col-9 col-sm-4 col-md-2">
-                    <p class="fw-bold mb-0">End</p>
-                    <p class="mb-0">@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-7">
                     <p class="fw-bold mb-0">Dogs On Walk</p>
                     @if (Model.DogList.Count() > 0)
                     {
@@ -83,7 +83,7 @@
                 </div>
                 </form>*@
 
-                    <a class="btn btn-primary"
+                    <a class="btn btn-primary my-auto"
                    asp-action="EditWalkingSession" asp-route-sessionID=@Model.SessionID>Edit</a>
 
                     @*                    <form asp-action="DeleteWalkingSession">
@@ -95,7 +95,7 @@
                 </div>
                 </form>*@
 
-                    <a class="btn btn-primary"
+                    <a class="btn btn-primary my-auto"
                    asp-action="DeleteWalkingSession" asp-route-sessionID=@Model.SessionID>Delete</a>
 
                     @*                <button type="button" class="btn btn-secondary" disabled>
@@ -109,8 +109,8 @@
                 value="Start Session" asp-route-id="StartWalkingSession" />
                 </div>
                 </form>*@
-                    <a class="btn btn-primary"
-                   asp-action="StartWalkingSession" asp-route-sessionID=@Model.SessionID>Start Session</a>
+                    <a class="btn btn-primary my-auto"
+                   asp-action="StartWalkingSession" asp-route-sessionID=@Model.SessionID>Start</a>
                 }
                 else if (userType.Equals("Owner"))
                 {
