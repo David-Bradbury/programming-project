@@ -13,29 +13,33 @@
     var userType = this.ViewData["userType"];
     var selectDogList = this.ViewData["selectDogList"];
 }
-<div class="card session-card">
+<div class="card session-card my-1 shadow border-0">
     <div class="card-body container">
         <div class="d-flex justify-content-between">
             <div class="row flex-grow-1 mx-1">
-                <div class="col-9 col-md-4">
+                <div class="col-2">
+                    <img src="~/img/calendar.png" class="w-100" />
+                </div>
+                <div class="col-9 row">
+                <div class="col-6 col-md-5">
                     <p class="fw-bold mb-0">Date</p>
                     <p class="mb-0">@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
                 </div>
-                <div class="col-5 col-md-3">
+                <div class="col-3 col-md-43">
                     <p class="fw-bold mb-0">Start</p>
                     <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
                 </div>
-                <div class="col-5 col-md-3">
+                <div class="col-3 col-md-3">
                     <p class="fw-bold mb-0">End</p>
                     <p class="mb-0">@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
                 </div>
-                <div class="col-9 col-md-4">
+                <div class="col-6 col-md-5">
                     <p class="fw-bold mb-0">Duration</p>
                     <p class="mb-0">@duration(Model.ScheduledStartTime, Model.ScheduledEndTime)</p>
                 </div>
                 @if (userType.Equals("Owner"))
                 {
-                    <div class="col-9 col-md-3">
+                    <div class="col-6 col-md-6">
                         <p class="fw-bold mb-0">Walker</p>
                         <p class="mb-0">@Model.Walker.FirstName @Model.Walker.LastName</p>
                     </div>
@@ -64,6 +68,7 @@
                     {
                         <p class="mb-0">No Dogs</p>
                     }
+                </div>
                 </div>
 
             </div>
