@@ -395,6 +395,8 @@ namespace ProgrammingProject.Controllers
 
             walkerSession.ActualEndTime = DateTime.Now;
 
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
 

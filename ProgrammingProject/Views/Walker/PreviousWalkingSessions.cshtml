@@ -17,33 +17,39 @@
                 <th class="table-primary">@Html.DisplayNameFor(x => x.SessionID)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledStartTime)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.ScheduledEndTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.ActualStartTime)</th>
+                <th class="table-primary">@Html.DisplayNameFor(x => x.ActualEndTime)</th>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.DogList)</th>
             </tr>
-
-            @foreach (var sessions in walks)
-            {            
-                if (DateTime.Compare(sessions.Date, DateTime.Now) < 0)
+            @{
+                DateTime date = new DateTime();
+                foreach (var sessions in walks)
                 {
-                    <tr>
-                        <td>@Html.DisplayFor(x => sessions.SessionID)</td>
-                        <td>@Html.DisplayFor(x => sessions.ScheduledStartTime)</td>
-                        <td>@Html.DisplayFor(x => sessions.ScheduledEndTime)</td>
-                        @if (sessions.DogList != null)
-                        {
-                            <td>
-                                @foreach (var d in sessions.DogList)
-                                {
-                                    @Html.DisplayFor(x => d.Name)
+                    if (DateTime.Compare(sessions.Date, DateTime.Now) < 0 || sessions.ActualStartTime != date)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(x => sessions.SessionID)</td>
+                            <td>@Html.DisplayFor(x => sessions.ScheduledStartTime)</td>
+                            <td>@Html.DisplayFor(x => sessions.ScheduledEndTime)</td>
+                            <td>@Html.DisplayFor(x => sessions.ActualStartTime)</td>
+                            <td>@Html.DisplayFor(x => sessions.ActualEndTime)</td>
+                            @if (sessions.DogList != null)
+                            {
+                                <td>
+                                    @foreach (var d in sessions.DogList)
+                                    {
+                                        @Html.DisplayFor(x => d.Name)
 
-                                    <br />
-                                }
-                            </td>
-                        }
-                        else
-                        {
-                            <td>No Dogs</td>
-                        }
-                    </tr>
+                                        <br />
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td>No Dogs</td>
+                            }
+                        </tr>
+                    }
                 }
             }
         </table>
