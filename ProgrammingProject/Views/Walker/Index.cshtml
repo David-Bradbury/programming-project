@@ -84,14 +84,13 @@
                 </div>
                 <div class="mb-5 d-flex flex-column gap-1">
                     @{
-
+                        DateTime date = new DateTime();
 
                         foreach (var walk in SortedList)
                         {
-                            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.Date.Month == DateTime.UtcNow.Month)
+                            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.Date.Month == DateTime.UtcNow.Month && walk.ActualStartTime == date)
                             {
-                                @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}})
-                                ;
+                                    @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
                                 //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
                             }
                         }
@@ -112,7 +111,7 @@
                         foreach (var walk in SortedList)
 
                         {
-                            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
+                            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.ActualStartTime == date)
                             {
                                 @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
                                 //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
