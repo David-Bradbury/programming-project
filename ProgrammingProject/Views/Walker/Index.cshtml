@@ -4,7 +4,7 @@
     var dogs = (List<Dog>)ViewBag.Dogs;
     var walker = (Walker)ViewBag.Walker;
     List<WalkingSession> SortedList = walker.WalkingSessions.OrderBy(o => o.Date).ToList();
-     var userType = "Walker";
+    var userType = "Walker";
 }
 
 <div>
@@ -64,76 +64,80 @@
 
 
 <div class="container bg-light p-3 w-100 rounded shadow" id="walkerSections">
-        <div class="row">
-            <div class="col-lg-3 col-sm-12">
-                <img src="~/img/dogwalkerimg.png" class="w-100"/>
-                <a class="btn btn-primary w-100 my-1" href="#upcomingSessions" data-bs-toggle="collapse">Upcoming Sessions</a>
-                <a class="btn btn-primary w-100 my-1" href="#scheduledSessions" data-bs-toggle="collapse">Scheduled Sessions</a>
-                <a class="btn btn-primary w-100 my-1 pb-2" href="#suitableDogs" data-bs-toggle="collapse">Suitable Dogs</a>
-                <a class="btn btn-primary w-100 my-1" href="#walkerFaq" data-bs-toggle="collapse">Walker FAQ's</a>
+    <div class="row">
+        <div class="col-lg-3 col-sm-12">
+            <img src="~/img/dogwalkerimg.png" class="w-100" />
+            <a class="btn btn-primary w-100 my-1" href="#upcomingSessions" data-bs-toggle="collapse">Upcoming Sessions</a>
+            <a class="btn btn-primary w-100 my-1" href="#scheduledSessions" data-bs-toggle="collapse">Scheduled Sessions</a>
+            <a class="btn btn-primary w-100 my-1 pb-2" href="#suitableDogs" data-bs-toggle="collapse">Suitable Dogs</a>
+            <a class="btn btn-primary w-100 my-1" href="#walkerFaq" data-bs-toggle="collapse">Walker FAQ's</a>
 
-            </div>
-            <div class="col-lg-9  vh-100 overflow-scroll">
+        </div>
+        <div class="col-lg-9  vh-100 overflow-scroll">
 
-                    <div class="collapse show" id="upcomingSessions" data-bs-parent="#walkerSections">
+            <div class="collapse show" id="upcomingSessions" data-bs-parent="#walkerSections">
                 <div class="d-flex justify-content-between flex-wrap mb-3">
                     <h3>Upcoming Sessions</h3>
                     <button type="button" class="btn btn-primary row m-2" data-bs-toggle="modal" data-bs-target="#sessionModal">
                         <i class="bi bi-plus"></i>Add a walking session
                     </button>
                 </div>
-    <div class="mb-5 d-flex flex-column gap-1">
-        @{
-           
+                <div class="mb-5 d-flex flex-column gap-1">
+                    @{
 
-            foreach (var walk in SortedList)
-        {
-            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.Date.Month == DateTime.UtcNow.Month)
-            {
-                        @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
-                //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
-            }
-        }
-        }
-    </div>
-    </div>
 
-                        <div class="collapse" id="scheduledSessions" data-bs-parent="#walkerSections">
+                        foreach (var walk in SortedList)
+                        {
+                            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.Date.Month == DateTime.UtcNow.Month)
+                            {
+                                @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}})
+                                ;
+                                //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
+                            }
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="collapse" id="scheduledSessions" data-bs-parent="#walkerSections">
                 <div class="d-flex justify-content-between flex-wrap mb-3">
-                <h3>Scheduled Sessions</h3>
+                    <h3>Scheduled Sessions</h3>
                     <button type="button" class="btn btn-primary row m-2" data-bs-toggle="modal" data-bs-target="#sessionModal">
                         <i class="bi bi-plus"></i>Add a walking session
                     </button>
                 </div>
-    <div class="mb-5 d-flex flex-column gap-1">
-        @{
-           
-        foreach (var walk in SortedList)
-        {
-            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
-            {
-                    @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
-                //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
-            }
-        }
-        }
-    </div>
-    </div>
+                <div class="mb-5 d-flex flex-column gap-1">
+                    @{
 
-                <div class="collapse" id="suitableDogs" data-bs-parent="#walkerSections">
+                        foreach (var walk in SortedList)
+
+                        {
+                            if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
+                            {
+                                @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
+                                //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
+                            }
+                        }
+
+                    }
+                </div>
+            </div>
+
+
+            <div class="collapse" id="suitableDogs" data-bs-parent="#walkerSections">
                 <h3 class="mb-3">Suitable Dogs</h3>
-    <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
-        @foreach (var dog in dogs)
-        {
-            <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
-        }
-        @for (int i = 0; i < 2; i++)
-        {
-            <div class="card dog-card" style="height: 0; border: none;"></div>
-        }
-    </div>
+                <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
+                    @foreach (var dog in dogs)
+                    {
+                        <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
+                    }
+                    @for (int i = 0; i < 2; i++)
+                    {
+                        <div class="card dog-card" style="height: 0; border: none;"></div>
+                    }
+                </div>
 
-</div>
+            </div>
             <div class="collapse" id="walkerFaq" data-bs-parent="#walkerSections">
                 <h3 class="mb-3">
                     Walker FAQs
@@ -179,15 +183,15 @@
                                     </div>
                                 </div>
                             </div>
-            </div>
-            </div>
-            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row col-sm-12">
                     <a class="btn btn-primary col-6 mx-auto mt-3 py-2" asp-action="FAQ">More FAQs</a>
                 </div>
-</div>
-</div>
-</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

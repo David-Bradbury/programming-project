@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ProgrammingProject.Filters;
 using GeoCoordinatePortable;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ProgrammingProject.Controllers
 {
@@ -513,6 +514,92 @@ namespace ProgrammingProject.Controllers
             ViewBag.WalkingSession = SortedList;
 
             return View();
+        }
+
+        // Add Dog Rating
+        public async Task<IActionResult> CreateDogRating(int DogID)
+        {
+            var dog = await _context.Dogs.FindAsync(DogID);
+
+            var walker = await _context.Walkers.FindAsync(WalkerID);
+
+            ViewBag.Dog = dog;
+            ViewBag.Walker = walker;
+
+            return View();
+        }
+
+        // Add Dog Rating
+        public async Task<IActionResult> AddDogRating(int WalkerID, int DogID, double Rating)
+        {
+            var rating = _context.DogRatings.Where(x => x.WalkerID == WalkerID)
+                                            .Where(x => x.DogID == DogID);
+
+            if (rating.IsNullOrEmpty())
+            {
+                var dog = await _context.Dogs.FindAsync(DogID);
+
+                var walker = await _context.Walkers.FindAsync(WalkerID);
+
+                DogRating dr = new DogRating();
+
+                dr.Rating = Rating;
+                dr.RatingDate = DateTime.Now;
+                dr.DogID = dog.Id;
+                dr.WalkerID = WalkerID;
+                dr.Walker = walker;
+                dr.Dog = dog;
+
+                _context.DogRatings.Add(dr);
+                //walker.DogRatings.Add(dr);
+                //dog.DogRatings.Add(dr);
+
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // Needs to be moved to Owner controller
+        //// Add Walker Rating
+        //public async Task<IActionResult> AddWalkerRating()
+        //{
+        //    return View();
+        //}
+
+        // Gets the average rating of a walker
+        public async Task<double> GetWalkerRating(int id)
+        {
+            List<double> ratings = new List<double>();
+
+            var walker = await _context.Walkers.FindAsync(id);
+
+            var totalRatings = walker.WalkerRatings;
+
+            foreach (var walkerRating in totalRatings)
+            {
+                ratings.Add(walkerRating.Rating);
+            }
+
+            return ratings.Average();
+        }
+
+
+        // Gets the average rating of a dog
+        public async Task<double> GetDogRating(int id)
+        {
+            List<double> ratings = new List<double>();
+
+            var dog = await _context.Dogs.FindAsync(id);
+
+            var totalRatings = dog.DogRatings;
+
+            foreach (var dogRating in totalRatings)
+            {
+                ratings.Add(dogRating.Rating);
+            }
+
+            return ratings.Average();
         }
     }
 }
