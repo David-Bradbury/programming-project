@@ -22,12 +22,26 @@ namespace ProgrammingProject.Controllers
         }
 
         [AuthorizeUser]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string level, int? range = 10000)
         {
+            if (level.IsNullOrEmpty())
+            {
+                level = "None";
+            }
+
+            TrainingLevel minimumLevel;
+            Enum.TryParse(level, out minimumLevel);
+
             //lazy loading
             var walker = await _context.Walkers.FindAsync(WalkerID);
             ViewBag.Walker = walker;
-            ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
+
+            var dogs = await MatchDogsToWalker(WalkerID);
+
+            var rangeFilter = await FilterLocationByRadius(dogs, range);
+            var trainingFilter = await FilterDogsByMinimumTrainingLevel(rangeFilter, minimumLevel);
+
+            ViewBag.Dogs = trainingFilter;
             return View();
         }
 
@@ -70,9 +84,7 @@ namespace ProgrammingProject.Controllers
                     filteredDogs.Add(d);
             }
 
-            var locationFilteredDogs = FilterLocationByRadius(filteredDogs);
-
-            return locationFilteredDogs.Result;
+            return filteredDogs;
 
             // Notes to discuss: AllowUnvaccinated as a question
             // when adding walker (saved to model). Allows user to set requirements and
@@ -244,8 +256,6 @@ namespace ProgrammingProject.Controllers
 
             if (Date < DateTime.UtcNow)
                 ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
-            //if (StartTime == null)
-            //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
             if (EndTime < StartTime)
                 ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
 
@@ -407,8 +417,6 @@ namespace ProgrammingProject.Controllers
 
             var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
-            // ViewBag.WalkingSession = walkerSession;
-
             return View(walkerSession);
         }
 
@@ -421,14 +429,8 @@ namespace ProgrammingProject.Controllers
         {
             var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
-            // var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
-
-            //var walk = walker.WalkingSessions.Find(walkerSession);
-
             if (Date < DateTime.UtcNow.ToLocalTime() )
                 ModelState.AddModelError(nameof(walkerSession.Date), "Date cannot be in the past");
-            //if (StartTime == null)
-            //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
             if (EndTime < StartTime || StartTime == null || EndTime == null)
                 ModelState.AddModelError(nameof(walkerSession.ScheduledEndTime), "Valid End Time needs to be selected");
 

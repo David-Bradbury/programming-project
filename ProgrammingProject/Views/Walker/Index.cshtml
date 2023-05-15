@@ -62,6 +62,37 @@
 </div>
 <br />
 
+<form asp-action="Index" id="Index" method="post">
+    <fieldset id="range">
+        <legend>Show Dogs Within:</legend>
+        <label for="range5km" class="form-label">5Km</label>
+        <input type="radio" id="range" name="range" class="form-control"
+               data-val="true" value="5000" />
+        <label for="range10km" class="form-label">10Km</label>
+        <input type="radio" id="range" name="range" class="form-control"
+               data-val="true" value="10000" />
+        <label for="range15km" class="form-label">15Km</label>
+        <input type="radio" id="range" name="range" class="form-control"
+               data-val="true" value="15000" />
+        <label for="range20km" class="form-label">20Km</label>
+        <input type="radio" id="range" name="range" class="form-control"
+               data-val="true" value="20000" />
+    </fieldset>
+    <fieldset id="level">
+        <legend>Set Minimum Training Level</legend>
+        <label for="none" class="form-label">No Training</label>
+        <input type="radio" id="level" name="level" class="form-control"
+               data-val="true" value="None" />
+        <label for="basic" class="form-label">Basic Training</label>
+        <input type="radio" id="level" name="level" class="form-control"
+               data-val="true" value="Basic" />
+        <label for="fully" class="form-label">Fully Trained</label>
+        <input type="radio" id="level" name="level" class="form-control"
+               data-val="true" value="Fully" />
+    </fieldset>
+    <input type="submit" class="btn btn-primary" asp-action="Index"
+           value="Filter" asp-route-id="Index" />
+</form>
 
 <div class="container bg-light p-3 w-100 rounded shadow" id="walkerSections">
     <div class="row">
@@ -90,7 +121,8 @@
                         {
                             if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.Date.Month == DateTime.UtcNow.Month && walk.ActualStartTime == date)
                             {
-                                    @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
+                                @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}})
+                                ;
                                 //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
                             }
                         }
@@ -113,7 +145,8 @@
                         {
                             if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0 && walk.ActualStartTime == date)
                             {
-                                @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
+                                @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}})
+                                ;
                                 //<partial name="../Shared/Components/_WalkingSessionRow.cshtml" model="walk" />
                             }
                         }
@@ -198,57 +231,57 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        function walkingSessionSubmit() {
-            var $sessionForm = $("#CreateWalkingSession");
-            var $date = $("#Date");
-            var $startTime = $("#StartTime");
-            var $endTime = $("#EndTime");
+    function walkingSessionSubmit() {
+        var $sessionForm = $("#CreateWalkingSession");
+        var $date = $("#Date");
+        var $startTime = $("#StartTime");
+        var $endTime = $("#EndTime");
 
-            $("#sessionFormMessage").text("");
+        $("#sessionFormMessage").text("");
 
-            if (!$sessionForm[0].checkValidity()) {
-                $sessionForm[0].reportValidity();
-                return;
-            }
-
-            var $badForm = false;
-
-            var $startHour = Number($startTime.val().toString().substring(0, 2));
-            var $endHour = Number($endTime.val().toString().substring(0, 2));
-
-            // if the hour is too early else if the time is too early, report.
-            if ($startHour > $endHour) {
-                $("#sessionFormMessage").text("The start time must be before the end time");
-                $badForm = true;
-            } else if ($startHour == $endHour
-                && Number($startTime.val().toString().substring(3, 5)) > Number($endTime.val().toString().substring(3, 5))) {
-                $("#sessionFormMessage").text("The start time must be before the end time");
-                $badForm = true;
-            }
-
-            var $now = new Date(Date.now())
-            $now.setUTCHours(0);
-            $now.setMinutes(0);
-            $now.setSeconds(0);
-            $now.setMilliseconds(0);
-            var $sessionDate = new Date($date.val());
-
-            // if date is in the past, report.
-            if ($sessionDate < $now) {
-                $("#sessionFormMessage").text("Date cannot be in the past.");
-                $badForm = true;
-            }
-
-            if ($badForm) {
-                return;
-            }
-
-            $sessionForm.submit();
+        if (!$sessionForm[0].checkValidity()) {
+            $sessionForm[0].reportValidity();
+            return;
         }
 
+        var $badForm = false;
 
-    </script>
+        var $startHour = Number($startTime.val().toString().substring(0, 2));
+        var $endHour = Number($endTime.val().toString().substring(0, 2));
+
+        // if the hour is too early else if the time is too early, report.
+        if ($startHour > $endHour) {
+            $("#sessionFormMessage").text("The start time must be before the end time");
+            $badForm = true;
+        } else if ($startHour == $endHour
+            && Number($startTime.val().toString().substring(3, 5)) > Number($endTime.val().toString().substring(3, 5))) {
+            $("#sessionFormMessage").text("The start time must be before the end time");
+            $badForm = true;
+        }
+
+        var $now = new Date(Date.now())
+        $now.setUTCHours(0);
+        $now.setMinutes(0);
+        $now.setSeconds(0);
+        $now.setMilliseconds(0);
+        var $sessionDate = new Date($date.val());
+
+        // if date is in the past, report.
+        if ($sessionDate < $now) {
+            $("#sessionFormMessage").text("Date cannot be in the past.");
+            $badForm = true;
+        }
+
+        if ($badForm) {
+            return;
+        }
+
+        $sessionForm.submit();
+    }
+
+
+</script>
 }
 
