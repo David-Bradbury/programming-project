@@ -413,7 +413,7 @@ namespace ProgrammingProject.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdateWalkingSession(
+        public async Task<IActionResult> EditWalkingSession(
             int sessionID, DateTime Date, DateTime StartTime, DateTime EndTime)
         {
             var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
@@ -422,12 +422,12 @@ namespace ProgrammingProject.Controllers
 
             //var walk = walker.WalkingSessions.Find(walkerSession);
 
-            if (Date < DateTime.UtcNow || Date == null)
-                ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
+            if (Date < DateTime.UtcNow.ToLocalTime() )
+                ModelState.AddModelError(nameof(walkerSession.Date), "Date cannot be in the past");
             //if (StartTime == null)
             //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
             if (EndTime < StartTime || StartTime == null || EndTime == null)
-                ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
+                ModelState.AddModelError(nameof(walkerSession.ScheduledEndTime), "Valid End Time needs to be selected");
 
             if (!ModelState.IsValid)
             {
@@ -468,7 +468,7 @@ namespace ProgrammingProject.Controllers
             //        session.ScheduledEndTime = walkerSession.ScheduledEndTime;
             //    }
             //}
-            if (!changesMade)
+            if (changesMade)
             {
                 await _context.SaveChangesAsync();
             }

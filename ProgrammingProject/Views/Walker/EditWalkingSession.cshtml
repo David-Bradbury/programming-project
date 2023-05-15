@@ -29,6 +29,7 @@
                                    value="@Model.Date.ToString("yyyy-MM-dd")"
                                    data-val="true" data-val-date="The field Date must be a date."
                                    data-val-required="The date field is required." />
+                                    <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
                         <div class="col-3 col-sm-2 col-md-2">
                             <label for="StartTime" class="form-label">Start Time</label>
@@ -43,6 +44,7 @@
                                    value=@displayTime(Model.ScheduledEndTime, "HH:mm")
                                    data-val="true" data-val-time="The field EndTime must be a time."
                                    data-val-required="The EndTime field is required." />
+                                   <span asp-validation-for="ScheduledEndTime" class="text-danger"></span>
                         </div>
                         <div class="col-md-4">
                             <p class="fw-bold mb-0">Dogs On Walk</p>
@@ -76,8 +78,8 @@
                         <br />
                         <input type="submit" class="btn btn-primary" asp-action="CancelChanges"
                                value="Cancel" asp-route-id="CancelChanges" />
-                        <input type="submit" class="btn btn-primary" asp-action="UpdateWalkingSession"
-                               value="Make Changes" asp-route-id="UpdateWalkingSession" />
+                        <input type="submit" class="btn btn-primary" asp-action="EditWalkingSession"
+                               value="Make Changes" asp-route-id="EditWalkingSession" />
                     </form>
                 </div>
             </div>
