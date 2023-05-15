@@ -22,37 +22,37 @@
                 <div class="row flex-grow-1">
                     <form asp-action="EditWalkingSession">
                         <input name="SessionID" class="form-control"
-                               type="hidden" value="@walk.SessionID" />
+                               type="hidden" value="@Model.SessionID" />
                         <div class="col-12 col-sm-3 col-md-2">
                             <label for="Date" class="form-label">Date</label>
                             <input asp-for="Date" type="date" id="Date" name="Date" class="form-control"
-                                   value="@displayTime(walk.Date.Date, "dd/MM/yy")"
+                                   value="@Model.Date.ToString("yyyy-MM-dd")"
                                    data-val="true" data-val-date="The field Date must be a date."
                                    data-val-required="The date field is required." />
                         </div>
                         <div class="col-3 col-sm-2 col-md-2">
                             <label for="StartTime" class="form-label">Start Time</label>
                             <input type="time" id="StartTime" name="StartTime" class="form-control"
-                                   value=@displayTime(walk.ScheduledStartTime, "HH:mm")
+                                   value=@displayTime(Model.ScheduledStartTime, "HH:mm")
                                    data-val="true" data-val-time="The field StartTime must be a time."
                                    data-val-required="The StartTime field is required." />
                         </div>
                         <div class="col-9 col-sm-7 col-md-2">
                             <label for="EndTime" class="form-label">End Time</label>
                             <input type="time" id="EndTime" name="EndTime" class="form-control"
-                                   value=@displayTime(walk.ScheduledEndTime, "HH:mm")
+                                   value=@displayTime(Model.ScheduledEndTime, "HH:mm")
                                    data-val="true" data-val-time="The field EndTime must be a time."
                                    data-val-required="The EndTime field is required." />
                         </div>
                         <div class="col-md-4">
                             <p class="fw-bold mb-0">Dogs On Walk</p>
-                            @if (walk.DogList.Count() > 0)
+                            @if (Model.DogList.Count() > 0)
                             {
                                 <p class="mb-0">
                                     @{
                                         int count = 0;
                                     }
-                                    @foreach (var d in walk.DogList)
+                                    @foreach (var d in Model.DogList)
                                     {
                                         @*                                        if (count > 0)
                                 {
