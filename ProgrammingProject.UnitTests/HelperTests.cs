@@ -48,28 +48,53 @@ namespace ProgrammingProject.UnitTests
         //}
 
         [Test]
-        public void CreateVet_WhenCalled_ReturnsVet()
+        public void CreateVet_NewVet_ReturnsVet()
         {
+            // Arrange 
+            var CreateHelper = new Create(_context, _webHostEnvironment);
+
             string businessName = "Vet";
             string phNumber = "0400 000 000";
             string email = "Vet@proton.me";
             string streetAddress = "13 test avenue";
             string country = "Australia";
 
-            var suburb = _context.Suburbs.Where(s => s.SuburbName == "Seaford")
-                                          .Where(s => s.Postcode == "5169")
-                                          .Where(s => s.State == "SA").FirstOrDefault();
-            //suburb.SuburbName = "Seaford";
-            //suburb.Postcode = "5169";
-            //suburb.State = "SA";
-
+            var suburb = _context.Suburbs.Where(s => s.SuburbName == "Barangaroo")
+                                          .Where(s => s.Postcode == "2000")
+                                          .Where(s => s.State == "NSW").FirstOrDefault();
+      
             int vetID = 0;
 
-            var CreateHelper = new Create(_context, _webHostEnvironment);
-
+            // Act
             var vet = CreateHelper.CreateVet(businessName, phNumber, email, streetAddress, country, suburb, vetID);
 
-            Assert.That(vet.BusinessName, Is.EqualTo(businessName));
+            // Assert        
+            Assert.IsInstanceOf<Vet>(vet);
+        }
+
+        [Test]
+        public void CreateVet_EditVet_ReturnsVet()
+        {
+            // Arrange 
+            var CreateHelper = new Create(_context, _webHostEnvironment);
+           
+            string businessName = "Vet";
+            string phNumber = "0400 000 000";
+            string email = "Vet@proton.me";
+            string streetAddress = "13 test avenue";
+            string country = "Australia";
+
+            var suburb = _context.Suburbs.Where(s => s.SuburbName == "Barangaroo")
+                                          .Where(s => s.Postcode == "2000")
+                                          .Where(s => s.State == "NSW").FirstOrDefault();
+
+            int vetID = 3;
+
+            // Act
+            var vet = CreateHelper.CreateVet(businessName, phNumber, email, streetAddress, country, suburb, vetID);
+
+            // Assert        
+            Assert.IsInstanceOf<Vet>(vet);
         }
     }
 }

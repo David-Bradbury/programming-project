@@ -23,48 +23,66 @@ namespace ProgrammingProject.UnitTests
             // Seed Suburbs
             var suburb1 = new Suburb();
 
-            suburb1.Postcode = "3153";
-            suburb1.SuburbName = "Bayswater";
+            suburb1.Postcode = "2000";
+            suburb1.SuburbName = "Barangaroo";
+            suburb1.State = "NSW";
+            suburb1.Lat = "-33.860";
+            suburb1.Lon = "151.210";
 
             context.Suburbs.Add(suburb1);
 
 
             var suburb2 = new Suburb();
 
-            suburb2.Postcode = "3149";
-            suburb2.SuburbName = "Mount Waverly";
+            suburb2.Postcode = "2011";
+            suburb2.SuburbName = "Elizabeth Bay";
+            suburb2.State = "NSW";
+            suburb2.Lat = "-33.870";
+            suburb2.Lon = "151.230";
 
             context.Suburbs.Add(suburb2);
 
 
             var suburb3 = new Suburb();
 
-            suburb3.Postcode = "3174";
-            suburb3.SuburbName = "Noble Park";
+            suburb3.Postcode = "3002";
+            suburb3.SuburbName = "East Melbourne";
+            suburb3.State = "VIC";
+            suburb3.Lat = "-37.820";
+            suburb3.Lon = "144.990";
 
             context.Suburbs.Add(suburb3);
 
 
             var suburb4 = new Suburb();
 
-            suburb4.Postcode = "3148";
-            suburb4.SuburbName = "Chadstone";
+            suburb4.Postcode = "3011";
+            suburb4.SuburbName = "Footscray";
+            suburb4.State = "VIC";
+            suburb4.Lat = "-37.800";
+            suburb4.Lon = "144.900";
 
             context.Suburbs.Add(suburb4);
 
 
             var suburb5 = new Suburb();
 
-            suburb5.Postcode = "3122";
-            suburb5.SuburbName = "Hawthorn";
+            suburb5.Postcode = "3008";
+            suburb5.SuburbName = "Docklands";
+            suburb5.State = "VIC";
+            suburb5.Lat = "-37.810";
+            suburb5.Lon = "144.950";
 
             context.Suburbs.Add(suburb5);
 
 
             var suburb6 = new Suburb();
 
-            suburb6.Postcode = "3145";
-            suburb6.SuburbName = "Malvern East";
+            suburb6.Postcode = "4007";
+            suburb6.SuburbName = "Ascot";
+            suburb6.State = "QLD";
+            suburb6.Lat = "-27.430";
+            suburb6.Lon = "153.060";
 
             context.Suburbs.Add(suburb6);
 
@@ -74,23 +92,23 @@ namespace ProgrammingProject.UnitTests
 
             vet1.BusinessName = "Bays Vets";
             vet1.PhNumber = "0402 201 201";
-            vet1.StreetAddress = "3 Baywater Road";
+            vet1.StreetAddress = "3 Barangaroo Road";
             vet1.Suburb = suburb1;
           
             vet1.Country = "Australia";
-            vet1.Email = "baysvets@gmail.com";
+            vet1.Email = "barangaroo@gmail.com";
 
             context.Vets.Add(vet1);
 
             var vet2 = new Vet();
 
-            vet2.BusinessName = "Pets of the Mount";
+            vet2.BusinessName = "Pets of the Bay";
             vet2.PhNumber = "0440 404 040";
-            vet2.StreetAddress = "21 Mountain Street";
+            vet2.StreetAddress = "21 Elizabeth Bay Street";
             vet2.Suburb = suburb2;
          
             vet2.Country = "Australia";
-            vet2.Email = "petsofthemount@hotmail.com";
+            vet2.Email = "petsofthebay@hotmail.com";
 
             context.Vets.Add(vet2);
 
@@ -275,67 +293,81 @@ namespace ProgrammingProject.UnitTests
 
             context.Administrators.Add(admin);
 
+            var breed1 = new Breed();
+            breed1.BreedName = "GOLDEN RETRIEVER";
 
-            //// Seed Dogs
-            /////Needs fixing as breeds are off now
-            //var dog1 = new Dog();
+            context.Breeds.Add(breed1);
 
-            //dog1.Name = "Max";
-            //dog1.Breed = "Golden Retriever";
-            //dog1.MicrochipNumber = "123456";
-            //dog1.IsVaccinated = true;
-            //dog1.Temperament = Temperament.Friendly;
-            //dog1.DogSize = DogSize.Large;
-            //dog1.TrainingLevel = TrainingLevel.Basic;
-            //dog1.Owner = owner1;
-            //dog1.Vet = vet1;
+            var breed2 = new Breed();
+            breed2.BreedName = "LABRADOR RETRIEVER";
 
-            //context.Dogs.Add(dog1);
+            context.Breeds.Add(breed2);
+
+            var breed3 = new Breed();
+            breed3.BreedName = "BEAGLE";
+
+            context.Breeds.Add(breed3);
 
 
-            //var dog2 = new Dog();
+            //// Seed Dogs 
+            var dog1 = new Dog();
 
-            //dog2.Name = "Bella";
-            //dog2.Breed = "Labrador";
-            //dog2.MicrochipNumber = "152655";
-            //dog2.IsVaccinated = true;
-            //dog2.Temperament = Temperament.Calm;
-            //dog2.DogSize = DogSize.Large;
-            //dog2.TrainingLevel = TrainingLevel.Fully;
-            //dog2.Owner = owner2;
-            //dog2.Vet = vet2;
+            dog1.Name = "Max";
+            dog1.Breed = breed1;
+            dog1.MicrochipNumber = "123456";
+            dog1.IsVaccinated = true;
+            dog1.Temperament = Temperament.Friendly;
+            dog1.DogSize = DogSize.Large;
+            dog1.TrainingLevel = TrainingLevel.Basic;
+            dog1.Owner = owner1;
+            dog1.Vet = vet1;
 
-            //context.Dogs.Add(dog2);
-
-
-            //var dog3 = new Dog();
-
-            //dog3.Name = "Teddy";
-            //dog3.Breed = "Beagle";
-            //dog3.MicrochipNumber = "111111";
-            //dog3.IsVaccinated = true;
-            //dog3.Temperament = Temperament.Friendly;
-            //dog3.DogSize = DogSize.Small;
-            //dog3.TrainingLevel = TrainingLevel.None;
-            //dog3.Owner = owner3;
-            //dog3.Vet = vet3;
-
-            //context.Dogs.Add(dog3);
+            context.Dogs.Add(dog1);
 
 
-            //var dog4 = new Dog();
+            var dog2 = new Dog();
 
-            //dog4.Name = "Ruby";
-            //dog4.Breed = "Beagle";
-            //dog4.MicrochipNumber = "111112";
-            //dog4.IsVaccinated = true;
-            //dog4.Temperament = Temperament.Friendly;
-            //dog4.DogSize = DogSize.Small;
-            //dog4.TrainingLevel = TrainingLevel.Basic;
-            //dog4.Owner = owner3;
-            //dog4.Vet = vet3;
+            dog2.Name = "Bella";
+            dog2.Breed = breed2;
+            dog2.MicrochipNumber = "152655";
+            dog2.IsVaccinated = true;
+            dog2.Temperament = Temperament.Calm;
+            dog2.DogSize = DogSize.Large;
+            dog2.TrainingLevel = TrainingLevel.Fully;
+            dog2.Owner = owner2;
+            dog2.Vet = vet2;
 
-            //context.Dogs.Add(dog4);
+            context.Dogs.Add(dog2);
+
+
+            var dog3 = new Dog();
+
+            dog3.Name = "Teddy";
+            dog3.Breed = breed3;
+            dog3.MicrochipNumber = "111111";
+            dog3.IsVaccinated = true;
+            dog3.Temperament = Temperament.Friendly;
+            dog3.DogSize = DogSize.Small;
+            dog3.TrainingLevel = TrainingLevel.None;
+            dog3.Owner = owner3;
+            dog3.Vet = vet3;
+
+            context.Dogs.Add(dog3);
+
+
+            var dog4 = new Dog();
+
+            dog4.Name = "Ruby";
+            dog4.Breed = breed3;
+            dog4.MicrochipNumber = "111112";
+            dog4.IsVaccinated = true;
+            dog4.Temperament = Temperament.Friendly;
+            dog4.DogSize = DogSize.Small;
+            dog4.TrainingLevel = TrainingLevel.Basic;
+            dog4.Owner = owner3;
+            dog4.Vet = vet3;
+
+            context.Dogs.Add(dog4);
 
             context.SaveChanges();
          
