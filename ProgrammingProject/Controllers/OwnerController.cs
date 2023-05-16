@@ -16,7 +16,7 @@ namespace ProgrammingProject.Controllers
 
 
     public class OwnerController : BaseController
-    {    
+    {
         private readonly EasyWalkContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -40,7 +40,7 @@ namespace ProgrammingProject.Controllers
 
             ViewBag.WalkingSessions = await GetSuitableWalkingSessions(owner, range);
 
-      
+
             ViewBag.BookedSessions = await GetBookedWalkingSessions(owner);
 
 
@@ -56,7 +56,8 @@ namespace ProgrammingProject.Controllers
                 var walks = _context.WalkingSessions.Where(w => w.DogList.Contains(d)).OrderBy(o => o.Date).ToList();
                 foreach (WalkingSession walk in walks)
                 {
-                    bookedSessions.Add(walk);
+                    if (!bookedSessions.Contains(walk))
+                        bookedSessions.Add(walk);
                 }
             }
 
@@ -84,23 +85,23 @@ namespace ProgrammingProject.Controllers
                         localWalkers.Add(w);
                     }
                 }
-                
+
             }
 
             foreach (Walker w in localWalkers)
             {
-                foreach(WalkingSession walkingSession in w.WalkingSessions)
+                foreach (WalkingSession walkingSession in w.WalkingSessions)
                 {
                     suitableSessions.Add(walkingSession);
                 }
             }
             var orderedSuitableSessions = suitableSessions.OrderBy(s => s.Date).ToList();
 
-          //  var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
+            //  var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
             return orderedSuitableSessions;
         }
 
-        public async Task<IActionResult>  AddDogToSession(int sessionID)
+        public async Task<IActionResult> AddDogToSession(int sessionID)
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
             var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
@@ -177,7 +178,7 @@ namespace ProgrammingProject.Controllers
             // Not perfect and needs updates for proper Australian phone numbers.
             regex = @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$";
             CheckRegex(viewModel.PhNumber, nameof(viewModel.PhNumber), regex, "This is not a valid Australian mobile phone number.Please enter a valid Australian mobile phone number");
-   
+
             if (viewModel.IsVaccinated.Equals("Unvaccinated"))
                 ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Sorry, All dogs must be vaccinated before being registered with EasyWalk");
 
@@ -196,7 +197,7 @@ namespace ProgrammingProject.Controllers
 
                 return View(viewModel);
             }
- 
+
             var suburb = new Suburb();
             suburb.SuburbName = viewModel.SuburbName;
             suburb.Postcode = viewModel.Postcode;
@@ -208,7 +209,7 @@ namespace ProgrammingProject.Controllers
             // Create a new Vet from form submission.
             int vetId = 0;
 
-            var vet = CreateHelper.CreateVet(viewModel.BusinessName,viewModel.PhNumber,viewModel.Email,viewModel.StreetAddress, viewModel.Country, suburb, vetId);        
+            var vet = CreateHelper.CreateVet(viewModel.BusinessName, viewModel.PhNumber, viewModel.Email, viewModel.StreetAddress, viewModel.Country, suburb, vetId);
 
             // Checking BusinessName for now but this is wrong as BusinessName is not key. NEED TO RETHINK THIS!
             bool match = false;
@@ -226,9 +227,9 @@ namespace ProgrammingProject.Controllers
             // Create a new dog from form submission.
             int DogId = 0;
 
-            CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament, 
+            CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament,
                 viewModel.DogSize, viewModel.TrainingLevel, viewModel.ProfileImage, vet, owner, DogId);
-       
+
 
             _context.SaveChanges();
 
