@@ -104,9 +104,10 @@ footer {
     #hero-img {
         background-image: url("../img/angel-luciano-LATYeZyw88c-unsplash-crop-lg.jpg");
         background-size: auto 100%;
-        background-origin: content-box;
+        background-origin: border-box;
         background-repeat: no-repeat;
-        border-right: 20px solid #ffffff;
+        /*border-right: 20px solid #ffffff;*/
+        border-radius: $border-radius;
 
         img {
             display: none;
