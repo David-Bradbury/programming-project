@@ -101,6 +101,14 @@ namespace ProgrammingProject.Controllers
             return orderedSuitableSessions;
         }
 
+        public async Task<IActionResult> RemoveDogFromSession(int sessionID)
+        {
+            var owner = await _context.Owners.FindAsync(OwnerID);
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            ViewBag.WalkingSession = walkingSession;
+            return View(owner);
+        }
         public async Task<IActionResult> AddDogToSession(int sessionID)
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
