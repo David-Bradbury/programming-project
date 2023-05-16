@@ -7,7 +7,7 @@ using ProgrammingProject.Helper;
 using System.Text.RegularExpressions;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
-
+using GeoCoordinatePortable;
 
 namespace ProgrammingProject.Controllers
 {
@@ -35,18 +35,69 @@ namespace ProgrammingProject.Controllers
 
         public async Task<IActionResult> Index()
         {
+            int? range = 1000;
             var owner = await _context.Owners.FindAsync(OwnerID);
-            ViewBag.WalkingSessions = await GetSuitableWalkingSessions();
-       
+
+            ViewBag.WalkingSessions = await GetSuitableWalkingSessions(owner, range);
+
+      
+            ViewBag.BookedSessions = await GetBookedWalkingSessions(owner);
+
+
             //  ViewBag.Walkers = await GetLocalWalkers();
             return View(owner);
         }
 
-
-        public async Task<List<WalkingSession>> GetSuitableWalkingSessions()
+        public async Task<List<WalkingSession>> GetBookedWalkingSessions(Owner owner)
         {
-            var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
-            return walkingSessions;
+            var bookedSessions = new List<WalkingSession>();
+            foreach (Dog d in owner.Dogs)
+            {
+                var walks = _context.WalkingSessions.Where(w => w.DogList.Contains(d)).OrderBy(o => o.Date).ToList();
+                foreach (WalkingSession walk in walks)
+                {
+                    bookedSessions.Add(walk);
+                }
+            }
+
+            return bookedSessions;
+
+        }
+
+        public async Task<List<WalkingSession>> GetSuitableWalkingSessions(Owner owner, int? range = 1000)
+        {
+            var userLocation = new GeoCoordinate(double.Parse(owner.Suburb.Lat), double.Parse(owner.Suburb.Lon));
+            var walkerLocation = new GeoCoordinate();
+
+            var localWalkers = new List<Walker>();
+            var suitableSessions = new List<WalkingSession>();
+
+            foreach (Walker w in _context.Walkers)
+            {
+                if (w.Suburb != null)
+                {
+                    walkerLocation.Latitude = double.Parse(owner.Suburb.Lat);
+                    walkerLocation.Longitude = double.Parse(owner.Suburb.Lon);
+
+                    if (userLocation.GetDistanceTo(walkerLocation) < range)
+                    {
+                        localWalkers.Add(w);
+                    }
+                }
+                
+            }
+
+            foreach (Walker w in localWalkers)
+            {
+                foreach(WalkingSession walkingSession in w.WalkingSessions)
+                {
+                    suitableSessions.Add(walkingSession);
+                }
+            }
+            var orderedSuitableSessions = suitableSessions.OrderBy(s => s.Date).ToList();
+
+          //  var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
+            return orderedSuitableSessions;
         }
 
         public async Task<IActionResult>  AddDogToSession(int sessionID)
