@@ -4,7 +4,7 @@
     var walkingSessions = (List<WalkingSession>)ViewBag.WalkingSessions;
 
     var bookedSessions = (List<WalkingSession>)ViewBag.BookedSessions;
-
+    var userType = "Owner";
 }
 
 <div>
@@ -25,21 +25,32 @@
 
 <div>
     <h3>Booked Sessions</h3>
+    @if (bookedSessions.Any())
+    {
+
     <div class="mb-5 d-flex flex-column gap-1">
         @{
-            var userType = "Owner";
+            
 
             foreach (var walk in bookedSessions)
             {
                 if (DateTime.Compare(walk.Date, DateTime.UtcNow) >= 0)
                 {
-                    @Html.Partial("../Shared/Components/_bookedSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}});
-                ;
-                //   <partial name="../Shared/Components/_WalkingSessionRow.cshtml", model="walk", UserType = "userType" />
+                        @Html.Partial("../Shared/Components/_bookedSessionRow.cshtml",walk,  new ViewDataDictionary(this.ViewData){{"userType", userType}})
+                        ;
+                        ;
+                        //   <partial name="../Shared/Components/_WalkingSessionRow.cshtml", model="walk", UserType = "userType" />
+                    }
+                }
             }
-        }
-        }
-    </div>
+        </div>
+    }
+    else
+    {
+        <br/>
+        <h6>You currently have no booked walking sessions</h6>
+        <br/>
+    }
 </div>
 
 <div>

@@ -57,7 +57,11 @@ namespace ProgrammingProject.Controllers
                 foreach (WalkingSession walk in walks)
                 {
                     if (!bookedSessions.Contains(walk))
-                        bookedSessions.Add(walk);
+                    {
+                        if (walk.Date >= DateTime.UtcNow.ToLocalTime())
+                            bookedSessions.Add(walk);
+                    }
+
                 }
             }
 
@@ -108,6 +112,16 @@ namespace ProgrammingProject.Controllers
 
             ViewBag.WalkingSession = walkingSession;
             return View(owner);
+        }
+
+        public async Task<IActionResult> RemoveDogFromDBSession(int sessionID, int dogID)
+        {
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+            var dog = await _context.Dogs.FindAsync(dogID);
+            walkingSession.DogList.Remove(dog);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> AddDogToSession(int sessionID)
         {
