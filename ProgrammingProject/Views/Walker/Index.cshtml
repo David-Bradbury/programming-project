@@ -65,8 +65,8 @@
 
 <div class="container bg-highlight p-3 w-100 rounded shadow" id="walkerSections">
     <div class="row">
-        <div class="col-lg-3 col-sm-8 mb-3">
-            <img src="~/img/dogwalkerimg.png" class="mw-100 mx-auto" />
+        <div class="col-lg-3 col-sm-8 mb-3 mx-auto">
+            <img src="~/img/dogwalkerimg.png" class="mw-100" />
             <a class="btn btn-primary w-100 my-1" href="#upcomingSessions" data-bs-toggle="collapse">Upcoming Sessions</a>
             <a class="btn btn-primary w-100 my-1" href="#scheduledSessions" data-bs-toggle="collapse">Scheduled Sessions</a>
             <a class="btn btn-primary w-100 my-1 pb-2" href="#suitableDogs" data-bs-toggle="collapse">Suitable Dogs</a>
@@ -126,26 +126,26 @@
 
             <div class="collapse" id="suitableDogs" data-bs-parent="#walkerSections">
                 <h3 class="mb-3">Suitable Dogs</h3>
-                <form asp-action="Index" id="Index" method="post" class="row p-3 m-2 w-auto shadow rounded bg-white">
+                <form asp-action="Index" id="Index" method="post" class="row p-2 my-2 mx-1 shadow rounded bg-white fit-content">
                     <fieldset id="range" class="col-md-6 col-sm-12 mx-auto">
                         <legend style="font-size:1.0em; font-weight:bold;">Show Dogs Within:</legend>
                         <input class="btn-check" type="radio" id="range5km" name="range"
                                    data-val="true" value="5000" placeholder="5km" />
-                        <label for="range5km" class="btn btn-secondary">5km</label>
+                        <label for="range5km" style="font-size:0.875rem;" class="btn btn-secondary">5km</label>
                             <input class="btn-check"  type="radio" id="range10km" name="range"
                                    data-val="true" value="10000" />
-                        <label for="range10km" class="btn btn-secondary">
+                        <label for="range10km" style="font-size:0.875rem;" class="btn btn-secondary">
                             10km
                         </label>
 
                             <input class="btn-check" type="radio" id="range15km" name="range"
                                    data-val="true" value="15000" />
-                        <label for="range15km" class="btn btn-secondary">
+                        <label for="range15km" style="font-size:0.875rem;" class="btn btn-secondary">
                             15km
                         </label>
                             <input class="btn-check" type="radio" id="range20km" name="range"
                                    data-val="true" value="20000" />
-                        <label for="range20km" class="btn btn-secondary">
+                        <label for="range20km" style="font-size:0.875rem;" class="btn btn-secondary">
                             20km
                         </label>
                     </fieldset>
@@ -154,28 +154,28 @@
                         
                         <input class="btn-check" type="radio" id="none" name="level"
                                    data-val="true" value="None" />
-                        <label for="none" class="btn btn-secondary">
+                        <label for="none" style="font-size:0.875rem;" class="btn btn-secondary">
                             None
                         </label>
                         
                         <input class="btn-check" type="radio" id="basic" name="level"
                                    data-val="true" value="Basic" />
-                        <label for="basic" class="btn btn-secondary">
+                        <label for="basic" style="font-size:0.875rem;" class="btn btn-secondary">
                             Basic
                         </label>
                         
                         <input class="btn-check" type="radio" id="fully" name="level"
                                    data-val="true" value="Fully" />
-                        <label for="fully" class="btn btn-secondary">
+                        <label for="fully" style="font-size:0.875rem;" class="btn btn-secondary">
                             Fully
                         </label>
                     </fieldset>
                     <div class="row my-2">
-                    <input type="submit" class="btn btn-primary col-md-3 col-sm-6 mx-auto" asp-action="Index"
+                    <input type="submit" style="font-size:0.875rem;" class="btn btn-primary col-md-3 col-sm-4 mx-auto" asp-action="Index"
                            value="Filter" asp-route-id="Index" />
                     </div>
                 </form>
-                <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
+                <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-2">
                     @foreach (var dog in dogs)
                     {
                         <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
