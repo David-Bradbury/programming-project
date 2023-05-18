@@ -597,6 +597,7 @@ namespace ProgrammingProject.Controllers
             var dog = await _context.Dogs.FindAsync(id);
 
             var totalRatings = dog.DogRatings;
+            
 
             foreach (var dogRating in totalRatings)
             {

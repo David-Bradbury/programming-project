@@ -403,6 +403,41 @@ namespace ProgrammingProject.UnitTests
             context.WalkingSessions.Add(walkingSession3);
 
             context.SaveChanges();
+
+            var dogRating1 = new DogRating();
+
+            dogRating1.RatingDate = DateTime.Now;
+            dogRating1.DogID = dog1.Id;
+            dogRating1.Dog = dog1;
+            dogRating1.WalkerID = walker1.UserId;
+            dogRating1.Walker = walker1;
+            dogRating1.Rating = 5;
+
+            context.DogRatings.Add(dogRating1);
+
+            var dogRating2 = new DogRating();
+
+            dogRating2.RatingDate = DateTime.Now;
+            dogRating2.DogID = dog1.Id; ;
+            dogRating2.Dog = dog1;
+            dogRating2.WalkerID = walker2.UserId;
+            dogRating2.Walker = walker2;
+            dogRating2.Rating = 3;
+
+            context.DogRatings.Add(dogRating2);
+
+            var dogRating3 = new DogRating();
+
+            dogRating3.RatingDate = DateTime.Now;
+            dogRating3.DogID = dog1.Id; ;
+            dogRating3.Dog = dog1;
+            dogRating3.WalkerID = walker3.UserId;
+            dogRating3.Walker = walker3;
+            dogRating3.Rating = 4;
+
+            context.DogRatings.Add(dogRating3);
+
+            context.SaveChanges();
         } 
     }
 }

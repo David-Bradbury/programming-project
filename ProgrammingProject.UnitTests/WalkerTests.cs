@@ -45,9 +45,9 @@ namespace ProgrammingProject.UnitTests
             Assert.That(result.Count, Is.LessThanOrEqualTo(task.Result.Count));
         }
 
-        [TestCase(4)]
         [TestCase(5)]
         [TestCase(6)]
+        [TestCase(7)]
         [Test]
         //public void MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs(int a)
         public async Task MatchDogsToWalker_WhenCalled_ReturnsListOfSuitableDogs(int a)
@@ -57,13 +57,13 @@ namespace ProgrammingProject.UnitTests
             walker.ExperienceLevel = ExperienceLevel.Advanced;
 
             //List<Dog> task = await _wc.MatchDogsToWalker((int)walker.UserId);
-            var task = await _wc.MatchDogsToWalker(walker.UserId);
+            List<Dog> dogs = await _wc.MatchDogsToWalker(walker.UserId);
             //task.Wait();
 
             //var result = task.Result;
 
             // Can improve on this ensure exact amount is produced.
-            Assert.That(task.ToList().FirstOrDefault, Is.InstanceOf<Dog>());
+            Assert.That(dogs.ToList().FirstOrDefault, Is.InstanceOf<Dog>());
             //Assert.That(result.Count, Is.GreaterThanOrEqualTo(1));
 
             // Not sure why test is failing. For some reason the method when
@@ -98,21 +98,30 @@ namespace ProgrammingProject.UnitTests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
-        //[Test]
-        //public void UpdateWalkingSession_WithValidData_UpdatesSessionDetailsInDB()
-        //{        
-        //    var ws = _context.WalkingSessions.Find(2);
-        //    DateTime date = new DateTime(2023, 06, 27, ws.Date.Hour, ws.Date.Minute, ws.Date.Second);
-        //    DateTime startTime = new DateTime(date.Year, date.Month, date.Day, ws.ScheduledStartTime.Hour,
-        //        ws.ScheduledStartTime.Minute, ws.ScheduledStartTime.Second);
-        //    DateTime endTime = new DateTime(date.Year, date.Month, date.Day, ws.ScheduledEndTime.Hour,
-        //        ws.ScheduledEndTime.Minute, ws.ScheduledEndTime.Second);
+        [Test]
+        public void EditWalkingSession_ChangeDay_UpdatesSessionDetailsInDB()
+        {
+            var ws = _context.WalkingSessions.Find(2);
+            DateTime date = new DateTime(2023, 06, 27, ws.Date.Hour, ws.Date.Minute, ws.Date.Second);
+            DateTime startTime = new DateTime(date.Year, date.Month, date.Day, ws.ScheduledStartTime.Hour,
+                ws.ScheduledStartTime.Minute, ws.ScheduledStartTime.Second);
+            DateTime endTime = new DateTime(date.Year, date.Month, date.Day, ws.ScheduledEndTime.Hour,
+                ws.ScheduledEndTime.Minute, ws.ScheduledEndTime.Second);
 
-        //    _wc.UpdateWalkingSession(ws.SessionID, date, startTime, endTime);
+            _wc.EditWalkingSession(ws.SessionID, date, startTime, endTime);
 
-        //    // Assert
+            Assert.AreEqual(_context.WalkingSessions.Find(2), ws);
 
-        //}
+        }
+
+        // This test is wrong, JC to speak to DP.
+        [Test]
+        public void GetDogRating_WhenCalled_ReturnsAverageRating()
+        {
+            Task<double> dogratings = _wc.GetDogRating(1);
+
+            Assert.AreEqual(dogratings, 4);
+        }
 
         [Test]
         public void DeleteWalkingSession_WhenCalled_RemovesSessionFromDB()
