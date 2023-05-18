@@ -62,10 +62,10 @@
                 <input id="Password2" type="hidden" asp-for="Password" />
                 <input id="ConfirmPassword2" type="hidden" asp-for="ConfirmPassword" />
 
-                <div class="form-control">
+                <div class="form-group">
                     <label asp-for="ProfileImage" class="control-label"></label>
 
-                    <input asp-for="ProfileImage" id="ProfileImage1" accept=".jpg, .jpeg, .png" onchange="validateFileType()" />
+                    <input asp-for="ProfileImage" id="ProfileImage1" accept=".jpg, .jpeg, .png" onchange="validateFileType()" class="form-control" />
 
                     <span asp-validation-for="ProfileImage" class="text-danger"></span>
                 </div>
@@ -172,7 +172,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script type="text/javascript" src="js/site.js"></script>
+    <script type="text/javascript" src="~/../js/site.js"></script>
     <script type="text/javascript">
         function toggleForm() {
             var $form1 = $("#form-1");
