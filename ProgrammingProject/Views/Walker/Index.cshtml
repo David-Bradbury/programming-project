@@ -62,49 +62,17 @@
 </div>
 <br />
 
-<form asp-action="Index" id="Index" method="post">
-    <fieldset id="range">
-        <legend>Show Dogs Within:</legend>
-        <label for="range5km" class="form-label">5Km</label>
-        <input type="radio" id="range" name="range" class="form-control"
-               data-val="true" value="5000" />
-        <label for="range10km" class="form-label">10Km</label>
-        <input type="radio" id="range" name="range" class="form-control"
-               data-val="true" value="10000" />
-        <label for="range15km" class="form-label">15Km</label>
-        <input type="radio" id="range" name="range" class="form-control"
-               data-val="true" value="15000" />
-        <label for="range20km" class="form-label">20Km</label>
-        <input type="radio" id="range" name="range" class="form-control"
-               data-val="true" value="20000" />
-    </fieldset>
-    <fieldset id="level">
-        <legend>Set Minimum Training Level</legend>
-        <label for="none" class="form-label">No Training</label>
-        <input type="radio" id="level" name="level" class="form-control"
-               data-val="true" value="None" />
-        <label for="basic" class="form-label">Basic Training</label>
-        <input type="radio" id="level" name="level" class="form-control"
-               data-val="true" value="Basic" />
-        <label for="fully" class="form-label">Fully Trained</label>
-        <input type="radio" id="level" name="level" class="form-control"
-               data-val="true" value="Fully" />
-    </fieldset>
-    <input type="submit" class="btn btn-primary" asp-action="Index"
-           value="Filter" asp-route-id="Index" />
-</form>
 
 <div class="container bg-highlight p-3 w-100 rounded shadow" id="walkerSections">
     <div class="row">
-        <div class="col-lg-3 col-sm-12">
-            <img src="~/img/dogwalkerimg.png" class="w-100" />
+        <div class="col-lg-3 col-sm-8 mb-3 mx-auto">
+            <img src="~/img/dogwalkerimg.png" class="mw-100" />
             <a class="btn btn-primary w-100 my-1" href="#upcomingSessions" data-bs-toggle="collapse">Upcoming Sessions</a>
             <a class="btn btn-primary w-100 my-1" href="#scheduledSessions" data-bs-toggle="collapse">Scheduled Sessions</a>
             <a class="btn btn-primary w-100 my-1 pb-2" href="#suitableDogs" data-bs-toggle="collapse">Suitable Dogs</a>
-            <a class="btn btn-primary w-100 my-1" href="#walkerFaq" data-bs-toggle="collapse">Walker FAQ's</a>
 
         </div>
-        <div class="col-lg-9  vh-100 overflow-scroll">
+        <div class="col-lg-9 overflow-auto" style="height:75vh;">
 
             <div class="collapse show" id="upcomingSessions" data-bs-parent="#walkerSections">
                 <div class="d-flex justify-content-between flex-wrap mb-3">
@@ -158,7 +126,56 @@
 
             <div class="collapse" id="suitableDogs" data-bs-parent="#walkerSections">
                 <h3 class="mb-3">Suitable Dogs</h3>
-                <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
+                <form asp-action="Index" id="Index" method="post" class="row p-2 my-2 mx-1 shadow rounded bg-white fit-content">
+                    <fieldset id="range" class="col-md-6 col-sm-12 mx-auto">
+                        <legend style="font-size:1.0em; font-weight:bold;">Show Dogs Within:</legend>
+                        <input class="btn-check" type="radio" id="range5km" name="range"
+                                   data-val="true" value="5000" placeholder="5km" />
+                        <label for="range5km" style="font-size:0.875rem;" class="btn btn-secondary">5km</label>
+                            <input class="btn-check"  type="radio" id="range10km" name="range"
+                                   data-val="true" value="10000" />
+                        <label for="range10km" style="font-size:0.875rem;" class="btn btn-secondary">
+                            10km
+                        </label>
+
+                            <input class="btn-check" type="radio" id="range15km" name="range"
+                                   data-val="true" value="15000" />
+                        <label for="range15km" style="font-size:0.875rem;" class="btn btn-secondary">
+                            15km
+                        </label>
+                            <input class="btn-check" type="radio" id="range20km" name="range"
+                                   data-val="true" value="20000" />
+                        <label for="range20km" style="font-size:0.875rem;" class="btn btn-secondary">
+                            20km
+                        </label>
+                    </fieldset>
+                    <fieldset id="level" class="col-md-6 col-sm-12 mx-auto">
+                        <legend style="font-size:1.0em; font-weight:bold;">Set Minimum Training Level</legend>
+                        
+                        <input class="btn-check" type="radio" id="none" name="level"
+                                   data-val="true" value="None" />
+                        <label for="none" style="font-size:0.875rem;" class="btn btn-secondary">
+                            None
+                        </label>
+                        
+                        <input class="btn-check" type="radio" id="basic" name="level"
+                                   data-val="true" value="Basic" />
+                        <label for="basic" style="font-size:0.875rem;" class="btn btn-secondary">
+                            Basic
+                        </label>
+                        
+                        <input class="btn-check" type="radio" id="fully" name="level"
+                                   data-val="true" value="Fully" />
+                        <label for="fully" style="font-size:0.875rem;" class="btn btn-secondary">
+                            Fully
+                        </label>
+                    </fieldset>
+                    <div class="row my-2">
+                    <input type="submit" style="font-size:0.875rem;" class="btn btn-primary col-md-3 col-sm-4 mx-auto" asp-action="Index"
+                           value="Filter" asp-route-id="Index" />
+                    </div>
+                </form>
+                <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-2">
                     @foreach (var dog in dogs)
                     {
                         <partial name="../Shared/Components/_DogCard.cshtml" model="dog" />
@@ -169,58 +186,6 @@
                     }
                 </div>
 
-            </div>
-            <div class="collapse" id="walkerFaq" data-bs-parent="#walkerSections">
-                <h3 class="mb-3">
-                    Walker FAQs
-                </h3>
-                <div class="accordion w-100 px-3 accordion-flush">
-                    <div class="accordion-item ">
-                        <p class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-parent="#accordion"
-                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                <strong>What is the duration of the walks?</strong>
-                            </button>
-                        </p>
-                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                             data-bs-parent="#basicAccordion" style="">
-                            <div class="accordion-body">
-                                The duration of walks depends on both your walker and the needs of your dog. Owners are matched to a walker dependent on several factors, particularly the energy levels of your dogs which will inform how much time they need to be walked each day. Alongside this you will also be able to choose walking sessions based on your preferences.
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <p class="accordion-header" id="headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-parent="#accordion"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseOne">
-                                    <strong>How much do I charge for my services?</strong>
-                                </button>
-                            </p>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                                 data-bs-parent="#basicAccordion" style="">
-                                <div class="accordion-body">
-                                    Prices vary between walkers, prices can range from $20 to $30 per walk dependent on the needs of your dog and each individual.
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <p class="accordion-header" id="headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-parent="#accordion"
-                                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseOne">
-                                        <strong>What happens if an owner cancels a walk?</strong>
-                                    </button>
-                                </p>
-                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                                     data-bs-parent="#basicAccordion" style="">
-                                    <div class="accordion-body">
-                                        EasyWalk adopts a flexible booking policy in which, if the booking is cancelled more than 24 hours before the walk a full refund is provided. If cancelled between 12-24 hours s a 50% cancellation fee applies, and within 12 hours a 100% cancellation fee applies.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row col-sm-12">
-                    <a class="btn btn-primary col-6 mx-auto mt-3 py-2" asp-action="FAQ">More FAQs</a>
-                </div>
             </div>
         </div>
     </div>
