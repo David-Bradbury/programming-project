@@ -24,16 +24,20 @@ namespace ProgrammingProject.UnitTests
             var mt = new MasterTest();
             _context = mt.CreateContext();
             _wc = new WalkerController(_context);
-
         }
+
         [Test]
         public void FilterDogs_WhenPassedAListOfDogs_ReturnsAFilteredList()
         {
-            var walker = new Walker();
-            walker.UserId = 6;
+            //var walker = new Walker();
+            //walker.UserId = 6;
 
-            Task<List<Dog>> task = _wc.MatchDogsToWalker((int)walker.UserId);
-            task.Wait();
+            int UserID = 6;
+            var walker = _context.Walkers.Find(UserID);
+
+            Task<List<Dog>> task = _wc.MatchDogsToWalker(walker.UserId);
+            //Task<List<Dog>> task = _wc.MatchDogsToWalker((int)walker.UserId);
+            // task.Wait();
 
             var result = _wc.FilterDogs(task.Result);
 
@@ -94,5 +98,31 @@ namespace ProgrammingProject.UnitTests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
+        //[Test]
+        //public void UpdateWalkingSession_WithValidData_UpdatesSessionDetailsInDB()
+        //{        
+        //    var ws = _context.WalkingSessions.Find(2);
+        //    DateTime date = new DateTime(2023, 06, 27, ws.Date.Hour, ws.Date.Minute, ws.Date.Second);
+        //    DateTime startTime = new DateTime(date.Year, date.Month, date.Day, ws.ScheduledStartTime.Hour,
+        //        ws.ScheduledStartTime.Minute, ws.ScheduledStartTime.Second);
+        //    DateTime endTime = new DateTime(date.Year, date.Month, date.Day, ws.ScheduledEndTime.Hour,
+        //        ws.ScheduledEndTime.Minute, ws.ScheduledEndTime.Second);
+
+        //    _wc.UpdateWalkingSession(ws.SessionID, date, startTime, endTime);
+
+        //    // Assert
+
+        //}
+
+        [Test]
+        public void DeleteWalkingSession_WhenCalled_RemovesSessionFromDB()
+        {
+            int sessionID = 1;
+
+            var task = _wc.DeleteWalkingSession(sessionID);
+            task.Wait();
+
+            Assert.IsNull(_context.WalkingSessions.Find(sessionID));
+        }
     }
 }

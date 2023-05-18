@@ -18,6 +18,7 @@ namespace ProgrammingProject.Controllers
             _webHostEnvironment = webHostEnvironment;
 
         }
+
         // Ensures the Suburb is a valid Australian Suburb.
         public void CheckSuburbModelState(string SuburbName, string Postcode, string State)
         {
@@ -48,7 +49,7 @@ namespace ProgrammingProject.Controllers
             }
         }
 
-        // Check that password is valid.
+        // Ch eck that password is valid.
         public void CheckValidPassword(string password, string confirmPassword)
         {
             if (!Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))

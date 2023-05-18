@@ -137,10 +137,8 @@ namespace ProgrammingProject.Helper
             {
                 if (profileImage != null)
                     owner.ProfileImage = imageFileName;
-
-              
+            
                 //_context.SaveChanges();
-
             }
             else
             {

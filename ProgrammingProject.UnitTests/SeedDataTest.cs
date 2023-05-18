@@ -370,7 +370,39 @@ namespace ProgrammingProject.UnitTests
             context.Dogs.Add(dog4);
 
             context.SaveChanges();
-         
-        }
+
+            // 8:42:27 PM,20 / 06 / 2023 8:42:27 PM,20 / 06 / 2023 9:42:27 PM,6
+            var walkingSession1 = new WalkingSession();
+
+            walkingSession1.Date = new DateTime(2023, 06, 20, 20, 42, 27);
+            walkingSession1.ScheduledStartTime = walkingSession1.Date;
+            walkingSession1.ScheduledEndTime = new DateTime(walkingSession1.Date.Year, walkingSession1.Date.Month,
+                walkingSession1.Date.Day, 21, 42, 27);
+            walkingSession1.WalkerID = 5;
+
+            context.WalkingSessions.Add(walkingSession1);
+
+            var walkingSession2 = new WalkingSession();
+
+            walkingSession2.Date = new DateTime(2023, 06, 26, 13, 06, 08);
+            walkingSession2.ScheduledStartTime = walkingSession2.Date;
+            walkingSession2.ScheduledEndTime = new DateTime(walkingSession2.Date.Year, walkingSession2.Date.Month,
+                walkingSession2.Date.Day, 14, 06, 08);
+            walkingSession2.WalkerID = 6;
+
+            context.WalkingSessions.Add(walkingSession2);
+
+            var walkingSession3 = new WalkingSession();
+
+            walkingSession3.Date = new DateTime(2023, 08, 14, 6, 15, 25);
+            walkingSession3.ScheduledStartTime = walkingSession3.Date;
+            walkingSession3.ScheduledEndTime = new DateTime(walkingSession3.Date.Year, walkingSession3.Date.Month,
+                walkingSession3.Date.Day, 7, 15, 25);
+            walkingSession3.WalkerID = 7;
+
+            context.WalkingSessions.Add(walkingSession3);
+
+            context.SaveChanges();
+        } 
     }
 }

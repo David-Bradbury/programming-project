@@ -41,6 +41,7 @@ namespace ProgrammingProject.Helper
 
             return ExperienceList;
         }
+
         public static List<SelectListItem> GetDogSize()
         {
             List<SelectListItem> DogSizeList = new List<SelectListItem>();
@@ -52,6 +53,7 @@ namespace ProgrammingProject.Helper
 
             return DogSizeList;
         }
+
         public static List<SelectListItem> GetTemperament()
         {
             List<SelectListItem> TemperamentList = new List<SelectListItem>();
@@ -64,6 +66,7 @@ namespace ProgrammingProject.Helper
 
             return TemperamentList;
         }
+
         public static List<SelectListItem> GetTrainingLevel()
         {
             List<SelectListItem> TrainingLevel = new List<SelectListItem>();
@@ -74,6 +77,7 @@ namespace ProgrammingProject.Helper
 
             return TrainingLevel;
         }
+
         public static List<SelectListItem> GetVaccinatedList()
         {
 
