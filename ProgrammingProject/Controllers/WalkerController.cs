@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ProgrammingProject.Filters;
 using GeoCoordinatePortable;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ProgrammingProject.Controllers
 {
@@ -21,12 +22,26 @@ namespace ProgrammingProject.Controllers
         }
 
         [AuthorizeUser]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string level, int? range = 10000)
         {
+            if (level.IsNullOrEmpty())
+            {
+                level = "None";
+            }
+
+            TrainingLevel minimumLevel;
+            Enum.TryParse(level, out minimumLevel);
+
             //lazy loading
             var walker = await _context.Walkers.FindAsync(WalkerID);
             ViewBag.Walker = walker;
-            ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
+
+            var dogs = await MatchDogsToWalker(WalkerID);
+
+            var rangeFilter = await FilterLocationByRadius(dogs, range);
+            var trainingFilter = await FilterDogsByMinimumTrainingLevel(rangeFilter, minimumLevel);
+
+            ViewBag.Dogs = trainingFilter;
             return View();
         }
 
@@ -69,9 +84,7 @@ namespace ProgrammingProject.Controllers
                     filteredDogs.Add(d);
             }
 
-            var locationFilteredDogs = FilterLocationByRadius(filteredDogs);
-
-            return locationFilteredDogs.Result;
+            return filteredDogs;
 
             // Notes to discuss: AllowUnvaccinated as a question
             // when adding walker (saved to model). Allows user to set requirements and
@@ -157,7 +170,7 @@ namespace ProgrammingProject.Controllers
             if (minimumLevel == TrainingLevel.None)
             {
                 return dogs;
-            } 
+            }
             else if (minimumLevel == TrainingLevel.Basic)
             {
                 foreach (Dog dog in dogs)
@@ -166,7 +179,7 @@ namespace ProgrammingProject.Controllers
                     {
                         filteredDogs.Add(dog);
                     }
-                }                
+                }
             }
             else
             {
@@ -243,8 +256,6 @@ namespace ProgrammingProject.Controllers
 
             if (Date < DateTime.UtcNow)
                 ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
-            //if (StartTime == null)
-            //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
             if (EndTime < StartTime)
                 ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
 
@@ -351,7 +362,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Start walking session
-       
+
         public async Task<IActionResult> StartWalkingSession(int sessionID)
         {
 
@@ -394,6 +405,8 @@ namespace ProgrammingProject.Controllers
 
             walkerSession.ActualEndTime = DateTime.Now;
 
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
 
@@ -404,68 +417,66 @@ namespace ProgrammingProject.Controllers
 
             var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
-            ViewBag.WalkingSession = walkerSession;
-
-            return View();
+            return View(walkerSession);
         }
 
         public async Task<IActionResult> CancelChanges(int sessionID) => RedirectToAction("Index");
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdateWalkingSession(
+        public async Task<IActionResult> EditWalkingSession(
             int sessionID, DateTime Date, DateTime StartTime, DateTime EndTime)
         {
             var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
-            var walker = await _context.Walkers.FindAsync(walkerSession.WalkerID);
-
-            //var walk = walker.WalkingSessions.Find(walkerSession);
-
-            if (Date.DayOfWeek < DateTime.UtcNow.DayOfWeek || Date == null)
-                ModelState.AddModelError(nameof(Date), "Valid date needs to be selected");
-            //if (StartTime == null)
-            //    ModelState.AddModelError(nameof(StartTime), "Valid Start Time needs to be selected");
+            if (Date < DateTime.UtcNow.ToLocalTime() )
+                ModelState.AddModelError(nameof(walkerSession.Date), "Date cannot be in the past");
             if (EndTime < StartTime || StartTime == null || EndTime == null)
-                ModelState.AddModelError(nameof(EndTime), "Valid End Time needs to be selected");
+                ModelState.AddModelError(nameof(walkerSession.ScheduledEndTime), "Valid End Time needs to be selected");
+
+            if (!ModelState.IsValid)
+            {
+                return View(walkerSession);
+            }
 
             DateTime start = new DateTime(Date.Year, Date.Month, Date.Day, StartTime.Hour,
                                           StartTime.Minute, StartTime.Second);
 
             DateTime end = new DateTime(Date.Year, Date.Month, Date.Day, EndTime.Hour,
                                           EndTime.Minute, EndTime.Second);
-
-            if (walkerSession.Date.Year != Date.Year
-                || walkerSession.Date.Month != Date.Month
-                || walkerSession.Date.Day != Date.Day)
+            bool changesMade = false;
+            if (walkerSession.Date != Date)
             {
                 walkerSession.Date = Date;
-
+                changesMade = true;
             }
 
             if (walkerSession.ScheduledStartTime != start)
             {
                 walkerSession.ScheduledStartTime = start;
+                changesMade = true;
             }
 
             if (walkerSession.ScheduledEndTime != end)
             {
                 walkerSession.ScheduledEndTime = end;
+                changesMade = true;
             }
 
 
-            foreach (var session in walker.WalkingSessions)
+            //foreach (var session in walker.WalkingSessions)
+            //{
+            //    if (session.SessionID == sessionID)
+            //    {
+            //        session.Date = walkerSession.Date;
+            //        session.ScheduledStartTime = walkerSession.ScheduledStartTime;
+            //        session.ScheduledEndTime = walkerSession.ScheduledEndTime;
+            //    }
+            //}
+            if (changesMade)
             {
-                if (session.SessionID == sessionID)
-                {
-                    session.Date = walkerSession.Date;
-                    session.ScheduledStartTime = walkerSession.ScheduledStartTime;
-                    session.ScheduledEndTime = walkerSession.ScheduledEndTime;
-                }
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
-
             //ViewBag.Walker = walker;
             //ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
 
@@ -473,7 +484,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Delete walking session
-        
+
         public async Task<IActionResult> DeleteWalkingSession(int sessionID)
         {
 
@@ -507,6 +518,92 @@ namespace ProgrammingProject.Controllers
             ViewBag.WalkingSession = SortedList;
 
             return View();
+        }
+
+        // Add Dog Rating
+        public async Task<IActionResult> CreateDogRating(int DogID)
+        {
+            var dog = await _context.Dogs.FindAsync(DogID);
+
+            var walker = await _context.Walkers.FindAsync(WalkerID);
+
+            ViewBag.Dog = dog;
+            ViewBag.Walker = walker;
+
+            return View();
+        }
+
+        // Add Dog Rating
+        public async Task<IActionResult> AddDogRating(int WalkerID, int DogID, double Rating)
+        {
+            var rating = _context.DogRatings.Where(x => x.WalkerID == WalkerID)
+                                            .Where(x => x.DogID == DogID);
+
+            if (rating.IsNullOrEmpty())
+            {
+                var dog = await _context.Dogs.FindAsync(DogID);
+
+                var walker = await _context.Walkers.FindAsync(WalkerID);
+
+                DogRating dr = new DogRating();
+
+                dr.Rating = Rating;
+                dr.RatingDate = DateTime.Now;
+                dr.DogID = dog.Id;
+                dr.WalkerID = WalkerID;
+                dr.Walker = walker;
+                dr.Dog = dog;
+
+                _context.DogRatings.Add(dr);
+                //walker.DogRatings.Add(dr);
+                //dog.DogRatings.Add(dr);
+
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // Needs to be moved to Owner controller
+        //// Add Walker Rating
+        //public async Task<IActionResult> AddWalkerRating()
+        //{
+        //    return View();
+        //}
+
+        // Gets the average rating of a walker
+        public async Task<double> GetWalkerRating(int id)
+        {
+            List<double> ratings = new List<double>();
+
+            var walker = await _context.Walkers.FindAsync(id);
+
+            var totalRatings = walker.WalkerRatings;
+
+            foreach (var walkerRating in totalRatings)
+            {
+                ratings.Add(walkerRating.Rating);
+            }
+
+            return ratings.Average();
+        }
+
+
+        // Gets the average rating of a dog
+        public async Task<double> GetDogRating(int id)
+        {
+            List<double> ratings = new List<double>();
+
+            var dog = await _context.Dogs.FindAsync(id);
+
+            var totalRatings = dog.DogRatings;
+
+            foreach (var dogRating in totalRatings)
+            {
+                ratings.Add(dogRating.Rating);
+            }
+
+            return ratings.Average();
         }
     }
 }

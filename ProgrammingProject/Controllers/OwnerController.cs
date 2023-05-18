@@ -7,7 +7,7 @@ using ProgrammingProject.Helper;
 using System.Text.RegularExpressions;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
-
+using GeoCoordinatePortable;
 
 namespace ProgrammingProject.Controllers
 {
@@ -16,7 +16,7 @@ namespace ProgrammingProject.Controllers
 
 
     public class OwnerController : BaseController
-    {    
+    {
         private readonly EasyWalkContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -34,21 +34,95 @@ namespace ProgrammingProject.Controllers
         [AuthorizeUser]
         public async Task<IActionResult> Index()
         {
+            int? range = 1000;
             var owner = await _context.Owners.FindAsync(OwnerID);
-            ViewBag.WalkingSessions = await GetSuitableWalkingSessions();
-       
+
+            ViewBag.WalkingSessions = await GetSuitableWalkingSessions(owner, range);
+
+
+            ViewBag.BookedSessions = await GetBookedWalkingSessions(owner);
+
+
             //  ViewBag.Walkers = await GetLocalWalkers();
             return View(owner);
         }
 
-
-        public async Task<List<WalkingSession>> GetSuitableWalkingSessions()
+        public async Task<List<WalkingSession>> GetBookedWalkingSessions(Owner owner)
         {
-            var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
-            return walkingSessions;
+            var bookedSessions = new List<WalkingSession>();
+            foreach (Dog d in owner.Dogs)
+            {
+                var walks = _context.WalkingSessions.Where(w => w.DogList.Contains(d)).OrderBy(o => o.Date).ToList();
+                foreach (WalkingSession walk in walks)
+                {
+                    if (!bookedSessions.Contains(walk))
+                    {
+                        if (walk.Date >= DateTime.UtcNow.ToLocalTime())
+                            bookedSessions.Add(walk);
+                    }
+
+                }
+            }
+
+            return bookedSessions;
+
         }
 
-        public async Task<IActionResult>  AddDogToSession(int sessionID)
+        public async Task<List<WalkingSession>> GetSuitableWalkingSessions(Owner owner, int? range = 1000)
+        {
+            var userLocation = new GeoCoordinate(double.Parse(owner.Suburb.Lat), double.Parse(owner.Suburb.Lon));
+            var walkerLocation = new GeoCoordinate();
+
+            var localWalkers = new List<Walker>();
+            var suitableSessions = new List<WalkingSession>();
+
+            foreach (Walker w in _context.Walkers)
+            {
+                if (w.Suburb != null)
+                {
+                    walkerLocation.Latitude = double.Parse(owner.Suburb.Lat);
+                    walkerLocation.Longitude = double.Parse(owner.Suburb.Lon);
+
+                    if (userLocation.GetDistanceTo(walkerLocation) < range)
+                    {
+                        localWalkers.Add(w);
+                    }
+                }
+
+            }
+
+            foreach (Walker w in localWalkers)
+            {
+                foreach (WalkingSession walkingSession in w.WalkingSessions)
+                {
+                    suitableSessions.Add(walkingSession);
+                }
+            }
+            var orderedSuitableSessions = suitableSessions.OrderBy(s => s.Date).ToList();
+
+            //  var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
+            return orderedSuitableSessions;
+        }
+
+        public async Task<IActionResult> RemoveDogFromSession(int sessionID)
+        {
+            var owner = await _context.Owners.FindAsync(OwnerID);
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+
+            ViewBag.WalkingSession = walkingSession;
+            return View(owner);
+        }
+
+        public async Task<IActionResult> RemoveDogFromDBSession(int sessionID, int dogID)
+        {
+            var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
+            var dog = await _context.Dogs.FindAsync(dogID);
+            walkingSession.DogList.Remove(dog);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> AddDogToSession(int sessionID)
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
             var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
@@ -125,7 +199,7 @@ namespace ProgrammingProject.Controllers
             // Not perfect and needs updates for proper Australian phone numbers.
             regex = @"^(\+?\(61\)|\(\+?61\)|\+?61|(0[1-9])|0[1-9])?( ?-?[0-9]){7,9}$";
             CheckRegex(viewModel.PhNumber, nameof(viewModel.PhNumber), regex, "This is not a valid Australian mobile phone number.Please enter a valid Australian mobile phone number");
-   
+
             if (viewModel.IsVaccinated.Equals("Unvaccinated"))
                 ModelState.AddModelError(nameof(viewModel.IsVaccinated), "Sorry, All dogs must be vaccinated before being registered with EasyWalk");
 
@@ -144,7 +218,7 @@ namespace ProgrammingProject.Controllers
 
                 return View(viewModel);
             }
- 
+
             var suburb = new Suburb();
             suburb.SuburbName = viewModel.SuburbName;
             suburb.Postcode = viewModel.Postcode;
@@ -156,7 +230,7 @@ namespace ProgrammingProject.Controllers
             // Create a new Vet from form submission.
             int vetId = 0;
 
-            var vet = CreateHelper.CreateVet(viewModel.BusinessName,viewModel.PhNumber,viewModel.Email,viewModel.StreetAddress, viewModel.Country, suburb, vetId);        
+            var vet = CreateHelper.CreateVet(viewModel.BusinessName, viewModel.PhNumber, viewModel.Email, viewModel.StreetAddress, viewModel.Country, suburb, vetId);
 
             // Checking BusinessName for now but this is wrong as BusinessName is not key. NEED TO RETHINK THIS!
             bool match = false;
@@ -174,9 +248,9 @@ namespace ProgrammingProject.Controllers
             // Create a new dog from form submission.
             int DogId = 0;
 
-            CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament, 
+            CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament,
                 viewModel.DogSize, viewModel.TrainingLevel, viewModel.ProfileImage, vet, owner, DogId);
-       
+
 
             _context.SaveChanges();
 

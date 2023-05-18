@@ -1,0 +1,52 @@
+﻿@model ProgrammingProject.Models.Dog
+@{
+    ViewData["Title"] = "Add A Dog Rating";
+    var dog = (Dog)ViewBag.Dog;
+    var walker = (Walker)ViewBag.Walker;
+}
+
+<div>
+    <h1>Add a dog rating</h1>
+</div>
+
+<div>
+    <h3>Dog</h3>
+    <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
+
+        <partial name="../Shared/Components/_DogCard.cshtml" model="@dog" />
+
+    </div>
+</div>
+
+<div>
+    <form asp-action="AddDogRating">
+        <input type="hidden" id="WalkerID" name="WalkerID" class="form-control"
+               data-val="true" value=@walker.UserId />
+        <input type="hidden" id="DogID" name="DogID" class="form-control"
+               data-val="true" value=@dog.Id />
+        <fieldset>
+            <legend>Select Rating</legend>
+            <label for="1" class="form-label">1</label>
+            <input type="radio" id="Rating" name="Rating" class="form-control"
+                   data-val="true" value="1" />
+            <label for="1" class="form-label">2</label>
+            <input type="radio" id="Rating" name="Rating" class="form-control"
+                   data-val="true" value="2" />
+            <label for="1" class="form-label">3</label>
+            <input type="radio" id="Rating" name="Rating" class="form-control"
+                   data-val="true" value="3" />
+            <label for="1" class="form-label">4</label>
+            <input type="radio" id="Rating" name="Rating" class="form-control"
+                   data-val="true" value="4" />
+            <label for="1" class="form-label">5</label>
+            <input type="radio" id="Rating" name="Rating" class="form-control"
+                   data-val="true" value="5" />
+        </fieldset>
+        <input type="submit" class="btn btn-secondary" asp-action="AddDogRating"
+               asp-route-id="AddDogRating" />
+
+    </form>
+</div>
+
+
+

@@ -15283,9 +15283,10 @@ footer {
   #hero-img {
     background-image: url(687a2d8614408cc66c09.jpg);
     background-size: auto 100%;
-    background-origin: content-box;
+    background-origin: border-box;
     background-repeat: no-repeat;
-    border-right: 20px solid #ffffff; }
+    /*border-right: 20px solid #ffffff;*/
+    border-radius: 0.375rem; }
     #hero-img img {
       display: none; } }
 

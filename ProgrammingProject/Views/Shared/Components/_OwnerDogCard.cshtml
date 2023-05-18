@@ -1,13 +1,29 @@
 ﻿@model ProgrammingProject.Models.Dog
+@{
+    double totalRating = 0;
+    int count = 0;
+    foreach (DogRating r in Model.DogRatings) {
+        totalRating += r.Rating;
+        count++;
+    }
+    double rating = totalRating / count;
+}
 
 <div class="card owner-dog-card">
-    <div class="card-body d-flex flex-column">
+    <div class="card-body d-flex flex-column shadow">
         <div class="d-flex">
             <img src="~/img/@Model.ProfileImage" width="80" height="80" style="border-radius: 80px;" class="ms-1" asp-append-version="true"/>
             <div class="ms-4">
                 <p class="card-title fw-bold fs-5">@Html.DisplayFor(model => model.Name)</p>
                 <p class="card-subtitle">@Html.DisplayFor(model => model.Breed.BreedName)</p>
-                <p><i class="bi bi-star-fill"></i> 4.5 (14)</p>
+                <p><i class="bi bi-star-fill"></i> 
+                    @if (count == 0) {
+                        <span>No Ratings</span>
+                    }
+                    else {
+                        <span>@rating.ToString("0.0") (@count)</span>
+                    }
+                </p>
             </div>
         </div>
         <div class="container mb-auto">
