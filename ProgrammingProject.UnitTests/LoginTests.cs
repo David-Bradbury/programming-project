@@ -20,17 +20,29 @@ namespace ProgrammingProject.UnitTests
             _lc = new LoginController(_context);
         }
 
-        // NOT RIGHT!
+      
         [Test]
-        public void Login_PasswordUnverified_ReturnsModelStateErrorAndMessage()
+        public void Login_PasswordUnverified_ReturnsModelStateError()
         {
             string email = null;
             string password = "Aqwe123";
 
             _lc.Login(email, password);
 
-            Assert.IsTrue(_lc.ViewData.ModelState.IsValid);
-
+            Assert.IsFalse(_lc.ViewData.ModelState.IsValid);
         }
+
+        // Can't run following test as hashing pw method ends test, unsure why.
+        //[Test]
+        //public void Login_ValidData_ModelStateIsValid()
+        //{
+        //    string email = "johnsmith@proton.me";
+        //    string password = "abc123";
+
+        //    _lc.Login(email, password);
+
+        //    Assert.IsTrue(_lc.ViewData.ModelState.IsValid);
+        //}
+
     }
 }

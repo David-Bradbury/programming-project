@@ -343,13 +343,13 @@ namespace ProgrammingProject.Controllers
             {
                 ModelState.AddModelError(nameof(SessionID), "Can't find Dog or Session");
             }
-            else if (!walkerSession.DogList.Contains(dog))
-            {
-                ModelState.AddModelError(nameof(SessionID), "Dog is not on this walk");
-            }
             else if (walkerSession == null)
             {
                 ModelState.AddModelError(nameof(SessionID), "Can't find walking Session");
+            }
+            else if (!walkerSession.DogList.Contains(dog))
+            {
+                ModelState.AddModelError(nameof(SessionID), "Dog is not on this walk");
             }
             else
             {

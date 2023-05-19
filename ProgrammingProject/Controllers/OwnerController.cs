@@ -39,9 +39,7 @@ namespace ProgrammingProject.Controllers
 
             ViewBag.WalkingSessions = await GetSuitableWalkingSessions(owner, range);
 
-
             ViewBag.BookedSessions = await GetBookedWalkingSessions(owner);
-
 
             //  ViewBag.Walkers = await GetLocalWalkers();
             return View(owner);
@@ -60,12 +58,9 @@ namespace ProgrammingProject.Controllers
                         if (walk.Date >= DateTime.UtcNow.ToLocalTime())
                             bookedSessions.Add(walk);
                     }
-
                 }
             }
-
             return bookedSessions;
-
         }
 
         public async Task<List<WalkingSession>> GetSuitableWalkingSessions(Owner owner, int? range = 1000)
@@ -122,6 +117,7 @@ namespace ProgrammingProject.Controllers
 
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> AddDogToSession(int sessionID)
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
@@ -140,8 +136,6 @@ namespace ProgrammingProject.Controllers
 
             return RedirectToAction("Index");
         }
-
-
 
         //Add a dog to the owner
         [Route("/Owner/AddDog",

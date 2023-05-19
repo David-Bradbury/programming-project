@@ -26,8 +26,6 @@ namespace ProgrammingProject.Controllers
             //find login id
             var login = await _context.Logins.FindAsync(Email);
 
-
-
             //attempt password check
             if (login == null || string.IsNullOrEmpty(password) || !PBKDF2.Verify(login.PasswordHash, password))
             {

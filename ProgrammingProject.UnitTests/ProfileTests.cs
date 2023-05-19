@@ -28,6 +28,30 @@ namespace ProgrammingProject.UnitTests
         }
 
         [Test]
+        public void CreateEditProfileViewModel_AsWalker_ReturnsViewModel()
+        {
+            var walker = _context.Walkers.Find(7);
+            var owner = _context.Owners.Find(7); ;
+            bool isAdmin = false;
+
+            var Task = _pc.CreateEditProfileViewModel(walker, owner, isAdmin);
+
+            Assert.That(Task.UserType == typeof(Walker).Name);
+        }
+
+        [Test]
+        public void CreateEditProfileViewModel_AsOwner_ReturnsViewModel()
+        {
+            var walker = _context.Walkers.Find(3);
+            var owner = _context.Owners.Find(3); ;
+            bool isAdmin = false;
+
+            var Task = _pc.CreateEditProfileViewModel(walker, owner, isAdmin);
+
+            Assert.That(Task.UserType == typeof(Owner).Name);
+        }
+
+        [Test]
         public void EditProfile_WithValidData_ModelStateIsValid()
         {
             var testViewModel = new EditProfileViewModel();
@@ -44,6 +68,17 @@ namespace ProgrammingProject.UnitTests
             _pc.EditProfile(testViewModel, 0);
 
             Assert.IsTrue(_pc.ViewData.ModelState.IsValid);
+        }
+
+        [Test]
+        public void DeleteDog_WhenCalled_RemoveDogfromDB() 
+        {
+            int DogID = 5;
+
+            var Task = _pc.DeleteDog(DogID);
+            Task.Wait();
+
+            Assert.IsNull(_context.Dogs.Find(DogID));
         }
 
     }

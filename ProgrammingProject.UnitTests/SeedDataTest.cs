@@ -187,6 +187,13 @@ namespace ProgrammingProject.UnitTests
 
             context.Logins.Add(login7);
 
+            var login8 = new Login();
+
+            login8.Email = "jhjhj@something.com";
+            login8.PasswordHash = "IDjaWUHN76Ouz/3t9DKV/6t+YURpFHemb9JCo6B5Jfq/W1Iw5yo/fQd673znSE2K";
+            login8.Locked = Locked.locked;
+
+            context.Logins.Add(login8);
 
             // Seed Users
             var owner1 = new Owner();
@@ -283,6 +290,21 @@ namespace ProgrammingProject.UnitTests
 
             context.Walkers.Add(walker3);
 
+            var walker4 = new Walker();
+
+            walker4.FirstName = "Jim";
+            walker4.LastName = "Edge";
+            walker4.Email = login8.Email;
+            walker4.StreetAddress = "14 Nird Ave";
+            walker4.Suburb = suburb6;
+
+            walker4.Country = "Australia";
+            walker4.PhNumber = "0400 332 897";
+            walker4.IsInsured = true;
+            walker4.ExperienceLevel = ExperienceLevel.Beginner;
+            login8.User = walker4;
+
+            context.Walkers.Add(walker4);
 
             var admin = new Administrator();
 
@@ -369,9 +391,22 @@ namespace ProgrammingProject.UnitTests
 
             context.Dogs.Add(dog4);
 
+            var dog5 = new Dog();
+
+            dog5.Name = "Tenpo";
+            dog5.Breed = breed1;
+            dog5.MicrochipNumber = "111112";
+            dog5.IsVaccinated = true;
+            dog5.Temperament = Temperament.Friendly;
+            dog5.DogSize = DogSize.Small;
+            dog5.TrainingLevel = TrainingLevel.Basic;
+            dog5.Owner = owner3;
+            dog5.Vet = vet3;
+
+            context.Dogs.Add(dog5);
+
             context.SaveChanges();
 
-            // 8:42:27 PM,20 / 06 / 2023 8:42:27 PM,20 / 06 / 2023 9:42:27 PM,6
             var walkingSession1 = new WalkingSession();
 
             walkingSession1.Date = new DateTime(2023, 06, 20, 20, 42, 27);
@@ -389,7 +424,7 @@ namespace ProgrammingProject.UnitTests
             walkingSession2.ScheduledEndTime = new DateTime(walkingSession2.Date.Year, walkingSession2.Date.Month,
                 walkingSession2.Date.Day, 14, 06, 08);
             walkingSession2.WalkerID = 6;
-
+            
             context.WalkingSessions.Add(walkingSession2);
 
             var walkingSession3 = new WalkingSession();
@@ -401,6 +436,8 @@ namespace ProgrammingProject.UnitTests
             walkingSession3.WalkerID = 7;
 
             context.WalkingSessions.Add(walkingSession3);
+
+           
 
             context.SaveChanges();
 
@@ -438,6 +475,7 @@ namespace ProgrammingProject.UnitTests
             context.DogRatings.Add(dogRating3);
 
             context.SaveChanges();
+
         } 
     }
 }
