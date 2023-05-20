@@ -30,12 +30,15 @@ namespace ProgrammingProject.UnitTests
         [Test]
         public void CheckSuburbModelState_IncorrectSuburbName_ReturnsModelErrorAndMessage()
         {
+            // Arrange
             string suburbName = "Docklandss";
             string postcode = "3008";
             string state = "VIC";
 
+            // Act
             _bc.CheckSuburbModelState(suburbName, postcode, state);
 
+            // Assert
             Assert.IsTrue(_bc.ViewData.ModelState["SuburbName"].Errors.Count > 0);
             Assert.AreEqual(_bc.ModelState["SuburbName"].Errors[0].ErrorMessage, "Suburb Name does not exist in Australia");
         }
