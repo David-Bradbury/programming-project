@@ -9,6 +9,7 @@
 
     <form asp-controller="Profile" asp-action="EditProfile" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
         <input asp-for=Country type="hidden" value=@Model.Country />
+        <input asp-for=UserType type="hidden" value=@Model.UserType />
         <input asp-for=IsAdmin type="hidden" value=@Model.IsAdmin />
         <input asp-for=UserID type="hidden" value=@Model.UserID />
         <partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@Model; />
