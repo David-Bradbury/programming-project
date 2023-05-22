@@ -217,7 +217,10 @@ namespace ProgrammingProject.Controllers
                 viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb, viewModel.UserID);
 
                 viewModel.UserType = typeof(Walker).Name;
-                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
+                if (!viewModel.IsAdmin)
+                {
+                    HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
+                }
                 viewModel.SavedProfileImage = w.ProfileImage;
             }
             else
@@ -227,7 +230,10 @@ namespace ProgrammingProject.Controllers
                     viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, viewModel.UserID);
 
                 viewModel.UserType = typeof(Owner).Name;
-                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
+                if (!viewModel.IsAdmin)
+                {
+                    HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
+                }
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
 
