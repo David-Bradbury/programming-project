@@ -536,10 +536,16 @@ namespace ProgrammingProject.Controllers
         // Add Dog Rating
         public async Task<IActionResult> AddDogRating(int WalkerID, int DogID, double Rating)
         {
-            var rating = _context.DogRatings.Where(x => x.WalkerID == WalkerID)
-                                            .Where(x => x.DogID == DogID);
-
-            if (rating.IsNullOrEmpty())
+            DogRating rating = _context.DogRatings.Where(x => x.WalkerID == WalkerID)
+                                            .Where(x => x.DogID == DogID).FirstOrDefault();
+            
+            if (rating != null)
+            {
+                rating.Rating = Rating;
+                rating.DogID = DogID;
+                rating.WalkerID = WalkerID;
+            }
+            else 
             {
                 var dog = await _context.Dogs.FindAsync(DogID);
 
@@ -555,11 +561,11 @@ namespace ProgrammingProject.Controllers
                 dr.Dog = dog;
 
                 _context.DogRatings.Add(dr);
-                //walker.DogRatings.Add(dr);
-                //dog.DogRatings.Add(dr);
 
-                await _context.SaveChangesAsync();
             }
+
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

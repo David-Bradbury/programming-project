@@ -74,7 +74,7 @@ app.Use(async (context, next) =>
 // Available at: https://dotnetthoughts.net/implementing-content-security-policy-in-aspnetcore/ (Accessed: 22 May 2023).
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' *.programmingproject-easywalk.azurewebsites.net/;");
     await next();
 });
 
