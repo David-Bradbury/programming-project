@@ -62,6 +62,14 @@ app.UseAuthorization();
 
 app.UseSession();
 
+// Wade(no date) Set X-FRAME-OPTIONS in ASP.NET Core, .NET Core Tutorials.
+// Available at: https://dotnetcoretutorials.com/set-x-frame-options-asp-net-core/ (Accessed: 21 May 2023). 
+app.Use(async (context, next) =>
+	{
+		context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+		await next();
+	});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
