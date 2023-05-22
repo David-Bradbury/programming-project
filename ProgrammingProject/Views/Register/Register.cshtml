@@ -12,6 +12,7 @@
     <div class="row">
         <div class="col-md-6 g-5 mx-auto">
             <form action="" id="form-1" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input id="FirstName1" asp-for="FirstName" class="form-control" data-val="true"
