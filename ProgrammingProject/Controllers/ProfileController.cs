@@ -59,7 +59,7 @@ namespace ProgrammingProject.Controllers
             var w = new Walker();
             w = await _context.Walkers.FindAsync(id);
             var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
-            viewModel.UserType = "Administrator";
+          //  viewModel.UserType = "Administrator";
             viewModel.UserID = id;
 
             return View("Index", viewModel);
@@ -71,8 +71,7 @@ namespace ProgrammingProject.Controllers
             var viewModel = new EditProfileViewModel();
 
             viewModel.IsAdmin = isAdmin;
-            if (isAdmin)
-                viewModel.UserType = "Administrator";
+
 
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
@@ -83,8 +82,8 @@ namespace ProgrammingProject.Controllers
             if (o == null)
             {
                 //User is Walker
-                if (!isAdmin)
-                    viewModel.UserType = typeof(Walker).Name;
+
+                viewModel.UserType = typeof(Walker).Name;
 
                 viewModel.FirstName = w.FirstName;
                 viewModel.LastName = w.LastName;
@@ -114,8 +113,8 @@ namespace ProgrammingProject.Controllers
             else
             {
                 //User is Owner
-                if (!isAdmin)
-                    viewModel.UserType = typeof(Owner).Name;
+
+                viewModel.UserType = typeof(Owner).Name;
 
                 viewModel.FirstName = o.FirstName;
                 viewModel.LastName = o.LastName;
@@ -134,6 +133,7 @@ namespace ProgrammingProject.Controllers
 
         // Here the changes made in the profile index view are checked and changes saved to the db.
         [Route("/Profile/EditProfile")]
+        
         public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel, int id)
         {
             // Finds the profile holder from db.
@@ -156,8 +156,8 @@ namespace ProgrammingProject.Controllers
             // return user to edit password view if Edit Password button pressed.
             if (id == 1)
             {
-                var userO = await _context.Owners.FindAsync(UserID);
-                var userW = await _context.Walkers.FindAsync(UserID);
+                var userO = await _context.Owners.FindAsync(viewModel.UserID);
+                var userW = await _context.Walkers.FindAsync(viewModel.UserID);
                 viewModel.UserType = userW == null ? typeof(Owner).Name : typeof(Walker).Name;
                 viewModel.FirstName = userW == null ? userO.FirstName : userW.FirstName;
                 viewModel.LastName = userW == null ? userO.LastName : userW.LastName;
@@ -198,7 +198,7 @@ namespace ProgrammingProject.Controllers
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
-                return View(viewModel);
+                return View("Index", viewModel);
             }
 
             // Creating suburb based on form details
@@ -214,27 +214,33 @@ namespace ProgrammingProject.Controllers
             {
                 //User is Walker
                 CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
-                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb, UserID);
+                viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb, viewModel.UserID);
 
                 viewModel.UserType = typeof(Walker).Name;
-                HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
+                if (!viewModel.IsAdmin)
+                {
+                    HttpContext.Session.SetString(nameof(w.FirstName), w.FirstName);
+                }
                 viewModel.SavedProfileImage = w.ProfileImage;
             }
             else
             {
                 //User is Owner
                 CreateHelper.CreateOwner(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
-                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, UserID);
+                    viewModel.Country, viewModel.PhNumber, viewModel.ProfileImage, suburb, viewModel.UserID);
 
                 viewModel.UserType = typeof(Owner).Name;
-                HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
+                if (!viewModel.IsAdmin)
+                {
+                    HttpContext.Session.SetString(nameof(o.FirstName), o.FirstName);
+                }
                 viewModel.SavedProfileImage = o.ProfileImage;
             }
 
             await _context.SaveChangesAsync();
 
             if (viewModel.IsAdmin)
-                return RedirectToAction("EditUser", "Administrator");
+                return RedirectToAction("Index", "Administrator");
 
             else if (w == null)
                 return RedirectToAction("Index", "Owner");
