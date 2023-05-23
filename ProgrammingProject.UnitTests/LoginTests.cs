@@ -23,12 +23,12 @@ namespace ProgrammingProject.UnitTests
         [Test]
         public void Login_PasswordUnverified_ReturnsModelStateError()
         {
-            string email = null;
+            string email = "ok";
             string password = "Aqwe123";
 
             _lc.Login(email, password);
 
-            Assert.IsFalse(_lc.ViewData.ModelState.IsValid);
+            Assert.IsFalse(_lc.ModelState.IsValid);
         }
     }
 }

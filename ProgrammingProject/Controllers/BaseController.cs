@@ -49,7 +49,7 @@ namespace ProgrammingProject.Controllers
             }
         }
 
-        // Ch eck that password is valid.
+        // Check that password is valid.
         public void CheckValidPassword(string password, string confirmPassword)
         {
             if (!Regex.IsMatch(password, @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$"))

@@ -72,28 +72,43 @@ namespace ProgrammingProject.UnitTests
             var Task = _wc.FilterDogsByTrainingLevel(dogs, tl);
 
             Assert.IsNotNull(Task);
+            foreach (Dog d in Task.Result)
+            {
+                TrainingLevel trainingLevel = d.TrainingLevel;
+                Assert.That(trainingLevel.ToString() == "Fully");
+            }
         }
 
         [Test]
         public void FilterDogsByTrainingLevel_BasicTraining_ReturnsListOfDogs()
         {
             List<Dog> dogs = _context.Dogs.ToList();
-            TrainingLevel tl = TrainingLevel.Fully;
+            TrainingLevel tl = TrainingLevel.Basic;
 
             var Task = _wc.FilterDogsByTrainingLevel(dogs, tl);
 
             Assert.IsNotNull(Task);
+            foreach (Dog d in Task.Result)
+            {
+                TrainingLevel trainingLevel = d.TrainingLevel;
+                Assert.That(trainingLevel.ToString() == "Basic");
+            }
         }
 
         [Test]
         public void FilterDogsByTrainingLevel_NoTraining_ReturnsListOfDogs()
         {
             List<Dog> dogs = _context.Dogs.ToList();
-            TrainingLevel tl = TrainingLevel.Fully;
+            TrainingLevel tl = TrainingLevel.None;
 
             var Task = _wc.FilterDogsByTrainingLevel(dogs, tl);
 
             Assert.IsNotNull(Task);
+            foreach (Dog d in Task.Result)
+            {
+                TrainingLevel trainingLevel = d.TrainingLevel;
+                Assert.That(trainingLevel.ToString() == "None");
+            }
         }
 
         [Test]
@@ -105,6 +120,11 @@ namespace ProgrammingProject.UnitTests
             var Task = _wc.FilterDogsByMinimumTrainingLevel(dogs, tl);
 
             Assert.IsNotNull(Task);
+            foreach (Dog d in Task.Result)
+            {
+                TrainingLevel trainingLevel = d.TrainingLevel;
+                Assert.That(trainingLevel.ToString() == "Fully");
+            }
         }
 
         [Test]
@@ -116,6 +136,11 @@ namespace ProgrammingProject.UnitTests
             var Task = _wc.FilterDogsByMinimumTrainingLevel(dogs, tl);
 
             Assert.IsNotNull(Task);
+            foreach (Dog d in Task.Result)
+            {
+                TrainingLevel trainingLevel = d.TrainingLevel;
+                Assert.That(trainingLevel.ToString() == "Basic" || trainingLevel.ToString() == "Fully");
+            }
         }
 
         [Test]
@@ -133,12 +158,13 @@ namespace ProgrammingProject.UnitTests
         public void GetListOfSuitableDogsToWalkers_WhenProvidedWalkerID_ReturnsListOfDogs()
         {
             var walker = new Walker();
-            walker.ExperienceLevel = ExperienceLevel.Beginner;
+            walker.ExperienceLevel = ExperienceLevel.Expert;
 
             IEnumerable<Dog> dogs = _context.Dogs.AsEnumerable();
 
-            Assert.That(dogs.Count, Is.GreaterThanOrEqualTo(1));
-
+            var dogList = _wc.GetListOfSuitableDogsToWalkers(walker, dogs);
+           
+            Assert.That(dogList.Result.Count > 0);
         }
 
         [Test]
@@ -229,6 +255,7 @@ namespace ProgrammingProject.UnitTests
 
             _wc.RemoveDogFromWalk(dog.Id, ws.SessionID);
 
+            Assert.That(_wc.ViewData.ModelState.IsValid);
             Assert.That(ws.DogList.Count == 0);
         }
 
@@ -269,7 +296,6 @@ namespace ProgrammingProject.UnitTests
         public void StartWalkingSession_WhenCalled_AddsActualStartTimeToDB()
         {
             int sessionID = 2;
-
             DateTime dt = new DateTime();
 
             var Task = _wc.StartWalkingSession(sessionID);
@@ -282,7 +308,6 @@ namespace ProgrammingProject.UnitTests
         public void EndWalkingSession_WhenCalled_AddsActualEndTimeToDB()
         {
             int sessionID = 2;
-
             DateTime dt = new DateTime();
 
             var Task = _wc.EndWalkingSession(sessionID);
@@ -350,10 +375,9 @@ namespace ProgrammingProject.UnitTests
 
             Assert.IsNull(_context.WalkingSessions.Find(sessionID));
         }
-
-        // Does not pass, maybe need to change AddDogRating method to allow changes. Speak to Pulvi. JC
+       
         [Test]
-        public void AddDogRating_OldRating_SavesChangesToDB()
+        public void AddDogRating_EditRating_SavesChangesToDB()
         {
             int walkerID = 5;
             int dogID = 1;
@@ -381,25 +405,28 @@ namespace ProgrammingProject.UnitTests
                                                  .Where(dr => dr.WalkerID == walkerID));
         }
 
-        // This test is wrong, JC to speak to DP.
         [Test]
         public void GetDogRating_WhenCalled_ReturnsAverageRating()
         {
-
-            int walkerID = 5;
+            int walker1ID = 5;
+            int walker2ID = 6;
             int dogID = 2;
-            double rating = 3;
+            double rating1 = 3;
+            double rating2 = 2;
 
-            var task = _wc.AddDogRating(walkerID, dogID, rating);
-            task.Wait();
+            var task1 = _wc.AddDogRating(walker1ID, dogID, rating1);
+            task1.Wait();
+            var task2 = _wc.AddDogRating(walker2ID, dogID, rating2);
+            task2.Wait();
 
             Assert.IsNotEmpty(_context.DogRatings.Where(dr => dr.DogID == dogID)
-                                                 .Where(dr => dr.WalkerID == walkerID));
-
+                                                 .Where(dr => dr.WalkerID == walker1ID));
+            Assert.IsNotEmpty(_context.DogRatings.Where(dr => dr.DogID == dogID)
+                                                .Where(dr => dr.WalkerID == walker2ID));
 
             Task<double> dogratings = _wc.GetDogRating(2);
 
-            Assert.AreEqual(dogratings, 2);
+            Assert.AreEqual(dogratings.Result, 2.5);
         }
 
 
