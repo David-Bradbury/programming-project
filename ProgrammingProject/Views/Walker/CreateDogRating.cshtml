@@ -6,47 +6,82 @@
 }
 
 <div>
-    <h1>Add a dog rating</h1>
+    <h1>Add a rating for @dog.Name</h1>
 </div>
 
-<div>
+@*<div>
     <h3>Dog</h3>
     <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
 
         <partial name="../Shared/Components/_DogCard.cshtml" model="@dog" />
 
     </div>
-</div>
+</div>*@
 
 <div>
     <form asp-action="AddDogRating">
-        <input type="hidden" id="WalkerID" name="WalkerID" class="form-control"
+        <input type="hidden" id="WalkerID" name="WalkerID"
                data-val="true" value=@walker.UserId />
-        <input type="hidden" id="DogID" name="DogID" class="form-control"
+        <input type="hidden" id="DogID" name="DogID"
                data-val="true" value=@dog.Id />
         <fieldset>
-            <legend>Select Rating</legend>
-            <label for="1" class="form-label">1</label>
-            <input type="radio" id="Rating" name="Rating" class="form-control"
-                   data-val="true" value="1" />
-            <label for="1" class="form-label">2</label>
-            <input type="radio" id="Rating" name="Rating" class="form-control"
-                   data-val="true" value="2" />
-            <label for="1" class="form-label">3</label>
-            <input type="radio" id="Rating" name="Rating" class="form-control"
-                   data-val="true" value="3" />
-            <label for="1" class="form-label">4</label>
-            <input type="radio" id="Rating" name="Rating" class="form-control"
-                   data-val="true" value="4" />
-            <label for="1" class="form-label">5</label>
-            <input type="radio" id="Rating" name="Rating" class="form-control"
-                   data-val="true" value="5" />
+            @*<legend>Select Rating</legend>*@
+            <label for="1" class="rating-label">
+                <i class="bi bi-star"></i>
+                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                       data-val="true" value="1" oninput="radioClick(this)" />
+            </label>
+            <label for="2" class="rating-label">
+                <i class="bi bi-star"></i>
+                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                       data-val="true" value="2" oninput="radioClick(this)" />
+            </label>
+            <label for="3" class="rating-label">
+                <i class="bi bi-star"></i>
+                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                       data-val="true" value="3" oninput="radioClick(this)"/>
+            </label>
+            <label for="4" class="rating-label">
+                <i class="bi bi-star"></i>
+                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                       data-val="true" value="4" oninput="radioClick(this)" />
+            </label>
+            <label for="5" class="rating-label">
+                <i class="bi bi-star"></i>
+                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                       data-val="true" value="5" oninput="radioClick(this)" />
+            </label>
+
         </fieldset>
-        <input type="submit" class="btn btn-secondary" asp-action="AddDogRating"
+        <input type="submit" class="btn btn-primary" asp-action="AddDogRating"
                asp-route-id="AddDogRating" />
 
     </form>
 </div>
+<script>
+    //function alertVal() {
+    //    var val = document.querySelector('input[name="Rating"]:checked').value;
+    //    alert(val);
+    //    console.log(val);
+    //}
+
+    function radioClick(el) {
+        var $labels = $(".rating-label");
+        var selectedVal = el.value;
+        console.log(selectedVal);
+        $labels.each(function() {
+            this.classList.remove("checked");
+        })
+        $labels.each(function(index) {
+            if (index < selectedVal) {
+                this.classList.add("checked");
+            }
+        })
+        //var $label = $(el).parent();
+        //$label.toggleClass("checked")
+    }
+</script>
+
 
 
 
