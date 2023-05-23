@@ -55,43 +55,17 @@
         </fieldset>
         <input type="submit" class="btn btn-primary" asp-action="AddDogRating"
                asp-route-id="AddDogRating" />
+        
 
     </form>
 </div>
-<script type="text/javascript">
-    function radioClick(el) {
-        var outlineClass = "bi-star";
-        var fillClass = "bi-star-fill";
+@section Scripts {
+    <script type="text/javascript" src="~/../js/site.js"></script>
+    <script type="text/javascript">
 
-        var $labels = $(".rating-label");
-        var selectedVal = el.value;
-        $labels.each(function() {
-            this.classList.remove("checked");
-            $(this).children()[0].classList.remove(fillClass);
-            console.log($(this).children()[0]);
-            $(this).children()[0].classList.add(outlineClass);
-        })
-        $labels.each(function(index) {
-            if (index < selectedVal) {
-                this.classList.add("checked");
-                $(this).children()[0].classList.remove(outlineClass);
-                $(this).children()[0].classList.add(fillClass);
-            }
-        })
-        //var $label = $(el).parent();
-        //$label.toggleClass("checked")
-    }
+    </script>
+}
 
-    function radioFocus(el) {
-        var $label = $(el).parent();
-        $label.addClass("focus");
-    }
-
-    function radioFocusOut(el) {
-        var $label = $(el).parent();
-        $label.removeClass("focus")
-    }
-</script>
 
 
 

@@ -48,3 +48,42 @@ function breedClick(event, element) {
     $("#Breed").val($(element).attr("data-name"));
     $("#breedsList")[0].style.display = "none";
 }
+
+function radioClick(el) {
+    var outlineClass = "bi-star";
+    var fillClass = "bi-star-fill";
+
+    var $labels = $(".rating-label");
+    var selectedVal = el.value;
+    $labels.each(function () {
+        this.classList.remove("checked");
+        $(this).children()[0].classList.remove(fillClass);
+        $(this).children()[0].classList.add(outlineClass);
+    })
+    $labels.each(function (index) {
+        if (index < selectedVal) {
+            this.classList.add("checked");
+            $(this).children()[0].classList.remove(outlineClass);
+            $(this).children()[0].classList.add(fillClass);
+        }
+    })
+    //var $label = $(el).parent();
+    //$label.toggleClass("checked")
+}
+
+function radioFocus(el) {
+    var $label = $(el).parent();
+    $label.addClass("focus");
+}
+
+function radioFocusOut(el) {
+    var $label = $(el).parent();
+    $label.removeClass("focus")
+}
+
+function clickRate(name, did) {
+    var $name = $("#DogName");
+    $name.html(name);
+    var $dogID = $("#DogID");
+    $dogID.val(did);
+}
