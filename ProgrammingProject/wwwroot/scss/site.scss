@@ -39,9 +39,17 @@ body {
     background-color: $gray-200;
 }
 
+.text-highlight {
+    color: $gray-700;
+}
+
 @include color-mode(dark) {
     .bg-highlight {
         background-color: $gray-800;
+    }
+
+    .text-highlight {
+        color: $gray-400;
     }
 }
 
