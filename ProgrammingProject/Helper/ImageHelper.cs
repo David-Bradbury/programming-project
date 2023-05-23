@@ -13,6 +13,7 @@ namespace ProgrammingProject.Helper
             _webHostEnvironment = webHostEnvironment;
         }
      
+        // Uploads file to img folder in wwwroot and rreturns string to be saved to db.
         public string UploadFile(IFormFile image)
         {         
             string fileName = null;

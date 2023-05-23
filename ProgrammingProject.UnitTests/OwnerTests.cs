@@ -49,7 +49,7 @@ namespace ProgrammingProject.UnitTests
         }
 
         [Test]
-        public void RemoveDogFromDBSession_WhenCalled_RemovesDogFromDB()
+        public void RemoveDogFromDBSession_WhenCalled_RemovesDogFromSessionInDB()
         {
             var ws = _context.WalkingSessions.Find(2);
             var dog = _context.Dogs.Find(1);
@@ -57,7 +57,6 @@ namespace ProgrammingProject.UnitTests
             ws.DogList = new List<Dog>();
 
             _oc.UpdateNewDogInSession(ws.SessionID, dog.Id);
-
             _oc.RemoveDogFromDBSession(ws.SessionID, dog.Id);
 
             Assert.IsEmpty(ws.DogList);

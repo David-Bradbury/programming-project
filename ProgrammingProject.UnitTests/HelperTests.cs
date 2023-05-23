@@ -14,7 +14,6 @@ using System.IO;
 using System.Linq;
 
 
-
 namespace ProgrammingProject.UnitTests
 {
     [TestFixture]
@@ -65,7 +64,7 @@ namespace ProgrammingProject.UnitTests
             int vetID = 3;
             var vet = _context.Vets.Find(vetID);
 
-            string businessName = "Vet";
+            string businessName = "Vetsss";
             string phNumber = vet.PhNumber;
             string email = vet.Email;
             string streetAddress = vet.StreetAddress;
@@ -210,7 +209,7 @@ namespace ProgrammingProject.UnitTests
             CreateHelper.CreateDog(name, breed, microchipNumber, temperament, dogSize, trainingLevel, profileImage, vet, owner, dogID);
 
             // Assert        
-            Assert.AreEqual(dog.DogSize.ToString(), dogSize);
+            Assert.AreEqual(dog.TrainingLevel.ToString(), trainingLevel);
         }
 
         [Test]

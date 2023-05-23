@@ -138,8 +138,7 @@ namespace ProgrammingProject.Controllers
         }
 
         //Add a dog to the owner
-        [Route("/Owner/AddDog",
-     Name = "AddDog"), AuthorizeUser]
+        [Route("/Owner/AddDog", Name = "AddDog"), AuthorizeUser]
         public async Task<IActionResult> AddDog()
         {
             // Sets list needed in form.
@@ -156,8 +155,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Post method for adding dogs to the system. Validates entries.
-        [Route("/Owner/AddDog",
-    Name = "AddDog")]
+        [Route("/Owner/AddDog", Name = "AddDog")]
         [HttpPost]
         public async Task<IActionResult> AddDog(AddDogViewModel viewModel)
         {

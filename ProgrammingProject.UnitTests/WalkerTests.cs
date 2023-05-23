@@ -385,9 +385,21 @@ namespace ProgrammingProject.UnitTests
         [Test]
         public void GetDogRating_WhenCalled_ReturnsAverageRating()
         {
-            Task<double> dogratings = _wc.GetDogRating(1);
 
-            Assert.AreEqual(dogratings, 4);
+            int walkerID = 5;
+            int dogID = 2;
+            double rating = 3;
+
+            var task = _wc.AddDogRating(walkerID, dogID, rating);
+            task.Wait();
+
+            Assert.IsNotEmpty(_context.DogRatings.Where(dr => dr.DogID == dogID)
+                                                 .Where(dr => dr.WalkerID == walkerID));
+
+
+            Task<double> dogratings = _wc.GetDogRating(2);
+
+            Assert.AreEqual(dogratings, 2);
         }
 
 
