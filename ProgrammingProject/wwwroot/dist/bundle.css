@@ -15228,9 +15228,14 @@ body {
 .bg-highlight {
   background-color: #e9ecef; }
 
+.text-highlight {
+  color: #495057; }
+
 @media (prefers-color-scheme: dark) {
   .bg-highlight {
-    background-color: #343a40; } }
+    background-color: #343a40; }
+  .text-highlight {
+    color: #ced4da; } }
 
 /* navbar */
 /********************************************************************/
@@ -15364,4 +15369,26 @@ footer {
 
 /********************************************************************/
 /* end verification */
+/* rating */
+/********************************************************************/
+input[type="radio"].rating-radio {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  opacity: 0;
+  z-index: 10;
+  left: 0;
+  top: 0.3em;
+  cursor: pointer; }
+
+.rating-label {
+  position: relative;
+  cursor: pointer; }
+  .rating-label.checked {
+    color: #007e8a; }
+  .rating-label:hover, .rating-label.focus {
+    filter: drop-shadow(0 0 4px #007e8a); }
+
+/********************************************************************/
+/* end rating*/
 

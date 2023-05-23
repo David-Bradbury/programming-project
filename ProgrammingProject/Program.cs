@@ -72,11 +72,13 @@ app.Use(async (context, next) =>
 
 // Anuraj (1 Nov 2021) Implementing Content Security Policy (CSP) in ASP.NET Core.
 // Available at: https://dotnetthoughts.net/implementing-content-security-policy-in-aspnetcore/ (Accessed: 22 May 2023).
-app.Use(async (context, next) =>
-{
-    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
-    await next();
-});
+
+//app.Use(async (context, next) =>
+//{
+//    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' *.programmingproject-easywalk.azurewebsites.net/;");
+//    await next();
+//});
+
 
 app.MapControllerRoute(
     name: "default",

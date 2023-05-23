@@ -39,9 +39,17 @@ body {
     background-color: $gray-200;
 }
 
+.text-highlight {
+    color: $gray-700;
+}
+
 @include color-mode(dark) {
     .bg-highlight {
         background-color: $gray-800;
+    }
+
+    .text-highlight {
+        color: $gray-400;
     }
 }
 
@@ -207,3 +215,31 @@ footer {
 }
 /********************************************************************/
 /* end verification */
+
+/* rating */
+/********************************************************************/
+input[type="radio"].rating-radio {
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    opacity: 0;
+    z-index: 10;
+    left: 0;
+    top: 0.3em;
+    cursor: pointer;
+}
+
+.rating-label {
+    position: relative;
+    cursor: pointer;
+
+    &.checked {
+        color: $primary;
+    }
+
+    &:hover, &.focus {
+        filter: drop-shadow(0 0 4px $primary);
+    }
+}
+/********************************************************************/
+/* end rating*/
