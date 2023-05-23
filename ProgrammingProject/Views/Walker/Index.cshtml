@@ -59,6 +59,59 @@
         </div>
     </div>
 
+    <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+        <div id="ratingModal" class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="mb-3">Add a rating for <span id="DogName"></span></h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="ratingReset()"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form asp-action="AddDogRating" class="d-flex flex-wrap justify-content-between">
+                        <input type="hidden" id="WalkerID" name="WalkerID"
+                               data-val="true" value="@walker.UserId"/>
+                        <input type="hidden" id="DogID" name="DogID"
+                               data-val="true" value="" />
+                        <fieldset>
+                            <label for="1" class="rating-label">
+                                <i class="bi bi-star"></i>
+                                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                                       data-val="true" value="1" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
+                            </label>
+                            <label for="2" class="rating-label">
+                                <i class="bi bi-star"></i>
+                                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                                       data-val="true" value="2" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
+                            </label>
+                            <label for="3" class="rating-label">
+                                <i class="bi bi-star"></i>
+                                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                                       data-val="true" value="3" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
+                            </label>
+                            <label for="4" class="rating-label">
+                                <i class="bi bi-star"></i>
+                                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                                       data-val="true" value="4" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
+                            </label>
+                            <label for="5" class="rating-label">
+                                <i class="bi bi-star"></i>
+                                <input type="radio" id="Rating" name="Rating" class="rating-radio"
+                                       data-val="true" value="5" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
+                            </label>
+
+                        </fieldset>
+                        <input type="submit" class="btn btn-primary" asp-action="AddDogRating"
+                               asp-route-id="AddDogRating" />
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 <br />
 
@@ -257,6 +310,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script type="text/javascript" src="~/../js/site.js"></script>
 <script type="text/javascript">
 
     function walkingSessionSubmit() {
@@ -307,6 +361,22 @@
         $sessionForm.submit();
     }
 
+    function ratingReset() {
+        var $labels = $(".rating-label");
+        var outlineClass = "bi-star";
+        var fillClass = "bi-star-fill";
+        $labels.each(function() {
+            $(this).children()[0].classList.remove(fillClass);
+            $(this).children()[0].classList.add(outlineClass);
+            this.classList.remove("checked");
+            this.classList.remove("focus");
+        })
+
+        var $buttons = $("input[name='Rating']")
+        $buttons.each(function() {
+            $(this).prop('checked', false);
+        })
+    }
 
 </script>
 }
