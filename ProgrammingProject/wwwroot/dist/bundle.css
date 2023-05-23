@@ -15367,25 +15367,22 @@ footer {
 /* rating */
 /********************************************************************/
 input[type="radio"].rating-radio {
-  /* Add if not using autoprefixer */
-  /*-webkit-appearance: none;
-    appearance: none;*/
-  /* For iOS < 15 to remove gradient background */
-  /*background-color: #fff;*/
-  /* Not removed via appearance */
-  /*margin: 0;*/
   position: absolute;
   width: 1em;
   height: 1em;
   opacity: 0;
   z-index: 10;
   left: 0;
-  top: 0.3em; }
+  top: 0.3em;
+  cursor: pointer; }
 
 .rating-label {
-  position: relative; }
+  position: relative;
+  cursor: pointer; }
   .rating-label.checked {
     color: #007e8a; }
+  .rating-label:hover, .rating-label.focus {
+    filter: drop-shadow(0 0 4px #007e8a); }
 
 /********************************************************************/
 /* end rating*/

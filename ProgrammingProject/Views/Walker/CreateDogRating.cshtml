@@ -29,27 +29,27 @@
             <label for="1" class="rating-label">
                 <i class="bi bi-star"></i>
                 <input type="radio" id="Rating" name="Rating" class="rating-radio"
-                       data-val="true" value="1" oninput="radioClick(this)" />
+                       data-val="true" value="1" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
             </label>
             <label for="2" class="rating-label">
                 <i class="bi bi-star"></i>
                 <input type="radio" id="Rating" name="Rating" class="rating-radio"
-                       data-val="true" value="2" oninput="radioClick(this)" />
+                       data-val="true" value="2" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
             </label>
             <label for="3" class="rating-label">
                 <i class="bi bi-star"></i>
                 <input type="radio" id="Rating" name="Rating" class="rating-radio"
-                       data-val="true" value="3" oninput="radioClick(this)"/>
+                       data-val="true" value="3" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
             </label>
             <label for="4" class="rating-label">
                 <i class="bi bi-star"></i>
                 <input type="radio" id="Rating" name="Rating" class="rating-radio"
-                       data-val="true" value="4" oninput="radioClick(this)" />
+                       data-val="true" value="4" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
             </label>
             <label for="5" class="rating-label">
                 <i class="bi bi-star"></i>
                 <input type="radio" id="Rating" name="Rating" class="rating-radio"
-                       data-val="true" value="5" oninput="radioClick(this)" />
+                       data-val="true" value="5" oninput="radioClick(this)" onfocus="radioFocus(this)" onfocusout="radioFocusOut(this)" />
             </label>
 
         </fieldset>
@@ -58,27 +58,38 @@
 
     </form>
 </div>
-<script>
-    //function alertVal() {
-    //    var val = document.querySelector('input[name="Rating"]:checked').value;
-    //    alert(val);
-    //    console.log(val);
-    //}
-
+<script type="text/javascript">
     function radioClick(el) {
+        var outlineClass = "bi-star";
+        var fillClass = "bi-star-fill";
+
         var $labels = $(".rating-label");
         var selectedVal = el.value;
-        console.log(selectedVal);
         $labels.each(function() {
             this.classList.remove("checked");
+            $(this).children()[0].classList.remove(fillClass);
+            console.log($(this).children()[0]);
+            $(this).children()[0].classList.add(outlineClass);
         })
         $labels.each(function(index) {
             if (index < selectedVal) {
                 this.classList.add("checked");
+                $(this).children()[0].classList.remove(outlineClass);
+                $(this).children()[0].classList.add(fillClass);
             }
         })
         //var $label = $(el).parent();
         //$label.toggleClass("checked")
+    }
+
+    function radioFocus(el) {
+        var $label = $(el).parent();
+        $label.addClass("focus");
+    }
+
+    function radioFocusOut(el) {
+        var $label = $(el).parent();
+        $label.removeClass("focus")
     }
 </script>
 
