@@ -23,6 +23,7 @@ namespace ProgrammingProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string Email, string password)
         {
+            Email = Email.ToLower();
             //find login id
             var login = await _context.Logins.FindAsync(Email);
 

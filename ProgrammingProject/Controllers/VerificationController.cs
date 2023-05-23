@@ -58,6 +58,7 @@ namespace ProgrammingProject.Controllers
         [Route("/Verification/ForgotPassword"), HttpPost]
         public IActionResult ForgotPassword(string email)
         {
+            email = email.ToLower();
             var login = new Login();
             login.Email = email;
 
@@ -69,15 +70,24 @@ namespace ProgrammingProject.Controllers
             foreach (var l in _context.Logins)
                 if (l.Email == email)
                 {
-                    emailExists = true;
-                    l.EmailToken = ControllerHelper.GetToken();
-                    login.EmailToken = l.EmailToken;
-                    _context.SaveChanges();
+                    if(l.Locked == Locked.locked)
+                    {
+                        ModelState.AddModelError(nameof(email), "The email entered has not been verified. " +
+                                                                "Please verify email address prior to recovering password.");
+                    }
+                    else
+                    {
+                        emailExists = true;
+                        l.EmailToken = ControllerHelper.GetToken();
+                        login.EmailToken = l.EmailToken;
+                        _context.SaveChanges();
+                    }
+
 
                 }
 
             if (!emailExists)
-                ModelState.AddModelError(nameof(email), "The email entered does not exist in the system" +
+                ModelState.AddModelError(nameof(email), "The email entered does not exist in the system. " +
                                                                 "Please try with a different email address.");
 
 
