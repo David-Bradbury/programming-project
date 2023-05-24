@@ -29,9 +29,10 @@
                 </div>
                 <div class="d-flex flex-column align-items-center gap-2 mt-2 mt-md-3">
                     <input type="submit" class="btn btn-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditDogProfile"
-                       value="Dog Profile" asp-route-id="@Model.DogId" />
-                    <input type="submit" class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditVet"
-                       value="Edit Vet Information" />
+                       value="Dog Profile" asp-route-dogId="@Model.DogId" />
+                    @*<input type="submit" class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditVet"
+                       value="Edit Vet Information" />*@
+                    <a class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditVet" asp-route-dogId="@Model.DogId">Edit Vet Information</a>
                     @*asp-route-id="EditVet" *@
                     <button class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="Index">
                         <i class="bi bi-arrow-left-circle"></i>

@@ -441,8 +441,23 @@ namespace ProgrammingProject.Controllers
 
 
         // Sets up the view EditVet.
-        public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
+        public async Task<IActionResult> EditVet(int dogId)
         {
+            // Finds dog and vat information.
+            var dog = await _context.Dogs.FindAsync(dogId);
+            var vet = await _context.Vets.FindAsync(dog.Vet.Id);
+            var viewModel = new EditDogProfileViewModel();
+
+            viewModel.DogId = dogId;
+            viewModel.BusinessName = vet.BusinessName;
+            viewModel.PhNumber = vet.PhNumber;
+            viewModel.SuburbName = vet.Suburb.SuburbName;
+            viewModel.Postcode = vet.Suburb.Postcode;
+            viewModel.Country = vet.Country;
+            viewModel.State = vet.Suburb.State;
+            viewModel.StreetAddress = vet.StreetAddress;
+            viewModel.Email = vet.Email;
+            viewModel.SavedProfileImage = dog.ProfileImage;
             // Sets the list needed in the next view.
             viewModel.StatesList = DropDownLists.GetStates();
 
@@ -453,6 +468,19 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
+        //// Sets up the view EditVet.
+        //public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
+        //{
+        //    // Sets the list needed in the next view.
+        //    viewModel.StatesList = DropDownLists.GetStates();
+
+        //    // creates the owners profile view model.
+        //    EditProfileViewModel vm = SetViewModel();
+        //    ViewBag.EditProfileViewModel = vm;
+        //    ViewBag.SuburbsList = _context.Suburbs.ToList();
+
+        //    return View(viewModel);
+        //}
 
 
         // The changes made to a vet in EditVet view are validated and saved to the db.
