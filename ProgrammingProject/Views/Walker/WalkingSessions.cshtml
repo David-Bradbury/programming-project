@@ -14,7 +14,7 @@
     <h3>Suitable Sessions</h3>
 
     @foreach (var session in walks) {
-        @Html.Partial("../Shared/Components/_AddDogSessionRow.cshtml",session,  new ViewDataDictionary(this.ViewData){{"userType", userType}, {"dog_ID", dog})
+        @Html.Partial("../Shared/Components/_AddDogSessionRow.cshtml",session,  new ViewDataDictionary(this.ViewData){{"userType", userType}, {"dog_ID", dog}})
     }
 
     @*<div class="table-responsive">

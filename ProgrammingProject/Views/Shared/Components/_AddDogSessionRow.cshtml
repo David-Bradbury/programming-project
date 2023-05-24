@@ -16,64 +16,64 @@
 }
 <div class="card session-card my-1 shadow border-0">
     <div class="card-body container">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-column flex-md-row">
             <div class="row flex-grow-1 mx-1">
                 <div class="col-2">
                     <img src="~/img/calendar.png" class="w-100" />
                 </div>
-                <div class="col-9 row">
-                <div class="col-6 col-md-5">
-                    <p class="fw-bold mb-0">Date</p>
-                    <p class="mb-0">@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
-                </div>
-                <div class="col-3 col-md-43">
-                    <p class="fw-bold mb-0">Start</p>
-                    <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
-                </div>
-                <div class="col-3 col-md-3">
-                    <p class="fw-bold mb-0">End</p>
-                    <p class="mb-0">@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
-                </div>
-                <div class="col-6 col-md-5">
-                    <p class="fw-bold mb-0">Duration</p>
-                    <p class="mb-0">@duration(Model.ScheduledStartTime, Model.ScheduledEndTime)</p>
-                </div>
-                @if (userType.Equals("Owner"))
-                {
-                    <div class="col-6 col-md-6">
-                        <p class="fw-bold mb-0">Walker</p>
-                        <p class="mb-0">@Model.Walker.FirstName @Model.Walker.LastName</p>
+                <div class="col-10 row">
+                    <div class="col-6 col-md-5" style="min-width: max-content">
+                        <p class="fw-bold mb-0">Date</p>
+                        <p class="mb-0">@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
                     </div>
-                }
-                <div class="col-md-7">
-                    <p class="fw-bold mb-0">Dogs On Walk</p>
-                    @if (Model.DogList.Count() > 0)
+                    <div class="col-3 col-md-43" style="min-width: max-content">
+                        <p class="fw-bold mb-0">Start</p>
+                        <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
+                    </div>
+                    <div class="col-3 col-md-3" style="min-width: max-content">
+                        <p class="fw-bold mb-0">End</p>
+                        <p class="mb-0">@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
+                    </div>
+                    <div class="col-6 col-md-5" style="min-width: max-content">
+                        <p class="fw-bold mb-0">Duration</p>
+                        <p class="mb-0">@duration(Model.ScheduledStartTime, Model.ScheduledEndTime)</p>
+                    </div>
+                    @if (userType.Equals("Owner"))
                     {
-                        <p class="mb-0">
-                            @{
-                                int count = 0;
-                            }
-                            @foreach (var d in Model.DogList)
-                            {
-                                if (count > 0)
-                                {
-                                    @Html.Raw(", ")
+                        <div class="col-6 col-md-6" style="min-width: max-content">
+                            <p class="fw-bold mb-0">Walker</p>
+                            <p class="mb-0">@Model.Walker.FirstName @Model.Walker.LastName</p>
+                        </div>
+                    }
+                    <div class="col-md-7" >
+                        <p class="fw-bold mb-0">Dogs On Walk</p>
+                        @if (Model.DogList.Count() > 0)
+                        {
+                            <p class="mb-0">
+                                @{
+                                    int count = 0;
                                 }
-                                @Html.DisplayFor(x => d.Name)
-                                count++;
+                                @foreach (var d in Model.DogList)
+                                {
+                                    if (count > 0)
+                                    {
+                                        @Html.Raw(", ")
+                                    }
+                                    @Html.DisplayFor(x => d.Name)
+                                    count++;
 
-                            }
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-0">No Dogs</p>
-                    }
-                </div>
+                                }
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="mb-0">No Dogs</p>
+                        }
+                    </div>
                 </div>
 
             </div>
-            <div class="d-flex flex-column flex-lg-row justify-content-lg-end gap-1" style="height: min-content">
+            <div class="d-flex flex-row flex-md-column justify-content-end gap-1" style="height: min-content">
                 <form asp-action="AddDogToWalkingSession">
                     <td>
                         <input name="DogID" class="form-control"
