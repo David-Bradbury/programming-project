@@ -28,7 +28,7 @@
         @if (!Model.IsAdmin) {
             <div>
                 <a class="btn @(ViewBag.ActiveView == "EditPassword" ? "btn-primary" : "btn-outline-primary") btn-profile text-md-start"
-               asp-action="EditProfile" asp-route-id="1">Change Password</a>
+               asp-action="EditPasswordView" asp-route-uid="@Model.UserID">Change Password</a>
             </div>
         }
     </div>
