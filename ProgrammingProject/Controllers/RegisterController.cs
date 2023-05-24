@@ -59,6 +59,7 @@ namespace ProgrammingProject.Controllers
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             ViewBag.SuburbsList = _context.Suburbs.ToList();
+            ViewBag.SubmitError = "";
 
 
             // Checks if the viewmodel fields are null.
@@ -105,6 +106,7 @@ namespace ProgrammingProject.Controllers
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
+                ViewBag.SubmitError = "A problem occured while submitting your data. Please re-enter your password, then click 'Next' to see further issues.";
                 return View(viewModel);
             }
         
