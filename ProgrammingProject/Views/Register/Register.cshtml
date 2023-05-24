@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Register";
     var suburbs = (List<Suburb>)ViewBag.SuburbsList;
+    var submitError = "";
+    if (ViewBag.SubmitError != null) {
+        submitError = ViewBag.SubmitError;
+    }
 }
 
 <div class="p-5">
@@ -13,6 +17,9 @@
         <div class="col-md-6 g-5 mx-auto">
             <form action="" id="form-1" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <span id="submitError" class="text-danger">@submitError</span>
+                </div>
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input id="FirstName1" asp-for="FirstName" class="form-control" data-val="true"
@@ -50,6 +57,7 @@
                     @Html.ValidationMessage("ConfirmPassword", new  { @class = "text-danger"})
                     <span id="form-1-message-password" class="text-danger"></span>
                 </div>
+                
                 <div class="form-group mt-3 d-flex justify-content-end">
                     <input type="button" onclick="validateForm1()" class="btn btn-primary" value="Next"/>
                 </div>
