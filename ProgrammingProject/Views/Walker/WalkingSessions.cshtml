@@ -3,6 +3,7 @@
     ViewData["Title"] = "Walker";
     var dog = (int)ViewBag.DogID;
     var walks = (List<WalkingSession>)ViewBag.WalkingSession;
+    var userType = "Walker";
 }
 
 <div>
@@ -12,7 +13,11 @@
 <div>
     <h3>Suitable Sessions</h3>
 
-    <div class="table-responsive">
+    @foreach (var session in walks) {
+        @Html.Partial("../Shared/Components/_AddDogSessionRow.cshtml",session,  new ViewDataDictionary(this.ViewData){{"userType", userType}, {"dog_ID", dog}})
+    }
+
+    @*<div class="table-responsive">
         <table class="table table-bordered table-striped">
             <tr>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.SessionID)</th>
@@ -60,6 +65,6 @@
                 </tr>
             }
         </table>
-    </div>
+    </div>*@
 
 </div>
