@@ -21,7 +21,8 @@
                     <span id="submitError" class="text-danger">@submitError</span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="FirstName" class="control-label"></label>
+                    @*<label asp-for="FirstName" class="control-label"></label>*@
+                    <label class="control-label" for="FirstName1">First Name</label>
                     <input id="FirstName1" asp-for="FirstName" class="form-control" data-val="true"
                            placeholder="First Name" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
