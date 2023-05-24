@@ -120,7 +120,7 @@ namespace ProgrammingProject.Controllers
 
 
             var recipient = login.Email;
-            var subject = "EasyWalk Password Recovery";
+            var subject = "Password Recovery";
 
             //String for woring locally
             //const string url = "https://localhost:7199/Verification/NewPassword";

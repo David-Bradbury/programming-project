@@ -25,13 +25,21 @@
     <div class="col-lg-9 overflow-auto" style="height:75vh;">
             <div class ="collapse show" id="dogs" data-bs-parent="#ownerSections">
                 <div class="d-flex justify-content-between flex-wrap mb-3">
-    <h3 class="mb-3">Dogs</h3>
-    @foreach (var dog in @Model.Dogs)
-    {
-        <partial name="../Shared/Components/_OwnerDogCard.cshtml" model="dog" />
-    }
-</div>
-</div>
+                    <h3 class="mb-3">Dogs</h3>
+                    @foreach (var dog in @Model.Dogs)
+                    {
+                        <partial name="../Shared/Components/_OwnerDogCard.cshtml" model="dog" />
+                    }
+                </div>
+                @if (!Model.Dogs.Any()) {
+                    <div class="d-flex justify-content-center my-3">
+                        <a class="btn btn-outline-secondary" asp-controller="Owner" asp-action="AddDog">
+                            <i class="bi bi-plus"></i>
+                            Add Dog
+                        </a>
+                    </div>
+                }
+            </div>
 
             <div class="collapse" id="bookedsessions" data-bs-parent="#ownerSections">
                 <div class="d-flex justify-content-between flex-wrap mb-3">
@@ -59,7 +67,7 @@
     }
     else
     {
-        <h6 class="col-12">You currently have no booked walking sessions</h6>
+        <h6 class="col-12">You currently have no booked walking sessions. Head to Upcoming Sessions to get started.</h6>
     }
 </div>
 </div>
