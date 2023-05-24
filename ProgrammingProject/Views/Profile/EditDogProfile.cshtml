@@ -20,7 +20,7 @@
         <input asp-for=SavedProfileImage type="hidden" value="@Model.SavedProfileImage" />
             <div class="d-flex flex-column align-items-center mt-md-5" style="min-width: 21rem;">
                 <div>
-                    <img src="~/img/@Model.SavedProfileImage" width="200" height="200" class="rounded-circle" asp-append-version="true" />
+                    <img src="~/img/@Model.SavedProfileImage" width="200" height="200" class="rounded-circle object-fit-cover" asp-append-version="true" />
                 </div>
                 <div class="form-group">
                     <label asp-for=ProfileImage class="form-label text-center w-100">Update Profile Image</label>
