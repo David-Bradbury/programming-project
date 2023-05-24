@@ -131,6 +131,20 @@ namespace ProgrammingProject.Controllers
             return viewModel;
         }
 
+        [Route("/Profile/EditPasswordView")]
+        public async Task<IActionResult> EditPasswordView(int uid) {
+            var userO = await _context.Owners.FindAsync(uid);
+            var userW = await _context.Walkers.FindAsync(uid);
+            EditProfileViewModel viewModel = CreateEditProfileViewModel(userW, userO, false);
+            viewModel.UserType = userW == null ? typeof(Owner).Name : typeof(Walker).Name;
+            viewModel.FirstName = userW == null ? userO.FirstName : userW.FirstName;
+            viewModel.LastName = userW == null ? userO.LastName : userW.LastName;
+            viewModel.SavedProfileImage = userW == null ? userO.ProfileImage : userW.ProfileImage;
+            ViewBag.ActiveView = "EditPassword";
+            return View("EditPassword", viewModel);
+        }
+
+
         // Here the changes made in the profile index view are checked and changes saved to the db.
         [Route("/Profile/EditProfile")]
         
@@ -268,7 +282,9 @@ namespace ProgrammingProject.Controllers
             // Checking to see if the state of the model is valid before continuing.
             if (!ModelState.IsValid)
             {
-                return View();
+                EditProfileViewModel viewModel = CreateEditProfileViewModel(w, o, false);
+                ViewBag.ActiveView = "EditPassword";
+                return View(viewModel);
             }
 
             //Check if walker or Owner and update fields accordingly.
