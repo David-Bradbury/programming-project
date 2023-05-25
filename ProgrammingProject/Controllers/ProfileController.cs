@@ -321,6 +321,10 @@ namespace ProgrammingProject.Controllers
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(dogId);
 
+            if (dog.Owner.UserId != UserID) {
+                return RedirectToAction("Index");
+            }
+
             var vet = new Vet();
             vet = await _context.Vets.FindAsync(dog.Vet.Id);
 
@@ -443,10 +447,14 @@ namespace ProgrammingProject.Controllers
         // Sets up the view EditVet.
         public async Task<IActionResult> EditVet(int dogId)
         {
-            // Finds dog and vat information.
+            // Finds dog and vet information.
             var dog = await _context.Dogs.FindAsync(dogId);
             var vet = await _context.Vets.FindAsync(dog.Vet.Id);
             var viewModel = new EditDogProfileViewModel();
+
+            if (dog.Owner.UserId != UserID) {
+                return RedirectToAction("Index");
+            }
 
             viewModel.DogId = dogId;
             viewModel.BusinessName = vet.BusinessName;
