@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "Past Sessions";
     var walks = (List<WalkingSession>)ViewBag.WalkingSession;
+    var userType = "Previous";
+    // yes, this field should be renamed from userType to something else like 'context'. 
+    // no, i don't want to at this point in time.
+
 }
 
 <div>
@@ -9,9 +13,13 @@
 </div>
 
 <div>
-    <h3>Suitable Sessions</h3>
+    <h3>Previous Sessions</h3>
 
-    <div class="table-responsive">
+    @foreach (var session in walks) {
+        @Html.Partial("../Shared/Components/_WalkingSessionRow.cshtml",session,  new ViewDataDictionary(this.ViewData){{"userType", userType}})
+    }
+
+    @*<div class="table-responsive">
         <table class="table table-bordered table-striped">
             <tr>
                 <th class="table-primary">@Html.DisplayNameFor(x => x.SessionID)</th>
@@ -53,6 +61,6 @@
                 }
             }
         </table>
-    </div>
+    </div>*@
 
 </div>
