@@ -122,6 +122,10 @@
                     <a class="btn btn-primary"
                    asp-action="AddDogToSession" asp-route-sessionID=@Model.SessionID>Add Dog</a>
                 }
+                else if (userType.Equals("Previous")) {
+                    <a class="btn btn-primary my-auto"
+                   asp-action="DeleteWalkingSession" asp-route-sessionID=@Model.SessionID>Delete</a>
+                }
             </div>
         </div>
     </div>
