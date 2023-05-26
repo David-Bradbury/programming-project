@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Email Sent";
+}
+
+<div class="p-5">
+
+    <h1 class="display-4 text-center">Email Sent</h1>
+
+    <p> A password recovery email has been sent to the email address that you entered.
+        If you do not receive an email from us within 10 minutes, please check your spam folder, 
+        then contact the EasyWalk support team.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" asp-controller="Login" asp-action="Login">Return to Login</a>
+    </div>
+
+    
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

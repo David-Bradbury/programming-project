@@ -97,8 +97,13 @@ namespace ProgrammingProject.Controllers
             }
 
             SendPasswordRecovery(login);
+            return RedirectToAction("EmailSent");
 
-            return RedirectToAction("Login", "Login");
+        }
+
+        [Route("/Verification/EmailSent")]
+        public IActionResult EmailSent() {
+            return View();
 
         }
 
