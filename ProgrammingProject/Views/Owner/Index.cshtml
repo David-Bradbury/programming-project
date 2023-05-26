@@ -26,19 +26,14 @@
             <div class ="collapse show" id="dogs" data-bs-parent="#ownerSections">
                 <div class="d-flex justify-content-between flex-wrap mb-3">
                     <h3 class="mb-3">Dogs</h3>
+                    <a type="button" class="btn btn-primary row m-2" asp-controller="Owner" asp-action="AddDog">
+                        <i class="bi bi-plus"></i>Add Dog
+                    </a>
                     @foreach (var dog in @Model.Dogs)
                     {
                         <partial name="../Shared/Components/_OwnerDogCard.cshtml" model="dog" />
                     }
                 </div>
-                @if (!Model.Dogs.Any()) {
-                    <div class="d-flex justify-content-center my-3">
-                        <a class="btn btn-outline-secondary" asp-controller="Owner" asp-action="AddDog">
-                            <i class="bi bi-plus"></i>
-                            Add Dog
-                        </a>
-                    </div>
-                }
             </div>
 
             <div class="collapse" id="bookedsessions" data-bs-parent="#ownerSections">
