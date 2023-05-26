@@ -2,24 +2,27 @@
     ViewData["Title"] = "Email Sent";
 }
 
-<div class="p-5">
 
-    <h1 class="display-4 text-center">Email Sent</h1>
 
-    <p> A password recovery email has been sent to the email address that you entered.
-        If you do not receive an email from us within 10 minutes, please check your spam folder, 
-        then contact the EasyWalk support team.
-    </p>
-
-    <div class="d-flex justify-content-center">
-        <a class="btn btn-primary" asp-controller="Login" asp-action="Login">Return to Login</a>
+<div class="card border-0 flex-row">
+    <div class="col d-flex flex-row justify-content-center card-img-top" id="verificationWrapper">
+        <img class="img-fluid w-100"
+             src="~/img/pexels-bethany-ferr-5482860-lg.jpg"
+             srcset="/img/pexels-bethany-ferr-5482860-sm.jpg 400w, /img/pexels-bethany-ferr-5482860-md.jpg 680w, /img/pexels-bethany-ferr-5482860-lg.jpg 1000w"
+             sizes="80vw"
+             alt="A dalmation on a leash, going for a walk"
+             id="verificationBkg" />
     </div>
 
-    
+    <div class="card-img-overlay card-inverse m-5 overflow-auto p-4 d-flex flex-column justify-content-center bg-body" style="--bs-bg-opacity: .8;">
+        <h1 class="mt-5 text-primary">Email Sent</h1>
+        <p>
+            A password recovery email has been sent to the email address that you entered.
+            If you do not receive an email from us within 10 minutes, please check your spam folder,
+            then contact the EasyWalk support team.
+        </p>
+        <div class="">
+            <a class="btn btn-primary" asp-controller="Login" asp-action="Login">Return to login</a>
+        </div>
+    </div>
 </div>
-
-@section Scripts{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }
