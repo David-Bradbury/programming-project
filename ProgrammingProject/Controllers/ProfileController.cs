@@ -440,7 +440,8 @@ namespace ProgrammingProject.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ViewDogs");
+            //return RedirectToAction("ViewDogs");
+            return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
 
 
@@ -572,7 +573,8 @@ namespace ProgrammingProject.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
+            return RedirectToAction("EditVet", new {dogId = viewModel.DogId});
+            //return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
 
         // Deletes a dog from the db.
