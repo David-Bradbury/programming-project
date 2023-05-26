@@ -18,13 +18,12 @@ namespace ProgrammingProject.Helper
         {
             _webHostEnvironment = webHostEnvironment;
             _context = context;
-        
         }
 
-        // Creates a vet, and the editing of a vet. THIS MAY NEED WORK AS IT DOESN't DO ALL FUNCTIONS NEEDED.
+        // Creates a vet, and the editing of a vet.
         public Vet CreateVet(string BusinessName, string PhNumber, string Email, string StreetAddress, string Country, Suburb Suburb, int VetId)
         {
-                 
+
             Vet vet = new Vet();
 
             if (VetId != 0)
@@ -37,8 +36,8 @@ namespace ProgrammingProject.Helper
             vet.Country = Country;
             vet.Suburb = _context.Suburbs.Where(s => s.SuburbName == Suburb.SuburbName)
                                           .Where(s => s.Postcode == Suburb.Postcode)
-                                          .Where(s => s.State == Suburb.State).FirstOrDefault(); 
-     
+                                          .Where(s => s.State == Suburb.State).FirstOrDefault();
+
             return vet;
         }
 
@@ -96,7 +95,7 @@ namespace ProgrammingProject.Helper
             if (DogId != 0)
             {
                 if (ProfileImage != null)
-                    dog.ProfileImage = imageFileName;                
+                    dog.ProfileImage = imageFileName;
             }
             else
             {
@@ -107,26 +106,26 @@ namespace ProgrammingProject.Helper
 
                 _context.Add(dog);
                 _context.SaveChanges();
-            }     
+            }
         }
 
         // Creates a owner, or allows the editing of a owner.
-        public async void CreateOwner(string firstName, string lastName, string email, string streetAddress, 
-            string country, string phNumber,IFormFile profileImage, Suburb suburb, int UserID)
+        public async void CreateOwner(string firstName, string lastName, string email, string streetAddress,
+            string country, string phNumber, IFormFile profileImage, Suburb suburb, int UserID)
         {
             var owner = new Owner();
-          
+
             if (UserID != 0)
                 owner = _context.Owners.Find(UserID);
-            
+
             // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(profileImage);
-        
+
             owner.FirstName = firstName;
             owner.LastName = lastName;
             owner.Email = email;
-            owner.StreetAddress = streetAddress;           
+            owner.StreetAddress = streetAddress;
             owner.Country = country;
             owner.PhNumber = phNumber;
             owner.Suburb = _context.Suburbs.Where(s => s.SuburbName == suburb.SuburbName)
@@ -137,8 +136,6 @@ namespace ProgrammingProject.Helper
             {
                 if (profileImage != null)
                     owner.ProfileImage = imageFileName;
-            
-                //_context.SaveChanges();
             }
             else
             {
@@ -164,11 +161,11 @@ namespace ProgrammingProject.Helper
             // Converting IFormFile to string.
             var ImageHelper = new ImageHelper(_webHostEnvironment);
             string imageFileName = ImageHelper.UploadFile(profileImage);
-          
+
             walker.FirstName = firstName;
             walker.LastName = lastName;
             walker.Email = email;
-            walker.StreetAddress = streetAddress;           
+            walker.StreetAddress = streetAddress;
             walker.Country = country;
             walker.PhNumber = phNumber;
             walker.Suburb = _context.Suburbs.Where(s => s.SuburbName == suburb.SuburbName)
@@ -203,7 +200,7 @@ namespace ProgrammingProject.Helper
 
                 _context.Add(walker);
                 _context.SaveChanges();
-            }       
+            }
         }
     }
 }

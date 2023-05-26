@@ -13,21 +13,25 @@ namespace ProgrammingProject.Controllers
             _logger = logger;
         }
 
+        // Landing Page
         public IActionResult Index()
         {
             return View();
         }
 
+        // Privacy Policy Page
         public IActionResult Privacy()
         {
             return View();
         }
 
+        // Frequently Asked Questions Page
         public IActionResult FAQ()
         {
             return View();
         }
 
+        // About Us Page
         public IActionResult AboutUs()
         {
             return View();

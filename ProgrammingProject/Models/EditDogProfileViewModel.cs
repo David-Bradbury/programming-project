@@ -6,13 +6,13 @@ namespace ProgrammingProject.Models
 {
     public class EditDogProfileViewModel
     {
-   
+
         public string SelectedField { get; set; }
         public string SavedProfileImage { get; set; }
 
-		public int DogId { get; set; }
+        public int DogId { get; set; }
 
-		[StringLength(50), Display(Name = "Dogs Name")]
+        [StringLength(50), Display(Name = "Dogs Name")]
         public string Name { get; set; }
         [StringLength(50), Display(Name = "Dogs Breed")]
         public string Breed { get; set; }

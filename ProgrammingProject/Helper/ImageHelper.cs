@@ -9,13 +9,13 @@ namespace ProgrammingProject.Helper
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public ImageHelper(IWebHostEnvironment webHostEnvironment)
-        {    
+        {
             _webHostEnvironment = webHostEnvironment;
         }
-     
-        // Uploads file to img folder in wwwroot and rreturns string to be saved to db.
+
+        // Uploads file to img folder in wwwroot and returns string to be saved to database.
         public string UploadFile(IFormFile image)
-        {         
+        {
             string fileName = null;
             if (image != null)
             {

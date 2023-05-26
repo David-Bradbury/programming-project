@@ -19,11 +19,11 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
+        // Attempts to verify a new user after completing verification email process.
         [Route("/Verification/Verify")]
         public IActionResult Verify(string emailToken)
         {
             bool verified = false;
-
 
             foreach (var login in _context.Logins)
             {
@@ -34,27 +34,24 @@ namespace ProgrammingProject.Controllers
                     login.EmailToken = null;
                     _context.SaveChanges();
                 }
-
-
             }
+
             if (verified == true)
                 return View();
             else
                 return RedirectToAction("Index", "Home");
         }
 
-
+        // Method for users who have forgotten their password. Calls ForgotPassword view.
         [Route("/Verification/ForgotPassword",
             Name = "forgotPassword")]
         public IActionResult ForgotPassword()
         {
             var login = new Login();
             return View(login);
-
         }
 
-
-
+        // Post method that checks email before sending out email to reset password.
         [Route("/Verification/ForgotPassword"), HttpPost]
         public IActionResult ForgotPassword(string email)
         {
@@ -70,7 +67,7 @@ namespace ProgrammingProject.Controllers
             foreach (var l in _context.Logins)
                 if (l.Email == email)
                 {
-                    if(l.Locked == Locked.locked)
+                    if (l.Locked == Locked.locked)
                     {
                         ModelState.AddModelError(nameof(email), "The email entered has not been verified. " +
                                                                 "Please verify email address prior to recovering password.");
@@ -82,14 +79,11 @@ namespace ProgrammingProject.Controllers
                         login.EmailToken = l.EmailToken;
                         _context.SaveChanges();
                     }
-
-
                 }
 
             if (!emailExists)
                 ModelState.AddModelError(nameof(email), "The email entered does not exist in the system. " +
                                                                 "Please try with a different email address.");
-
 
             if (!ModelState.IsValid)
             {
@@ -98,31 +92,28 @@ namespace ProgrammingProject.Controllers
 
             SendPasswordRecovery(login);
             return RedirectToAction("EmailSent");
-
         }
 
+        // Calls view that displays message to user infroming them of a password reset email.
         [Route("/Verification/EmailSent")]
-        public IActionResult EmailSent() {
+        public IActionResult EmailSent()
+        {
             return View();
-
         }
 
+        // Here is where the email is put together and calls method to send finished email.
         public void SendPasswordRecovery(Login login)
         {
-
             string name = null;
 
             foreach (Owner o in _context.Owners)
                 if (o.Email == login.Email)
                     name = o.FirstName;
 
-
             if (name == null)
                 foreach (Walker w in _context.Walkers)
                     if (w.Email == login.Email)
                         name = w.FirstName;
-
-
 
             var recipient = login.Email;
             var subject = "Password Recovery";
@@ -131,7 +122,7 @@ namespace ProgrammingProject.Controllers
             //const string url = "https://localhost:7199/Verification/NewPassword";
 
             //String for deployed version
-               const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/NewPassword";
+            const string url = "https://programmingproject-easywalk.azurewebsites.net/Verification/NewPassword";
 
             var param = new Dictionary<string, string>() { { "emailToken", login.EmailToken } };
 
@@ -143,6 +134,7 @@ namespace ProgrammingProject.Controllers
             Email.SendEmail(recipient, subject, htmlContent);
         }
 
+        // Content for email sent in SendPasswordRecovery.
         private string GetPasswordRecoveryContent(string url, string name)
         {
             string content = "";
@@ -163,6 +155,7 @@ namespace ProgrammingProject.Controllers
             return content;
         }
 
+        // Perpares and calls view to allow user to reset password.
         [Route("/Verification/NewPassword")]
         public IActionResult NewPassword(string emailToken)
         {
@@ -175,13 +168,12 @@ namespace ProgrammingProject.Controllers
                     viewModel.Email = l.Email;
                     return View(viewModel);
                 }
-
             }
 
             return RedirectToAction("Index", "Home");
-
         }
 
+        // Post method ensuring passwords meet business rules, and if meeting them, hashes and saves password hash to database.
         [Route("/Verification/NewPassword")]
         [HttpPost]
         public IActionResult NewPassword(string email, string password, string confirmPassword)
@@ -213,6 +205,5 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("Index", "Home");
 
         }
-
     }
 }

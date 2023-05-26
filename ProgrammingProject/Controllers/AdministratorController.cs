@@ -42,20 +42,20 @@ namespace ProgrammingProject.Controllers
         [Route("/Administrator/DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-           
+
             var owner = await _context.Owners.FindAsync(id);
-            if(owner != null)
+            if (owner != null)
             {
                 _context.Logins.Remove(owner.Login);
                 var dogList = owner.Dogs.ToList();
 
-                foreach( Dog d in dogList)
+                foreach (Dog d in dogList)
                     _context.Dogs.Remove(d);
 
                 _context.Owners.Remove(owner);
 
             }
- 
+
             if (owner == null)
             {
                 var walker = await _context.Walkers.FindAsync(id);
@@ -67,7 +67,7 @@ namespace ProgrammingProject.Controllers
                 }
             }
 
-         
+
             _context.SaveChanges();
 
             return RedirectToAction("EditUser");

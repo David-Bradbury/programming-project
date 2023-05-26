@@ -16,25 +16,25 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
-
         public IActionResult Login() => View();
 
-        //attempt loing
+        // Attempt Login
         [HttpPost]
         public async Task<IActionResult> Login(string Email, string password)
         {
             Email = Email.ToLower();
-            //find login id
+
+            // Find login ID
             var login = await _context.Logins.FindAsync(Email);
 
-            //attempt password check
+            // Attempt password check
             if (login == null || string.IsNullOrEmpty(password) || !PBKDF2.Verify(login.PasswordHash, password))
             {
                 ModelState.AddModelError("LoginFailure", "Login attempt failed, please try again");
                 return View(new Login { Email = Email }); ;
             }
 
-            // attempt verified email
+            // Attempt verified email
             if (login.Locked == Locked.locked)
             {
                 ModelState.AddModelError("LoginFailure", "Email has not been validated. Please check inbox or junk folder to validate");
@@ -45,7 +45,7 @@ namespace ProgrammingProject.Controllers
             Walker w = new Walker();
             Administrator a = new Administrator();
 
-            //Find Userids
+            //Find UserIDs
             foreach (Owner owner in _context.Owners)
             {
                 if (owner.Email == Email)
@@ -58,6 +58,7 @@ namespace ProgrammingProject.Controllers
                 if (walker.Email == Email)
                     w = await _context.Walkers.FindAsync(walker.UserId);
             }
+
             foreach (Administrator admin in _context.Administrators)
             {
                 if (admin.Email == Email)
@@ -65,7 +66,6 @@ namespace ProgrammingProject.Controllers
             }
 
             string userType = "";
-
 
             if (o.Email != null)
             {
@@ -87,15 +87,11 @@ namespace ProgrammingProject.Controllers
                 HttpContext.Session.SetString(nameof(a.FirstName), login.User.FirstName);
                 HttpContext.Session.SetString("AccountType", "Administrator");
                 userType = "Administrator";
-
             }
-
-
-
-
             return RedirectToAction("Index", userType);
         }
 
+        // Attempt Logout
         [Route("LoggingOut")]
         public IActionResult Logout()
         {
@@ -103,9 +99,5 @@ namespace ProgrammingProject.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-
-
-
     }
 }

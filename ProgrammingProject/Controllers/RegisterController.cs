@@ -27,6 +27,7 @@ namespace ProgrammingProject.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        // Prompts user to select an account type to register as.
         [Route("/Register/SelectAccountType",
        Name = "selectAccount")]
         public async Task<IActionResult> SelectAccountType()
@@ -34,6 +35,7 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
 
+        // Prepares and calls the view to register with EasyWalk.
         [Route("/Register/Register",
       Name = "Register")]
         public async Task<IActionResult> Register(int id)
@@ -49,18 +51,17 @@ namespace ProgrammingProject.Controllers
             return View(viewModel);
         }
 
+        // Post method that validates data given from register view, and if it passes creates the necessary data in the database.
         [HttpPost, Route("/Register/Register",
       Name = "Register")]
         public async Task<IActionResult> Register(RegisterViewModel viewModel)
         {
-
             // Sets up form in the case of invalid model state.
             viewModel.StatesList = DropDownLists.GetStates();
             viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
             viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
             ViewBag.SuburbsList = _context.Suburbs.ToList();
             ViewBag.SubmitError = "";
-
 
             // Checks if the viewmodel fields are null.
             CheckNull(viewModel.FirstName, nameof(viewModel.FirstName), "First Name is Required");
@@ -73,6 +74,7 @@ namespace ProgrammingProject.Controllers
             CheckNull(viewModel.PhNumber, nameof(viewModel.PhNumber), "Phone Number is Required");
             CheckNull(viewModel.Password, nameof(viewModel.Password), "Password is Required");
 
+            // If account type selected is a walker.
             if (viewModel.AccountTypeSelection == 2)
             {
                 CheckNull(viewModel.ExperienceLevel, nameof(viewModel.ExperienceLevel), "Experience Level is Required");
@@ -109,7 +111,7 @@ namespace ProgrammingProject.Controllers
                 ViewBag.SubmitError = "A problem occured while submitting your data. Please re-enter your password, then click 'Next' to see further issues.";
                 return View(viewModel);
             }
-        
+
             // Creating suburb based on form details
             var suburb = new Suburb();
             suburb.SuburbName = viewModel.SuburbName;
@@ -130,7 +132,7 @@ namespace ProgrammingProject.Controllers
 
             var CreateHelper = new Create(_context, _webHostEnvironment);
             int UserID = 0;
-    
+
             // Creates an Owner.
             if (viewModel.AccountTypeSelection == 1)
                 CreateHelper.CreateOwner(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
@@ -140,29 +142,28 @@ namespace ProgrammingProject.Controllers
             else if (viewModel.AccountTypeSelection == 2)
                 CreateHelper.CreateWalker(viewModel.FirstName, viewModel.LastName, viewModel.Email, viewModel.StreetAddress,
                 viewModel.Country, viewModel.PhNumber, viewModel.IsInsured, viewModel.ExperienceLevel, viewModel.ProfileImage, suburb, UserID);
-            
+
             _context.SaveChanges();
 
             return RedirectToAction("Login", "Login");
         }
 
-
+        // Creates email and calls method to populate and send email to new EasyWalk users.
         [Route("/Register/SendEmailVerification")]
         public void SendEmailVerification(Login login, string firstName)
         {
-            //get token for verification 
+            // Get token for verification 
             Random random = new Random();
 
             var token = ControllerHelper.HashPassword((random.Next().ToString()));
             login.EmailToken = token;
             _context.SaveChanges();
 
-
             // Parameters to send through to email method. Front End to modify messages.
             string recipient = login.Email;
             string subject = "Please verify your email address";
 
-            //String for woring locally
+            //String for working locally
             //const string url = "https://localhost:7199/Verification/Verify";
 
             //String for deployed version
@@ -174,12 +175,11 @@ namespace ProgrammingProject.Controllers
 
             string htmlContent = GetVerifyEmailContent(newUrl.ToString(), firstName);
 
-
             //Calling the method to send email.
             Email.SendEmail(recipient, subject, htmlContent);
         }
 
-
+        // Depreciated method
         private string GetRegisterEmailContent(string name)
         {
             string content = "";
@@ -200,7 +200,7 @@ namespace ProgrammingProject.Controllers
             return content;
         }
 
-
+        // Used to populate email sent to new users, for confirmation and verification purposes.
         private string GetVerifyEmailContent(string url, string name)
         {
             string content = "";

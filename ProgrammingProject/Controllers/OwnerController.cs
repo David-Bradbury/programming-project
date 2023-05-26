@@ -30,7 +30,7 @@ namespace ProgrammingProject.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // Owner Landing Page.
+        // Owner landing page.
         [AuthorizeUser]
         public async Task<IActionResult> Index()
         {
@@ -45,6 +45,7 @@ namespace ProgrammingProject.Controllers
             return View(owner);
         }
 
+        // Returns list of walking sessions owner has a dog booked into.
         public async Task<List<WalkingSession>> GetBookedWalkingSessions(Owner owner)
         {
             var bookedSessions = new List<WalkingSession>();
@@ -63,6 +64,7 @@ namespace ProgrammingProject.Controllers
             return bookedSessions;
         }
 
+        // Retrieves walking sessions that are within range (default 10km) of owner.
         public async Task<List<WalkingSession>> GetSuitableWalkingSessions(Owner owner, int? range = 1000)
         {
             var userLocation = new GeoCoordinate(double.Parse(owner.Suburb.Lat), double.Parse(owner.Suburb.Lon));
@@ -83,7 +85,6 @@ namespace ProgrammingProject.Controllers
                         localWalkers.Add(w);
                     }
                 }
-
             }
 
             foreach (Walker w in localWalkers)
@@ -93,12 +94,14 @@ namespace ProgrammingProject.Controllers
                     suitableSessions.Add(walkingSession);
                 }
             }
+
             var orderedSuitableSessions = suitableSessions.OrderBy(s => s.Date).ToList();
 
             //  var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
             return orderedSuitableSessions;
         }
 
+        // Calls view to remove an owners dog from walking session.
         public async Task<IActionResult> RemoveDogFromSession(int sessionID)
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
@@ -108,6 +111,7 @@ namespace ProgrammingProject.Controllers
             return View(owner);
         }
 
+        // Removes dog from booked walking session.
         public async Task<IActionResult> RemoveDogFromDBSession(int sessionID, int dogID)
         {
             var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
@@ -118,6 +122,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
+        // Calls view to add an owners dog to walking session.
         public async Task<IActionResult> AddDogToSession(int sessionID)
         {
             var owner = await _context.Owners.FindAsync(OwnerID);
@@ -127,6 +132,7 @@ namespace ProgrammingProject.Controllers
             return View(owner);
         }
 
+        // Adds dog to walking session, adding session as a booked session.
         public async Task<IActionResult> UpdateNewDogInSession(int sessionID, int dogID)
         {
             var walkingSession = await _context.WalkingSessions.FindAsync(sessionID);
@@ -137,7 +143,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
-        //Add a dog to the owner
+        // Calls view to add a dog to the owner.
         [Route("/Owner/AddDog", Name = "AddDog"), AuthorizeUser]
         public async Task<IActionResult> AddDog()
         {
@@ -216,7 +222,6 @@ namespace ProgrammingProject.Controllers
             suburb.Postcode = viewModel.Postcode;
             suburb.State = viewModel.State;
 
-
             var CreateHelper = new Create(_context, _webHostEnvironment);
 
             // Create a new Vet from form submission.
@@ -242,7 +247,6 @@ namespace ProgrammingProject.Controllers
 
             CreateHelper.CreateDog(viewModel.Name, viewModel.Breed, viewModel.MicrochipNumber, viewModel.Temperament,
                 viewModel.DogSize, viewModel.TrainingLevel, viewModel.ProfileImage, vet, owner, DogId);
-
 
             _context.SaveChanges();
 

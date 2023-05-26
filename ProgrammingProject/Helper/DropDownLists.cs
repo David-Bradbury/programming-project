@@ -4,32 +4,40 @@ namespace ProgrammingProject.Helper
 {
     public class DropDownLists
     {
+        /*
+         * All lists created here are for ViewModels to parse to views to create drop down boxes.
+         */
+
+        // Fills list full of Australian states and territories.
         public static List<SelectListItem> GetStates()
         {
             List<SelectListItem> statesList = new List<SelectListItem>();
 
-                statesList.Add(new SelectListItem { Text = "South Australia", Value = "SA" });
-                statesList.Add(new SelectListItem { Text = "Victoria", Value = "VIC" });
-                statesList.Add(new SelectListItem { Text = "Western Australia", Value = "WA" });
-                statesList.Add(new SelectListItem { Text = "Northern Territory", Value = "NT" });
-                statesList.Add(new SelectListItem { Text = "New South Wales", Value = "NSW" });
-                statesList.Add(new SelectListItem { Text = "Australian Capital Territory", Value = "ACT" });
-                statesList.Add(new SelectListItem { Text = "Queensland", Value = "QLD" });
-                statesList.Add(new SelectListItem { Text = "Tasmania", Value = "TAS" });
-                      
+            statesList.Add(new SelectListItem { Text = "South Australia", Value = "SA" });
+            statesList.Add(new SelectListItem { Text = "Victoria", Value = "VIC" });
+            statesList.Add(new SelectListItem { Text = "Western Australia", Value = "WA" });
+            statesList.Add(new SelectListItem { Text = "Northern Territory", Value = "NT" });
+            statesList.Add(new SelectListItem { Text = "New South Wales", Value = "NSW" });
+            statesList.Add(new SelectListItem { Text = "Australian Capital Territory", Value = "ACT" });
+            statesList.Add(new SelectListItem { Text = "Queensland", Value = "QLD" });
+            statesList.Add(new SelectListItem { Text = "Tasmania", Value = "TAS" });
+
             return statesList;
         }
 
-        public static List<SelectListItem> GetInsuranceList() {
+        // Fills list of insurance status for walkers.
+        public static List<SelectListItem> GetInsuranceList()
+        {
 
             List<SelectListItem> InsuranceList = new List<SelectListItem>();
-            
+
             InsuranceList.Add(new SelectListItem { Text = "Yes, I have insurance", Value = "Insured" });
             InsuranceList.Add(new SelectListItem { Text = "No, I do not have insurance", Value = "Uninsured" });
 
             return InsuranceList;
         }
 
+        // Fills list of walkers experience levels.
         public static List<SelectListItem> GetExperienceLevel()
         {
             List<SelectListItem> ExperienceList = new List<SelectListItem>();
@@ -42,6 +50,7 @@ namespace ProgrammingProject.Helper
             return ExperienceList;
         }
 
+        // Fills list of different dog sizes when creating / editing a dog.
         public static List<SelectListItem> GetDogSize()
         {
             List<SelectListItem> DogSizeList = new List<SelectListItem>();
@@ -54,6 +63,7 @@ namespace ProgrammingProject.Helper
             return DogSizeList;
         }
 
+        // Fills list of different dog temperament states when creating / editing a dog.
         public static List<SelectListItem> GetTemperament()
         {
             List<SelectListItem> TemperamentList = new List<SelectListItem>();
@@ -67,17 +77,19 @@ namespace ProgrammingProject.Helper
             return TemperamentList;
         }
 
+        // Fills list of different dog training levels used when creating / editing a dog.
         public static List<SelectListItem> GetTrainingLevel()
         {
             List<SelectListItem> TrainingLevel = new List<SelectListItem>();
 
             TrainingLevel.Add(new SelectListItem { Text = "None", Value = "None" });
             TrainingLevel.Add(new SelectListItem { Text = "Basic", Value = "Basic" });
-            TrainingLevel.Add(new SelectListItem { Text = "Fully", Value = "Fully" });       
+            TrainingLevel.Add(new SelectListItem { Text = "Fully", Value = "Fully" });
 
             return TrainingLevel;
         }
 
+        // Fills list of vaccination status of dogs.
         public static List<SelectListItem> GetVaccinatedList()
         {
 

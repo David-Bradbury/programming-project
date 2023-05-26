@@ -4,6 +4,6 @@
     {
         public int OwnerCount { get; set; }
         public int WalkerCount { get; set; }
-        public int DogCount { get; set; }   
+        public int DogCount { get; set; }
     }
 }

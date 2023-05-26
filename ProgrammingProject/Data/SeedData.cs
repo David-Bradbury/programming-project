@@ -52,9 +52,6 @@ namespace ProgrammingProject.Data
              * Available at: https://github.com/schappim/australian-postcodes (Accessed: April 22, 2023). 
              * 
              */
-
-
-
             using (StreamReader r = new StreamReader("./Data/australian-postcodes.json"))
             {
                 string json = r.ReadToEnd();
@@ -69,57 +66,12 @@ namespace ProgrammingProject.Data
                 }
             }
 
-            var suburb1 = context.Suburbs.Where(x => x.Postcode == "3153").FirstOrDefault();
-            //var suburb1 = context.Suburbs.Find("3153", "Bayswater", "VIC");
-            //var suburb1 = new Suburb();
-
-            //suburb1.Postcode = "3153";
-            //suburb1.SuburbName = "Bayswater";
-            //suburb1.State = "Victoria";
-            //suburb1.Lat = "-37.840";
-            //suburb1.Lon = "145.270";
-
-            //var suburb2 = new Suburb();
-            var suburb2 = context.Suburbs.Where(x => x.Postcode == "3149").FirstOrDefault();
-            //var suburb2 = context.Suburbs.Find("3149", "Mount Waverly", "VIC");
-
-            //suburb2.Postcode = "3149";
-            //suburb2.SuburbName = "Mount Waverly";
-            //suburb2.State = "Victoria";
-
-            var suburb3 = context.Suburbs.Where(x => x.Postcode == "3174").FirstOrDefault();
-            //var suburb3 = context.Suburbs.Find("3174", "Noble Park", "VIC");
-            //var suburb3 = new Suburb();
-
-            //suburb3.Postcode = "3174";
-            //suburb3.SuburbName = "Noble Park";
-            //suburb3.State = "Victoria";
-
+            var suburb1 = context.Suburbs.Where(x => x.Postcode == "3153").FirstOrDefault();  
+            var suburb2 = context.Suburbs.Where(x => x.Postcode == "3149").FirstOrDefault();      
+            var suburb3 = context.Suburbs.Where(x => x.Postcode == "3174").FirstOrDefault();         
             var suburb4 = context.Suburbs.Where(x => x.Postcode == "3148").FirstOrDefault();
-            //var suburb4 = context.Suburbs.Find("3148", "Chadstone", "VIC");
-            //var suburb4 = new Suburb();
-
-            //suburb4.Postcode = "3148";
-            //suburb4.SuburbName = "Chadstone";
-            //suburb4.State = "Victoria";
-            //suburb1.Lat = "-37.890";
-            //suburb1.Lon = "145.080";
-
             var suburb5 = context.Suburbs.Where(x => x.Postcode == "3122").FirstOrDefault();
-            //var suburb5 = context.Suburbs.Find("3122", "Hawthorn", "VIC");
-            //var suburb5 = new Suburb();
-
-            //suburb5.Postcode = "3122";
-            //suburb5.SuburbName = "Hawthorn";
-            //suburb5.State = "Victoria";
-
             var suburb6 = context.Suburbs.Where(x => x.Postcode == "3145").FirstOrDefault();
-            //var suburb6 = context.Suburbs.Find("3145", "Malvern East", "VIC");
-            //var suburb6 = new Suburb();
-
-            //suburb6.Postcode = "3145";
-            //suburb6.SuburbName = "Malvern East";
-            //suburb6.State = "Victoria";
 
             // Seed Vets
             var vet1 = new Vet();

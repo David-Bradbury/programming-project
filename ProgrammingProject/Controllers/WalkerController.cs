@@ -21,6 +21,7 @@ namespace ProgrammingProject.Controllers
             _context = context;
         }
 
+        // Walker landing page.
         [AuthorizeUser]
         public async Task<IActionResult> Index(string level, int? range = 10000)
         {
@@ -45,30 +46,21 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
-        // Match suitable dogs to walkers
+        // Match suitable dogs to walkers.
         [HttpPost]
         public async Task<List<Dog>> MatchDogsToWalker(int id)
         {
-
-            // Get full list of dogs
+            // Get full list of dogs.
             var dogs = await _context.Dogs.ToListAsync();
-            //var dogs = _context.Dogs.AsEnumerable();
 
-            // Get specific walker
+            // Get specific walker.
             var walker = await _context.Walkers.Where(x => x.UserId == id).SingleOrDefaultAsync();
-            //var walker = await _context.Walkers.FindAsync(id);
 
-            // Get list of dogs suited for the walker
+            // Get list of dogs suited for the walker.
             var tempList = await GetListOfSuitableDogsToWalkers(walker, (IEnumerable<Dog>)dogs);
 
-            // passes the list of dogs to be filtered down based on specific parameters.
+            // Passes the list of dogs to be filtered down based on specific parameters.
             var filteredDogs = FilterDogs(tempList);
-
-            // Return filteredDog to View. View to list suitable dogs
-            // with contact details/button for the walker to select.
-            // Might be worth returning an IPagedList .DP
-            // ViewBag.Dog = tempList; --Uncomment after testing and remove return statement.
-            // Or create another method which calls this for added abstraction.DP
 
             return filteredDogs;
         }
@@ -85,23 +77,15 @@ namespace ProgrammingProject.Controllers
             }
 
             return filteredDogs;
-
-            // Notes to discuss: AllowUnvaccinated as a question
-            // when adding walker (saved to model). Allows user to set requirements and
-            // makes filtering easy (as per below).
-
-            // TODO: Could add logic here to filter list down based on user preferences.
-            // E.g.Location or dates/times. Some filter work started below...
         }
 
-        /*  Nigel Sampson and Tomas Kubes (2011)
+        /*  Filters dogs to within 10km of the walker's Suburb.
+         *  Nigel Sampson and Tomas Kubes (2011)
          *  Calculating distance between two latitude and longitude geocoordinates,
          *  Stack Overflow. Available at:
          *  https://stackoverflow.com/questions/6366408/calculating-distance-between-two-latitude-and-longitude-geocoordinates
          *  (Accessed: April 30, 2023). 
          */
-
-        // Filters dogs to within 10km of the walker's Suburb
         public async Task<List<Dog>> FilterLocationByRadius(List<Dog> dogs, int? range = 10000)
         {
             var walker = await _context.Walkers.FindAsync(WalkerID);
@@ -130,7 +114,7 @@ namespace ProgrammingProject.Controllers
             return filteredDogs;
         }
 
-        // Filter dogs by training level
+        // Filter dogs by training level.
         public async Task<List<Dog>> FilterDogsByTrainingLevel(List<Dog> dogs, TrainingLevel level)
         {
             List<Dog> filteredDogs = new List<Dog>();
@@ -162,7 +146,7 @@ namespace ProgrammingProject.Controllers
             return filteredDogs;
         }
 
-        // Filter dogs by minimum training level
+        // Filter dogs by minimum training level.
         public async Task<List<Dog>> FilterDogsByMinimumTrainingLevel(List<Dog> dogs, TrainingLevel minimumLevel)
         {
             List<Dog> filteredDogs = new List<Dog>();
@@ -232,7 +216,7 @@ namespace ProgrammingProject.Controllers
             return tempList;
         }
 
-        // Sets a difficulty score to the dog
+        // Sets a difficulty score to the dog.
         public async Task<int> GetDogTraitScore(Dog dog)
         {
             var score = 0;
@@ -246,10 +230,10 @@ namespace ProgrammingProject.Controllers
             return await Task.FromResult(score);
         }
 
+        // Creates a walking session.
         [HttpPost]
         public async Task<IActionResult> CreateWalkingSessions(DateTime Date, DateTime StartTime, DateTime EndTime)
         {
-
             var walker = await _context.Walkers.FindAsync(WalkerID);
 
             var walkingSessions = await _context.WalkingSessions.ToListAsync();
@@ -305,7 +289,7 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
-        // Add dog to walking session
+        // Add dog to walking session.
         [HttpPost]
         public async Task<IActionResult> AddDogToWalkingSession(int DogID, int SessionID, DateTime StartTime, DateTime EndTime)
         {
@@ -330,7 +314,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Remove Dog from a walking session
+        // Remove dog from a walking session.
         [HttpPost]
         public async Task<IActionResult> RemoveDogFromWalk(int DogID, int SessionID)
         {
@@ -361,7 +345,7 @@ namespace ProgrammingProject.Controllers
 
         }
 
-        // Start walking session
+        // Start walking session.
 
         public async Task<IActionResult> StartWalkingSession(int sessionID)
         {
@@ -387,7 +371,7 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
-        // End walking session
+        // End walking session.
         [HttpPost]
         public async Task<IActionResult> EndWalkingSession(int sessionID)
         {
@@ -410,7 +394,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
-        // Edit walking session
+        // Calls edit walking session view.
 
         public async Task<IActionResult> EditWalkingSession(int sessionID)
         {
@@ -422,14 +406,14 @@ namespace ProgrammingProject.Controllers
 
         public async Task<IActionResult> CancelChanges(int sessionID) => RedirectToAction("Index");
 
-
+        // Post method to validate data before editing a walking session.
         [HttpPost]
         public async Task<IActionResult> EditWalkingSession(
             int sessionID, DateTime Date, DateTime StartTime, DateTime EndTime)
         {
             var walkerSession = await _context.WalkingSessions.FindAsync(sessionID);
 
-            if (Date < DateTime.UtcNow.ToLocalTime() )
+            if (Date < DateTime.UtcNow.ToLocalTime())
                 ModelState.AddModelError(nameof(walkerSession.Date), "Date cannot be in the past");
             if (EndTime < StartTime || StartTime == null || EndTime == null)
                 ModelState.AddModelError(nameof(walkerSession.ScheduledEndTime), "Valid End Time needs to be selected");
@@ -463,28 +447,15 @@ namespace ProgrammingProject.Controllers
                 changesMade = true;
             }
 
-
-            //foreach (var session in walker.WalkingSessions)
-            //{
-            //    if (session.SessionID == sessionID)
-            //    {
-            //        session.Date = walkerSession.Date;
-            //        session.ScheduledStartTime = walkerSession.ScheduledStartTime;
-            //        session.ScheduledEndTime = walkerSession.ScheduledEndTime;
-            //    }
-            //}
             if (changesMade)
             {
                 await _context.SaveChangesAsync();
             }
-            //ViewBag.Walker = walker;
-            //ViewBag.Dogs = await MatchDogsToWalker(WalkerID);
 
             return RedirectToAction(nameof(Index));
         }
 
         // Delete walking session
-
         public async Task<IActionResult> DeleteWalkingSession(int sessionID)
         {
 
@@ -501,9 +472,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //Displays previous walking sessions
-        //Not working when marked as Post???.DP
-        //[HttpPost]
+        // Displays previous walking sessions.
         public async Task<IActionResult> PreviousWalkingSessions()
         {
             if (HttpContext.Session.GetInt32(nameof(Walker.UserId)).Value == 0)
@@ -520,7 +489,7 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
-        // Add Dog Rating
+        // Prepares and calls add dog rating view.
         public async Task<IActionResult> CreateDogRating(int DogID)
         {
             var dog = await _context.Dogs.FindAsync(DogID);
@@ -533,19 +502,19 @@ namespace ProgrammingProject.Controllers
             return View();
         }
 
-        // Add Dog Rating
+        // Add Dog Rating Post method.
         public async Task<IActionResult> AddDogRating(int WalkerID, int DogID, double Rating)
         {
             DogRating rating = _context.DogRatings.Where(x => x.WalkerID == WalkerID)
                                             .Where(x => x.DogID == DogID).FirstOrDefault();
-            
+
             if (rating != null)
             {
                 rating.Rating = Rating;
                 rating.DogID = DogID;
                 rating.WalkerID = WalkerID;
             }
-            else 
+            else
             {
                 var dog = await _context.Dogs.FindAsync(DogID);
 
@@ -569,15 +538,7 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        // Needs to be moved to Owner controller
-        //// Add Walker Rating
-        //public async Task<IActionResult> AddWalkerRating()
-        //{
-        //    return View();
-        //}
-
-        // Gets the average rating of a walker
+        // Retrieves the average rating of a walker
         public async Task<double> GetWalkerRating(int id)
         {
             List<double> ratings = new List<double>();
@@ -594,8 +555,7 @@ namespace ProgrammingProject.Controllers
             return ratings.Average();
         }
 
-
-        // Gets the average rating of a dog
+        // Retrieves the average rating of a dog
         public async Task<double> GetDogRating(int id)
         {
             List<double> ratings = new List<double>();
@@ -603,7 +563,7 @@ namespace ProgrammingProject.Controllers
             var dog = await _context.Dogs.FindAsync(id);
 
             var totalRatings = dog.DogRatings;
-            
+
 
             foreach (var dogRating in totalRatings)
             {

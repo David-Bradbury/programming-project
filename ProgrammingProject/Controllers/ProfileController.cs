@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Hosting;
 using System.Web.Helpers;
 using System.Dynamic;
 
-
 namespace ProgrammingProject.Controllers
 {
     public class ProfileController : BaseController
@@ -59,95 +58,15 @@ namespace ProgrammingProject.Controllers
             var w = new Walker();
             w = await _context.Walkers.FindAsync(id);
             var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
-          //  viewModel.UserType = "Administrator";
+            //  viewModel.UserType = "Administrator";
             viewModel.UserID = id;
 
             return View("Index", viewModel);
 
         }
 
-        public EditProfileViewModel CreateEditProfileViewModel(Walker w, Owner o, bool isAdmin)
-        {
-            var viewModel = new EditProfileViewModel();
-
-            viewModel.IsAdmin = isAdmin;
-
-
-            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
-            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
-            viewModel.StatesList = DropDownLists.GetStates();
-            ViewBag.SuburbsList = _context.Suburbs.ToList();
-
-            //Check usertype and create viewModel
-            if (o == null)
-            {
-                //User is Walker
-
-                viewModel.UserType = typeof(Walker).Name;
-
-                viewModel.FirstName = w.FirstName;
-                viewModel.LastName = w.LastName;
-                viewModel.Email = w.Email;
-                viewModel.StreetAddress = w.StreetAddress;
-                viewModel.SuburbName = w.Suburb.SuburbName;
-                viewModel.Postcode = w.Suburb.Postcode;
-                viewModel.State = w.Suburb.State;
-                viewModel.Country = w.Country;
-                viewModel.PhNumber = w.PhNumber;
-                viewModel.SavedProfileImage = w.ProfileImage;
-
-                if (w.IsInsured == true)
-                    viewModel.IsInsured = "Insured";
-                else
-                    viewModel.IsInsured = "Uninsured";
-
-                if (w.ExperienceLevel == ExperienceLevel.Beginner)
-                    viewModel.ExperienceLevel = "Beginner";
-                else if (w.ExperienceLevel == ExperienceLevel.Intermediate)
-                    viewModel.ExperienceLevel = "Intermediate";
-                else if (w.ExperienceLevel == ExperienceLevel.Advanced)
-                    viewModel.ExperienceLevel = "Advanced";
-                else
-                    viewModel.ExperienceLevel = "Expert";
-            }
-            else
-            {
-                //User is Owner
-
-                viewModel.UserType = typeof(Owner).Name;
-
-                viewModel.FirstName = o.FirstName;
-                viewModel.LastName = o.LastName;
-                viewModel.Email = o.Email;
-                viewModel.StreetAddress = o.StreetAddress;
-                viewModel.SuburbName = o.Suburb.SuburbName;
-                viewModel.Postcode = o.Suburb.Postcode;
-                viewModel.State = o.Suburb.State;
-                viewModel.Country = o.Country;
-                viewModel.PhNumber = o.PhNumber;
-                viewModel.SavedProfileImage = o.ProfileImage;
-            }
-
-            return viewModel;
-        }
-
-        [Route("/Profile/EditPasswordView")]
-        public async Task<IActionResult> EditPasswordView(int uid) {
-            var userO = await _context.Owners.FindAsync(uid);
-            var userW = await _context.Walkers.FindAsync(uid);
-            EditProfileViewModel viewModel = CreateEditProfileViewModel(userW, userO, false);
-            viewModel.UserType = userW == null ? typeof(Owner).Name : typeof(Walker).Name;
-            viewModel.FirstName = userW == null ? userO.FirstName : userW.FirstName;
-            viewModel.LastName = userW == null ? userO.LastName : userW.LastName;
-            viewModel.SavedProfileImage = userW == null ? userO.ProfileImage : userW.ProfileImage;
-            ViewBag.ActiveView = "EditPassword";
-            return View("EditPassword", viewModel);
-        }
-
-
         // Here the changes made in the profile index view are checked and changes saved to the db.
         [Route("/Profile/EditProfile")]
-        
         public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel, int id)
         {
             // Finds the profile holder from db.
@@ -263,6 +182,20 @@ namespace ProgrammingProject.Controllers
                 return RedirectToAction("Index", "Walker");
         }
 
+        // Prepares and calls the EditPassword view.
+        [Route("/Profile/EditPasswordView")]
+        public async Task<IActionResult> EditPasswordView(int uid)
+        {
+            var userO = await _context.Owners.FindAsync(uid);
+            var userW = await _context.Walkers.FindAsync(uid);
+            EditProfileViewModel viewModel = CreateEditProfileViewModel(userW, userO, false);
+            viewModel.UserType = userW == null ? typeof(Owner).Name : typeof(Walker).Name;
+            viewModel.FirstName = userW == null ? userO.FirstName : userW.FirstName;
+            viewModel.LastName = userW == null ? userO.LastName : userW.LastName;
+            viewModel.SavedProfileImage = userW == null ? userO.ProfileImage : userW.ProfileImage;
+            ViewBag.ActiveView = "EditPassword";
+            return View("EditPassword", viewModel);
+        }
 
         // Here password checks are completed and changes made to the db.
         public async Task<IActionResult> EditPassword(string password, string confirmPassword)
@@ -321,7 +254,8 @@ namespace ProgrammingProject.Controllers
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(dogId);
 
-            if (dog.Owner.UserId != UserID) {
+            if (dog.Owner.UserId != UserID)
+            {
                 return RedirectToAction("Index");
             }
 
@@ -444,7 +378,6 @@ namespace ProgrammingProject.Controllers
             return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
 
-
         // Sets up the view EditVet.
         public async Task<IActionResult> EditVet(int dogId)
         {
@@ -453,7 +386,8 @@ namespace ProgrammingProject.Controllers
             var vet = await _context.Vets.FindAsync(dog.Vet.Id);
             var viewModel = new EditDogProfileViewModel();
 
-            if (dog.Owner.UserId != UserID) {
+            if (dog.Owner.UserId != UserID)
+            {
                 return RedirectToAction("Index");
             }
 
@@ -467,6 +401,7 @@ namespace ProgrammingProject.Controllers
             viewModel.StreetAddress = vet.StreetAddress;
             viewModel.Email = vet.Email;
             viewModel.SavedProfileImage = dog.ProfileImage;
+
             // Sets the list needed in the next view.
             viewModel.StatesList = DropDownLists.GetStates();
 
@@ -477,25 +412,10 @@ namespace ProgrammingProject.Controllers
 
             return View(viewModel);
         }
-        //// Sets up the view EditVet.
-        //public async Task<IActionResult> EditVet(EditDogProfileViewModel viewModel)
-        //{
-        //    // Sets the list needed in the next view.
-        //    viewModel.StatesList = DropDownLists.GetStates();
-
-        //    // creates the owners profile view model.
-        //    EditProfileViewModel vm = SetViewModel();
-        //    ViewBag.EditProfileViewModel = vm;
-        //    ViewBag.SuburbsList = _context.Suburbs.ToList();
-
-        //    return View(viewModel);
-        //}
-
 
         // The changes made to a vet in EditVet view are validated and saved to the db.
         public async Task<IActionResult> EditVetSave(EditDogProfileViewModel viewModel)
         {
-
             // Retrieving dog and vet info in db.
             var dog = new Dog();
             dog = await _context.Dogs.FindAsync(viewModel.DogId);
@@ -573,20 +493,18 @@ namespace ProgrammingProject.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("EditVet", new {dogId = viewModel.DogId});
+            return RedirectToAction("EditVet", new { dogId = viewModel.DogId });
             //return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
 
-        // Deletes a dog from the db.
+        // Deletes a dog from the database.
         public async Task<IActionResult> DeleteDog(int id)
         {
-
             var dog = await _context.Dogs.FindAsync(id);
 
             _context.Dogs.Remove(dog);
-
             _context.SaveChanges();
-            ;
+
             return RedirectToAction("ViewDogs");
         }
 
@@ -610,6 +528,71 @@ namespace ProgrammingProject.Controllers
             vm.SavedProfileImage = owner.ProfileImage;
 
             return vm;
+        }
+
+        // Helper method to create the EditProfileViewModel. Good only within Profile Controller.
+        public EditProfileViewModel CreateEditProfileViewModel(Walker w, Owner o, bool isAdmin)
+        {
+            var viewModel = new EditProfileViewModel();
+
+            viewModel.IsAdmin = isAdmin;
+
+
+            viewModel.IsInsuredList = DropDownLists.GetInsuranceList();
+            viewModel.ExperienceList = DropDownLists.GetExperienceLevel();
+            viewModel.StatesList = DropDownLists.GetStates();
+            ViewBag.SuburbsList = _context.Suburbs.ToList();
+
+            //Check usertype and create viewModel
+            if (o == null)
+            {
+                //User is Walker
+
+                viewModel.UserType = typeof(Walker).Name;
+
+                viewModel.FirstName = w.FirstName;
+                viewModel.LastName = w.LastName;
+                viewModel.Email = w.Email;
+                viewModel.StreetAddress = w.StreetAddress;
+                viewModel.SuburbName = w.Suburb.SuburbName;
+                viewModel.Postcode = w.Suburb.Postcode;
+                viewModel.State = w.Suburb.State;
+                viewModel.Country = w.Country;
+                viewModel.PhNumber = w.PhNumber;
+                viewModel.SavedProfileImage = w.ProfileImage;
+
+                if (w.IsInsured == true)
+                    viewModel.IsInsured = "Insured";
+                else
+                    viewModel.IsInsured = "Uninsured";
+
+                if (w.ExperienceLevel == ExperienceLevel.Beginner)
+                    viewModel.ExperienceLevel = "Beginner";
+                else if (w.ExperienceLevel == ExperienceLevel.Intermediate)
+                    viewModel.ExperienceLevel = "Intermediate";
+                else if (w.ExperienceLevel == ExperienceLevel.Advanced)
+                    viewModel.ExperienceLevel = "Advanced";
+                else
+                    viewModel.ExperienceLevel = "Expert";
+            }
+            else
+            {
+                //User is Owner
+
+                viewModel.UserType = typeof(Owner).Name;
+
+                viewModel.FirstName = o.FirstName;
+                viewModel.LastName = o.LastName;
+                viewModel.Email = o.Email;
+                viewModel.StreetAddress = o.StreetAddress;
+                viewModel.SuburbName = o.Suburb.SuburbName;
+                viewModel.Postcode = o.Suburb.Postcode;
+                viewModel.State = o.Suburb.State;
+                viewModel.Country = o.Country;
+                viewModel.PhNumber = o.PhNumber;
+                viewModel.SavedProfileImage = o.ProfileImage;
+            }
+            return viewModel;
         }
     }
 }

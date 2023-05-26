@@ -6,6 +6,7 @@ namespace ProgrammingProject.Helper
 {
     public class Email
     {
+        // Sends email using Azure Communication Services.
         public static async void SendEmail(string recipient, string subject, string htmlContent)
         {
             // This code demonstrates how to send email using Azure Communication Services.
@@ -14,7 +15,7 @@ namespace ProgrammingProject.Helper
             var emailClient = new EmailClient(endpoint, key);
 
             var sender = "DoNotReply@09c25cdc-741a-4d66-bdd5-d6b5774ae494.azurecomm.net";
-           
+
             try
             {
                 var emailSendOperation = await emailClient.SendAsync(
@@ -35,7 +36,5 @@ namespace ProgrammingProject.Helper
                 Console.WriteLine($"Email send operation failed with error code: {ex.ErrorCode}, message: {ex.Message}");
             }
         }
-
-
     }
 }

@@ -44,8 +44,8 @@ namespace ProgrammingProject.Controllers
                 {
                     ModelState.AddModelError(nameof(SuburbName), "There are no Suburbs with the Name and Postcode given");
                     return;
-                }            
-                    ModelState.AddModelError(nameof(State), "There are no Suburbs with the Name and Postcode given in this State/Territory");               
+                }
+                ModelState.AddModelError(nameof(State), "There are no Suburbs with the Name and Postcode given in this State/Territory");
             }
         }
 
@@ -60,7 +60,7 @@ namespace ProgrammingProject.Controllers
         }
 
         // Checks if a value is Null.
-        public void CheckNull(string value,string nameOfValue, string message)
+        public void CheckNull(string value, string nameOfValue, string message)
         {
             if (value == null)
                 ModelState.AddModelError(nameOfValue, message);

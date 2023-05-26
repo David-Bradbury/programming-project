@@ -5,7 +5,7 @@ namespace ProgrammingProject.Models
 {
     public class AddDogViewModel
     {
-   
+
         [Required, StringLength(50), Display(Name = "Dogs Name")]
         public string Name { get; set; }
         [Required, StringLength(50), Display(Name = "Dogs Breed")]

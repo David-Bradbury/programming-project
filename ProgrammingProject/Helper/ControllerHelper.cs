@@ -7,12 +7,14 @@ namespace ProgrammingProject.Utilities
 {
     public static class ControllerHelper
     {
-
+        // Hashes passwords before stored to the database elsewhere.
         public static string HashPassword(string password)
         {
             var hashedPassword = PBKDF2.Hash(password);
             return hashedPassword;
         }
+
+        // Creates a token for secure email functions.
         public static string GetToken()
         {
             Random random = new Random();
@@ -32,21 +34,16 @@ namespace ProgrammingProject.Utilities
             {
                 userList.Add(o);
             }
-            foreach(Walker w in context.Walkers)
+            foreach (Walker w in context.Walkers)
             {
                 userList.Add(w);
             }
             userList = userList.OrderBy(x => x.UserId).ToList();
-            viewModel.PagedList= userList.ToPagedList(page, pageSize);
+            viewModel.PagedList = userList.ToPagedList(page, pageSize);
 
             return viewModel;
 
 
         }
-
-
-
-
-
     }
 }

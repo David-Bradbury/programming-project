@@ -2,6 +2,8 @@
 
 namespace ProgrammingProject.Models
 {
+    // Not currently is use, however will be in future.
+    // This will be all the extra suburbs that a walker will walk that is not in their desired range. 
     public class Walks
     {
         [Required]
