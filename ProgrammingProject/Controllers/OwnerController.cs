@@ -41,7 +41,6 @@ namespace ProgrammingProject.Controllers
 
             ViewBag.BookedSessions = await GetBookedWalkingSessions(owner);
 
-            //  ViewBag.Walkers = await GetLocalWalkers();
             return View(owner);
         }
 
@@ -97,7 +96,6 @@ namespace ProgrammingProject.Controllers
 
             var orderedSuitableSessions = suitableSessions.OrderBy(s => s.Date).ToList();
 
-            //  var walkingSessions = await _context.WalkingSessions.OrderBy(o => o.Date).ToListAsync();
             return orderedSuitableSessions;
         }
 

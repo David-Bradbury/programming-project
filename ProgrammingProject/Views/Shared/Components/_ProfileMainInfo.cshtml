@@ -20,7 +20,7 @@
         <a class="btn @(ViewBag.ActiveView == "Index" ? "btn-primary" : "btn-outline-primary") btn-profile text-md-start"
            asp-action="Index">Personal Information</a>
         }
-        @if (Model.UserType.Equals("Owner"))
+        @if (Model.UserType.Equals("Owner") && !Model.IsAdmin)
         {
             <a class="btn @(ViewBag.ActiveView == "ViewDogs" ? "btn-primary" : "btn-outline-primary") btn-profile text-md-start"
            asp-action="ViewDogs" >Dogs</a>

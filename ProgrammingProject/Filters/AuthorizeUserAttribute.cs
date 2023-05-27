@@ -6,7 +6,7 @@ namespace ProgrammingProject.Filters
 {
     public class AuthorizeUserAttribute : Attribute, IAuthorizationFilter
     {
-
+        // Ensure users are correctly logged in and if not redirects to home page.
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var ownerID = context.HttpContext.Session.GetInt32(nameof(Owner.UserId));

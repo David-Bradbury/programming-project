@@ -65,7 +65,7 @@ namespace ProgrammingProject.UnitTests
             testViewModel.State = "NSW";
             testViewModel.PhNumber = "0400 000 000"; 
 
-            _pc.EditProfile(testViewModel, 0);
+            _pc.EditProfile(testViewModel);
 
             Assert.IsTrue(_pc.ViewData.ModelState.IsValid);
         }

@@ -23,6 +23,7 @@ namespace ProgrammingProject.Utilities
             return token;
         }
 
+        // Creates a view model to place EasyWalk users into a paged list.
         public async static Task<UserAdminViewModel> BuildUserAdminViewModel(EasyWalkContext context, int page)
         {
             var viewModel = new UserAdminViewModel();

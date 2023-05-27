@@ -58,7 +58,6 @@ namespace ProgrammingProject.Controllers
             var w = new Walker();
             w = await _context.Walkers.FindAsync(id);
             var viewModel = CreateEditProfileViewModel(w, o, isAdmin);
-            //  viewModel.UserType = "Administrator";
             viewModel.UserID = id;
 
             return View("Index", viewModel);
@@ -67,7 +66,7 @@ namespace ProgrammingProject.Controllers
 
         // Here the changes made in the profile index view are checked and changes saved to the db.
         [Route("/Profile/EditProfile")]
-        public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel, int id)
+        public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel)
         {
             // Finds the profile holder from db.
             var o = new Owner();
@@ -85,19 +84,6 @@ namespace ProgrammingProject.Controllers
 
             viewModel.Password = "";
             viewModel.ConfirmPassword = "";
-
-            // return user to edit password view if Edit Password button pressed.
-            if (id == 1)
-            {
-                var userO = await _context.Owners.FindAsync(viewModel.UserID);
-                var userW = await _context.Walkers.FindAsync(viewModel.UserID);
-                viewModel.UserType = userW == null ? typeof(Owner).Name : typeof(Walker).Name;
-                viewModel.FirstName = userW == null ? userO.FirstName : userW.FirstName;
-                viewModel.LastName = userW == null ? userO.LastName : userW.LastName;
-                viewModel.SavedProfileImage = userW == null ? userO.ProfileImage : userW.ProfileImage;
-                ViewBag.ActiveView = "EditPassword";
-                return View("EditPassword", viewModel);
-            }
 
             // Check if key values are null.
             CheckNull(viewModel.FirstName, nameof(viewModel.FirstName), "First Name is Required");
@@ -494,7 +480,6 @@ namespace ProgrammingProject.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("EditVet", new { dogId = viewModel.DogId });
-            //return RedirectToAction("EditDogProfile", new { dogId = viewModel.DogId });
         }
 
         // Deletes a dog from the database.
