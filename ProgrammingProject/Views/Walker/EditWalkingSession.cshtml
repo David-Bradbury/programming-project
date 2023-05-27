@@ -56,10 +56,6 @@
                                     }
                                     @foreach (var d in Model.DogList)
                                     {
-                                        @*                                        if (count > 0)
-                                {
-                                @Html.Raw(", ")
-                                }*@
                                         @Html.DisplayFor(x => d.Name)
                                         <input name="DogID" class="form-control"
                                        type="hidden" value="@d.Id" />

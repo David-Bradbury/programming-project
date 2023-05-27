@@ -21,7 +21,6 @@
                     <span id="submitError" class="text-danger">@submitError</span>
                 </div>
                 <div class="form-group">
-                    @*<label asp-for="FirstName" class="control-label"></label>*@
                     <label class="control-label" for="FirstName1">First Name</label>
                     <input id="FirstName1" asp-for="FirstName" class="form-control" data-val="true"
                            placeholder="First Name" />
@@ -138,19 +137,6 @@
 
                 @if (Model.AccountTypeSelection == 2)
                 {
-                <!--    <div class="form-group mt-3">
-                        <label asp-for="IsInsured" class="control-label"></label>
-                        <input asp-for="IsInsured" class="form-control" data-val="true"
-                           data-val-required="This is required." />
-                        <span asp-validation-for="IsInsured" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label asp-for="ExperienceLevel" class="control-label"></label>
-                        <input asp-for="ExperienceLevel" class="form-control" data-val="true"
-                           data-val-required="This is required." />
-                        <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
-                    </div>
-                    -->
                     <div class="form-group mt-3">
                         <label asp-for="IsInsured" class="control-label"></label>
                         <select id="insurance" class="form-select" asp-items="Model.IsInsuredList" asp-for="IsInsured">

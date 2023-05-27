@@ -8,16 +8,6 @@
 <div>
     <h1>Add a rating for @dog.Name</h1>
 </div>
-
-@*<div>
-    <h3>Dog</h3>
-    <div class="d-flex justify-content-between align-items-stretch flex-wrap gap-4">
-
-        <partial name="../Shared/Components/_DogCard.cshtml" model="@dog" />
-
-    </div>
-</div>*@
-
 <div>
     <form asp-action="AddDogRating">
         <input type="hidden" id="WalkerID" name="WalkerID"
@@ -25,7 +15,6 @@
         <input type="hidden" id="DogID" name="DogID"
                data-val="true" value=@dog.Id />
         <fieldset>
-            @*<legend>Select Rating</legend>*@
             <label for="1" class="rating-label">
                 <i class="bi bi-star"></i>
                 <input type="radio" id="Rating" name="Rating" class="rating-radio"
@@ -55,8 +44,6 @@
         </fieldset>
         <input type="submit" class="btn btn-primary" asp-action="AddDogRating"
                asp-route-id="AddDogRating" />
-        
-
     </form>
 </div>
 @section Scripts {
