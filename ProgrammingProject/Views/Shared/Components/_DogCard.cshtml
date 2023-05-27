@@ -65,10 +65,6 @@
                    type="hidden" value="@Model.Id" />
             <input type="submit" class="btn btn-primary mb-2" asp-controller="Walker" asp-action="WalkingSessions"
                    value="Add Dog To Walking Session" asp-route-id="WalkingSessions" />
-            @*<input type="submit" class="btn btn-primary" asp-controller="Walker" asp-action="CreateDogRating"
-                   value="Rate Dog" asp-route-id="CreateDogRating" />*@
-
-            
         </form>
         <button type="button" class="btn btn-primary row m-2" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="clickRate('@Model.Name', '@Model.Id')">
             Rate Dog

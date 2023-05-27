@@ -41,7 +41,7 @@
 <div>
     <form asp-action="EndWalkingSession">
         <input type="hidden" id="SessionID" name="SessionID" class="form-control"
-               data-val="true" value=@walk.SessionID
+               data-val="true" value=@walk.SessionID />
         <div class="flex-grow-1">
             <input type="submit" class="btn btn-primary" asp-action="EndWalkingSession"
                    value="End Session" asp-route-id="EndWalkingSession" />

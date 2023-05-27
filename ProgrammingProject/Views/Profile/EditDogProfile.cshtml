@@ -8,7 +8,6 @@
 <div>
     <h3 class="display-4">@Model.Name's Profile</h3>
     <form asp-action="EditDogProfileSave" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4">
-        @*<partial name="../Shared/Components/_ProfileMainInfo.cshtml" model=@vm; />*@
         <input asp-for=DogId type="hidden" value="@Model.DogId" />
         <input asp-for=BusinessName type="hidden" value="@Model.BusinessName" />
         <input asp-for=PhNumber type="hidden" value="@Model.PhNumber" />
@@ -30,10 +29,7 @@
                 <div class="d-flex flex-column align-items-center gap-2 mt-2 mt-md-3">
                     <input type="submit" class="btn btn-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditDogProfile"
                        value="Dog Profile" asp-route-dogId="@Model.DogId" />
-                    @*<input type="submit" class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditVet"
-                       value="Edit Vet Information" />*@
                     <a class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="EditVet" asp-route-dogId="@Model.DogId">Edit Vet Information</a>
-                    @*asp-route-id="EditVet" *@
                     <button class="btn btn-outline-primary text-md-start btn-profile" asp-controller="Profile" asp-action="Index">
                         <i class="bi bi-arrow-left-circle"></i>
                         My Profile
@@ -43,7 +39,6 @@
             <div class="bg-highlight p-4 rounded flex-grow-1 mt-4 mt-md-0">
                 <table class="table">
                     <tr>
-                            @*<td><b>@Html.DisplayNameFor(Model => Model.Name): </b></td>*@
                         <td><b>Name:</b></td>
                         <td>
                             <div class="form-group">
@@ -53,7 +48,6 @@
                         </td>
                     </tr>
                     <tr>
-                            @*<td><b>@Html.DisplayNameFor(Model => Model.Breed): </b></td>*@
                         <td><b>Breed:</b></td>
                         <td>
                             <div class="form-group" style="position: relative">
@@ -78,7 +72,6 @@
                         </td>
                     </tr>
                     <tr>
-                            @*<td><b>@Html.DisplayNameFor(Model => Model.MicrochipNumber): </b></td>*@
                         <td><b>Microchip Number:</b></td>
                         <td>
                             <div class="form-group">
@@ -88,7 +81,6 @@
                         </td>
                     </tr>
                     <tr>
-                            @*<td><b>@Html.DisplayNameFor(Model => Model.Temperament): </b></td>*@
                         <td><b>Temperament:</b></td>
                         <td>
                             <div class="form-group">
@@ -100,7 +92,6 @@
                         </td>
                     </tr>
                     <tr>
-                            @*<td><b>@Html.DisplayNameFor(Model => Model.DogSize): </b></td>*@
                         <td><b>Size</b></td>
                         <td>
                             <div class="form-group">
@@ -112,7 +103,6 @@
                         </td>
                     </tr>
                     <tr>
-                            @*<td><b>@Html.DisplayNameFor(Model => Model.TrainingLevel): </b></td>*@
                         <td><b>Training Level:</b></td>
                         <td>
                             <div class="form-group">
@@ -124,7 +114,6 @@
                         </td>
                     </tr>
                     <tr>
-                            @*<td><b>@Html.DisplayNameFor(Model => Model.BusinessName): </b> @Model.BusinessName</td>*@
                         <td><b>Vet's Business:</b></td>
                         <td>
                             <div class="form-group">
@@ -144,22 +133,4 @@
 </div>
 @section scripts{
     <script type="text/javascript" src="~/js/site.js"></script>
-    @*<script type="text/javascript">
-
-        // The following code validates that an only jpeg, jpg, or png files are accepted.
-        function validateFileType() {
-            var ProfileImage = document.getElementById("ProfileImage").value;
-            var indexDot = ProfileImage.lastIndexOf(".") + 1;
-            var endFile = ProfileImage.substr(indexDot, ProfileImage.length).toLowerCase();
-            if (endFile != "jpg" && endFile != "jpeg" && endFile != "png") 
-            {
-                alert("Only jpg/jpeg and png files accepted.");
-                document.getElementById("ProfileImage").value = "";
-            }
-        }
-    </script>
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-    }*@
 }

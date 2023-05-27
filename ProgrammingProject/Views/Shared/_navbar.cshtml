@@ -9,15 +9,12 @@
     var accountType = Context.Session.GetString("AccountType");
 }
 <div id="navbar">
-    @*navbar-light bg-white*@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 bg-body">
         <div class="container-fluid container">
             <a class="navbar-brand text-primary h1 d-flex flex-row justify-content-between mb-0" asp-area="" asp-controller="Home" asp-action="Index">
-                @*Need to update image with svg*@
                 <img src="~/img/logo-transparent-bkg-2.png" alt="EasyWalk logo" width="40" height="40" />
                 <span class="ms-3" style="font-size: 2rem;">EasyWalk</span>
             </a>
-            @*should remove data-bs-toggle - or update bootstrap version used by bundler*@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
