@@ -378,6 +378,7 @@ namespace ProgrammingProject.Controllers
             }
 
             viewModel.DogId = dogId;
+            viewModel.Name = dog.Name;
             viewModel.BusinessName = vet.BusinessName;
             viewModel.PhNumber = vet.PhNumber;
             viewModel.SuburbName = vet.Suburb.SuburbName;
