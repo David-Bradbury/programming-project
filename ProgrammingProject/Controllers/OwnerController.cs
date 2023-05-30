@@ -32,7 +32,7 @@ namespace ProgrammingProject.Controllers
 
         // Owner landing page.
         [AuthorizeUser]
-        public async Task<IActionResult> Indexz()
+        public async Task<IActionResult> Index()
         {
             int? range = 1000;
             var owner = await _context.Owners.FindAsync(OwnerID);
