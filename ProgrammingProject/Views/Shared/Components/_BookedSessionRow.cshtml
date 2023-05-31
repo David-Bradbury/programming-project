@@ -15,25 +15,25 @@
 }
 <div class="card session-card my-1 shadow border-0">
     <div class="card-body container">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-column flex-sm-row">
             <div class="row flex-grow-1 mx-1">
                 <div class="col-2">
                     <img src="~/img/calendar.png" class="w-100" />
                 </div>
-                <div class="col-9 row">
-                    <div class="col-6 col-md-5">
+                <div class="col-10 row">
+                    <div class="col-6 col-md-5" style="min-width: max-content">
                         <p class="fw-bold mb-0">Date</p>
                         <p class="mb-0">@displayTime(Model.ScheduledStartTime, "dd/MM/yy")</p>
                     </div>
-                    <div class="col-3 col-md-43">
+                    <div class="col-3 col-md-43" style="min-width: max-content">
                         <p class="fw-bold mb-0">Start</p>
                         <p class="mb-0">@displayTime(Model.ScheduledStartTime, "HH:mm")</p>
                     </div>
-                    <div class="col-3 col-md-3">
+                    <div class="col-3 col-md-3" style="min-width: max-content">
                         <p class="fw-bold mb-0">End</p>
                         <p class="mb-0">@displayTime(Model.ScheduledEndTime, "HH:mm")</p>
                     </div>
-                    <div class="col-6 col-md-5">
+                    <div class="col-6 col-md-5" style="min-width: max-content">
                         <p class="fw-bold mb-0">Duration</p>
                         <p class="mb-0">@duration(Model.ScheduledStartTime, Model.ScheduledEndTime)</p>
                     </div>
@@ -72,7 +72,7 @@
                 </div>
                 </div>
             </div>
-            <div class="d-flex flex-column flex-lg-row justify-content-lg-end gap-1" style="height: min-content">
+            <div class="d-flex flex-row flex-sm-column justify-content-end gap-1" style="height: min-content">
                     <a class="btn btn-primary"
                    asp-action="RemoveDogFromSession" asp-route-sessionID=@Model.SessionID>Remove Dog</a>
             </div>
