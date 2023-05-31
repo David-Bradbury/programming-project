@@ -130,7 +130,14 @@ You need to have access to a source code editor such as Visual Studio in order t
 1. Access your previous sessions by clicking on the dropdown menu from the arrow next to "Welcome, <<Your Name>>" and selecting "Previous Sessions".
 
 -------------------------------- Administrators ---------------------------------
+*** Edit a User Account ***
+1. Access the Edit User View by clicking on "Welcome, <<Your Name>>" and selecting "Edit User".
+2. Click Edit on the user who's details you wish to edit. 
+3. Make the required changes and click Save to update the user. 
 
+*** Remove a User Account ***
+1. Access the Edit User View by clicking on "Welcome, <<Your Name>>" and selecting "Edit User".
+2. Click Delete next to the user you wish to remove. 
 
 ## References
 
