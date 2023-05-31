@@ -49,6 +49,52 @@ You need to have access to a source code editor such as Visual Studio in order t
 1. Click on the hamburger menu icon
 2. Access further dropdowns by clicking on the corresponding button.
 
+-------------------------------- Profile Management ---------------------------------
+*** Edit Your Profile Information ***
+1. Access your profile by clicking on the dropdown menu from the arrow next to "Welcome, <<Your Name>>" and selecting "Profile".
+2. Update your profile fields with relevant information.
+3. Select Save
+
+*** Update Your Profile Picture ***
+1. Access your profile by clicking on the dropdown menu from the arrow next to "Welcome, <<Your Name>>" and selecting "Profile".
+2. Select "Update Profile Image" under your current profile picture.
+3. Upload a relevant picture from your device. 
+4. Select Save.
+
+-------------------------------- Owners ---------------------------------
+*** Add a Dog ***
+1. Add a dog by clicking on the dropdown menu from the arrow next to "Welcome, <<Your Name>>" and selecting "Add Dog".
+2. Enter your dogs information and vet information.
+3. Select Register dog.
+
+*** Edit Dog Profile ***
+1a. Access your dogs profile by navigating to the dashboard in the top menu bar and selecting "Edit Dog Profile"
+1b. Access your profile by clicking on the dropdown menu from the arrow next to "Welcome, <<Your Name>>" and selecting "Profile". Then navigate to "Dogs" in the side menu bar and click edit next to the dog you wish to edit. 
+2. Update your dogs information.
+3. Select Save.
+4. To amend your dogs image select "Update Profile Image" and upload a file of your choosing.
+5. Select save. 
+
+*** Edit Dog Vet Information ***
+1. Access your dogs profile following the "Edit Dog Profile" Steps.
+2. Select "Edit Vet Information"
+3. Update your dogs vet information.
+4. Select save. 
+
+*** Join a walk ***
+1. Navigate to your dashboard in the top menu bar.
+2. Select "Upcoming Sessions" in the side menu bar.
+3. Find the session you wish to join.
+4. Select "Add Dog" next to relevant session.
+5. Find the dog you wish to add and click "Add"
+
+*** Remove Your Dog's Profile ***
+1. Access your profile using the "Edit Profile Information" instructions.
+2. Click "Dogs" in the side menu bar.
+3. Identify the dog you wish to remove.
+4. Select "Delete".
+5. In the pop up that appears select "Delete" to confirm your action. 
+
 ## References
 
 Foundry, A. (2020) BoldenVan Font. Available at: https://www.dafont.com/boldenvan.font (Accessed: 01 April 2023).
