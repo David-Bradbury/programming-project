@@ -95,6 +95,43 @@ You need to have access to a source code editor such as Visual Studio in order t
 4. Select "Delete".
 5. In the pop up that appears select "Delete" to confirm your action. 
 
+-------------------------------- Walkers ---------------------------------
+*** Add a Walking Session ***
+1. Navigate to your dashboard in the top menu bar.
+2. Navigate to either the "Upcoming Sessions" or "Scheduled Sessions".
+3. Select the "Add Walking Session" button at the top of the page. 
+4. Input the details of the planned walking session.
+5. Select "Add Session".
+
+*** View Planned Sessions ***
+1. Navigate to your dashboard in the top menu bar.
+2a. Navigate to "Upcoming Sessions" to show sessions in the next month.
+2b. Navigate to "Scheduled Sessions" to show all future sessions. 
+
+*** Edit a Walking Session ***
+1. Navigate to your dashboard in the top menu bar. 
+2. View the session you wish to edit using the instructions in "View Planned Sessions".
+3. Click the Edit button next to the relevant session.
+4. Update fields as required.
+5. Click Make Changes to save edits. 
+
+*** Remove a Walking Session ***
+1. Navigate to your dashboard in the top menu bar.
+2. View the session you wish to edit using the instructions in "View Planned Sessions".
+3. Click the Delete button next to the relevant session. 
+
+*** Start a Walking Session ***
+1. Navigate to your dashboard in the top menu bar. 
+2. View the session you wish to edit using the instructions in "View Planned Sessions".
+3. Select the start button next to the relevant session. 
+4. Once the walking session has ended, click "End Session".
+
+*** View Session History ***
+1. Access your previous sessions by clicking on the dropdown menu from the arrow next to "Welcome, <<Your Name>>" and selecting "Previous Sessions".
+
+-------------------------------- Administrators ---------------------------------
+
+
 ## References
 
 Foundry, A. (2020) BoldenVan Font. Available at: https://www.dafont.com/boldenvan.font (Accessed: 01 April 2023).
