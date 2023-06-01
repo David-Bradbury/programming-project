@@ -13,8 +13,15 @@
 <div>
     <h3>Suitable Sessions</h3>
 
-    @foreach (var session in walks) {
-        @Html.Partial("../Shared/Components/_AddDogSessionRow.cshtml",session,  new ViewDataDictionary(this.ViewData){{"userType", userType}, {"dog_ID", dog}})
+    @{
+        DateTime date = new DateTime();
+    }
+    @foreach (var session in walks)
+    {
+        @if (DateTime.Compare(session.Date, DateTime.UtcNow) >= 0 && session.ActualStartTime == date)
+        {
+            @Html.Partial("../Shared/Components/_AddDogSessionRow.cshtml",session,  new ViewDataDictionary(this.ViewData){{"userType", userType}, {"dog_ID", dog}})
+        }
     }
 
 </div>
