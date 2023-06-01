@@ -62,6 +62,21 @@ namespace ProgrammingProject.Controllers
 
                 if (walker != null)
                 {
+                    if (walker.WalkingSessions.Count() > 0)
+                    {
+                        foreach (var session in walker.WalkingSessions)
+                        {
+                            _context.WalkingSessions.Remove(session);
+                        }
+                    }
+                   
+                    if (walker.DogRatings.Count() > 0)
+                    {
+                        foreach (var rating in walker.DogRatings)
+                        {
+                            _context.DogRatings.Remove(rating);
+                        }
+                    }
                     _context.Logins.Remove(walker.Login);
                     _context.Walkers.Remove(walker);
                 }
