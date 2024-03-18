@@ -1,19 +1,9 @@
-# Programming Project in .NET
+# EasyWalk Dog Walking in .NET
 This repository is a group assignment submission for RMIT- Programming Project course.  
 Any plagarism will be reported.
 
 
 ## Summary
-The CC Route Planner is a specialised web application designed to facilitate travel planning
-between NSW's Central Coast and Sydney. Utilising the Google Maps API, it accurately
-calculates travel times, accounting for traffic, between Kariong (Central Coast) and Sydney
-CBD. Key features include the following:
-- User login
-- User Registration
-- User Index Page
-- Average travel time for current day
-- Average travel time for previous day
-- A list of recent estimated trip durations calculated every half an hour.
-
-The site was originally hosted on Azure cloud services utilizing an Azure database
+Easywalk is a dog walking service which provides registered users with the ability to book their dogs in for walks with registered dog walkers. It provides metrics for attributes of dogs so that dogs can be matched with apropriate walkers. The application was built by a team of 6 students over a 12 week study period.
+The site was originally hosted on Azure cloud services, utilizing an Azure database.
 
